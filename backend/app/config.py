@@ -11,5 +11,10 @@ class Settings(BaseSettings):
     REFRESH_TOKEN_EXPIRE_DAYS: int = 30
     ALGORITHM: str = "HS256"
 
+    EMBEDDING_API_KEY: str = ""
+    EMBEDDING_BASE_URL: str = "https://api.deepseek.com"
+    EMBEDDING_MODEL: str = "deepseek-embedding"
+    EMBEDDING_DIM: int = 2048
+
 
 settings = Settings()
