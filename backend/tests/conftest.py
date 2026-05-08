@@ -27,16 +27,21 @@ async def setup_db(engine):
     async with engine.begin() as conn:
         await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
         await conn.run_sync(Base.metadata.create_all)
+        tables = ", ".join(t.name for t in Base.metadata.sorted_tables)
+        if tables:
+            await conn.execute(text(f"TRUNCATE {tables} RESTART IDENTITY CASCADE"))
     yield
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
+    # drop_all omitted: pytest-asyncio 0.24 with session loop leaves function-scoped
+    # db_session connections open at teardown, causing DROP TABLE to deadlock.
 
 
 @pytest_asyncio.fixture
 async def db_session(session_factory):
-    async with session_factory() as session:
-        yield session
-        await session.rollback()
+    # Don't use async with — __aexit__ does async close/rollback which fails
+    # when event loop is closed at teardown (pytest-asyncio 0.24 bug).
+    # NullPool means no pooled connections are leaked.
+    session = session_factory()
+    yield session
 
 
 @pytest_asyncio.fixture
