@@ -1,16 +1,14 @@
-version: "3.9"
-
 services:
   postgres:
     image: pgvector/pgvector:pg16
     environment:
-      POSTGRES_USER: fitness
-      POSTGRES_PASSWORD: fitness_pass
-      POSTGRES_DB: fitness_db
+      POSTGRES_USER: ${POSTGRES_USER:-fitness}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fitness_pass}
+      POSTGRES_DB: ${POSTGRES_DB:-fitness_db}
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U fitness -d fitness_db"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-fitness} -d ${POSTGRES_DB:-fitness_db}"]
       interval: 5s
       timeout: 5s
       retries: 10
