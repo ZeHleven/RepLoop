@@ -54,3 +54,20 @@ async def test_refresh_token(client):
     resp = await client.post("/api/v1/auth/refresh", json={"refresh_token": refresh_token})
     assert resp.status_code == 200
     assert "access_token" in resp.json()
+
+
+@pytest.mark.asyncio
+async def test_protected_endpoint_with_valid_token(client):
+    reg = await client.post("/api/v1/auth/register", json={
+        "email": "me@example.com", "password": "password123"
+    })
+    token = reg.json()["access_token"]
+    resp = await client.get("/api/v1/me", headers={"Authorization": f"Bearer {token}"})
+    assert resp.status_code == 200
+    assert resp.json()["email"] == "me@example.com"
+
+
+@pytest.mark.asyncio
+async def test_protected_endpoint_without_token(client):
+    resp = await client.get("/api/v1/me")
+    assert resp.status_code == 403
