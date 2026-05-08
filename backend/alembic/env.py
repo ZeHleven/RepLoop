@@ -9,7 +9,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from app.config import settings
 from app.database import Base
-from app.models import User, UserProfile, WeightLog  # noqa: F401
+from app.models import User, UserProfile, WeightLog, Exercise, Food, KnowledgeChunk  # noqa: F401
 
 config = context.config
 config.set_main_option("sqlalchemy.url", settings.DATABASE_URL.replace("+asyncpg", ""))

@@ -1,10 +1,12 @@
 services:
   postgres:
-    image: pgvector/pgvector:pg16
+    build: ./postgres
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-fitness}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-fitness_pass}
       POSTGRES_DB: ${POSTGRES_DB:-fitness_db}
+    ports:
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:

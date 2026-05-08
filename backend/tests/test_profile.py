@@ -38,7 +38,7 @@ async def test_log_weight_updates_bmi(client):
     token = await register_and_get_token(client, "weight@example.com")
     await client.put("/api/v1/profile", json={"height_cm": 170},
                      headers={"Authorization": f"Bearer {token}"})
-    resp = await client.post("/api/v1/profile/weight", json={"weight_kg": 85},
+    resp = await client.post("/api/v1/profile/weight", json={"weight_kg": 75},
                               headers={"Authorization": f"Bearer {token}"})
     assert resp.status_code == 201
     profile_resp = await client.get("/api/v1/profile",
