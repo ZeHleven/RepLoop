@@ -1,6 +1,5 @@
 import pytest
 import uuid
-from sqlalchemy import text
 from app.models.exercise import Exercise
 from app.services.exercise import query_exercise_library
 
@@ -20,8 +19,8 @@ def _make_exercise(**kwargs) -> Exercise:
 
 
 @pytest.mark.asyncio
-async def test_returns_empty_when_no_exercises(db_session):
-    result = await query_exercise_library(db_session)
+async def test_returns_empty_when_no_match(db_session):
+    result = await query_exercise_library(db_session, difficulty="__no_such_difficulty__")
     assert result == []
 
 
