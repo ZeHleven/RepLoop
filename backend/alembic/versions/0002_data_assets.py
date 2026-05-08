@@ -95,3 +95,4 @@ def downgrade() -> None:
     op.drop_index("ix_exercises_difficulty", table_name="exercises")
     op.drop_index("ix_exercises_category", table_name="exercises")
     op.drop_table("exercises")
+    op.execute("DROP EXTENSION IF EXISTS vector")

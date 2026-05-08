@@ -22,7 +22,7 @@ async def session_factory(engine):
     return async_sessionmaker(engine, expire_on_commit=False)
 
 
-@pytest_asyncio.fixture(autouse=True)
+@pytest_asyncio.fixture(scope="session", autouse=True)
 async def setup_db(engine):
     async with engine.begin() as conn:
         await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
