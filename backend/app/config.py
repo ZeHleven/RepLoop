@@ -16,5 +16,9 @@ class Settings(BaseSettings):
     EMBEDDING_MODEL: str = "deepseek-embedding"
     EMBEDDING_DIM: int = 2048
 
+    DEEPSEEK_API_KEY: str = ""
+    DEEPSEEK_BASE_URL: str = "https://api.deepseek.com"
+    DEEPSEEK_CHAT_MODEL: str = "deepseek-chat"
+
 
 settings = Settings()
