@@ -8,7 +8,7 @@ from app.models.user import User
 from app.models.meal import MealLog, MealItem
 from app.schemas.meal import (
     MealLogCreate, MealLogResponse, MealLogDetail,
-    MealItemResponse, DailySummary,
+    MealItemResponse, DailySummary, NutritionAdviceResponse,
 )
 
 router = APIRouter(prefix="/meals", tags=["meals"])
@@ -88,6 +88,16 @@ async def delete_meal(
         raise HTTPException(status_code=404, detail="饮食记录不存在")
     await db.delete(meal)
     await db.commit()
+
+
+@router.get("/advice", response_model=NutritionAdviceResponse)
+async def nutrition_advice(
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db),
+):
+    from app.services.nutritionist import get_daily_nutrition_advice
+    advice = await get_daily_nutrition_advice(db, user_id=current_user.id)
+    return NutritionAdviceResponse(advice=advice)
 
 
 async def _build_summary(db: AsyncSession, user_id: str, target_date: date) -> DailySummary:

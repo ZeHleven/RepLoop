@@ -54,3 +54,7 @@ class DailySummary(BaseModel):
     total_carbs_g: float
     total_fat_g: float
     meals: list[MealLogDetail]
+
+
+class NutritionAdviceResponse(BaseModel):
+    advice: str
