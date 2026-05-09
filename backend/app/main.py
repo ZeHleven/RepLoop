@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends
-from app.routers import auth, profile, exercises, foods, chat, workouts
+from app.routers import auth, profile, exercises, foods, chat, workouts, meals
 from app.deps import get_current_user
 from app.models.user import User
 
@@ -11,6 +11,7 @@ app.include_router(exercises.router, prefix="/api/v1")
 app.include_router(foods.router, prefix="/api/v1")
 app.include_router(chat.router, prefix="/api/v1")
 app.include_router(workouts.router, prefix="/api/v1")
+app.include_router(meals.router, prefix="/api/v1")
 
 
 @app.get("/health")
