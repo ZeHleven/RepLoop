@@ -451,6 +451,9 @@ _PROPOSAL_DECISION_PATTERN = re.compile(
     r"[。.!！]*"
 )
 _NOMINAL_RECORD_PATTERN = re.compile(
+    # Completed-set counts and saved attributes describe existing facts.
+    # Mask only these occurrences, preserving any independent write verb.
+    r"完成(?=(?:组数|次数|的(?:训练|组)))|保存(?=的)|"
     # A locative/attributive suffix makes 记录 a noun, not a write command.
     # Keep bare 记录 and verbal objects such as 记录中午... / 记录里程... .
     r"记录(?=(?:[里内中](?:面)?(?:的|[ \t:：，,。；;！？!?])|的))|"
@@ -1283,6 +1286,13 @@ def resolve_pending_clarification(
     if (
         "指标" in slot
         and not any(marker in message for marker in _METRIC_VALUE_MARKERS)
+    ):
+        return None
+
+    if "动作" in slot and (
+        len(message.strip()) > 40
+        or any(word in message for word in ("帮我", "先不", "告诉我", "怎么样", "好不好", "取消", "换个"))
+        or any(mark in message for mark in ("，", ",", "？", "?", "；", ";", "。"))
     ):
         return None
 

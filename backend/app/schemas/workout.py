@@ -320,6 +320,8 @@ class WorkoutSessionDetail(WorkoutSessionResponse):
 
 class WeeklyWorkoutProgress(BaseModel):
     week_start: date
+    week_end: date | None = None
+    is_complete: bool | None = None
     sessions: int = 0
     sets: int = 0
     reps: int = 0
@@ -343,6 +345,10 @@ class WorkoutProgressResponse(BaseModel):
     weekly: list[WeeklyWorkoutProgress]
     selected_week: date | None = None
     daily: list[DailyWorkoutProgress] = Field(default_factory=list)
+    as_of: date | None = None
+    timezone: str = "Asia/Shanghai"
+    averages_per_calendar_week: dict[str, float] = Field(default_factory=dict)
+    average_denominator_weeks: int = 0
 
 
 # ── AI Generate ───────────────────────────────────────────────────────────────

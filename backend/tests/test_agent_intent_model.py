@@ -1594,7 +1594,10 @@ async def test_explicit_new_query_is_not_captured_by_pending_clarification():
 
     assert outcome.resolution.primary_intent == "next_workout_query"
     assert outcome.resolution.clarification_required is False
-    assert route_tools(outcome.resolution) == ["workout.get_next"]
+    # Old clarification state cannot grant a different task's tool access
+    # while semantic understanding is unavailable.
+    assert outcome.understanding_failed is True
+    assert route_tools(outcome.resolution) == []
 
 
 @pytest.mark.asyncio

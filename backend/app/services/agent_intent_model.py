@@ -426,6 +426,8 @@ def _safe_context_payload(
         {
             "role": item.get("role", "")[:20],
             "content": item.get("content", "")[:500],
+            **({"last_verified_query": verified_query_context(item)["resolved_query"][:500]}
+               if verified_query_context(item) else {}),
         }
         for item in (context_messages or [])[-4:]
     ]
@@ -843,6 +845,11 @@ def _is_trusted_rules_fallback(
     return resolution.risk_level == "high"
 
 
+from app.services.agent_query_context import (
+    discard_stale_read_clarification, resume_verified_query, verified_query_context,
+)
+
+
 async def resolve_intent_with_fallback(
     message: str,
     *,
@@ -853,6 +860,12 @@ async def resolve_intent_with_fallback(
 ) -> IntentResolverOutcome:
     """Resolve with structured model output, one repair, then deterministic rules."""
     started = time.perf_counter()
+    pending_clarification = discard_stale_read_clarification(message, pending_clarification)
+    continuation = resume_verified_query(message, context_messages) if not pending_clarification else None
+    if continuation is not None:
+        return _finish_outcome(IntentResolverOutcome(
+            resolution=continuation, source="rules", fallback_reason="verified_query_followup",
+        ), started=started)
     pending_outcome = resolve_pending_clarification(
         message,
         pending_clarification,
@@ -968,6 +981,8 @@ async def resolve_intent_with_fallback(
                 resolution,
                 context_messages=context_messages,
             )
+            from app.services.agent_query_reports import narrow_report_evidence
+            normalized_resolution = narrow_report_evidence(normalized_resolution, message)
             if (
                 direct_rules_resolution.request_kind == "mutation"
                 and resolution.request_kind != "mutation"
