@@ -99,14 +99,30 @@ def metric_text(values: dict) -> str:
     return f"{_n(values['sessions'])}次训练、{_n(values['sets'])}组、{_n(values['reps'])}次重复、{_n(values['volume_kg'])}kg负重容量"
 
 
-def render_progress(data: dict, request: ProgressRequest, query: str) -> str:
-    """Render only supported facts; inference never expands beyond the evidence."""
-    today = date.fromisoformat(data['as_of'])
+def scope_progress(data: dict, request: ProgressRequest) -> dict:
+    """One presentation projection for prose and cards; never mutate tool evidence."""
     rows = [row for row in data['weekly'] if request.start <= date.fromisoformat(str(row['week_start'])) <= request.end]
     expected_count = (request.end - request.start).days // 7 + 1
     if len(rows) != expected_count:
         raise ValueError('progress_range_incomplete')
     totals = {key: sum(row[key] for row in rows) for key in METRICS}
+    result = dict(data, weekly=rows, weeks=len(rows), range_start=request.start.isoformat(),
+                  range_end=request.end.isoformat(), average_denominator_weeks=len(rows))
+    result.update({'total_' + key: value for key, value in totals.items()})
+    result['averages_per_calendar_week'] = {key: round(value / len(rows), 2) for key, value in totals.items()}
+    result['daily'] = [row for row in data.get('daily', [])
+                       if request.start.isoformat() <= str(row.get('date', '')) <= request.end.isoformat()]
+    if not request.start.isoformat() <= str(data.get('selected_week') or '') <= request.end.isoformat():
+        result['selected_week'] = None
+    return result
+
+
+def render_progress(data: dict, request: ProgressRequest, query: str) -> str:
+    """Render only supported facts; inference never expands beyond the evidence."""
+    data = scope_progress(data, request)
+    today = date.fromisoformat(data['as_of'])
+    rows = data['weekly']
+    totals = {key: data['total_' + key] for key in METRICS}
     lines = [f'统计范围：{request.start.isoformat()}至{request.end.isoformat()}；截至{today.isoformat()}（Asia/Shanghai）。',
              f'合计：{metric_text(totals)}。']
     if not totals['sessions']:

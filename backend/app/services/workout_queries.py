@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date, datetime, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.exercise import Exercise
@@ -229,6 +229,19 @@ async def list_user_workout_sessions(
     if limit is not None:
         query = query.limit(limit)
     return list((await db.execute(query)).scalars().all())
+
+
+async def list_user_workout_sessions_in_range(
+    db: AsyncSession, *, user_id: str, start: date, end: date, limit: int,
+) -> tuple[list[WorkoutSession], int]:
+    filters = (WorkoutSession.user_id == user_id,
+               WorkoutSession.status.in_(['completed', 'ended_early']),
+               WorkoutSession.trained_at >= start, WorkoutSession.trained_at <= end)
+    total = await db.scalar(select(func.count()).select_from(WorkoutSession).where(*filters))
+    rows = (await db.scalars(select(WorkoutSession).where(*filters)
+        .order_by(WorkoutSession.trained_at.desc(), WorkoutSession.created_at.desc(), WorkoutSession.id.desc())
+        .limit(limit))).all()
+    return list(rows), total or 0
 
 
 async def get_user_workout_session(

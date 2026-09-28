@@ -6,6 +6,34 @@ from app.services.workout_queries import normalized_sets, sets_metrics
 from app.services.workout_reporting import number, _n
 
 
+def render_calendar_history(data: dict) -> str:
+    """Describe a server-selected calendar range without inventing trends."""
+    lines = [f"统计范围：{data['range_start']}至{data['range_end']}；截至{data['as_of']}（Asia/Shanghai）。"]
+    total = data['total_count']
+    if not total:
+        return lines[0] + '\n\n该范围内没有已记录的完成或提前结束训练；无记录不等于没有运动。'
+    if data['truncated']:
+        lines.append(f"范围内共{total}次训练，以下仅展示最近{data['count']}次；展示记录的组次和容量不代表全范围合计。")
+    else:
+        rows = data['sessions']
+        lines.append(f"共{total}次训练、{sum(row['total_sets'] for row in rows)}组、"
+                     f"{sum(row['total_reps'] for row in rows)}次重复、"
+                     f"{_n(sum(row['total_volume_kg'] for row in rows))}kg负重容量。")
+    for row in sorted(data['sessions'], key=lambda item: item['trained_at']):
+        state = '提前结束' if row['status'] == 'ended_early' else '已完成'
+        lines.append(f"- {row['trained_at']}（{state}）：{row['total_sets']}组、{row['total_reps']}次重复、{_n(row['total_volume_kg'])}kg负重容量。")
+        for exercise in row.get('exercises', []):
+            completed = normalized_sets(exercise.get('sets_data'))
+            groups = Counter((item.get('weight_kg'), item['reps']) for item in completed
+                             if isinstance(item.get('reps'), int) and item['reps'] > 0)
+            parts = [f"{_n(weight)}kg×{reps}次×{count}组" if isinstance(weight, (int,float))
+                     else f"重量未记录×{reps}次×{count}组" for (weight,reps),count in groups.items()]
+            if parts:
+                lines.append(f"  {exercise.get('exercise_name') or '未命名动作'}：" + '，'.join(parts) + '。')
+    lines.append('这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。')
+    return '\n\n'.join(lines)
+
+
 def history_limit(query: str) -> int | None:
     match = re.search(r'最近\s*([\d一二三四五六七八九十两]+)\s*次', query)
     if not match or not any(word in query for word in ('列出', '列一下', '比较', '对比')):

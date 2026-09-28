@@ -73,4 +73,4 @@ async def test_history_report_does_not_depend_on_model_routing_style(allowed):
             primary_intent='workout_history_query', intent_domain='workout_history',
             evidence_requirements=['workout_history'], resolved_query=case.message, confidence=.95))
     assert result['response_mode'] == 'verified_history_report'
-    assert [(row['tool'], row['arguments']) for row in trace] == [('workout.list_history', {'limit': 3})]
+    assert [(row['tool'], row['arguments']) for row in trace] == [('workout.list_history', {'limit': 3, 'start_date': '', 'end_date': ''})]

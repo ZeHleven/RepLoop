@@ -92,8 +92,16 @@ def snapshot_result(snapshot: dict, tool_id: str, arguments: dict) -> dict | Non
     """All legal history/progress parameters use the same source records."""
     today = date.fromisoformat(snapshot['today'])
     if tool_id == 'workout.list_history':
-        selected = sorted(snapshot['sessions'], key=lambda row: row['trained_at'], reverse=True)[:arguments['limit']]
-        return {'count': len(selected), 'sessions': deepcopy(selected)}
+        rows = snapshot['sessions']
+        metadata = {}
+        if arguments.get('start_date'):
+            start, end = date.fromisoformat(arguments['start_date']), date.fromisoformat(arguments['end_date'])
+            rows = [row for row in rows if row['status'] in {'completed','ended_early'}
+                    and start <= date.fromisoformat(row['trained_at']) <= min(end,today)]
+            metadata = dict(range_start=start.isoformat(), range_end=end.isoformat(), as_of=today.isoformat(),
+                            timezone='Asia/Shanghai',total_count=len(rows),truncated=len(rows)>arguments['limit'])
+        selected = sorted(rows, key=lambda row: row['trained_at'], reverse=True)[:arguments['limit']]
+        return {**metadata, 'count': len(selected), 'sessions': deepcopy(selected)}
     if tool_id == 'workout.get_progress':
         sessions = [row for row in snapshot['sessions'] if row['status'] in {'completed', 'ended_early'}
                     and date.fromisoformat(row['trained_at']) <= today]

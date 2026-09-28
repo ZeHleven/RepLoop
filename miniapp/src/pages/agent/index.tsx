@@ -789,6 +789,9 @@ function AgentDataCard ({
   if (card.type === 'workout.get_progress') {
     return (
       <DataCard title={title}>
+        {Boolean(data.range_start && data.range_end) && (
+          <Text className='data-card-secondary'>{textValue(data.range_start)} 至 {textValue(data.range_end)}</Text>
+        )}
         <View className='data-metrics'>
           <DataMetric value={textValue(data.total_sessions, '0')} label='次训练' />
           <DataMetric value={textValue(data.total_sets, '0')} label='完成组' />
@@ -811,7 +814,13 @@ function AgentDataCard ({
   if (card.type === 'workout.list_history') {
     return (
       <DataCard title={title}>
-        <Text className='data-card-primary'>找到 {textValue(data.count, '0')} 次训练</Text>
+        <Text className='data-card-primary'>找到 {textValue(data.total_count ?? data.count, '0')} 次训练</Text>
+        {Boolean(data.range_start && data.range_end) && (
+          <Text className='data-card-secondary'>{textValue(data.range_start)} 至 {textValue(data.range_end)}</Text>
+        )}
+        {Boolean(data.truncated) && (
+          <Text className='data-card-secondary'>仅展示最近 {textValue(data.count, '0')} 次记录</Text>
+        )}
         <Text className='data-card-secondary'>详细结论见上方回答</Text>
       </DataCard>
     )

@@ -7,8 +7,8 @@ from uuid import uuid4
 
 from langchain_core.messages import AIMessage, ToolMessage
 
-from app.services.workout_history_reporting import history_limit, render_history
-from app.services.workout_reporting import progress_request, render_progress, report_today
+from app.services.workout_history_reporting import history_limit, render_history, render_calendar_history
+from app.services.workout_reporting import progress_request, render_progress, report_today, scope_progress
 
 
 @dataclass(frozen=True)
@@ -20,7 +20,15 @@ class QueryReport:
     scope: Any = None
 
 
+def current_query_goal(query: str) -> str:
+    # Only discard a complete cancelled goal, never a word inside an active goal.
+    cancelled = r'(?:先)?(?:不再|不用|不需要|不|取消)(?:比较|对比|比)(?:单个|这个|某个)?动作(?:了)?'
+    return '，'.join(part.strip() for part in re.split(r'[，,。；;]', query)
+                    if part.strip() and not re.fullmatch(cancelled, part.strip()))
+
+
 def select_query_report(query: str, allowlist: list[str]) -> QueryReport | None:
+    query = current_query_goal(query)
     if not allowlist or set(allowlist) - {'workout.get_progress', 'workout.list_history', 'workout.get_daily_context'}:
         return None
     # Advice, writes, action-specific statistics, and mixed goals need the
@@ -37,6 +45,14 @@ def select_query_report(query: str, allowlist: list[str]) -> QueryReport | None:
         if any(word in query for word in ('动作', '深蹲', '卧推', '硬拉', '体重', '单次', '逐日', '每天', '明细', '每次', '列出', '训练日', '今日')):
             return None
         return QueryReport('progress', 'workout.get_progress', {'weeks': scope.weeks}, query, scope)
+    if scope and allowlist == ['workout.list_history']:
+        # Calendar history is distinct from "latest N". Keep advice, comparisons
+        # and multi-goal requests on their existing semantic execution path.
+        if any(word in query for word in ('比较', '对比', '动作', '深蹲', '卧推', '硬拉', '体重', '目标')):
+            return None
+        return QueryReport('calendar_history', 'workout.list_history', {
+            'limit': 20, 'start_date': scope.start.isoformat(), 'end_date': scope.end.isoformat(),
+        }, query, scope)
     return None
 
 
@@ -59,7 +75,7 @@ def narrow_report_evidence(resolution, message: str):
     if report is None:
         return resolution
     # The user's original text can include a second goal omitted by the model.
-    if any(word in message for word in ('明细', '每次', '每天', '今日', '计划', '资料', '目标', '饮食', '建议')) and report.kind == 'progress':
+    if any(word in current_query_goal(message) for word in ('明细', '每次', '每天', '今日', '计划', '资料', '目标', '饮食', '建议', '动作', '深蹲', '卧推', '硬拉')) and report.kind == 'progress':
         return resolution
     evidence = 'workout_progress' if report.kind == 'progress' else 'workout_history'
     return resolution.model_copy(update={'evidence_requirements': [evidence]})
@@ -71,8 +87,12 @@ async def execute_query_report(report: QueryReport, tools: list) -> dict:
     name = report.tool_id.replace('.', '_')
     tool = next(item for item in tools if item.name == name)
     data = await tool.ainvoke(report.arguments)
+    display_data = data
     if report.kind == 'progress':
-        answer = render_progress(data, report.scope, report.query)
+        display_data = scope_progress(data, report.scope)
+        answer = render_progress(display_data, report.scope, report.query)
+    elif report.kind == 'calendar_history':
+        answer = render_calendar_history(data)
     else:
         answer = render_history(data, report.query)
         if answer is None:
@@ -81,7 +101,8 @@ async def execute_query_report(report: QueryReport, tools: list) -> dict:
     call_id = 'report-' + uuid4().hex
     # Protocol messages preserve the existing card/audit/trace pipeline. They
     # are explicitly marked as program output and are not counted as LLM calls.
-    return {'response_mode': f'verified_{report.kind}_report', 'messages': [
+    return {'response_mode': f'verified_{report.kind}_report',
+            'report_cards': [{'type': report.tool_id, 'data': display_data}], 'messages': [
         AIMessage(content='', tool_calls=[{'name': name, 'args': report.arguments, 'id': call_id}]),
         ToolMessage(content=json.dumps(data, ensure_ascii=False, default=str), name=name, tool_call_id=call_id),
         AIMessage(content=answer),

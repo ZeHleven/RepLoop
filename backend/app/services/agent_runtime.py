@@ -714,6 +714,10 @@ def _extract_agent_output(result: dict[str, Any]) -> tuple[str, list[dict[str, A
                 "type": canonical_id,
                 "data": _json_result(getattr(message, "content", "")),
             })
+    # Only the server's verified report path supplies a scoped presentation.
+    # Raw ToolMessages are retained unchanged for tool-call audit and trace.
+    if result.get('response_mode', '').startswith('verified_') and 'report_cards' in result:
+        cards = result['report_cards']
     return reply, cards
 
 
