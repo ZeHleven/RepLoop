@@ -22,6 +22,7 @@ NOW = datetime(2026, 9, 22, 5, 0, tzinfo=timezone.utc)
 async def seed(db):
     db.add_all([User(id='u', email='u@example.test', password_hash='unused'),
                 User(id='v', email='v@example.test', password_hash='unused')])
+    await db.commit()
     db.add_all([AgentConversation(id='c', user_id='u'), AgentConversation(id='d', user_id='v')])
     await db.commit()
 
@@ -36,11 +37,13 @@ async def test_real_progress_preserves_ended_early_daily_and_excludes_future_and
     db = db_session
     await seed(db)
     db.add(Exercise(id='ex', name_zh='深蹲', name_en='Squat', category='strength', difficulty='beginner'))
+    await db.commit()
     for i, (user, when, status) in enumerate([
         ('u', date(2026, 9, 21), 'completed'), ('u', TODAY, 'ended_early'),
         ('u', date(2026, 9, 23), 'completed'), ('v', TODAY, 'completed'),
     ]):
         db.add(WorkoutSession(id=f's{i}', user_id=user, trained_at=when, status=status))
+        await db.flush()
         db.add(SessionExercise(session_id=f's{i}', exercise_id='ex', exercise_name='深蹲',
             target_weight_kg=999, sets_data=[{'reps':10, 'weight_kg':50}]))
     await db.commit()
@@ -60,6 +63,7 @@ async def old_read(db, *, status='completed', audit=True, audit_value=1, user='u
         intent_domain='workout_progress', resolved_query='查询本周训练次数和组数',
         request_kind='query', requested_effect=effect, tool_allowlist=['workout.get_progress'])
     db.add(run)
+    await db.commit()
     # content_data deliberately contains no copied query context.
     db.add(AgentMessage(conversation_id=conversation, run_id='old', role='assistant', content='统计如下。', created_at=NOW-timedelta(seconds=30)))
     if audit:

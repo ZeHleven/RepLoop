@@ -8,4 +8,11 @@
 
 `sqlite_test_fixtures.py` 必须显式 `--noconftest -p evals.sqlite_test_fixtures` 使用。只建内存 SQLite 副本，过滤 PostgreSQL 专用约束，并保留适用的简单约束/部分索引。不得把此验证称作 PostgreSQL 提案一致性验证。
 
+默认 `evals/tests/conftest.py` 为 SQL 用例加载 PostgreSQL 夹具，必须显式设置 `AGENT_QUERY_EVAL_DATABASE_URL`。仅接受回环地址、`postgresql+asyncpg`、名称以 `_test` 结尾的数据库，不从应用配置回落。数据库需先完成迁移（包括 vector 扩展）。每道题建立自己的随机 schema，保留全部表约束，结束后只删除该 schema；公共表不会被此夹具清空。Project CI 已配置独立 PostgreSQL 16 服务。
+
+```sh
+# 环境变量指向自己创建的本地测试库，不能使用开发/生产数据库。
+python -m pytest backend/evals/tests -q
+```
+
 依赖及完整命令见 [主分支迁移记录](../../docs/agent/21-query-reliability-migration.md)。
