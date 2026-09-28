@@ -714,6 +714,10 @@ def _extract_agent_output(result: dict[str, Any]) -> tuple[str, list[dict[str, A
                 "type": canonical_id,
                 "data": _json_result(getattr(message, "content", "")),
             })
+    # Only the server's verified report path supplies a scoped presentation.
+    # Raw ToolMessages are retained unchanged for tool-call audit and trace.
+    if result.get('response_mode', '').startswith('verified_') and 'report_cards' in result:
+        cards = result['report_cards']
     return reply, cards
 
 
@@ -1327,12 +1331,17 @@ async def _create_structured_mutation_proposal(
     return AgentProposalReference.model_validate(reference.model_dump(mode="json"))
 
 
+from app.services.agent_query_reports import report_for_resolution, execute_query_report
+
+
 async def _load_history(
     db: AsyncSession,
     *,
     conversation_id: str,
     before_run: AgentRun,
 ) -> list[dict[str, str]]:
+    if conversation_id != before_run.conversation_id:
+        return []
     history_run = aliased(AgentRun)
     filters = [
         AgentMessage.conversation_id == conversation_id,
@@ -1349,15 +1358,41 @@ async def _load_history(
             ),
         ),
     ]
+    verified_read = select(AgentToolCall.id).where(
+        AgentToolCall.run_id == history_run.id,
+        AgentToolCall.tool_name == "workout.get_progress",
+        AgentToolCall.status == "completed",
+        AgentToolCall.result_data["total_sessions"].as_integer().is_not(None),
+    ).exists().correlate(history_run)
     rows = list((await db.execute(
-        select(AgentMessage)
-        .outerjoin(history_run, AgentMessage.run_id == history_run.id)
+        select(AgentMessage, history_run.id, history_run.primary_intent,
+               history_run.resolved_query, history_run.request_kind, history_run.requested_effect,
+               history_run.risk_level, history_run.status, history_run.clarification_required,
+               history_run.tool_allowlist, verified_read)
+        .outerjoin(history_run, and_(
+            AgentMessage.run_id == history_run.id,
+            history_run.user_id == before_run.user_id,
+            history_run.conversation_id == conversation_id,
+        ))
         .where(*filters)
         .order_by(AgentMessage.created_at.desc())
         .limit(settings.AGENT_MAX_HISTORY_MESSAGES)
-    )).scalars().all())
+    )).all())
     rows.reverse()
-    return [{"role": item.role, "content": item.content} for item in rows]
+    history = []
+    for item, run_id, primary, query, kind, effect, risk, status, clarify, allowlist, success in rows:
+        entry = {"role": item.role, "content": item.content}
+        if (item.role == "assistant" and status == "completed" and not clarify and success
+                and kind in {"query", "assessment"} and effect == "read" and risk == "low"
+                and primary == "workout_progress_query"
+                and allowlist == ["workout.get_progress"]):
+            entry["query_context"] = {
+                "source_run_id": run_id, "primary_intent": primary, "resolved_query": query,
+                "request_kind": kind, "requested_effect": effect, "risk_level": risk,
+                "successful_query": True,
+            }
+        history.append(entry)
+    return history
 
 
 async def invoke_langchain_agent(
@@ -1370,8 +1405,8 @@ async def invoke_langchain_agent(
     resolved_query: str | None = None,
     subtasks: list[str] | None = None,
     shadow_session: ToolRegistryShadowSession | None = None,
+    resolution: IntentResolution | None = None,
 ) -> dict[str, Any]:
-    model = _build_model()
     tools = build_read_tools(
         db,
         user_id=user_id,
@@ -1379,6 +1414,10 @@ async def invoke_langchain_agent(
     )
     if shadow_session is not None:
         shadow_session.record_constructed_tools(tools, tool_allowlist)
+    report = report_for_resolution(resolution, tool_allowlist) if resolution else None
+    if report is not None:
+        return await execute_query_report(report, tools)
+    model = _build_model()
     agent = create_agent(
         model=model,
         tools=tools,
@@ -1402,7 +1441,7 @@ async def invoke_langchain_agent(
             )
         execution_message += "请围绕消解后的请求完成回答，不要扩展到无关目标。"
     return await agent.ainvoke(
-        {"messages": [*history, {"role": "user", "content": execution_message}]},
+        {"messages": [*[{"role": item["role"], "content": item["content"]} for item in history], {"role": "user", "content": execution_message}]},
         config={"recursion_limit": settings.AGENT_RECURSION_LIMIT},
     )
 
@@ -2432,6 +2471,7 @@ async def execute_agent_run(
                 resolved_query=resolution.resolved_query,
                 subtasks=resolution.subtasks,
                 shadow_session=shadow_session,
+                resolution=resolution,
             )
         except Exception as exc:
             execution_trace = add_stage_timing(
@@ -2448,7 +2488,7 @@ async def execute_agent_run(
         execution_trace = add_stage_timing(
             execution_trace,
             stage="direct_agent",
-            source="model",
+            source="controller" if result.get("response_mode", "").startswith("verified_") else "model",
             status="success",
             latency_ms=round(
                 (time.perf_counter() - direct_started) * 1000

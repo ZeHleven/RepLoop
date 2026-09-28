@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date, datetime, timedelta, timezone
 
-from sqlalchemy import select
+from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.models.exercise import Exercise
@@ -231,6 +231,19 @@ async def list_user_workout_sessions(
     return list((await db.execute(query)).scalars().all())
 
 
+async def list_user_workout_sessions_in_range(
+    db: AsyncSession, *, user_id: str, start: date, end: date, limit: int,
+) -> tuple[list[WorkoutSession], int]:
+    filters = (WorkoutSession.user_id == user_id,
+               WorkoutSession.status.in_(['completed', 'ended_early']),
+               WorkoutSession.trained_at >= start, WorkoutSession.trained_at <= end)
+    total = await db.scalar(select(func.count()).select_from(WorkoutSession).where(*filters))
+    rows = (await db.scalars(select(WorkoutSession).where(*filters)
+        .order_by(WorkoutSession.trained_at.desc(), WorkoutSession.created_at.desc(), WorkoutSession.id.desc())
+        .limit(limit))).all()
+    return list(rows), total or 0
+
+
 async def get_user_workout_session(
     db: AsyncSession, *, user_id: str, session_id: str
 ) -> WorkoutSession | None:
@@ -426,7 +439,8 @@ async def get_workout_progress_summary(
     today: date | None = None,
     selected_week: date | None = None,
 ) -> WorkoutProgressResponse:
-    today = today or training_today()
+    from app.services.workout_reporting import report_today
+    today = today or report_today()
     current_week = today - timedelta(days=today.weekday())
     first_week = current_week - timedelta(weeks=weeks - 1)
     if selected_week is not None:
@@ -442,6 +456,7 @@ async def get_workout_progress_summary(
             WorkoutSession.status.in_(['completed', 'ended_early']),
             WorkoutSession.trained_at >= range_start,
             WorkoutSession.trained_at < range_end,
+            WorkoutSession.trained_at <= today,
         )
     )).scalars().all()
 
@@ -492,7 +507,7 @@ async def get_workout_progress_summary(
         )
         for week_start, values in buckets.items()
     ]
-    return WorkoutProgressResponse(
+    response = WorkoutProgressResponse(
         weeks=weeks,
         total_sessions=sum(item.sessions for item in weekly),
         total_sets=sum(item.sets for item in weekly),
@@ -502,3 +517,5 @@ async def get_workout_progress_summary(
         selected_week=selected_week,
         daily=list(daily.values()),
     )
+    from app.services.workout_reporting import enrich_progress
+    return WorkoutProgressResponse.model_validate(enrich_progress(response.model_dump(mode="json"), today))

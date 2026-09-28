@@ -147,6 +147,10 @@ def select_execution_mode(
     ):
         return "planned", ["explicit_plan_adjustment_proposal"]
 
+    from app.services.agent_query_reports import report_for_resolution
+    if report_for_resolution(resolution, tool_allowlist) is not None:
+        return "direct", ["verified_query_report"]
+
     reasons: list[str] = []
     if len(tool_allowlist) > 1 and len(resolution.subtasks) > 1:
         reasons.extend([
@@ -241,9 +245,10 @@ def complete_execution_trace(
     observations: list[AgentObservationTrace] = []
     sequence = 0
     model_calls = 0
+    deterministic = result.get("response_mode", "").startswith("verified_")
 
     for message in messages:
-        if getattr(message, "type", None) == "ai":
+        if getattr(message, "type", None) == "ai" and not deterministic:
             model_calls += 1
         calls = getattr(message, "tool_calls", None)
         if isinstance(calls, list):
@@ -312,7 +317,7 @@ def complete_execution_trace(
     completed_steps = [
         step.model_copy(update={
             "status": "completed",
-            "status_source": "inferred",
+            "status_source": "runtime" if deterministic else "inferred",
         })
         for step in trace.plan.steps
     ]
@@ -322,7 +327,7 @@ def complete_execution_trace(
         "actions": [AgentActionTrace.model_validate(item) for item in actions],
         "observations": observations,
         "terminal_action": terminal_action,
-        "termination_reason": termination_reason,
+        "termination_reason": result.get("response_mode", termination_reason),
         "budget_usage": trace.budget_usage.model_copy(update={
             "model_calls": model_calls,
             "tool_calls": len(actions),

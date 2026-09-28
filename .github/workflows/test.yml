@@ -35,6 +35,7 @@ jobs:
     env:
       DATABASE_URL: postgresql+asyncpg://fitness:fitness_pass@localhost:5432/fitness_test
       TEST_DATABASE_URL: postgresql+asyncpg://fitness:fitness_pass@localhost:5432/fitness_test
+      AGENT_QUERY_EVAL_DATABASE_URL: postgresql+asyncpg://fitness:fitness_pass@localhost:5432/fitness_test
       SECRET_KEY: test-only-secret-key-with-at-least-64-characters-0000000000000000
       PYTHONPATH: backend
       DEEPSEEK_API_KEY: ""

@@ -224,7 +224,7 @@ TOOL_REGISTRY_V2 = ToolRegistryV2(
         ),
         ToolRegistryEntry(
             tool_id="workout.list_history",
-            contract_version="1.0.0",
+            contract_version="1.1.0",
             langchain_name="workout_list_history",
             title="近期训练历史",
             mode="read",
@@ -244,7 +244,7 @@ TOOL_REGISTRY_V2 = ToolRegistryV2(
             parallel_safe=True,
             arguments=ToolArgumentContract(
                 schema_ref="WorkoutHistoryArguments",
-                default_arguments={"limit": 5},
+                default_arguments={"limit": 5, "start_date": "", "end_date": ""},
                 fields=(ToolArgumentFieldContract(
                     name="limit",
                     json_type="integer",
@@ -252,7 +252,8 @@ TOOL_REGISTRY_V2 = ToolRegistryV2(
                     default=5,
                     minimum=1,
                     maximum=20,
-                ),),
+                ), ToolArgumentFieldContract(name="start_date", json_type="string", has_default=True, default=""),
+                   ToolArgumentFieldContract(name="end_date", json_type="string", has_default=True, default="")),
             ),
             observation=ToolObservationContract(
                 current_shape="legacy_mapping",

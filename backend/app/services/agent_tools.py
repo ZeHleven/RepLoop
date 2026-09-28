@@ -6,7 +6,7 @@ from typing import Any, Callable, Literal
 
 from langchain_core.tools import BaseTool
 from langchain.tools import tool
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -24,6 +24,7 @@ from app.services.workout_queries import (
     get_active_user_session,
     get_workout_progress_summary,
     list_user_workout_sessions,
+    list_user_workout_sessions_in_range,
 )
 
 
@@ -38,6 +39,18 @@ class WorkoutHistoryArguments(BaseModel):
     )
 
     limit: int = Field(default=5, ge=1, le=20)
+    start_date: str = Field(default='', description='可选日历区间开始日期YYYY-MM-DD，须与end_date同时提供；空串表示最近N次。')
+    end_date: str = Field(default='', description='可选日历区间结束日期YYYY-MM-DD，包含该日，最多366天。')
+
+    @model_validator(mode='after')
+    def validate_range(self):
+        if bool(self.start_date) != bool(self.end_date):
+            raise ValueError('start_date and end_date must be supplied together')
+        if self.start_date:
+            start, end = date.fromisoformat(self.start_date), date.fromisoformat(self.end_date)
+            if start.isoformat() != self.start_date or end.isoformat() != self.end_date or not 0 <= (end-start).days < 366:
+                raise ValueError('history range must be ISO calendar dates spanning at most 366 days')
+        return self
 
 
 class WorkoutProgressArguments(BaseModel):
@@ -296,17 +309,25 @@ def build_read_tools(
         args_schema=WorkoutHistoryArguments,
         description=(
             "按时间倒序读取当前登录用户近期训练场次详情，limit 为 1 到 20。仅用于具体历史"
-            "记录；趋势汇总应使用 workout_get_progress。示例：‘列出最近 5 次训练。’"
+            "记录；按日历区间查记录须成对指定start_date/end_date，先筛日期再限制条数，返回总数与截断标记。"
+            "趋势汇总应使用 workout_get_progress。示例：‘列出最近 5 次训练。’"
         ),
     )
-    async def workout_list_history(limit: int = 5) -> dict[str, Any]:
-        sessions = await list_user_workout_sessions(
-            db,
-            user_id=user_id,
-            limit=limit,
-        )
+    async def workout_list_history(limit: int = 5, start_date: str = '', end_date: str = '') -> dict[str, Any]:
+        bounds = WorkoutHistoryArguments(limit=limit, start_date=start_date, end_date=end_date)
+        metadata = {}
+        if bounds.start_date:
+            from app.services.workout_reporting import report_today
+            today = report_today()
+            sessions, total = await list_user_workout_sessions_in_range(db, user_id=user_id,
+                start=date.fromisoformat(start_date), end=min(date.fromisoformat(end_date), today), limit=limit)
+            metadata = dict(range_start=start_date, range_end=end_date, as_of=today.isoformat(),
+                timezone='Asia/Shanghai', total_count=total, truncated=total > len(sessions))
+        else:
+            sessions = await list_user_workout_sessions(db, user_id=user_id, limit=limit)
         details = [await build_session_detail(db, item) for item in sessions]
         return {
+            **metadata,
             "count": len(details),
             "sessions": [item.model_dump(mode="json") for item in details],
         }
