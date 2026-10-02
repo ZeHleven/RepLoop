@@ -43,7 +43,7 @@ async def lifespan(_app: FastAPI):
                 await asyncio.gather(worker_task, return_exceptions=True)
 
 
-app = FastAPI(title="Fitness Agent API", version="0.5.45", lifespan=lifespan)
+app = FastAPI(title="Fitness Agent API", version="0.5.46", lifespan=lifespan)
 
 
 @app.exception_handler(AIServiceError)
@@ -79,7 +79,7 @@ async def ready():
         async with AsyncSessionLocal() as db:
             await asyncio.wait_for(
                 db.execute(text(
-                    "SELECT r.idempotency_key, r.lease_expires_at, "
+                    "SELECT r.idempotency_key, r.lease_expires_at, r.queue_position, "
                     "r.attempt_count, r.resolved_query, r.references, "
                     "c.pending_clarification, p.origin, "
                     "p.creation_client_request_id, p.target_kind, "

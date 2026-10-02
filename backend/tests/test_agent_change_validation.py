@@ -47,7 +47,7 @@ def test_complete_meal_structure_is_authoritative():
                 "items": [{"food_name": "鸡胸肉"}],
             },
             ("每种食品的克数",),
-            "请补充每种食品的克数。",
+            "请补充鸡胸肉的克数。",
         ),
         (
             {

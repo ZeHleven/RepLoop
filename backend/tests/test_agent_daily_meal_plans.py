@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from app.services.business_clock import business_today
+
 import copy
 from datetime import date, datetime, timedelta, timezone
 from unittest.mock import AsyncMock, patch
@@ -164,7 +166,7 @@ async def _artifact(db_session, *, user, conversation, run, foods):
     payload = {
         "schema_version": "1.0.0",
         "artifact_type": "daily_meal_plan_v1",
-        "target_date": date.today().isoformat(),
+        "target_date": business_today().isoformat(),
         "existing_meals": [],
         "meals": meals,
         "nutrition_targets": targets,
@@ -266,7 +268,7 @@ async def test_generation_creates_reviewable_artifact_without_writing_meals(
         )
 
     assert result.artifact.status == "active"
-    assert result.artifact.payload_data["target_date"] == date.today().isoformat()
+    assert result.artifact.payload_data["target_date"] == business_today().isoformat()
     assert result.artifact.payload_data["evidence_sources"] == list(
         DAILY_MEAL_EVIDENCE
     )
@@ -945,7 +947,7 @@ async def test_daily_proposal_context_conflict_causes_zero_partial_writes(db_ses
     )
     db_session.add(MealLog(
         user_id=user.id,
-        logged_at=date.today(),
+        logged_at=business_today(),
         meal_type="午餐",
     ))
     await db_session.commit()
@@ -967,7 +969,7 @@ async def test_daily_proposal_context_conflict_causes_zero_partial_writes(db_ses
         MealLog.user_id == user.id
     ))).scalars().all())
     assert [(item.meal_type, item.logged_at) for item in meals] == [
-        ("午餐", date.today())
+        ("午餐", business_today())
     ]
 
 

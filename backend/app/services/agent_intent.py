@@ -8,6 +8,7 @@ from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from app.services.agent_change_validation import validate_semantic_changes
+from app.schemas.agent_task import TaskUpdate, PendingPlanWithdrawal, PlanInputGap
 
 
 IntentName = Literal[
@@ -128,7 +129,7 @@ class IntentResolution(BaseModel):
     requested_effect: RequestedEffect = "read"
     change_requests: list[ChangeRequest] = Field(default_factory=list, max_length=12)
     evidence_requirements: list[EvidenceRequirement] = Field(
-        default_factory=list, max_length=6
+        default_factory=list, max_length=14
     )
     requested_output: RequestedOutput = "answer"
     resolved_query: str = Field(default="", max_length=4000)
@@ -140,6 +141,9 @@ class IntentResolution(BaseModel):
     clarification_question: str | None = Field(default=None, max_length=500)
     risk_level: Literal["low", "medium", "high"] = "low"
     confidence: float = Field(ge=0, le=1)
+    task_update: TaskUpdate | None = None
+    pending_plan_withdrawals: list[PendingPlanWithdrawal] = Field(default_factory=list, max_length=12)
+    plan_input_gaps: list[PlanInputGap] = Field(default_factory=list, max_length=12)
 
     @model_validator(mode="after")
     def fill_compatible_semantics(self) -> "IntentResolution":
@@ -420,8 +424,9 @@ _CHINESE_DIGITS = {
     "十二": 12,
 }
 
+_STATUS_WRITE_PATTERN = re.compile(r"标记(?:为|成)?(?=[已未]完成(?:状态)?(?:[。！？!?，,；;]|并|然后|$))")
 _MUTATION_VERB_PATTERN = re.compile(
-    r"(?:调整|修改|更新|改成|改为|改到|设成|设为|设置|增加|新增|"
+    r"(?:" + _STATUS_WRITE_PATTERN.pattern + r"|调整|修改|更新|改成|改为|改到|设成|设为|设置|增加|新增|"
     r"新建|添加|写入|录入|减少|降低|调低|调高|降一点|缩短|延长|"
     r"删除|移除|替换|创建|保存|记录|开始|完成)"
 )
@@ -453,7 +458,8 @@ _PROPOSAL_DECISION_PATTERN = re.compile(
 _NOMINAL_RECORD_PATTERN = re.compile(
     # Completed-set counts and saved attributes describe existing facts.
     # Mask only these occurrences, preserving any independent write verb.
-    r"完成(?=(?:组数|次数|的(?:训练|组)))|保存(?=的)|"
+    r"(?<=[已未])完成|完成(?=(?:状态|组数|次数|的(?:训练|组|场次)))|保存(?=的)|"
+    r"(?<=列出)记录(?!下|到|为|成|一(?:条|次|笔))|"
     # A locative/attributive suffix makes 记录 a noun, not a write command.
     # Keep bare 记录 and verbal objects such as 记录中午... / 记录里程... .
     r"记录(?=(?:[里内中](?:面)?(?:的|[ \t:：，,。；;！？!?])|的))|"
@@ -829,8 +835,9 @@ def _infer_request_semantics(
     # legacy consistency evidence, never permission to bypass model routing
     # or to execute a write: mixed positive requests still need a Proposal.
     mutation_text = _NEGATED_MUTATION_PATTERN.sub(" ", normalized)
+    status_write = bool(_STATUS_WRITE_PATTERN.search(mutation_text))
     mutation_text = _NOMINAL_RECORD_PATTERN.sub("  ", mutation_text)
-    mutation_requested = bool(_MUTATION_VERB_PATTERN.search(mutation_text))
+    mutation_requested = status_write or bool(_MUTATION_VERB_PATTERN.search(mutation_text))
     if (
         "记录" in normalized
         and re.search(r"(?:查看|查询|看看|历史|最近|过去|有哪些|是什么)", normalized)
@@ -1263,6 +1270,27 @@ def resolve_pending_clarification(
     if normalized in _CLARIFICATION_NON_ANSWERS:
         return None
 
+    if pending_clarification.get("missing_slots") == ["训练状态"]:
+        # The query already contains an unresolved status. Appending another
+        # phrase would keep both constraints and can create a clarification loop.
+        from app.services.history_status_scope import parse_history_status_scope, is_status_slot_answer, STATUS_LABELS
+        from app.services.agent_query_reports import explicit_history_range
+        scope = parse_history_status_scope(message)
+        inherited = pending_clarification_to_resolution(pending_clarification)
+        if (inherited is None or inherited.intent_domain != "workout_history"
+                or inherited.request_kind != "query" or inherited.requested_effect != "read"
+                or inherited.risk_level != "low" or not scope.complete or not scope.statuses
+                or not is_status_slot_answer(message)):
+            return None
+        bounds = explicit_history_range(inherited.resolved_query)
+        if bounds is None:
+            return None
+        labels = '、'.join(STATUS_LABELS[s] for s in scope.statuses)
+        return (inherited.model_copy(update={
+            "resolved_query": f"查询{bounds[0].isoformat()}至{bounds[1].isoformat()}的训练，状态仅为{labels}。",
+            "missing_slots": [], "clarification_required": False, "clarification_question": None,
+        }), "clarification_filled")
+
     direct_resolution = resolve_intent(message)
     if (
         direct_resolution.primary_intent != "general_qa"
@@ -1272,6 +1300,10 @@ def resolve_pending_clarification(
         return None
 
     missing_slots = pending_clarification.get("missing_slots")
+    if missing_slots == ["优先查询目标"]:
+        # Choosing a smaller task is a semantic change, not a value to append
+        # to the old five/six-evidence task.
+        return None
     if not isinstance(missing_slots, list) or len(missing_slots) != 1:
         return None
     slot = str(missing_slots[0])[:120]
@@ -1429,17 +1461,18 @@ def _coordinated_evidence(
     if request_kind == "generation" and requested_output == "daily_meal_plan":
         return list(_DAILY_MEAL_EVIDENCE)
     if request_kind == "assessment" and intent_domain == "workout_plan":
-        return [
+        return list(dict.fromkeys([
             "active_plan",
             "profile_summary",
             "health_screening",
             "workout_progress",
-        ]
+            *resolution.evidence_requirements,
+        ]))
     if request_kind not in {"query", "assessment"}:
         return []
 
     requested = list(dict.fromkeys(resolution.evidence_requirements))
-    return list(dict.fromkeys(requested))[:6]
+    return requested
 
 
 def normalize_resolution(
@@ -1454,6 +1487,7 @@ def normalize_resolution(
     health red-flag escalation.  They cannot convert an ordinary query into a
     generation/mutation or authorize a read tool.
     """
+    context_messages = [item for item in (context_messages or []) if item.get("role") in {"user", "assistant"}]
     rules_resolution = resolve_intent(message)
     intent_domain = resolution.intent_domain or _DOMAIN_BY_INTENT[
         resolution.primary_intent
@@ -1634,6 +1668,17 @@ EVIDENCE_TOOL_ALLOWLIST: dict[EvidenceRequirement, tuple[str, ...]] = {
 MAX_ROUTED_TOOLS = 4
 
 
+def required_read_tools(resolution: IntentResolution) -> list[str]:
+    """Full task obligations, before execution budgets or Registry narrowing."""
+    if (resolution.request_kind not in {"query", "assessment"}
+            or resolution.clarification_required or resolution.risk_level == "high"):
+        return []
+    return list(dict.fromkeys(
+        tool for evidence in resolution.evidence_requirements
+        for tool in EVIDENCE_TOOL_ALLOWLIST[evidence]
+    ))
+
+
 def route_tools(resolution: IntentResolution) -> list[str]:
     """Return a stable, deduplicated allowlist. Unknown tools can never be added."""
     if resolution.clarification_required or resolution.risk_level == "high":
@@ -1650,17 +1695,7 @@ def route_tools(resolution: IntentResolution) -> list[str]:
             and bool(resolution.change_requests)
             else []
         )
-    routed: list[str] = []
-    # Evidence requirements are the sole read authority.  Legacy intent names
-    # remain a response/storage projection and must never grant tools.
-    tool_groups = [
-        EVIDENCE_TOOL_ALLOWLIST[item]
-        for item in resolution.evidence_requirements
-    ]
-    for tool_group in tool_groups:
-        for tool_id in tool_group:
-            if tool_id not in routed:
-                routed.append(tool_id)
-                if len(routed) >= MAX_ROUTED_TOOLS:
-                    return routed
-    return routed
+    required = required_read_tools(resolution)
+    # Never authorize a misleading prefix. The runtime retains the original
+    # requirements and asks the user to scope the task before any tool executes.
+    return required if len(required) <= MAX_ROUTED_TOOLS else []

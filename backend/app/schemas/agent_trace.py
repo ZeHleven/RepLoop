@@ -15,6 +15,7 @@ from app.schemas.agent_plan_adjustment_proposal import (
     PlanAdjustmentProposalCreationReasonCode,
 )
 from app.schemas.agent_tool_registry import ToolRegistryShadowReport
+from app.schemas.agent_task import TaskSnapshot
 
 
 ExecutionMode = Literal["direct", "planned", "clarify", "safe_stop"]
@@ -225,6 +226,22 @@ class AgentProposalCreationTrace(BaseModel):
         return self
 
 
+class AgentEvidenceContractTrace(BaseModel):
+    """Additive task contract; absence means a legacy/unmeasured Run."""
+    model_config = ConfigDict(extra="forbid")
+    version: Literal[1] = 1
+    required_tools: list[str] = Field(max_length=14)
+    missing_tools: list[str] = Field(default_factory=list, max_length=14)
+    status: Literal["pending", "complete", "partial", "blocked"] = "pending"
+    reason: Literal["budget_exceeded", "authority_missing", "observations_missing"] | None = None
+
+
+class AgentRequestContextTrace(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    as_of: str = Field(pattern=r"^\d{4}-\d{2}-\d{2}$")
+    timezone: Literal["Asia/Shanghai"] = "Asia/Shanghai"
+
+
 class AgentExecutionTrace(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -252,6 +269,9 @@ class AgentExecutionTrace(BaseModel):
     )
     tool_registry_shadow: ToolRegistryShadowReport | None = None
     proposal_creation: AgentProposalCreationTrace | None = None
+    evidence_contract: AgentEvidenceContractTrace | None = None
+    request_context: AgentRequestContextTrace | None = None
+    task_state: TaskSnapshot | None = None
 
     @model_validator(mode="after")
     def validate_optional_trace_versions(self) -> Self:
@@ -281,4 +301,10 @@ class AgentExecutionTrace(BaseModel):
             serialized.pop("tool_registry_shadow", None)
         if self.proposal_creation is None:
             serialized.pop("proposal_creation", None)
+        if self.evidence_contract is None:
+            serialized.pop("evidence_contract", None)
+        if self.request_context is None:
+            serialized.pop("request_context", None)
+        if self.task_state is None:
+            serialized.pop("task_state", None)
         return serialized

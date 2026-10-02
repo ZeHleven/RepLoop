@@ -80,7 +80,7 @@ def test_live_action_advice_and_other_goals_are_not_discarded(query):
 def test_last_week_history_uses_calendar_bounds_in_tool_arguments():
     report=select_query_report('帮我看看上周的训练情况（已完成的具体训练场次和记录）',['workout.list_history'])
     assert report is not None
-    assert report.arguments=={'limit':20,'start_date':'2026-09-21','end_date':'2026-09-27'}
+    assert report.arguments=={'limit':20,'start_date':'2026-09-21','end_date':'2026-09-27','completed_only':True}
 
 
 @pytest.mark.parametrize('count',[0,15,25])

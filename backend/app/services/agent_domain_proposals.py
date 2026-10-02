@@ -9,6 +9,7 @@ from pydantic import ValidationError
 from sqlalchemy import delete, func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.services.business_clock import business_today, wall_today
 
 from app.models.agent import AgentArtifact, AgentProposal
 from app.models.exercise import Exercise
@@ -368,14 +369,14 @@ async def create_agent_weight_proposal(
 
 def _parse_logged_at(value: Any) -> date:
     if value in (None, "today", "今天"):
-        return date.today()
+        return business_today()
     try:
         parsed = date.fromisoformat(str(value))
     except ValueError as exc:
         raise PlanProposalError(
             "proposal_change_invalid", "饮食日期必须是 YYYY-MM-DD", status_code=422
         ) from exc
-    if parsed > date.today():
+    if parsed > wall_today():
         raise PlanProposalError(
             "proposal_change_invalid", "不能记录未来的饮食", status_code=422
         )
@@ -470,6 +471,7 @@ async def create_agent_meal_create_proposal(
     conversation_id: str,
     run_id: str,
     changes: list[ChangeRequest],
+    supersedes_proposal_id: str | None = None,
     now: datetime | None = None,
 ) -> PlanProposalReference:
     if not enabled:
@@ -480,6 +482,32 @@ async def create_agent_meal_create_proposal(
         raise PlanProposalError(
             "proposal_change_ambiguous", "一次饮食提案只能新增一条完整餐次", status_code=422
         )
+    # Share the decision lock so a confirmation cannot race draft replacement.
+    from app.services.training_lifecycle import lock_training_user
+    await lock_training_user(db, user_id)
+    request_id = f"agent-proposal:{run_id}:meal_log_create_v1"
+    replay = await _creation_replay(
+        db, user_id=user_id, request_id=request_id,
+        proposal_type="meal_log_create_v1",
+    )
+    if replay is not None:
+        return replay
+    moment = now or datetime.now(timezone.utc)
+    previous = None
+    if supersedes_proposal_id is not None:
+        previous = await db.scalar(select(AgentProposal).where(
+            AgentProposal.id == supersedes_proposal_id,
+            AgentProposal.user_id == user_id,
+            AgentProposal.conversation_id == conversation_id,
+            AgentProposal.proposal_type == "meal_log_create_v1",
+        ).with_for_update().execution_options(populate_existing=True))
+        if previous is None:
+            raise PlanProposalError("proposal_not_found", "原餐食提案不存在", status_code=404)
+        if (previous.status != "pending_confirmation"
+                or previous.expires_at is None or moment >= previous.expires_at):
+            raise PlanProposalError(
+                "proposal_not_pending", "原餐食提案已不能修改，请刷新后重试",
+            )
     value = _single_value(changes, "meal", "meal_log", "meal.items")
     after = await _canonical_meal_value(db, value=value)
     payload = {
@@ -491,18 +519,29 @@ async def create_agent_meal_create_proposal(
         "changes": [{"field_path": "meal_log", "before": None, "after": after}],
         "safety_notes": ["食品库项目的营养值由服务端按克数计算。"],
     }
-    return await _persist(
-        db,
-        user_id=user_id,
-        conversation_id=conversation_id,
-        run_id=run_id,
-        proposal_type="meal_log_create_v1",
-        request_id=f"agent-proposal:{run_id}:meal_log_create_v1",
-        target_kind="meal_log",
-        target_id=None,
-        payload=payload,
-        now=now or datetime.now(timezone.utc),
-    )
+    if previous is not None:
+        payload["target"]["supersedes_proposal_id"] = previous.id
+        previous.status = "stale"
+        previous.version += 1
+        previous.last_error_code = "proposal_superseded"
+    try:
+        return await _persist(
+            db,
+            user_id=user_id,
+            conversation_id=conversation_id,
+            run_id=run_id,
+            proposal_type="meal_log_create_v1",
+            request_id=request_id,
+            target_kind="meal_log",
+            target_id=None,
+            payload=payload,
+            now=moment,
+        )
+    except Exception:
+        # A failed creation must not leave a dirty stale transition for a later
+        # run-finalization commit to persist without the replacement proposal.
+        await db.rollback()
+        raise
 
 
 async def create_agent_daily_meal_proposal(
@@ -595,7 +634,8 @@ async def create_agent_daily_meal_proposal(
             status_code=409,
         )
     payload_data = artifact.payload_data
-    if payload_data.get("target_date") != date.today().isoformat():
+    target_day = wall_today()
+    if payload_data.get("target_date") != target_day.isoformat():
         raise PlanProposalError(
             "artifact_target_date_invalid",
             "全天饮食方案只能在目标日期当天保存",
@@ -610,7 +650,7 @@ async def create_agent_daily_meal_proposal(
     current = await collect_daily_meal_evidence(
         db,
         user_id=user_id,
-        target_date=date.today(),
+        target_date=target_day,
     )
     try:
         current = apply_ephemeral_inputs(
@@ -746,7 +786,7 @@ async def _meal_snapshot(
         query = query.where(MealLog.id == reference)
     elif reference in {"早餐", "午餐", "晚餐", "加餐"}:
         query = query.where(
-            MealLog.logged_at == date.today(), MealLog.meal_type == reference
+            MealLog.logged_at == business_today(), MealLog.meal_type == reference
         )
     else:
         raise PlanProposalError(
@@ -1389,7 +1429,8 @@ async def _apply_daily_meal_create(
         or canonical_fingerprint(artifact.payload_data) != artifact.payload_fingerprint
     ):
         raise PlanProposalError("artifact_fingerprint_mismatch", "原始方案内容校验失败")
-    if target.get("target_date") != date.today().isoformat():
+    target_day = wall_today()
+    if target.get("target_date") != target_day.isoformat():
         raise PlanProposalError("artifact_target_date_invalid", "只能在方案目标日期当天确认")
 
     # Locking the profile serializes Agent-owned nutrition confirmations for a
@@ -1403,7 +1444,7 @@ async def _apply_daily_meal_create(
     current = await collect_daily_meal_evidence(
         db,
         user_id=user_id,
-        target_date=date.today(),
+        target_date=target_day,
     )
     try:
         current = apply_ephemeral_inputs(
@@ -1481,7 +1522,7 @@ async def _apply_daily_meal_create(
         select(MealLog.id, MealLog.meal_type)
         .where(
             MealLog.user_id == user_id,
-            MealLog.logged_at == date.today(),
+            MealLog.logged_at == target_day,
             MealLog.meal_type.in_(meal_types),
         )
         .with_for_update()
@@ -1495,7 +1536,7 @@ async def _apply_daily_meal_create(
     for meal_value in canonical_meals:
         meal = MealLog(
             user_id=user_id,
-            logged_at=date.today(),
+            logged_at=target_day,
             meal_type=meal_value["meal_type"],
         )
         db.add(meal)
@@ -1515,7 +1556,7 @@ async def _apply_daily_meal_create(
     await db.flush()
     return {
         "artifact_id": artifact.id,
-        "logged_at": date.today().isoformat(),
+        "logged_at": target_day.isoformat(),
         "meals": created,
         "meal_count": len(created),
     }
@@ -1640,7 +1681,7 @@ async def decide_agent_domain_proposal(
             AgentProposal.id == proposal_id,
             AgentProposal.user_id == user_id,
             AgentProposal.proposal_type.in_(DOMAIN_PROPOSAL_TYPES),
-        ).with_for_update()
+        ).with_for_update().execution_options(populate_existing=True)
     )
     if proposal is None:
         raise PlanProposalError("proposal_not_found", "提案不存在", status_code=404)

@@ -789,7 +789,7 @@ async def test_tool_error_fallback_behavior_is_unchanged_by_shadow():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         calls.append("workout.list_history")
         return {"count": 0, "sessions": [], "limit": limit}
 

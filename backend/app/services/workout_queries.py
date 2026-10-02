@@ -233,9 +233,12 @@ async def list_user_workout_sessions(
 
 async def list_user_workout_sessions_in_range(
     db: AsyncSession, *, user_id: str, start: date, end: date, limit: int,
+    completed_only: bool = False, statuses: list[str] | None = None,
 ) -> tuple[list[WorkoutSession], int]:
+    from app.services.history_status_scope import effective_history_statuses
+    selected_statuses = effective_history_statuses(statuses, completed_only=completed_only)
     filters = (WorkoutSession.user_id == user_id,
-               WorkoutSession.status.in_(['completed', 'ended_early']),
+               WorkoutSession.status.in_(selected_statuses),
                WorkoutSession.trained_at >= start, WorkoutSession.trained_at <= end)
     total = await db.scalar(select(func.count()).select_from(WorkoutSession).where(*filters))
     rows = (await db.scalars(select(WorkoutSession).where(*filters)

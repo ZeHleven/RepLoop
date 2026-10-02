@@ -1,3 +1,4 @@
+from app.services.business_clock import business_today
 import bcrypt
 import pytest
 
@@ -120,7 +121,7 @@ async def test_weight_and_nutrition_tools_read_only_current_user(db_session):
     db_session.add(food)
     meal = MealLog(
         user_id="tool-nutrition-user",
-        logged_at=date.today(),
+        logged_at=business_today(),
         meal_type="午餐",
     )
     db_session.add(meal)
