@@ -4,14 +4,22 @@ import re
 
 from app.services.workout_queries import normalized_sets, sets_metrics
 from app.services.workout_reporting import number, _n
+from app.services.history_status_scope import STATUS_LABELS, DEFAULT_STATUSES
 
 
 def render_calendar_history(data: dict) -> str:
     """Describe a server-selected calendar range without inventing trends."""
     lines = [f"统计范围：{data['range_start']}至{data['range_end']}；截至{data['as_of']}（Asia/Shanghai）。"]
     total = data['total_count']
+    statuses = data.get('status_filter', DEFAULT_STATUSES)
+    status_text = '、'.join(STATUS_LABELS.get(s, s) for s in statuses)
     if not total:
-        return lines[0] + '\n\n该范围内没有已记录的完成或提前结束训练；无记录不等于没有运动。'
+        kind = '完成训练' if list(statuses) == ['completed'] else status_text + '训练'
+        return lines[0] + f'\n\n该范围内没有已记录的{kind}；无记录不等于没有运动。'
+    if data.get('status_filter') == ['completed']:
+        lines.append('仅列已完成场次；未纳入进行中、跳过和提前结束记录。')
+    elif statuses:
+        lines.append(f'仅列状态为{status_text}的场次。')
     if data['truncated']:
         lines.append(f"范围内共{total}次训练，以下仅展示最近{data['count']}次；展示记录的组次和容量不代表全范围合计。")
     else:
@@ -20,7 +28,7 @@ def render_calendar_history(data: dict) -> str:
                      f"{sum(row['total_reps'] for row in rows)}次重复、"
                      f"{_n(sum(row['total_volume_kg'] for row in rows))}kg负重容量。")
     for row in sorted(data['sessions'], key=lambda item: item['trained_at']):
-        state = '提前结束' if row['status'] == 'ended_early' else '已完成'
+        state = STATUS_LABELS.get(row['status'], row['status'])
         lines.append(f"- {row['trained_at']}（{state}）：{row['total_sets']}组、{row['total_reps']}次重复、{_n(row['total_volume_kg'])}kg负重容量。")
         for exercise in row.get('exercises', []):
             completed = normalized_sets(exercise.get('sets_data'))

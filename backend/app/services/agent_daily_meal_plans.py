@@ -11,11 +11,13 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Any, Literal
 
 from langchain_openai import ChatOpenAI
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 
 from app.config import settings
+from app.services.business_clock import business_today, day_end
+from app.services.structured_schema import strict_tool_schema
 from app.models.agent import AgentArtifact, AgentProposal
 from app.models.food import Food
 from app.models.profile import UserProfile, WeightLog
@@ -23,6 +25,7 @@ from app.models.workout import WorkoutPlan
 from app.services.nutrition_queries import (
     build_daily_nutrition_summary,
     list_nutrition_history,
+    nutrition_history_scope,
 )
 from app.services.ai_client import (
     StructuredAIServiceError,
@@ -66,49 +69,6 @@ MEDICAL_NUTRITION_MARKERS = (
     "孕",
     "哺乳",
 )
-DAILY_MEAL_DRAFT_SCHEMA: dict[str, Any] = {
-    "type": "object",
-    "properties": {
-        "meals": {
-            "type": "array",
-            "items": {
-                "type": "object",
-                "properties": {
-                    "meal_type": {
-                        "type": "string",
-                        "enum": list(MEAL_TYPES),
-                    },
-                    "items": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "food_id": {"type": "string"},
-                                "amount_g": {
-                                    "type": "number",
-                                    "exclusiveMinimum": 0,
-                                    "maximum": 500,
-                                },
-                            },
-                            "required": ["food_id", "amount_g"],
-                            "additionalProperties": False,
-                        },
-                    },
-                },
-                "required": ["meal_type", "items"],
-                "additionalProperties": False,
-            },
-        },
-        "rationale": {
-            "type": "array",
-            "items": {"type": "string"},
-        },
-    },
-    "required": ["meals", "rationale"],
-    "additionalProperties": False,
-}
-
-
 logger = logging.getLogger("uvicorn.error")
 
 
@@ -152,6 +112,25 @@ class DailyMealDraft(BaseModel):
     meals: list[DailyMealDraftMeal] = Field(min_length=1, max_length=4)
     rationale: list[str] = Field(default_factory=list, max_length=5)
 
+    @field_validator("rationale", mode="before")
+    @classmethod
+    def preserve_bounded_explanations(cls, value: Any) -> Any:
+        # Formatting repair only. Do not delete safety conditions or edit meal
+        # choices/amounts. Invalid types and unbounded text remain errors.
+        if not isinstance(value, list):
+            return value
+        if len(value) > 20:
+            raise ValueError("rationale exceeds the 20-item repair budget")
+        if all(isinstance(item, str) for item in value):
+            if sum(len(item) for item in value) > 8000:
+                raise ValueError("rationale exceeds the 8000-character budget")
+            if len(value) > 5:
+                return [*value[:4], "\n".join(value[4:])]
+        return value
+
+
+DAILY_MEAL_DRAFT_SCHEMA = strict_tool_schema(DailyMealDraft)
+
 
 class EphemeralNutritionInputs(BaseModel):
     """Explicit one-run facts; these are never written back to the profile."""
@@ -193,6 +172,7 @@ class GenerationAttemptAudit:
     error_code: str | None = None
     validation_paths: tuple[str, ...] = ()
     fallback_reason: str | None = None
+    normalizations: tuple[str, ...] = ()
 
     def result_data(self) -> dict[str, Any]:
         return {
@@ -202,6 +182,7 @@ class GenerationAttemptAudit:
             "output_chars": self.output_chars,
             "validation_paths": list(self.validation_paths),
             "fallback_reason": self.fallback_reason,
+            "normalizations": list(self.normalizations),
         }
 
 
@@ -311,7 +292,7 @@ async def collect_daily_meal_evidence(
     The values are used only inside the bounded generator.  Audits deliberately
     contain field names and fingerprints rather than sensitive source values.
     """
-    target = target_date or date.today()
+    target = target_date or business_today()
     async def profile_for(read_db: AsyncSession) -> UserProfile | None:
         return await read_db.scalar(
             select(UserProfile).where(UserProfile.user_id == user_id)
@@ -326,7 +307,7 @@ async def collect_daily_meal_evidence(
     async def load_weight(read_db: AsyncSession) -> dict[str, Any]:
         rows = list((await read_db.execute(
             select(WeightLog)
-            .where(WeightLog.user_id == user_id)
+            .where(WeightLog.user_id == user_id, WeightLog.recorded_at < day_end(target))
             .order_by(WeightLog.recorded_at.desc())
             .limit(30)
         )).scalars().all())
@@ -394,10 +375,11 @@ async def collect_daily_meal_evidence(
             target_date=target,
         )
         history = await list_nutrition_history(
-            read_db, user_id=user_id, days=14
+            read_db, user_id=user_id, days=14, as_of=target
         )
         return {
             "today": today_summary.model_dump(mode="json"),
+            "scope": nutrition_history_scope(history, as_of=target, limit=14),
             "recent_days": [item.model_dump(mode="json") for item in history],
         }
 
@@ -1054,7 +1036,8 @@ async def _generate_draft(
                     "新餐次后的全天热量、蛋白质和供能比例落入 targets。revision_source 仅表示"
                     "用户正在修改的已有方案；repair_context 仅表示上一次失败及需要修复的字段。"
                     "如果 repair_context 表示当前食品组合无法配平，应更换食品组合，而不是只"
-                    "改 JSON 格式。严格按提交函数的参数结构返回。"
+                    "改 JSON 格式。rationale 最多5条简短说明；安全条件必须保留。"
+                    "严格按提交函数的参数结构和描述中的数量限制返回。"
                 ),
             },
             {
@@ -1119,7 +1102,7 @@ async def generate_daily_meal_artifact(
     now: datetime | None = None,
 ) -> DailyMealArtifactResult:
     moment = now or datetime.now(timezone.utc)
-    target = date.today()
+    target = business_today()
     evidence = await collect_daily_meal_evidence(
         db,
         user_id=user_id,
@@ -1312,6 +1295,7 @@ async def generate_daily_meal_artifact(
                 "validation_paths": list(validation_paths),
                 "invalid_draft": _safe_repair_draft(completion.payload),
                 "finish_reason": completion.finish_reason,
+                "constraint_schema": DAILY_MEAL_DRAFT_SCHEMA,
             }
             logger.warning(
                 "daily_meal_generation_attempt run_id=%s attempt=%s "
@@ -1394,6 +1378,10 @@ async def generate_daily_meal_artifact(
             output_chars=completion.output_chars,
             finish_reason=completion.finish_reason,
             fallback_reason=completion.fallback_reason,
+            normalizations=(
+                ("rationale_items_coalesced",)
+                if len(completion.payload.get("rationale", [])) > 5 else ()
+            ),
         )
         attempts.append(audit)
         logger.info(

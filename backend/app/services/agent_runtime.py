@@ -10,11 +10,13 @@ from typing import Any
 
 from langchain.agents import create_agent
 from langchain_openai import ChatOpenAI
-from sqlalchemy import and_, func, or_, select, update
+from sqlalchemy import and_, func, or_, select, update, case
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import aliased
 
 from app.config import settings
+from app.services.business_clock import business_today, request_day
+from app.services.agent_run_order import precedes
 from app.database import AsyncSessionLocal
 from app.models.agent import (
     AgentArtifact,
@@ -34,7 +36,10 @@ from app.schemas.agent_plan_adjustment_proposal_api import (
     PlanAdjustmentProposalDecisionRequest,
 )
 from app.schemas.plan_management_proposal import GenericProposalDecisionRequest
-from app.schemas.agent_trace import AgentExecutionTrace
+from app.schemas.agent_trace import AgentExecutionTrace, AgentRequestContextTrace
+from app.services.agent_evidence_contract import (
+    build_evidence_contract, guard_read_completion, missing_evidence_reply,
+)
 from app.services.agent_controller import (
     ToolAuditEvent,
     execute_planned_agent,
@@ -55,6 +60,10 @@ from app.services.agent_plan_adjustment_proposal_execution import (
     apply_confirmed_plan_adjustment_atomically,
 )
 from app.services.agent_intent_model import resolve_intent_with_fallback
+from app.services.agent_task_state import (
+    active_task, advance_task_state, execution_task_context, finalize_task_snapshot,
+    load_task_snapshot,
+)
 from app.services.agent_plan_adjustment_proposal_persistence import (
     PlanAdjustmentProposalPersistenceRejected,
     persist_optional_plan_adjustment_proposal,
@@ -465,6 +474,10 @@ def _finalize_registry_shadow_trace(
     trace: AgentExecutionTrace,
     session: ToolRegistryShadowSession | None,
 ) -> AgentExecutionTrace:
+    if trace.task_state is not None and trace.terminal_action is not None:
+        trace = trace.model_copy(update={"task_state": finalize_task_snapshot(
+            trace.task_state, terminal_action=trace.terminal_action,
+        )})
     if session is None:
         return trace
     try:
@@ -1215,6 +1228,7 @@ async def _create_structured_mutation_proposal(
     run: AgentRun,
     conversation: AgentConversation,
     resolution: IntentResolution,
+    task_state=None,
 ) -> AgentProposalReference:
     changes = list(resolution.change_requests)
     common = {
@@ -1307,8 +1321,23 @@ async def _create_structured_mutation_proposal(
                     ),
                 )
             else:
+                # Only server-hydrated state can identify the draft being replaced.
+                # A new task must not retire another meal with the same date/type.
+                previous_meal = (
+                    active_task(task_state)
+                    if task_state is not None
+                    and task_state.transition in {"continue", "resume"}
+                    else None
+                )
                 reference = await create_agent_meal_create_proposal(
                     enabled=settings.AGENT_NUTRITION_PROPOSALS_ENABLED,
+                    supersedes_proposal_id=(
+                        previous_meal.proposal_id
+                        if previous_meal is not None
+                        and previous_meal.proposal_pending
+                        and previous_meal.pending_meal is not None
+                        else None
+                    ),
                     **common,
                 )
         elif resolution.requested_effect == "delete":
@@ -1351,18 +1380,20 @@ async def _load_history(
                 AgentMessage.run_id.is_(None),
                 AgentMessage.created_at <= before_run.queued_at,
             ),
-            history_run.queued_at < before_run.queued_at,
-            and_(
-                history_run.queued_at == before_run.queued_at,
-                history_run.id < before_run.id,
-            ),
+            precedes(history_run, before_run),
         ),
     ]
     verified_read = select(AgentToolCall.id).where(
         AgentToolCall.run_id == history_run.id,
-        AgentToolCall.tool_name == "workout.get_progress",
         AgentToolCall.status == "completed",
-        AgentToolCall.result_data["total_sessions"].as_integer().is_not(None),
+        or_(
+            and_(history_run.primary_intent == "workout_progress_query",
+                 AgentToolCall.tool_name == "workout.get_progress",
+                 AgentToolCall.result_data["total_sessions"].as_integer().is_not(None)),
+            and_(history_run.primary_intent == "workout_history_query",
+                 AgentToolCall.tool_name == "workout.list_history",
+                 AgentToolCall.result_data["count"].as_integer().is_not(None)),
+        ),
     ).exists().correlate(history_run)
     rows = list((await db.execute(
         select(AgentMessage, history_run.id, history_run.primary_intent,
@@ -1375,7 +1406,9 @@ async def _load_history(
             history_run.conversation_id == conversation_id,
         ))
         .where(*filters)
-        .order_by(AgentMessage.created_at.desc())
+        .order_by(history_run.queue_position.desc().nulls_last(),
+                  case((history_run.queue_position.is_not(None), case((AgentMessage.role == 'assistant', 1), else_=0)), else_=0).desc(),
+                  AgentMessage.created_at.desc())
         .limit(settings.AGENT_MAX_HISTORY_MESSAGES)
     )).all())
     rows.reverse()
@@ -1384,8 +1417,8 @@ async def _load_history(
         entry = {"role": item.role, "content": item.content}
         if (item.role == "assistant" and status == "completed" and not clarify and success
                 and kind in {"query", "assessment"} and effect == "read" and risk == "low"
-                and primary == "workout_progress_query"
-                and allowlist == ["workout.get_progress"]):
+                and ((primary == "workout_progress_query" and allowlist == ["workout.get_progress"])
+                     or (primary == "workout_history_query" and allowlist == ["workout.list_history"]))):
             entry["query_context"] = {
                 "source_run_id": run_id, "primary_intent": primary, "resolved_query": query,
                 "request_kind": kind, "requested_effect": effect, "risk_level": risk,
@@ -1421,7 +1454,10 @@ async def invoke_langchain_agent(
     agent = create_agent(
         model=model,
         tools=tools,
-        system_prompt=SYSTEM_PROMPT,
+        system_prompt=SYSTEM_PROMPT + (
+            f"\n本次请求业务日期：{business_today().isoformat()}，时区 Asia/Shanghai。"
+            "今天及相对日期均以此为准；记录日期范围以工具返回的 scope 为准。"
+        ),
         name="fitness_agent_v1",
     )
     execution_message = user_message
@@ -1447,6 +1483,24 @@ async def invoke_langchain_agent(
 
 
 async def execute_agent_run(
+    db: AsyncSession,
+    *,
+    run: AgentRun,
+    conversation: AgentConversation,
+    user_message: str,
+    artifact_action: dict[str, Any] | None = None,
+    clarification_action: dict[str, Any] | None = None,
+    expected_attempt_count: int | None = None,
+) -> AgentRuntimeResult:
+    with request_day(run.queued_at):
+        return await _execute_agent_run(
+            db, run=run, conversation=conversation, user_message=user_message,
+            artifact_action=artifact_action, clarification_action=clarification_action,
+            expected_attempt_count=expected_attempt_count,
+        )
+
+
+async def _execute_agent_run(
     db: AsyncSession,
     *,
     run: AgentRun,
@@ -1506,6 +1560,11 @@ async def execute_agent_run(
             conversation_id=conversation.id,
             before_run=run,
         )
+        previous_task_state = await load_task_snapshot(db, run)
+        intent_history = [
+            {"role": "task_state", "content": previous_task_state.model_dump_json()},
+            *history,
+        ]
         pending_clarification_state = (
             dict(conversation.pending_clarification)
             if conversation.pending_clarification
@@ -1555,11 +1614,21 @@ async def execute_agent_run(
             if intent_outcome is None:
                 intent_outcome = await resolve_intent_with_fallback(
                     user_message,
-                    context_messages=history,
+                    context_messages=intent_history,
                     pending_clarification=pending_clarification_state,
                     conversation_action_state=conversation_action_state,
                 )
         resolution = intent_outcome.resolution
+        task_state = advance_task_state(
+            previous_task_state, resolution.task_update, message=user_message,
+            run_id=run.id, normalized_request=resolution.resolved_query,
+        )
+        from app.services.agent_plan_completeness import enforce_plan_completeness
+        resolution = enforce_plan_completeness(resolution, task_state, user_message)
+        task_context = execution_task_context(task_state)
+        if task_context:
+            # Last context message disambiguates superseded historical limits.
+            history = [*history, {"role": "system", "content": task_context}]
         legacy_explicit_command = parse_explicit_plan_adjustment_command(
             user_message
         )
@@ -1586,6 +1655,13 @@ async def execute_agent_run(
             ),
         )
         run.status = "running"
+        execution_trace = execution_trace.model_copy(update={
+            "evidence_contract": build_evidence_contract(
+                resolution, tool_allowlist, budget=settings.AGENT_MAX_TOOL_CALLS,
+            ),
+            "request_context": AgentRequestContextTrace(as_of=business_today().isoformat()),
+            "task_state": task_state,
+        })
         run.primary_intent = resolution.primary_intent
         run.intent_domain = resolution.intent_domain or "general"
         run.request_kind = resolution.request_kind
@@ -1661,6 +1737,13 @@ async def execute_agent_run(
             clarification_context: dict[str, Any] | None = None,
         ) -> AgentRuntimeResult:
             nonlocal execution_trace
+            execution_trace = execution_trace.model_copy(update={
+                "task_state": finalize_task_snapshot(
+                    execution_trace.task_state, terminal_action=terminal_action,
+                    content_data=content_data,
+                    changes=resolution.change_requests,
+                ),
+            })
             execution_trace = terminate_execution_trace(
                 execution_trace,
                 terminal_action=terminal_action,
@@ -1746,6 +1829,12 @@ async def execute_agent_run(
                 artifact=short_artifact,
             )
 
+        if task_state.transition == "cancel" and resolution.risk_level != "high":
+            return await complete_semantic_short_circuit(
+                "已停止刚才的任务。此次没有修改任何记录或确认提案。",
+                termination_reason="task_cancelled",
+            )
+
         if structured_choice_invalid:
             context = (
                 pending_clarification_state.get("clarification_context")
@@ -1785,6 +1874,23 @@ async def execute_agent_run(
             return await complete_semantic_short_circuit(
                 reply,
                 termination_reason="intent_understanding_unavailable",
+            )
+
+        from app.services.history_status_scope import history_status_problem
+        if history_status_problem(resolution, user_message):
+            return await complete_semantic_short_circuit(
+                '请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。',
+                terminal_action='clarify', termination_reason='history_status_scope_unresolved',
+                missing_slots=['训练状态'],
+            )
+
+        contract = execution_trace.evidence_contract
+        if contract is not None and contract.status == "blocked":
+            return await complete_semantic_short_circuit(
+                missing_evidence_reply(contract.required_tools, blocked=True),
+                terminal_action="clarify",
+                termination_reason=f"evidence_{contract.reason}",
+                missing_slots=["优先查询目标"],
             )
 
         write_structure_unavailable = (
@@ -1833,6 +1939,7 @@ async def execute_agent_run(
                     run=run,
                     conversation=conversation,
                     resolution=resolution,
+                    task_state=task_state,
                 )
             except PlanProposalError as exc:
                 prefix = f"{HIGH_RISK_REPLY}\n\n" if high_risk_health_record else ""
@@ -1889,6 +1996,11 @@ async def execute_agent_run(
             )
 
         if resolution.risk_level == "high" or resolution.clarification_required:
+            execution_trace = execution_trace.model_copy(update={"task_state": finalize_task_snapshot(
+                execution_trace.task_state,
+                terminal_action="safe_stop" if resolution.risk_level == "high" else "clarify",
+                changes=resolution.change_requests,
+            )})
             reply = (
                 HIGH_RISK_REPLY
                 if resolution.risk_level == "high"
@@ -1959,6 +2071,7 @@ async def execute_agent_run(
                     f"上一轮缺少：{'、'.join(pending_clarification_state.get('missing_slots') or [])}\n"
                     f"用户本轮补充：{user_message}"
                 )[:3000]
+            generation_message += task_context
             try:
                 generated = await generate_daily_meal_artifact(
                     db,
@@ -2247,7 +2360,7 @@ async def execute_agent_run(
                     temperature=0,
                     max_tokens=settings.AGENT_PLANNING_MAX_TOKENS,
                 ),
-                goal=resolution.resolved_query,
+                goal=resolution.resolved_query + task_context,
                 subtasks=resolution.subtasks,
                 tool_allowlist=tool_allowlist,
                 initial_trace=execution_trace,
@@ -2270,6 +2383,7 @@ async def execute_agent_run(
                 shadow_session,
             )
             reply = planned_result.reply
+            reply, execution_trace = guard_read_completion(reply, execution_trace)
             cards = planned_result.cards
             run.input_tokens = planned_result.input_tokens
             run.output_tokens = planned_result.output_tokens
@@ -2432,6 +2546,11 @@ async def execute_agent_run(
                 message_content_data["proposal"] = (
                     proposal_reference.model_dump(mode="json")
                 )
+            execution_trace = execution_trace.model_copy(update={"task_state": finalize_task_snapshot(
+                execution_trace.task_state, terminal_action=execution_trace.terminal_action,
+                content_data=message_content_data,
+                changes=resolution.change_requests,
+            )})
             db.add(AgentMessage(
                 conversation_id=conversation.id,
                 run_id=run.id,
@@ -2504,6 +2623,7 @@ async def execute_agent_run(
             shadow_session,
         )
         reply, cards = _extract_agent_output(result)
+        reply, execution_trace = guard_read_completion(reply, execution_trace)
         reply, execution_trace = _normalize_unpersisted_proposal_result(
             reply=reply,
             execution_trace=execution_trace,

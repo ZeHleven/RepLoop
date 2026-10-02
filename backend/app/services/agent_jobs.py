@@ -5,7 +5,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import exists, or_, select, update
+from sqlalchemy import exists, or_, select, update, func, and_
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy.orm import aliased
@@ -15,6 +15,7 @@ from app.database import AsyncSessionLocal
 from app.models.agent import AgentConversation, AgentMessage, AgentRun
 from app.services.agent_runtime import AgentRunOwnershipLost, execute_agent_run
 from app.services.ai_client import AIServiceError
+from app.services.agent_run_order import precedes
 
 
 logger = logging.getLogger("uvicorn.error")
@@ -117,12 +118,30 @@ async def enqueue_agent_run(
         db.add(conversation)
         await db.flush()
 
+    # Serialize allocation with the conversation row, including across workers.
+    await db.execute(select(AgentConversation.id).where(
+        AgentConversation.id == conversation.id, AgentConversation.user_id == user_id,
+    ).with_for_update())
+    # Another request may have committed the same key while we waited for the lock.
+    existing = await db.scalar(select(AgentRun).where(
+        AgentRun.user_id == user_id, AgentRun.idempotency_key == client_request_id,
+    ))
+    if existing is not None:
+        await _validate_idempotent_replay(db, run=existing, user_message=user_message,
+            conversation=requested_conversation, artifact_action=artifact_action,
+            clarification_action=clarification_action)
+        await db.commit()
+        return EnqueuedAgentRun(existing, conversation, False)
+    position = (await db.scalar(select(func.max(AgentRun.queue_position)).where(
+        AgentRun.conversation_id == conversation.id, AgentRun.user_id == user_id,
+    )) or 0) + 1
     run = AgentRun(
         conversation_id=conversation.id,
         user_id=user_id,
         status="queued",
         idempotency_key=client_request_id,
         model_name=settings.AGENT_MODEL,
+        queue_position=position,
     )
     db.add(run)
 
@@ -185,8 +204,14 @@ async def enqueue_agent_run(
     return EnqueuedAgentRun(run, conversation, True)
 
 
+async def _lease_now(db: AsyncSession) -> datetime:
+    # A shared clock prevents different worker clocks from changing ownership.
+    # clock_timestamp advances even inside a long-lived transaction.
+    return await db.scalar(select(func.clock_timestamp()))
+
+
 async def claim_next_agent_run(db: AsyncSession) -> str | None:
-    now = datetime.now(timezone.utc)
+    now = await _lease_now(db)
     legacy_cutoff = now - timedelta(seconds=settings.AGENT_RUN_LEASE_SECONDS)
     other_run = aliased(AgentRun)
     await db.execute(
@@ -227,6 +252,14 @@ async def claim_next_agent_run(db: AsyncSession) -> str | None:
                     & (AgentRun.lease_expires_at < now)
                     & (AgentRun.attempt_count < settings.AGENT_RUN_MAX_ATTEMPTS)
                 ),
+            ),
+            ~exists(
+                select(other_run.id).where(
+                    other_run.conversation_id == AgentRun.conversation_id,
+                    other_run.user_id == AgentRun.user_id,
+                    other_run.status.in_(['queued','running']),
+                    precedes(other_run, AgentRun),
+                )
             ),
             ~exists(
                 select(other_run.id).where(
@@ -277,7 +310,7 @@ async def renew_agent_run_lease(
     expected_attempt_count: int,
 ) -> bool:
     """Extend a lease only while the same execution attempt still owns the run."""
-    now = datetime.now(timezone.utc)
+    now = await _lease_now(db)
     result = await db.execute(
         update(AgentRun)
         .where(
@@ -286,8 +319,11 @@ async def renew_agent_run_lease(
             AgentRun.attempt_count == expected_attempt_count,
         )
         .values(
-            lease_expires_at=now + timedelta(
-                seconds=settings.AGENT_RUN_LEASE_SECONDS
+            # A database clock correction or delayed heartbeat must never shorten
+            # the stored deadline. Evaluate against the row atomically.
+            lease_expires_at=func.greatest(
+                AgentRun.lease_expires_at,
+                now + timedelta(seconds=settings.AGENT_RUN_LEASE_SECONDS),
             )
         )
     )

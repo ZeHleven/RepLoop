@@ -1,0 +1,863 @@
+{
+  "N01": [
+    {
+      "route": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "把当前训练计划中的卧推动作修改为4组、每组6次、组间休息75秒，并先以待确认提案的形式展示，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "把当前计划里的卧推改成4组、每组6次、组间休息75秒，先给我待确认提案。",
+          "requirements": [
+            {
+              "key": "plan_modification",
+              "quote": "把当前计划里的卧推改成4组、每组6次、组间休息75秒",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "先给我待确认提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "value_json": "4",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "value_json": "\"6\"",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "卧推",
+            "value_json": "75",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "把当前训练计划中的卧推动作修改为4组、每组6次、组间休息75秒，并先以待确认提案的形式展示，不直接写入。",
+        "confidence": 0.95
+      }
+    },
+    {
+      "route": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "把当前训练计划中卧推动作的组间休息时间改为105秒，组数4组、每组6次按刚才的待确认提案保留，仍以待确认提案形式展示，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "continue",
+          "task_id": "9570471f-a204-4c0e-aa3d-75ce43d50aae",
+          "trigger": "休息时间再改为105秒，组数和次数按刚才的提案保留。",
+          "requirements": [
+            {
+              "key": "plan_modification",
+              "quote": "休息时间再改为105秒，组数和次数按刚才的提案保留。",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "组数和次数按刚才的提案保留。",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "卧推",
+            "value_json": "105",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "把当前训练计划中卧推动作的组间休息时间改为105秒，组数4组、每组6次按刚才的待确认提案保留，仍以待确认提案形式展示，不直接写入。",
+        "confidence": 0.95
+      }
+    }
+  ],
+  "N02": [
+    {
+      "route": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "修改当前训练计划：卧推改为4组每组7次，深蹲改为2组每组9次，其他动作保持不变；先生成待确认提案，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "当前计划卧推改4组每组7次，深蹲改2组每组9次，其他不变，先生成提案。",
+          "requirements": [
+            {
+              "key": "plan_change_bench_press",
+              "quote": "当前计划卧推改4组每组7次",
+              "remove": false
+            },
+            {
+              "key": "plan_change_squat",
+              "quote": "深蹲改2组每组9次",
+              "remove": false
+            },
+            {
+              "key": "other_exercises_unchanged",
+              "quote": "其他不变",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "先生成提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "value_json": "4",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "value_json": "\"7\"",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "深蹲",
+            "value_json": "2",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "深蹲",
+            "value_json": "\"9\"",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "修改当前训练计划：卧推改为4组每组7次，深蹲改为2组每组9次，其他动作保持不变；先生成待确认提案，不直接写入。",
+        "confidence": 0.97
+      }
+    },
+    {
+      "route": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "修改当前训练计划：只把卧推组数改为5组，深蹲和所有动作的次数保持不变；先生成待确认提案，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.86,
+        "task_update": {
+          "action": "continue",
+          "task_id": "50ca6881-bca9-410b-8aef-98055f37a750",
+          "trigger": "刚才提案里只把卧推组数改成5组，深蹲和所有次数都不变。",
+          "requirements": [
+            {
+              "key": "plan_change_bench_press",
+              "quote": "只把卧推组数改成5组",
+              "remove": false
+            },
+            {
+              "key": "plan_change_squat",
+              "quote": "深蹲和所有次数都不变",
+              "remove": true
+            },
+            {
+              "key": "other_exercises_unchanged",
+              "quote": "深蹲和所有次数都不变",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "刚才提案里",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "value_json": "5",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "在刚才的待确认提案里，只把卧推组数改为5组，深蹲和所有动作的次数保持不变。",
+        "confidence": 0.95
+      }
+    }
+  ],
+  "N03": [
+    {
+      "route": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "把当前训练计划中卧推的每组次数改为12次，其他内容保持不变，并生成待确认提案。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "当前计划卧推改成每组12次，其他先不变，生成待确认提案。",
+          "requirements": [
+            {
+              "key": "plan_change",
+              "quote": "当前计划卧推改成每组12次",
+              "remove": false
+            },
+            {
+              "key": "scope",
+              "quote": "其他先不变",
+              "remove": false
+            },
+            {
+              "key": "proposal",
+              "quote": "生成待确认提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "value_json": "\"12\"",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "把当前训练计划中卧推的每组次数改为12次，其他内容保持不变，并生成待确认提案。",
+        "confidence": 0.95
+      }
+    },
+    {
+      "route": {
+        "intent_domain": "nutrition",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "nutrition_today"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "查询并列出用户今天（2026-09-29）已记录的饮食记录，只列记录，不做其他分析。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "另外查一下我今天已记录的饮食，只列记录。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "我今天已记录的饮食",
+              "remove": false
+            },
+            {
+              "key": "output_scope",
+              "quote": "只列记录",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": null
+    },
+    {
+      "route": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "回到之前未确认的卧推训练计划修改提案，将卧推改为4组，每组次数保持原提案的12次不变，其他内容保持不变，并生成待确认提案。",
+        "risk_level": "low",
+        "confidence": 0.82,
+        "task_update": {
+          "action": "continue",
+          "task_id": "f77e781f-2227-4159-9270-a5d760cc39e9",
+          "trigger": "回到刚才未确认的卧推提案，改成4组，每组次数保留。",
+          "requirements": [
+            {
+              "key": "plan_change",
+              "quote": "改成4组，每组次数保留",
+              "remove": false
+            },
+            {
+              "key": "scope",
+              "quote": "每组次数保留",
+              "remove": false
+            },
+            {
+              "key": "proposal",
+              "quote": "回到刚才未确认的卧推提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "value_json": "4",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "value_json": "\"12\"",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "回到之前未确认的卧推训练计划修改提案，将卧推改为4组，每组次数保持原提案的12次不变，其他内容保持不变，并生成待确认提案。",
+        "confidence": 0.9
+      }
+    }
+  ],
+  "N04": [
+    {
+      "route": {
+        "intent_domain": "nutrition",
+        "request_kind": "mutation",
+        "requested_effect": "create",
+        "requested_output": "answer",
+        "read_targets": [],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "记录2026年9月20日晚餐：米饭150克、鸡胸90克，先生成待确认提案（不直接写入）。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "帮我记录2026年9月20日的晚餐：米饭150克、鸡胸90克，先生成待确认提案。",
+          "requirements": [
+            {
+              "key": "meal_date",
+              "quote": "2026年9月20日的晚餐",
+              "remove": false
+            },
+            {
+              "key": "meal_items",
+              "quote": "米饭150克、鸡胸90克",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "先生成待确认提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "nutrition",
+            "operation": "create",
+            "field_path": "meal",
+            "target_reference": null,
+            "value_json": "{\"logged_at\":\"2026-09-20\",\"meal_type\":\"晚餐\",\"items\":[{\"food_name\":\"米饭\",\"amount_g\":150},{\"food_name\":\"鸡胸\",\"amount_g\":90}]}",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "记录2026年9月20日晚餐：米饭150克、鸡胸90克，先生成待确认提案（不直接写入）。",
+        "confidence": 0.95
+      }
+    },
+    {
+      "route": {
+        "intent_domain": "nutrition",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "修改2026年9月20日晚餐待确认提案：鸡胸改为110克，米饭150克、日期2026年9月20日和晚餐餐次保持不变，仍先生成待确认提案、不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "continue",
+          "task_id": "06c9dab2-f157-4c0c-b07d-ed724a03100f",
+          "trigger": "这餐鸡胸改成110克，米饭份量、日期和餐次不变。",
+          "requirements": [
+            {
+              "key": "meal_items",
+              "quote": "这餐鸡胸改成110克，米饭份量、日期和餐次不变。",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "nutrition",
+            "operation": "update",
+            "field_path": "meal",
+            "target_reference": "2026-09-20晚餐",
+            "value_json": "{\"logged_at\":\"2026-09-20\",\"meal_type\":\"晚餐\",\"items\":[{\"food_name\":\"鸡胸\",\"amount_g\":110},{\"food_name\":\"米饭\",\"amount_g\":150}]}",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "修改2026年9月20日晚餐待确认提案：鸡胸改为110克，米饭150克、日期2026年9月20日和晚餐餐次保持不变，仍先生成待确认提案、不直接写入。",
+        "confidence": 0.93
+      }
+    }
+  ],
+  "N05": [
+    {
+      "route": {
+        "intent_domain": "nutrition",
+        "request_kind": "mutation",
+        "requested_effect": "create",
+        "requested_output": "answer",
+        "read_targets": [],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "记录 2026-09-18 晚餐米饭 160 克，先以提案形式展示待确认，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "记录2026年9月18日晚餐米饭160克，先给提案。",
+          "requirements": [
+            {
+              "key": "meal_record",
+              "quote": "记录2026年9月18日晚餐米饭160克",
+              "remove": false
+            },
+            {
+              "key": "date_scope",
+              "quote": "2026年9月18日",
+              "remove": false
+            },
+            {
+              "key": "meal_type",
+              "quote": "晚餐",
+              "remove": false
+            },
+            {
+              "key": "food_item",
+              "quote": "米饭160克",
+              "remove": false
+            },
+            {
+              "key": "permission",
+              "quote": "先给提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "nutrition",
+            "operation": "create",
+            "field_path": "meal",
+            "target_reference": null,
+            "value_json": "{\"logged_at\":\"2026-09-18\",\"meal_type\":\"晚餐\",\"items\":[{\"food_name\":\"米饭\",\"amount_g\":160}]}",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "记录 2026-09-18 晚餐米饭 160 克，先以提案形式展示待确认，不直接写入。",
+        "confidence": 0.95
+      }
+    },
+    {
+      "route": {
+        "intent_domain": "nutrition",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "修改待确认提案：将 2026-09-18 的餐次由晚餐改为午餐，日期和食物份量（米饭 160 克）不变，仍以提案形式展示待确认，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "continue",
+          "task_id": "74e32859-bba6-4f89-bee2-9eb723c96986",
+          "trigger": "餐次说错了，改成午餐，日期和食物份量不变。",
+          "requirements": [
+            {
+              "key": "meal_type",
+              "quote": "餐次说错了，改成午餐",
+              "remove": false
+            },
+            {
+              "key": "date_scope",
+              "quote": "日期和食物份量不变",
+              "remove": false
+            },
+            {
+              "key": "food_item",
+              "quote": "日期和食物份量不变",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "nutrition",
+            "operation": "update",
+            "field_path": "meal.meal_type",
+            "target_reference": "2026-09-18 晚餐 米饭160克",
+            "value_json": "\"午餐\"",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "修改待确认提案：将 2026-09-18 的餐次由晚餐改为午餐，日期和食物份量（米饭 160 克）不变，仍以提案形式展示待确认，不直接写入。",
+        "confidence": 0.93
+      }
+    }
+  ],
+  "N06": [
+    {
+      "route": {
+        "intent_domain": "nutrition",
+        "request_kind": "mutation",
+        "requested_effect": "create",
+        "requested_output": "answer",
+        "read_targets": [],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "记录2026年9月19日午餐：米饭170克、鸡胸80克，先生成待确认提案，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "记录2026年9月19日午餐米饭170克和鸡胸80克，先生成提案。",
+          "requirements": [
+            {
+              "key": "meal_record",
+              "quote": "记录2026年9月19日午餐米饭170克和鸡胸80克",
+              "remove": false
+            },
+            {
+              "key": "date_scope",
+              "quote": "2026年9月19日",
+              "remove": false
+            },
+            {
+              "key": "meal_slot",
+              "quote": "午餐",
+              "remove": false
+            },
+            {
+              "key": "food_items",
+              "quote": "米饭170克和鸡胸80克",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "先生成提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "nutrition",
+            "operation": "create",
+            "field_path": "meal",
+            "target_reference": null,
+            "value_json": "{\"logged_at\":\"2026-09-19\",\"meal_type\":\"午餐\",\"items\":[{\"food_name\":\"米饭\",\"amount_g\":170},{\"food_name\":\"鸡胸\",\"amount_g\":80}]}",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "记录2026年9月19日午餐：米饭170克、鸡胸80克，先生成待确认提案，不直接写入。",
+        "confidence": 0.95
+      }
+    },
+    {
+      "route": {
+        "intent_domain": "nutrition",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "修改2026年9月19日午餐记录：去掉鸡胸，只保留米饭170克，日期、餐次和米饭克数不变，仍先生成待确认提案，不直接写入。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "continue",
+          "task_id": "93d668d7-84d0-44dd-b5d2-2946c36fe9af",
+          "trigger": "刚才那餐去掉鸡胸，只保留米饭，日期、餐次和米饭克数不变。",
+          "requirements": [
+            {
+              "key": "food_items",
+              "quote": "去掉鸡胸，只保留米饭",
+              "remove": false
+            },
+            {
+              "key": "date_scope",
+              "quote": "日期、餐次和米饭克数不变",
+              "remove": false
+            },
+            {
+              "key": "meal_slot",
+              "quote": "日期、餐次和米饭克数不变",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "刚才那餐去掉鸡胸，只保留米饭",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": {
+        "change_requests": [
+          {
+            "resource": "nutrition",
+            "operation": "update",
+            "field_path": "meal",
+            "target_reference": "2026年9月19日午餐",
+            "value_json": "{\"logged_at\":\"2026-09-19\",\"meal_type\":\"午餐\",\"items\":[{\"food_name\":\"米饭\",\"amount_g\":170}]}",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "修改2026年9月19日午餐记录：去掉鸡胸，只保留米饭170克，日期、餐次和米饭克数不变，仍先生成待确认提案，不直接写入。",
+        "confidence": 0.93
+      }
+    }
+  ],
+  "N07": [
+    {
+      "route": {
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "workout_history"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "列出2026年9月10日至2026年9月12日期间已完成的训练记录。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "列出2026年9月10日至9月12日的训练记录，只要已完成的。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "2026年9月10日至9月12日",
+              "remove": false
+            },
+            {
+              "key": "completion_filter",
+              "quote": "只要已完成的",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": null
+    },
+    {
+      "route": {
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "workout_history"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "列出2026年9月14日至2026年9月16日的训练记录，只列已完成的训练。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "continue",
+          "task_id": "",
+          "trigger": "日期更正为2026年9月14日至9月16日，仍只列已完成的。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "日期更正为2026年9月14日至9月16日",
+              "remove": false
+            },
+            {
+              "key": "completion_filter",
+              "quote": "仍只列已完成的",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": null
+    }
+  ],
+  "N08": [
+    {
+      "route": {
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "workout_history"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "查询 2026-09-14 至 2026-09-16 的训练记录，仅列出已完成的训练场次。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "查2026年9月14日至9月16日的训练记录，只列已完成。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "查2026年9月14日至9月16日的训练记录",
+              "remove": false
+            },
+            {
+              "key": "completion_filter",
+              "quote": "只列已完成",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": null
+    },
+    {
+      "route": {
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "workout_history"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "查询2026年9月21日至2026年9月23日的训练记录，只列出已完成的训练。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "continue",
+          "task_id": "",
+          "trigger": "改查2026年9月21日至9月23日，同样只列已完成。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "改查2026年9月21日至9月23日",
+              "remove": false
+            },
+            {
+              "key": "completion_filter",
+              "quote": "同样只列已完成",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "extraction": null
+    }
+  ]
+}

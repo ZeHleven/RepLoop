@@ -1,16 +1,14 @@
 """Calendar and arithmetic facts for workout reports; no model-generated numbers."""
-from contextvars import ContextVar
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta, timezone
+from datetime import date, timedelta
 import re
+from app.services.business_clock import BUSINESS_DATE as REPORT_DATE, SHANGHAI, business_today
 
-REPORT_DATE: ContextVar[date | None] = ContextVar('workout_report_date', default=None)
-SHANGHAI = timezone(timedelta(hours=8), 'Asia/Shanghai')
 METRICS = ('sessions', 'sets', 'reps', 'volume_kg')
 
 
 def report_today() -> date:
-    return REPORT_DATE.get() or datetime.now(SHANGHAI).date()
+    return business_today()
 
 
 def enrich_progress(data: dict, today: date) -> dict:
