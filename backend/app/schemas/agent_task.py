@@ -59,7 +59,7 @@ class PendingMealDraft(BaseModel):
     model_config = ConfigDict(extra="forbid")
     logged_at: str = Field(min_length=10, max_length=10)
     meal_type: Literal["早餐", "午餐", "晚餐", "加餐"]
-    items: list[PendingMealItem] = Field(min_length=1, max_length=20)
+    items: list[PendingMealItem] = Field(min_length=1, max_length=30)
 
 
 class PendingPlanChange(BaseModel):

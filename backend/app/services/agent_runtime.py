@@ -16,7 +16,7 @@ from sqlalchemy.orm import aliased
 
 from app.config import settings
 from app.services.business_clock import business_today, request_day
-from app.services.agent_run_order import precedes
+from app.services.agent_run_order import allocate_queue_position, precedes
 from app.database import AsyncSessionLocal
 from app.models.agent import (
     AgentArtifact,
@@ -2726,12 +2726,25 @@ async def run_agent_chat(
     Production miniapp traffic uses the durable queue endpoint. Keeping this
     synchronous wrapper avoids breaking older clients during the rollout.
     """
+    position = await allocate_queue_position(
+        db, conversation_id=conversation.id, user_id=user_id,
+    )
+    pending = await db.scalar(select(AgentRun.id).where(
+        AgentRun.conversation_id == conversation.id,
+        AgentRun.user_id == user_id,
+        AgentRun.status.in_(('queued', 'running')),
+    ).limit(1))
+    if pending is not None:
+        # The synchronous path must not overtake work already accepted by the
+        # durable queue. Its existing 503 handler gives callers a retryable error.
+        raise AIServiceError('当前会话仍有请求正在处理，请稍后重试。')
     now = datetime.now(timezone.utc)
     run = AgentRun(
         conversation_id=conversation.id,
         user_id=user_id,
         status="running",
         model_name=settings.AGENT_MODEL,
+        queue_position=position,
         processing_started_at=now,
         attempt_count=1,
     )

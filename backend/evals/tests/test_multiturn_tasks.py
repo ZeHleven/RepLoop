@@ -253,7 +253,12 @@ async def test_multiturn_training_business_task(task_client, db_session, monkeyp
             await db_session.refresh(planned)
             assert planned.sets==3 and planned.reps=="10"
             ref=second["proposal"]
-            probe=AgentRun(id="probe",user_id=uid,conversation_id=cid,queued_at=datetime.now(timezone.utc)+timedelta(seconds=1))
+            second_run=await db_session.get(AgentRun,second["run_id"])
+            probe=AgentRun(id="probe",user_id=uid,conversation_id=cid,
+                queue_position=second_run.queue_position+1,
+                queued_at=datetime.now(timezone.utc)+timedelta(seconds=1))
+            record["snapshot_probe"]={"after_run_id":second_run.id,
+                "after_queue_position":second_run.queue_position,"queue_position":probe.queue_position}
             restored=await load_task_snapshot(db_session,probe)
             assert restored.tasks[0].proposal_pending and len(restored.tasks[0].pending_plan_changes)==2
             from app.services import agent_task_state as task_state_service

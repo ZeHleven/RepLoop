@@ -13,6 +13,20 @@ from app.services.workout_reporting import progress_request, render_progress, re
 from app.services.history_status_scope import parse_history_status_scope
 
 
+_CALENDAR_DATE = re.compile(r'\d{4}-\d{2}-\d{2}|(?:\d{4}年)?\d{1,2}月\d{1,2}日')
+
+
+def _unbounded_nutrition_listing(query: str) -> bool:
+    # A finite listing vocabulary proves that no unknown date, meal, metric,
+    # or other selector was discarded. Unrecognized requests use the agent.
+    remaining = re.sub(
+        r'有记录的|已记录的|记录过的|已记录|最近|近期|列一下|列出|查看|查询|看看|展示|显示|'
+        r'请|帮我|给我|我的|我|饮食|营养|日期|历史|日志|记录|汇总|和|及|与|的',
+        '', query,
+    )
+    return not remaining.strip(' \t\r\n，,。；;、！!？?')
+
+
 @dataclass(frozen=True)
 class QueryReport:
     kind: str
@@ -45,8 +59,12 @@ def select_query_report(query: str, allowlist: list[str]) -> QueryReport | None:
     # existing semantic/planned execution path; a summary cannot answer them.
     if any(word in query for word in ('建议', '推荐', '制定', '修改', '删除', '记录一', '计划', '饮食', '疼痛', '如何', '怎么办')):
         return None
+    bounds = explicit_history_range(query)
+    if _CALENDAR_DATE.search(query) and bounds is None:
+        # Unsupported date selections must not fall through to a weekly
+        # aggregate, which can otherwise widen two separate days into a week.
+        return None
     if allowlist == ['workout.list_history'] and not any(word in query for word in ('比较', '对比', '动作', '深蹲', '卧推', '硬拉', '体重', '目标', '趋势', '分析')):
-        bounds = explicit_history_range(query)
         if bounds:
             arguments = {'limit': 20, 'start_date': bounds[0].isoformat(), 'end_date': bounds[1].isoformat()}
             arguments.update(status_arguments)
@@ -77,6 +95,11 @@ def explicit_history_range(query: str) -> tuple[date, date] | None:
     query = re.sub(r"(?<=\d)\s+(?=[年月日])|(?<=[年月])\s+(?=\d)", "", query)
     iso = re.findall(r'\d{4}-\d{2}-\d{2}', query)
     chinese = re.findall(r'(?:(\d{4})年)?(\d{1,2})月(\d{1,2})日', query)
+    calendar_dates = list(_CALENDAR_DATE.finditer(query))
+    if len(calendar_dates) == 2:
+        connector = query[calendar_dates[0].end():calendar_dates[1].start()]
+        if not re.fullmatch(r'\s*(?:至|到|~|～|—|–|-)\s*', connector):
+            return None
     try:
         if len(iso) == 2 and not chinese:
             start, end = (date.fromisoformat(item) for item in iso)
@@ -106,13 +129,9 @@ def report_for_resolution(resolution, allowlist, *, allow_redundant=False):
             and allowlist == ['nutrition.list_history']
             and resolution.evidence_requirements == ['nutrition_history']):
         query = resolution.resolved_query
-        # Only an unbounded listing. Specific calendar windows, metrics,
-        # comparisons, advice and mixed goals still need semantic execution.
-        excluded = ('建议', '推荐', '评估', '分析', '合理', '够不够', '改善', '比较', '对比',
-                    '平均', '最高', '最低', '最多', '最少', '目标', '趋势',
-                    '昨天', '前天', '上周', '本周', '上月', '本月', '今天', '今日')
-        has_quantity = re.search(r'[0-9一二三四五六七八九十两]+\s*(?:天|周|月|日|条|次|个)', query)
-        if not has_quantity and not any(word in query for word in excluded):
+        # Only recognized unbounded listings. A blacklist cannot prove that
+        # an ISO date, relative period, or meal-specific request has no scope.
+        if _unbounded_nutrition_listing(query):
             return QueryReport('nutrition_history', 'nutrition.list_history', {'days': 30}, query)
     if (resolution.risk_level != 'low' or resolution.clarification_required
             or resolution.request_kind not in {'query', 'assessment'}

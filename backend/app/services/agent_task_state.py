@@ -333,6 +333,40 @@ def normalize_sourced_plan_resets(context, update, changes, message):
     return update.model_copy(update={'requirements': result})
 
 
+def _pure_deferred_gap(gap, quote):
+    # This exception has no saved scalar goals to fall back on. Unknown or
+    # mixed clauses must keep the original unresolved-requirements guard.
+    labels = {
+        "schedule.duration_weeks": "(?:周期|几周)",
+        "schedule.days_per_week": "(?:每周训练天数|每周天数|每周训练几天|每周几天)",
+        "exercise.sets": "(?:组数|几组)",
+        "exercise.reps": "(?:次数|几次)",
+        "exercise.rest_seconds": "(?:休息|休息时间|休息秒数|几秒)",
+        "exercise.recommended_weight_kg": "(?:重量|几公斤|几千克)",
+    }
+    label = labels.get(gap.field_path)
+    if not label or gap.quote != quote:
+        return False
+    target = rf"(?:{re.escape(gap.target_reference)}(?:的)?)?" if gap.target_reference else ""
+    pending = (r"(?:待(?:我)?补(?:充)?|待定|未定|没(?:有)?定|"
+               r"还没(?:确定|决定|定|给|提供|填|补(?:充)?|告诉)|"
+               r"(?:稍后|下一句|之后|以后)(?:我)?(?:再)?(?:补(?:充)?|给|提供|决定|定|告诉)|"
+               r"接着补(?:充)?|再告诉)(?:一下|你)?")
+    return bool(re.fullmatch(
+        rf"(?:请|先|把|将|调整|修改|当前|训练|计划|的|\s)*{target}{label}\s*{pending}\s*[。.!！]?", quote))
+
+
+def _unproposed_requirement_resolved(requirement, task, update, changes, message):
+    if requirement.quote in message:
+        return True
+    from app.services.agent_plan_completeness import fulfills_pending_requirement
+    if not any(_pure_deferred_gap(g, requirement.quote) for g in task.plan_input_gaps):
+        return False
+    return any(edit.key == requirement.key and fulfills_pending_requirement(
+        requirement.quote, edit.quote, task.plan_input_gaps, changes, message)
+        for edit in update.requirements)
+
+
 def preserve_pending_plan_changes(context, update, changes, *, withdrawals=(), message=""):
     """Merge an entire pending draft; withdrawals select fields, not DB rows."""
     if not update or update.action not in {"continue", "resume"}:
@@ -353,7 +387,8 @@ def preserve_pending_plan_changes(context, update, changes, *, withdrawals=(), m
                 and not task.proposal_id and task.requirements
                 and re.search(r"训练计划|当前计划", task.request)
                 and any(c.resource == "workout_plan" for c in changes)
-                and not all(r.quote in message for r in task.requirements)):
+                and not all(_unproposed_requirement_resolved(r, task, update, changes, message)
+                            for r in task.requirements)):
             raise ValueError("task_plan_unresolved_requirements")
         return changes
     if any(change.resource != "workout_plan" or change.operation != "update" or not change.preserve_unspecified for change in changes):

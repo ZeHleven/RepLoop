@@ -49,7 +49,7 @@ def fulfills_pending_requirement(previous_quote, current_quote, gaps, changes, m
     if not linked:
         return False
     targets = {c.target_reference for c in changes if c.target_reference}
-    deferred = {_key(g) for g in _explicit_gaps(message, changes)}
+    deferred = {_key(g) for g in _explicit_gaps(message, changes, gaps)}
     return all(_key(g) not in deferred and any(
         c.resource == 'workout_plan' and c.operation == 'update'
         and c.field_path == g.field_path and c.target_reference == g.target_reference
@@ -63,22 +63,61 @@ def _key(gap):
     return (gap.field_path, gap.target_reference, gap.quote if gap.field_path is None else '')
 
 
-def _explicit_gaps(message, changes):
-    """Finite fallback for explicit deferred input; not universal extraction."""
+def _explicit_gaps(message, changes, known_gaps=()):
+    """Bind deferred fields within their clause, using sourced target names."""
     gaps=[]
+    known_targets={c.target_reference for c in changes
+                   if c.resource=='workout_plan' and c.target_reference}
+    known_targets.update(g.target_reference for g in known_gaps if g.target_reference)
     for sentence in re.split(r'[。；;\n]',message):
-        if not sentence.strip() or not _PENDING.search(sentence):
-            continue
-        fields=[field for pattern,field in _FIELDS if re.search(pattern,sentence)]
-        for field in fields:
-            targets={c.target_reference for c in changes if c.resource=='workout_plan' and c.target_reference and c.target_reference in sentence}
-            target=next(iter(targets)) if len(targets)==1 and field.startswith('exercise.') else None
-            gaps.append(PlanInputGap(field_path=field,target_reference=target,quote=sentence.strip()[:400]))
-        if not fields and _WAIT.search(message):
-            gaps.append(PlanInputGap(field_path=None,quote=sentence.strip()[:400]))
+        active_target=None
+        for clause in re.split(r'[，,]',sentence):
+            mentions={target for target in known_targets if target in clause}
+            # A parameter-only continuation may inherit the previous exercise.
+            # An unfamiliar named exercise must never inherit a different one.
+            continuation=re.match(r'\s*(?:但是|但|不过|而|先|至于)?\s*(?:的)?(?:组数|次数|休息|重量|几组|几次|几秒|几公斤|几千克)',clause)
+            if mentions:
+                active_target=next(iter(mentions)) if len(mentions)==1 else None
+            elif not continuation:
+                active_target=None
+            if not clause.strip() or not _PENDING.search(clause):
+                continue
+            fields=[field for pattern,field in _FIELDS if re.search(pattern,clause)]
+            for field in fields:
+                # A current, verbatim typed gap already supplies this field's
+                # target. Reuse it instead of inventing an unbound duplicate.
+                # Prior quotes and explicitly different named targets cannot
+                # supply that association for the current clause.
+                sourced=[g for g in known_gaps if g.field_path==field
+                         and g.quote in message and _PENDING.search(g.quote)
+                         and (clause.strip() in g.quote or g.quote in clause)
+                         and (not mentions or g.target_reference in mentions
+                              or not field.startswith('exercise.'))]
+                if sourced:
+                    gaps.extend(sourced)
+                    continue
+                targets=mentions or ({active_target} if active_target else {None})
+                if not field.startswith('exercise.'):
+                    targets={None}
+                for target in sorted(targets,key=lambda value:value or ''):
+                    gaps.append(PlanInputGap(field_path=field,target_reference=target,quote=clause.strip()[:400]))
+            if not fields and _WAIT.search(message):
+                gaps.append(PlanInputGap(field_path=None,quote=clause.strip()[:400]))
     if not gaps and _WAIT.search(message) and not _RELEASE.search(message):
         gaps.append(PlanInputGap(field_path=None,quote=message[:400]))
     return gaps
+
+
+def _bind_sourced_gap_target(gap, changes):
+    """Resolve a formerly unknown target only when the old quote names it."""
+    if gap.target_reference is not None or not (gap.field_path or '').startswith('exercise.'):
+        return gap
+    patterns=[pattern for pattern,field in _FIELDS if field==gap.field_path]
+    targets={c.target_reference for c in changes if c.resource=='workout_plan'
+             and c.field_path==gap.field_path and c.target_reference
+             and any(re.search(re.escape(c.target_reference)+r'[^，,。；;\n]{0,16}(?:'+pattern+r')',gap.quote)
+                     for pattern in patterns)}
+    return gap.model_copy(update={'target_reference':next(iter(targets))}) if len(targets)==1 else gap
 
 
 def enforce_plan_completeness(resolution, state, message):
@@ -94,7 +133,9 @@ def enforce_plan_completeness(resolution, state, message):
     for gap in incoming:
         if gap.quote not in message and not any(_key(gap)==_key(old) and gap.quote==old.quote for old in prior):
             raise ValueError('task_plan_gap_not_user_quote')
-    discovered=_explicit_gaps(message,resolution.change_requests)
+    discovered=_explicit_gaps(message,resolution.change_requests,[*prior,*incoming])
+    prior=[_bind_sourced_gap_target(g,resolution.change_requests) for g in prior]
+    incoming=[_bind_sourced_gap_target(g,resolution.change_requests) for g in incoming]
     current={_key(g):g for g in [*prior,*incoming,*discovered]}
     newly_deferred={_key(g) for g in discovered}
     remaining=[]

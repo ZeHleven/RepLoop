@@ -5,7 +5,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 
-from sqlalchemy import exists, or_, select, update, func, and_
+from sqlalchemy import exists, or_, select, update, func
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy.orm import aliased
@@ -15,7 +15,7 @@ from app.database import AsyncSessionLocal
 from app.models.agent import AgentConversation, AgentMessage, AgentRun
 from app.services.agent_runtime import AgentRunOwnershipLost, execute_agent_run
 from app.services.ai_client import AIServiceError
-from app.services.agent_run_order import precedes
+from app.services.agent_run_order import allocate_queue_position, precedes
 
 
 logger = logging.getLogger("uvicorn.error")
@@ -118,23 +118,22 @@ async def enqueue_agent_run(
         db.add(conversation)
         await db.flush()
 
-    # Serialize allocation with the conversation row, including across workers.
-    await db.execute(select(AgentConversation.id).where(
-        AgentConversation.id == conversation.id, AgentConversation.user_id == user_id,
-    ).with_for_update())
-    # Another request may have committed the same key while we waited for the lock.
-    existing = await db.scalar(select(AgentRun).where(
-        AgentRun.user_id == user_id, AgentRun.idempotency_key == client_request_id,
-    ))
-    if existing is not None:
-        await _validate_idempotent_replay(db, run=existing, user_message=user_message,
-            conversation=requested_conversation, artifact_action=artifact_action,
-            clarification_action=clarification_action)
-        await db.commit()
-        return EnqueuedAgentRun(existing, conversation, False)
-    position = (await db.scalar(select(func.max(AgentRun.queue_position)).where(
-        AgentRun.conversation_id == conversation.id, AgentRun.user_id == user_id,
-    )) or 0) + 1
+    position = await allocate_queue_position(
+        db, conversation_id=conversation.id, user_id=user_id,
+    )
+    # A waiter on an existing conversation may now see the winning request.
+    # For a newly created conversation, let the unique-key conflict below roll
+    # back that provisional row before returning the winner's conversation.
+    if requested_conversation is not None:
+        existing = await db.scalar(select(AgentRun).where(
+            AgentRun.user_id == user_id, AgentRun.idempotency_key == client_request_id,
+        ))
+        if existing is not None:
+            await _validate_idempotent_replay(db, run=existing, user_message=user_message,
+                conversation=requested_conversation, artifact_action=artifact_action,
+                clarification_action=clarification_action)
+            await db.commit()
+            return EnqueuedAgentRun(existing, conversation, False)
     run = AgentRun(
         conversation_id=conversation.id,
         user_id=user_id,
