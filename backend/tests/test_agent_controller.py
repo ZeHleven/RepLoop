@@ -506,7 +506,7 @@ async def test_parallel_read_success_runs_concurrently_with_zero_executor():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         history_calls.append(limit)
         return {"count": 1, "sessions": []}
 
@@ -638,7 +638,7 @@ async def test_parallel_read_primary_error_invokes_conditional_fallback():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         calls.append("workout.list_history")
         return {"count": 1, "sessions": [{"id": "session-1"}]}
 
@@ -750,7 +750,7 @@ async def test_parallel_read_conditional_fallback_failure_wakes_executor():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         raise TimeoutError(f"history timeout at limit={limit}")
 
     primary_tools = ["profile.get_summary", "workout.get_progress"]
@@ -2064,7 +2064,7 @@ async def test_plan_fit_fast_path_restores_omitted_evidence_before_execution():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史备用证据",
     )
-    async def history(limit: int = 20, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 20, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         return {"count": 0, "sessions": [], "limit": limit}
 
     allowlist = [
@@ -2160,7 +2160,7 @@ async def test_plan_progress_fast_path_avoids_executor_before_primary_reads():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史备用证据",
     )
-    async def history(limit: int = 20, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 20, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         return {"count": 0, "sessions": [], "limit": limit}
 
     allowlist = [
@@ -2384,7 +2384,7 @@ async def test_bounded_react_uses_fallback_tool_after_error():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         return {"count": 2, "sessions": []}
 
     policy = ScriptedPolicy(
@@ -2558,7 +2558,7 @@ async def test_executor_cannot_upgrade_direct_step_or_repeat_action():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         calls.append(limit)
         return {"count": 1, "sessions": []}
 
@@ -2619,7 +2619,7 @@ async def test_controller_replans_once_and_versions_later_actions():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         return {"count": 3, "sessions": []}
 
     initial_plan = _two_step_plan(
@@ -2698,7 +2698,7 @@ async def test_replanner_deadline_finalizes_with_partial_evidence(monkeypatch):
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         history_calls.append(limit)
         return {"count": 3, "sessions": []}
 
@@ -2844,7 +2844,7 @@ async def test_controller_rejects_a_second_replan_request():
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         return {"count": 2, "sessions": []}
 
     plan = _two_step_plan(
@@ -2928,7 +2928,7 @@ async def test_executor_can_terminate_with_clarification_or_safe_stop(
         args_schema=WorkoutHistoryArguments,
         description="读取训练历史",
     )
-    async def history(limit: int = 5, start_date: str = "", end_date: str = ""):
+    async def history(limit: int = 5, start_date: str = "", end_date: str = "", completed_only: bool = False, statuses: list[str] | None = None):
         return {"count": 2, "sessions": []}
 
     policy = ScriptedPolicy(

@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from datetime import date
 import math
 from typing import Any, Iterable, Protocol
+from app.services.business_clock import business_today
 
 
 class SemanticChange(Protocol):
@@ -308,6 +309,52 @@ def _missing_profile_slots(
     return missing
 
 
+@dataclass(frozen=True)
+class MealItemGap:
+    index: int
+    label: str
+    field: str
+
+
+def _meal_item_gaps(items: list) -> tuple[MealItemGap, ...]:
+    def name_of(item: Any) -> str:
+        if not isinstance(item, dict):
+            return ""
+        name = item.get("food_name") or item.get("food_reference")
+        return name.strip() if isinstance(name, str) else ""
+
+    names = [name_of(item) for item in items]
+    gaps = []
+    for index, item in enumerate(items, 1):
+        value = item if isinstance(item, dict) else {}
+        name = names[index - 1]
+        label = name or f"第{index}项"
+        if name and names.count(name) > 1:
+            label = f"第{index}项（{name}）"
+        if not (str(value.get("food_id") or "").strip() or name):
+            gaps.append(MealItemGap(index, label, "food"))
+        if not _is_number_in_range(value.get("amount_g"), 0.000001, 10000):
+            gaps.append(MealItemGap(index, label, "amount"))
+    return tuple(gaps)
+
+
+def _meal_question(changes: list[SemanticChange], missing: tuple[str, ...]) -> str | None:
+    # Keep the existing slot contract for pending-state consumers, but preserve
+    # item identity when rendering a question. Never display a database ID.
+    if len(changes) != 1 or not set(missing) & {"食品", "每种食品的克数"}:
+        return _question_for(missing)
+    value = changes[0].value
+    items = value.get("items") if isinstance(value, dict) else None
+    if not isinstance(items, list) or not items or len(items) > 30:
+        return _question_for(missing)
+    labels = [slot for slot in missing if slot not in {"食品", "每种食品的克数"}]
+    labels.extend(
+        f"{gap.label}的{'食品名称' if gap.field == 'food' else '克数'}"
+        for gap in _meal_item_gaps(items)
+    )
+    return "请补充" + "、".join(labels) + "。"
+
+
 def _missing_meal_slots(changes: list[SemanticChange], effect: str) -> list[str]:
     if (
         effect == "create"
@@ -346,7 +393,7 @@ def _missing_meal_slots(changes: list[SemanticChange], effect: str) -> list[str]
         valid_date = True
     elif logged_at is not None:
         try:
-            valid_date = date.fromisoformat(str(logged_at)) <= date.today()
+            valid_date = date.fromisoformat(str(logged_at)) <= business_today()
         except ValueError:
             valid_date = False
     if not valid_date:
@@ -357,24 +404,10 @@ def _missing_meal_slots(changes: list[SemanticChange], effect: str) -> list[str]
     if not isinstance(items, list) or not items or len(items) > 30:
         missing.extend(["食品", "每种食品的克数"])
         return missing
-    missing_food = False
-    missing_amount = False
-    for item in items:
-        if not isinstance(item, dict):
-            missing_food = True
-            missing_amount = True
-            continue
-        if not (
-            str(item.get("food_id") or "").strip()
-            or str(item.get("food_name") or item.get("food_reference") or "").strip()
-        ):
-            missing_food = True
-        amount = item.get("amount_g")
-        if not _is_number_in_range(amount, 0.000001, 10000):
-            missing_amount = True
-    if missing_food:
+    gaps = _meal_item_gaps(items)
+    if any(gap.field == "food" for gap in gaps):
         missing.append("食品")
-    if missing_amount:
+    if any(gap.field == "amount" for gap in gaps):
         missing.append("每种食品的克数")
     return missing
 
@@ -415,4 +448,9 @@ def validate_semantic_changes(
     if _has_duplicate_targets(changes):
         missing_values.append("唯一的变更目标和值")
     missing = _dedupe(missing_values)
-    return SemanticChangeValidation(missing, _question_for(missing))
+    question = (
+        _meal_question(changes, missing)
+        if intent_domain == "nutrition" and requested_effect == "create"
+        else _question_for(missing)
+    )
+    return SemanticChangeValidation(missing, question)

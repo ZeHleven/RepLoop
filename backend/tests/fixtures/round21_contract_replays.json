@@ -1,0 +1,735 @@
+{
+  "K01": {
+    "source": "round-21-frozen-task-acceptance\\live-01\\K01.json",
+    "sha256": "0873ab709269be2212bee65218ce0ddcf4154794eb968276ac5f848e92fc1ea0",
+    "message": "周期用六周。前面两个动作的调整全部保留，现在生成完整提案，先不要应用。",
+    "changes": [
+      {
+        "value": 4,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.sets",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": "6",
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.reps",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 85,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.rest_seconds",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 22.5,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.recommended_weight_kg",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 2,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.sets",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      },
+      {
+        "value": "12",
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.reps",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 110,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.rest_seconds",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 30,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.recommended_weight_kg",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 6,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "schedule.duration_weeks",
+        "target_reference": null,
+        "preserve_unspecified": true
+      }
+    ],
+    "state": {
+      "version": 1,
+      "active_task_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+      "tasks": [
+        {
+          "id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+          "request": "修改当前训练计划：卧推4组6次、组间休息85秒、重量22.5公斤；深蹲2组12次、组间休息110秒、重量30公斤。周期尚未确定，等用户补充周期后再给出完整提案。",
+          "requirements": [
+            {
+              "key": "bench_sets",
+              "quote": "卧推4组6次",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_reps",
+              "quote": "卧推4组6次",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_rest_seconds",
+              "quote": "休息85秒",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_weight_kg",
+              "quote": "22.5公斤",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_sets",
+              "quote": "深蹲2组12次",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_reps",
+              "quote": "深蹲2组12次",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_rest_seconds",
+              "quote": "休息110秒",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_weight_kg",
+              "quote": "30公斤",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "periodization",
+              "quote": "周期还没决定，等我补充周期后再给完整提案",
+              "source_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            }
+          ],
+          "phase": "awaiting_input",
+          "last_run_id": "55c8ad79-4eee-4879-b5d8-f79cc713aec8",
+          "artifact_id": null,
+          "proposal_id": null,
+          "proposal_pending": false,
+          "pending_plan_changes": [],
+          "pending_meal": null,
+          "unproposed_plan_changes": [
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "卧推",
+              "value": 4,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "卧推",
+              "value": "6",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "卧推",
+              "value": 85,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.recommended_weight_kg",
+              "target_reference": "卧推",
+              "value": 22.5,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "深蹲",
+              "value": 2,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "深蹲",
+              "value": "12",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "深蹲",
+              "value": 110,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.recommended_weight_kg",
+              "target_reference": "深蹲",
+              "value": 30,
+              "preserve_unspecified": true
+            }
+          ],
+          "plan_input_gaps": [
+            {
+              "field_path": "schedule.duration_weeks",
+              "target_reference": null,
+              "quote": "周期还没决定，等我补充周期后再给完整提案"
+            }
+          ]
+        }
+      ],
+      "transition": "new",
+      "evicted_task_ids": []
+    }
+  },
+  "K02": {
+    "source": "round-21-frozen-task-acceptance\\live-01\\K02.json",
+    "sha256": "a0f66582b5fcd3478dc1bea68321f10467595b3e0888bc10d5682d4e103956dc",
+    "message": "深蹲每组之间休息一分半钟，其余全部按前面，生成提案。",
+    "changes": [
+      {
+        "value": 4,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.sets",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": "8",
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.reps",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 75,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.rest_seconds",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 20,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.recommended_weight_kg",
+        "target_reference": "卧推",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 2,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.sets",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      },
+      {
+        "value": "11",
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.reps",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 32.5,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.recommended_weight_kg",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      },
+      {
+        "value": 90,
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.rest_seconds",
+        "target_reference": "深蹲",
+        "preserve_unspecified": true
+      }
+    ],
+    "state": {
+      "version": 1,
+      "active_task_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+      "tasks": [
+        {
+          "id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+          "request": "修改当前训练计划：卧推改为4组8次、组间休息75秒、重量20公斤；深蹲改为2组11次、重量32.5公斤；深蹲休息时间待用户稍后提供，信息齐全后再生成修改提案。",
+          "requirements": [
+            {
+              "key": "bench_sets",
+              "quote": "卧推改4组8次",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_reps",
+              "quote": "卧推改4组8次",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_rest_seconds",
+              "quote": "休息75秒",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_weight_kg",
+              "quote": "20公斤",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_sets",
+              "quote": "深蹲改2组11次",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_reps",
+              "quote": "深蹲改2组11次",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_weight_kg",
+              "quote": "32.5公斤",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_rest_seconds",
+              "quote": "深蹲休息时间我稍后提供",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "proposal_timing",
+              "quote": "信息齐全后再生成提案",
+              "source_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+              "kind": "workflow",
+              "as_of": "2026-10-01"
+            }
+          ],
+          "phase": "awaiting_input",
+          "last_run_id": "fc68f810-7fe2-454b-b270-4d8405dada08",
+          "artifact_id": null,
+          "proposal_id": null,
+          "proposal_pending": false,
+          "pending_plan_changes": [],
+          "pending_meal": null,
+          "unproposed_plan_changes": [
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "卧推",
+              "value": 4,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "卧推",
+              "value": "8",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "卧推",
+              "value": 75,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.recommended_weight_kg",
+              "target_reference": "卧推",
+              "value": 20,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "深蹲",
+              "value": 2,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "深蹲",
+              "value": "11",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.recommended_weight_kg",
+              "target_reference": "深蹲",
+              "value": 32.5,
+              "preserve_unspecified": true
+            }
+          ],
+          "plan_input_gaps": [
+            {
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "深蹲",
+              "quote": "深蹲休息时间我稍后提供，信息齐全后再生成提案"
+            }
+          ]
+        }
+      ],
+      "transition": "new",
+      "evicted_task_ids": []
+    }
+  },
+  "K04": {
+    "source": "round-21-frozen-task-acceptance\\live-01\\K04.json",
+    "sha256": "9bb8382032c9aba894340a78c39c6854e82a6f5dc19c0f06127cd98a2252bb11",
+    "message": "回到刚才还没生成提案的训练计划，深蹲休息105秒，前面其他目标全部沿用，现在生成完整提案。",
+    "state": {
+      "version": 1,
+      "active_task_id": "f5b16f3c-d3fa-41e1-84d4-0219532dfcc3",
+      "tasks": [
+        {
+          "id": "f5b16f3c-d3fa-41e1-84d4-0219532dfcc3",
+          "request": "查询2026年9月18日至2026年9月19日期间状态为跳过和放弃的训练记录。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "2026年9月18日至19日",
+              "source_run_id": "f5b16f3c-d3fa-41e1-84d4-0219532dfcc3",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "session_status",
+              "quote": "跳过和放弃的训练记录",
+              "source_run_id": "f5b16f3c-d3fa-41e1-84d4-0219532dfcc3",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            }
+          ],
+          "phase": "responded",
+          "last_run_id": "f5b16f3c-d3fa-41e1-84d4-0219532dfcc3",
+          "artifact_id": null,
+          "proposal_id": null,
+          "proposal_pending": false,
+          "pending_plan_changes": [],
+          "pending_meal": null,
+          "unproposed_plan_changes": [],
+          "plan_input_gaps": []
+        },
+        {
+          "id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+          "request": "调整当前训练计划：卧推4组9次、组间休息90秒、重量20公斤；深蹲2组14次、重量30公斤。深蹲的休息时间尚未确定，待用户补齐后再生成修改提案。",
+          "requirements": [
+            {
+              "key": "bench_sets",
+              "quote": "卧推4组9次",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_reps",
+              "quote": "卧推4组9次",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_rest",
+              "quote": "休息90秒",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "bench_weight",
+              "quote": "20公斤",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_sets",
+              "quote": "深蹲2组14次",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_reps",
+              "quote": "深蹲2组14次",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_weight",
+              "quote": "30公斤",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            },
+            {
+              "key": "squat_rest_pending",
+              "quote": "深蹲休息还没决定，等我补齐再出提案。",
+              "source_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+              "kind": "goal",
+              "as_of": "2026-10-01"
+            }
+          ],
+          "phase": "awaiting_input",
+          "last_run_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+          "artifact_id": null,
+          "proposal_id": null,
+          "proposal_pending": false,
+          "pending_plan_changes": [],
+          "pending_meal": null,
+          "unproposed_plan_changes": [
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "卧推",
+              "value": 4,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "卧推",
+              "value": "9",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "卧推",
+              "value": 90,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.recommended_weight_kg",
+              "target_reference": "卧推",
+              "value": 20,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "深蹲",
+              "value": 2,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "深蹲",
+              "value": "14",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.recommended_weight_kg",
+              "target_reference": "深蹲",
+              "value": 30,
+              "preserve_unspecified": true
+            }
+          ],
+          "plan_input_gaps": [
+            {
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "深蹲",
+              "quote": "深蹲休息还没决定，等我补齐再出提案"
+            }
+          ]
+        }
+      ],
+      "transition": "new",
+      "evicted_task_ids": []
+    },
+    "update": {
+      "action": "resume",
+      "task_id": "8557f334-a4ae-40b4-8d21-3b09ead25626",
+      "trigger": "回到刚才还没生成提案的训练计划，深蹲休息105秒，前面其他目标全部沿用，现在生成完整提案。",
+      "requirements": [
+        {
+          "key": "squat_rest",
+          "quote": "深蹲休息105秒",
+          "remove": false
+        },
+        {
+          "key": "squat_rest_pending",
+          "quote": "深蹲休息105秒",
+          "remove": true
+        }
+      ]
+    },
+    "changes": [
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.sets",
+        "target_reference": "卧推",
+        "value": 4,
+        "preserve_unspecified": true
+      },
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.reps",
+        "target_reference": "卧推",
+        "value": "9",
+        "preserve_unspecified": true
+      },
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.rest_seconds",
+        "target_reference": "卧推",
+        "value": 90,
+        "preserve_unspecified": true
+      },
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.recommended_weight_kg",
+        "target_reference": "卧推",
+        "value": 20,
+        "preserve_unspecified": true
+      },
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.sets",
+        "target_reference": "深蹲",
+        "value": 2,
+        "preserve_unspecified": true
+      },
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.reps",
+        "target_reference": "深蹲",
+        "value": "14",
+        "preserve_unspecified": true
+      },
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.rest_seconds",
+        "target_reference": "深蹲",
+        "value": 105,
+        "preserve_unspecified": true
+      },
+      {
+        "resource": "workout_plan",
+        "operation": "update",
+        "field_path": "exercise.recommended_weight_kg",
+        "target_reference": "深蹲",
+        "value": 30,
+        "preserve_unspecified": true
+      }
+    ]
+  },
+  "K09": {
+    "source": "round-21-frozen-task-acceptance\\live-01\\K09.json",
+    "sha256": "06f07353c90b6ffe634b6b111bec1cde7acb0269f03b625b4a207a49bc1a9cc2",
+    "message": "查2026年9月14日至26日训练记录，跳过、放弃都不算，其他状态保留。",
+    "resolved_query": "查询2026年9月14日至2026年9月26日的训练记录，排除状态为跳过和放弃的场次，保留其他状态（含已完成、进行中、提前结束）。"
+  },
+  "K10": {
+    "source": "round-21-frozen-task-acceptance\\live-01\\K10.json",
+    "sha256": "7640ebb8176202d7b3ca8289ef82abd197160a1916eac28221d1386a658133f3",
+    "message": "把进行中也去掉，只查放弃，日期仍旧。",
+    "resolved_query": "查询2026年9月14日至2026年9月26日期间状态为放弃的训练记录。"
+  },
+  "K11": {
+    "source": "round-21-frozen-task-acceptance\\live-01\\K11.json",
+    "sha256": "d891e1461a6d55a240ce5b862acb0aa6441817e8ec00065940fb37eace83c7b0",
+    "message": "现在只看放弃，其他状态全部排除，还是原日期。",
+    "resolved_query": "查询2026年9月15日至2026年9月26日期间状态为放弃的训练场次，排除跳过、提前结束、已完成、进行中等其他状态。"
+  }
+}

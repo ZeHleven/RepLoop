@@ -1006,10 +1006,14 @@ def _routed_evidence_is_covered(
     results: list[_ToolInvocationResult],
     *,
     global_allowlist: set[str],
+    required_tool_ids: list[str] | None = None,
 ) -> bool:
     """Treat a resolved primary/fallback group as one routed evidence source."""
     if not global_allowlist:
         return False
+    if required_tool_ids is not None:
+        successful = {item.tool_id for item in results if item.status == "success"}
+        return set(required_tool_ids).issubset(global_allowlist & successful)
 
     result_by_tool = {item.tool_id: item for item in results}
     grouped_tool_ids: set[str] = set()
@@ -1495,6 +1499,8 @@ async def execute_planned_agent(
             routed_coverage_satisfied = _routed_evidence_is_covered(
                 results,
                 global_allowlist=global_allowlist,
+                required_tool_ids=(initial_trace.evidence_contract.required_tools
+                                   if initial_trace.evidence_contract else None),
             )
 
             if parallel_actions_resolved:

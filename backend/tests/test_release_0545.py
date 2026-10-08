@@ -9,14 +9,24 @@ ROOT = Path(__file__).resolve().parents[2]
 
 def test_backend_and_miniapp_versions_match():
     package = json.loads((ROOT / 'miniapp/package.json').read_text(encoding='utf-8'))
-    assert app.version == package['version'] == '0.5.45'
+    assert app.version == package['version'] == '0.5.46'
 
 
-def test_backend_packaging_requires_catalogues_and_migrations():
+def test_backend_packaging_requires_catalogues_migrations_and_agent_runtime():
     script = (ROOT / 'scripts/package_cloudbase_backend.ps1').read_text(encoding='utf-8')
-    assert '[string]$Version = "0.5.45"' in script
+    assert '[string]$Version = "0.5.46"' in script
     requirements = script.split('$required = @(', 1)[1].split('\n)', 1)[0]
     for relative in (
+        'alembic/versions/0032_agent_queue_position.py',
+        'app/schemas/agent_task.py',
+        'app/services/agent_evidence_contract.py',
+        'app/services/agent_plan_completeness.py',
+        'app/services/agent_plan_quantities.py',
+        'app/services/agent_run_order.py',
+        'app/services/agent_task_state.py',
+        'app/services/business_clock.py',
+        'app/services/history_status_scope.py',
+        'app/services/structured_schema.py',
         'alembic/versions/0031_expand_food_library.py',
         'app/data/food_catalog_v1.json',
         'app/data/FOOD-DATA-NOTICES.md',

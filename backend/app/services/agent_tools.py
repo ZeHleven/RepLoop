@@ -9,6 +9,8 @@ from langchain.tools import tool
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
+from app.services.business_clock import business_today, day_end
+from app.services.history_status_scope import HistoryStatus, effective_history_statuses
 
 from app.models.food import Food
 from app.models.profile import UserProfile, WeightLog
@@ -17,6 +19,7 @@ from app.services.food import query_nutrition_database
 from app.services.nutrition_queries import (
     build_daily_nutrition_summary,
     list_nutrition_history,
+    nutrition_history_scope,
 )
 from app.services.workout_queries import (
     build_plan_detail,
@@ -41,11 +44,19 @@ class WorkoutHistoryArguments(BaseModel):
     limit: int = Field(default=5, ge=1, le=20)
     start_date: str = Field(default='', description='可选日历区间开始日期YYYY-MM-DD，须与end_date同时提供；空串表示最近N次。')
     end_date: str = Field(default='', description='可选日历区间结束日期YYYY-MM-DD，包含该日，最多366天。')
+    completed_only: bool = Field(default=False, description='仅用于日历区间；为true时仅统计completed，不含提前结束或进行中场次。')
+
+    statuses: list[HistoryStatus] = Field(default=[], description='日历区间的明确状态集合；空数组沿用completed_only或默认已完成/提前结束。不得传用户身份。')
 
     @model_validator(mode='after')
     def validate_range(self):
+        effective_history_statuses(self.statuses, completed_only=self.completed_only)
+        if self.statuses and not self.start_date:
+            raise ValueError('statuses requires a calendar range')
         if bool(self.start_date) != bool(self.end_date):
             raise ValueError('start_date and end_date must be supplied together')
+        if self.completed_only and not self.start_date:
+            raise ValueError('completed_only requires a calendar range')
         if self.start_date:
             start, end = date.fromisoformat(self.start_date), date.fromisoformat(self.end_date)
             if start.isoformat() != self.start_date or end.isoformat() != self.end_date or not 0 <= (end-start).days < 366:
@@ -272,7 +283,7 @@ def build_read_tools(
         scheduled_days = sorted({item.day_of_week for item in detail.exercises})
         if not scheduled_days:
             return {"found": False, "reason": "active_plan_has_no_exercises"}
-        today_weekday = date.today().isoweekday()
+        today_weekday = business_today().isoweekday()
         candidates = [day for day in scheduled_days if day >= today_weekday]
         next_day = candidates[0] if candidates else scheduled_days[0]
         days_until = (next_day - today_weekday) % 7
@@ -310,19 +321,22 @@ def build_read_tools(
         description=(
             "按时间倒序读取当前登录用户近期训练场次详情，limit 为 1 到 20。仅用于具体历史"
             "记录；按日历区间查记录须成对指定start_date/end_date，先筛日期再限制条数，返回总数与截断标记。"
+            "日期区间可以用statuses选择completed/in_progress/ended_early/skipped/abandoned的组合；须保留用户筛选条件。"
             "趋势汇总应使用 workout_get_progress。示例：‘列出最近 5 次训练。’"
         ),
     )
-    async def workout_list_history(limit: int = 5, start_date: str = '', end_date: str = '') -> dict[str, Any]:
-        bounds = WorkoutHistoryArguments(limit=limit, start_date=start_date, end_date=end_date)
+    async def workout_list_history(limit: int = 5, start_date: str = '', end_date: str = '', completed_only: bool = False, statuses: list[HistoryStatus] | None = None) -> dict[str, Any]:
+        bounds = WorkoutHistoryArguments(limit=limit, start_date=start_date, end_date=end_date, completed_only=completed_only, statuses=statuses or [])
         metadata = {}
         if bounds.start_date:
             from app.services.workout_reporting import report_today
             today = report_today()
             sessions, total = await list_user_workout_sessions_in_range(db, user_id=user_id,
-                start=date.fromisoformat(start_date), end=min(date.fromisoformat(end_date), today), limit=limit)
+                start=date.fromisoformat(start_date), end=min(date.fromisoformat(end_date), today), limit=limit,
+                completed_only=completed_only, statuses=bounds.statuses)
             metadata = dict(range_start=start_date, range_end=end_date, as_of=today.isoformat(),
                 timezone='Asia/Shanghai', total_count=total, truncated=total > len(sessions))
+            metadata['status_filter'] = list(effective_history_statuses(bounds.statuses, completed_only=completed_only))
         else:
             sessions = await list_user_workout_sessions(db, user_id=user_id, limit=limit)
         details = [await build_session_detail(db, item) for item in sessions]
@@ -371,7 +385,7 @@ def build_read_tools(
             exercises = [
                 item.model_dump(mode="json")
                 for item in detail.exercises
-                if item.day_of_week == date.today().isoweekday()
+                if item.day_of_week == business_today().isoweekday()
             ]
             plan_data = {
                 "id": detail.id,
@@ -379,7 +393,7 @@ def build_read_tools(
                 "days_per_week": detail.days_per_week,
             }
         return {
-            "date": date.today().isoformat(),
+            "date": business_today().isoformat(),
             "is_training_day": bool(exercises),
             "plan": plan_data,
             "exercises": exercises,
@@ -397,12 +411,14 @@ def build_read_tools(
     async def weight_list_history(limit: int = 30) -> dict[str, Any]:
         rows = list((await db.execute(
             select(WeightLog)
-            .where(WeightLog.user_id == user_id)
+            .where(WeightLog.user_id == user_id, WeightLog.recorded_at < day_end(business_today()))
             .order_by(WeightLog.recorded_at.desc())
             .limit(limit)
         )).scalars().all())
         return {
             "count": len(rows),
+            "scope": {"as_of": business_today().isoformat(), "timezone": "Asia/Shanghai",
+                      "selection": "latest_records", "requested_limit": limit},
             "records": [{
                 "id": item.id,
                 "weight_kg": item.weight_kg,
@@ -417,7 +433,7 @@ def build_read_tools(
     )
     async def nutrition_get_today() -> dict[str, Any]:
         summary = await build_daily_nutrition_summary(
-            db, user_id=user_id, target_date=date.today()
+            db, user_id=user_id, target_date=business_today()
         )
         return {
             **summary.model_dump(mode="json"),
@@ -430,9 +446,12 @@ def build_read_tools(
         description="读取当前登录用户最近有记录的饮食日期及营养汇总，days 为 1 到 30。",
     )
     async def nutrition_list_history(days: int = 30) -> dict[str, Any]:
-        summaries = await list_nutrition_history(db, user_id=user_id, days=days)
+        summaries = await list_nutrition_history(
+            db, user_id=user_id, days=days, as_of=business_today()
+        )
         return {
             "count": len(summaries),
+            "scope": nutrition_history_scope(summaries, as_of=business_today(), limit=days),
             "days": [item.model_dump(mode="json") for item in summaries],
         }
 
@@ -446,11 +465,14 @@ def build_read_tools(
     )
     async def nutrition_get_recent_context() -> dict[str, Any]:
         today = await build_daily_nutrition_summary(
-            db, user_id=user_id, target_date=date.today()
+            db, user_id=user_id, target_date=business_today()
         )
-        history = await list_nutrition_history(db, user_id=user_id, days=14)
+        history = await list_nutrition_history(
+            db, user_id=user_id, days=14, as_of=business_today()
+        )
         return {
             "today": today.model_dump(mode="json"),
+            "scope": nutrition_history_scope(history, as_of=business_today(), limit=14),
             "recent_days": [item.model_dump(mode="json") for item in history],
         }
 

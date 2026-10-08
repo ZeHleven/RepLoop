@@ -69,10 +69,30 @@ jobs:
 
       - name: Run backend tests
         working-directory: backend
-        run: python -m pytest -q --tb=short
+        run: python -m pytest -q --tb=short --ignore=evals/tests/test_agent_tasks.py --ignore=evals/tests/test_multiturn_tasks.py --ignore=evals/tests/test_revision_tasks.py
 
       - name: Run deterministic Agent evaluation
         run: python backend/scripts/evaluate_agent_intents.py --mode rules --strict
+
+      - name: Run complete synthetic Agent tasks
+        run: python backend/scripts/evaluate_agent_tasks.py --split all --output artifacts/agent-task-evaluation
+
+      - name: Run multi-turn task completion checks
+        run: python backend/scripts/evaluate_multiturn_tasks.py --output artifacts/agent-multiturn-evaluation
+
+      - name: Run proposal revision completion checks
+        run: python backend/scripts/evaluate_revision_tasks.py --output artifacts/agent-revision-evaluation
+
+      - name: Preserve Agent task results and failure inbox
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-task-evaluation
+          path: |
+            artifacts/agent-task-evaluation
+            artifacts/agent-multiturn-evaluation
+            artifacts/agent-revision-evaluation
+          if-no-files-found: warn
 
       - name: Build Python 3.13 backend container
         run: >-

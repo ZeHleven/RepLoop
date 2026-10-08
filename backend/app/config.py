@@ -45,7 +45,7 @@ class Settings(BaseSettings):
     AGENT_INTENT_ROUTE_TIMEOUT_SECONDS: float = Field(
         default=14.0, ge=1.0, le=30.0
     )
-    AGENT_INTENT_ROUTE_MAX_TOKENS: int = Field(default=500, ge=128, le=1200)
+    AGENT_INTENT_ROUTE_MAX_TOKENS: int = Field(default=1000, ge=128, le=1600)
     DAILY_MEAL_OPTIMIZER_TIMEOUT_SECONDS: float = Field(
         default=3.0, ge=0.1, le=10.0
     )

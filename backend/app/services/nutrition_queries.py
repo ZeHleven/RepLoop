@@ -58,10 +58,14 @@ async def list_nutrition_history(
     *,
     user_id: str,
     days: int = 30,
+    as_of: date | None = None,
 ) -> list[DailySummary]:
+    filters = [MealLog.user_id == user_id]
+    if as_of is not None:
+        filters.append(MealLog.logged_at <= as_of)
     logged_dates = list((await db.execute(
         select(MealLog.logged_at)
-        .where(MealLog.user_id == user_id)
+        .where(*filters)
         .distinct()
         .order_by(MealLog.logged_at.desc())
         .limit(days)
@@ -74,3 +78,14 @@ async def list_nutrition_history(
         )
         for logged_at in logged_dates
     ]
+
+
+def nutrition_history_scope(summaries: list[DailySummary], *, as_of: date, limit: int) -> dict:
+    """A count of recorded dates is not a continuous calendar-day window."""
+    return {
+        "as_of": as_of.isoformat(), "timezone": "Asia/Shanghai",
+        "selection": "latest_logged_dates", "requested_limit": limit,
+        "returned_dates": len(summaries),
+        "first_logged_date": min((item.date.isoformat() for item in summaries), default=None),
+        "last_logged_date": max((item.date.isoformat() for item in summaries), default=None),
+    }

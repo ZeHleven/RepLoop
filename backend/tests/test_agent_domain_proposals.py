@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from app.services.business_clock import business_today
+
 from contextlib import nullcontext
 from datetime import date
 from unittest.mock import AsyncMock, patch
@@ -326,7 +328,7 @@ async def test_food_library_meal_proposal_recalculates_server_nutrition(db_sessi
             operation="create",
             field_path="meal",
             value={
-                "logged_at": date.today().isoformat(),
+                "logged_at": business_today().isoformat(),
                 "meal_type": "午餐",
                 "items": [{
                     "food_id": food.id,
@@ -384,7 +386,7 @@ async def test_meal_proposal_requires_explicit_meal_type(db_session):
                 operation="create",
                 field_path="meal",
                 value={
-                    "logged_at": date.today().isoformat(),
+                    "logged_at": business_today().isoformat(),
                     "items": [{"food_id": food.id, "amount_g": 150}],
                 },
             )],
@@ -423,7 +425,7 @@ async def test_changed_food_data_stales_meal_proposal_without_writing(db_session
             operation="create",
             field_path="meal",
             value={
-                "logged_at": date.today().isoformat(),
+                "logged_at": business_today().isoformat(),
                 "meal_type": "早餐",
                 "items": [{"food_id": food.id, "amount_g": 100}],
             },
@@ -489,7 +491,7 @@ async def test_chat_creates_and_confirms_one_meal_proposal_once(
             operation="create",
             field_path="meal",
             value={
-                "logged_at": date.today().isoformat(),
+                "logged_at": business_today().isoformat(),
                 "meal_type": "晚餐",
                 "items": [
                     {"food_name": "鸡胸肉", "amount_g": 150},
@@ -598,7 +600,7 @@ async def test_chat_natural_language_rejects_meal_proposal_without_writing(
             operation="create",
             field_path="meal",
             value={
-                "logged_at": date.today().isoformat(),
+                "logged_at": business_today().isoformat(),
                 "meal_type": "晚餐",
                 "items": [{"food_id": food.id, "amount_g": 150}],
             },
@@ -643,7 +645,7 @@ async def test_chat_complete_meal_write_reports_disabled_feature_without_draft(
             operation="create",
             field_path="meal",
             value={
-                "logged_at": date.today().isoformat(),
+                "logged_at": business_today().isoformat(),
                 "meal_type": "晚餐",
                 "items": [{
                     "food_name": "未收录测试食品",
@@ -848,7 +850,7 @@ async def test_chat_partial_meal_structure_is_filled_by_model_across_turns(
         )
 
     assert first.status_code == 200
-    assert first.json()["reply"] == "请补充每种食品的克数。"
+    assert first.json()["reply"] == "请补充多轮鸡胸肉的克数。"
     assert "proposal" not in first.json()
     assert second.status_code == 200
     assert second.json()["proposal"]["proposal_type"] == "meal_log_create_v1"

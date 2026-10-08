@@ -2,6 +2,7 @@ import uuid
 from datetime import datetime, timezone
 
 from sqlalchemy import (
+    BigInteger,
     Boolean,
     CheckConstraint,
     DateTime,
@@ -51,6 +52,8 @@ class AgentConversation(Base):
 class AgentRun(Base):
     __tablename__ = "agent_runs"
     __table_args__ = (
+        UniqueConstraint('conversation_id', 'queue_position', name='uq_agent_run_conversation_position'),
+        CheckConstraint('queue_position IS NULL OR queue_position > 0', name='ck_agent_run_queue_position'),
         UniqueConstraint(
             "user_id",
             "idempotency_key",
@@ -111,6 +114,7 @@ class AgentRun(Base):
     queued_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now()
     )
+    queue_position: Mapped[int | None] = mapped_column(BigInteger, nullable=True)
     processing_started_at: Mapped[datetime | None] = mapped_column(
         DateTime(timezone=True), nullable=True
     )
