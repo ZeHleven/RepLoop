@@ -176,6 +176,9 @@ class IntentRouteDecision(BaseModel):
             "create", "update", "delete"
         }:
             raise ValueError("mutation requires create/update/delete")
+        if (self.intent_domain == "health" and self.request_kind == "mutation"
+                and self.requested_effect != "update"):
+            raise ValueError("health mutation requires update of existing profile fields")
         if self.request_kind in {"mutation", "proposal_decision"}:
             self.read_targets = []
         return self
@@ -267,7 +270,9 @@ INTENT_ROUTE_SYSTEM_PROMPT = f"""你只负责 Fitness Agent 的业务语义路�
 
 先判断领域，再判断动作：query=查事实或提供建议，assessment=依据事实评估，generation=仅生成全天饮食方案，mutation=明确要求创建/记录/保存/修改/删除业务数据，proposal_decision=确认或拒绝已经出现“待你确认”卡片的 Proposal。读取类 effect=read，写入为 create/update/delete，决策为 decide。训练建议、修改尚未保存的文字建议不是 generation 或 mutation，应使用 query/assessment/read/answer；“把建议的时长改为30分钟”承接仅建议任务时仍不写入。
 
-“制定、安排、规划今天全天怎么吃”这类要求生成全天、多餐饮食方案的请求是 generation，不是写入；全天饮食方案必须是 nutrition/generation/read/daily_meal_plan。普通知识、单餐建议或一般推荐只需要文字回答，应使用 query/read/answer，包括“给我一个晚餐建议”“只提供建议，不要保存”这类明确不持久化的请求。只有明确要求记录、保存或写入数据才是 mutation。把已经展示的全天饮食方案保存成待确认提案，必须是 nutrition/mutation/create/answer、artifact_action=save_as_proposal、decision_action=none；它不是 Proposal 确认。只有确认或拒绝已经存在的待确认 Proposal 时，才使用 proposal_decision 和 decision_action=confirm/reject。其他请求 artifact_action 和 decision_action 都必须为 none；领域不明时用 general。
+“制定、安排、规划今天全天怎么吃”这类要求生成全天、多餐饮食方案的请求是 generation，不是写入；全天饮食方案必须是 nutrition/generation/read/daily_meal_plan。普通知识、单餐建议或一般推荐只需要文字回答，应使用 query/read/answer，例如“给我一个晚餐建议，只提供建议，不要保存”。“仅建议/不要记录/不要保存”只限制持久化，不改变方案范围：明确要求全天、多餐或三餐方案时仍为generation/read/daily_meal_plan；不能仅因不保存而改成query。只有明确要求记录、保存或写入数据才是 mutation。把已经展示的全天饮食方案保存成待确认提案，必须是 nutrition/mutation/create/answer、artifact_action=save_as_proposal、decision_action=none；它不是 Proposal 确认。只有确认或拒绝已经存在的待确认 Proposal 时，才使用 proposal_decision 和 decision_action=confirm/reject。其他请求 artifact_action 和 decision_action 都必须为 none；领域不明时用 general。
+
+健康档案只支持更新现有字段：明确记录、补充或修改伤病史/慢性病信息均为health/mutation/update，不能create独立健康记录或delete档案；没有写入指令的健康陈述仍为query/read。新增体重记录仍属于profile/mutation/create。
 
 read_targets 只描述回答任务必须读取的事实类型，不得输出工具名；领域和读取目标是正交字段，例如 profile 领域的体重趋势使用 weight_history。全天饮食方案的固定六类证据由服务端补齐，因此这里返回空数组。normalized_request 可补全指代，但不得猜测事实。胸痛、呼吸困难、晕厥、失去意识或严重急性疼痛为 high。上下文仅用于承接，不得覆盖最后一条消息。
 
@@ -298,7 +303,7 @@ INTENT_CHANGE_SYSTEM_PROMPT = r"""餐食中的food_name必须保留用户原名�
 - 为已有计划创建提案不等于create计划。现有动作的sets/reps/rest_seconds/recommended_weight_kg始终operation=update，新增动作才是create/exercise.add。
 - 计划：schedule.duration_weeks、schedule.days_per_week、exercise.sets、exercise.reps、exercise.rest_seconds、exercise.recommended_weight_kg、exercise.add、exercise.delete、exercise.exercise_id、exercise.day_of_week。动作目标写入 target_reference；如果用户用训练日限定重复动作，必须保留限定，例如“周二的卧推”，不能缩写成“卧推”。组数、休息秒数和训练日使用 JSON 整数，建议重量使用 JSON 数值；exercise.reps 必须使用 JSON 字符串，即使单次目标也写成 value_json="\"8\""，范围写成 value_json="\"8-12\""。
 - 档案：profile.age、profile.gender、profile.height_cm、profile.weight_kg、profile.experience_level、profile.primary_goal、profile.training_days_per_week、profile.session_duration_min、profile.training_location、profile.diet_restriction。
-- 健康：health.injuries、health.chronic_conditions，value 是用户明确要求保存的完整列表。
+- 健康：health.injuries、health.chronic_conditions，value 是用户明确要求保存的完整列表。健康信息写入现有档案，operation始终update；记录或补充内容不代表create独立健康记录。
 - 体重：create/weight_log.weight_kg。
 - 饮食新增：create/meal，value={logged_at,meal_type,items}；item 只含 food_name 或 food_id 以及 amount_g。g 保持数值，kg 换算为克，绝不生成营养值。
 - 饮食删除：delete/meal，target_reference 是记录 ID 或用户明确指出的餐次。
