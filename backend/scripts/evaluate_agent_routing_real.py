@@ -66,7 +66,7 @@ CASES = (
     RouteCase("nutrition.generation.4", "请根据我的档案、体重和训练安排制定今天全天饮食", "nutrition", "generation", "read", "daily_meal_plan"),
     RouteCase("nutrition.generation.5", "今天是训练日，帮我推荐一整天每餐怎么吃", "nutrition", "generation", "read", "daily_meal_plan"),
     RouteCase("nutrition.generation.no_save", "参考我最近训练和体重的变化，给我今天三餐建议，不要记录", "nutrition", "generation", "read", "daily_meal_plan"),
-    RouteCase("nutrition.single_meal.no_save", "给我一个晚餐建议，只提供建议，不要保存", "nutrition", "query", "read"),
+    RouteCase("nutrition.single_meal.no_save", "晚饭怎么搭配比较合适？仅给建议，别保存成记录。", "nutrition", "query", "read"),
     RouteCase("decision.confirm", "确认提交这份提案", "general", "proposal_decision", "decide", decision="confirm"),
     RouteCase("decision.reject", "拒绝刚才的方案", "general", "proposal_decision", "decide", decision="reject"),
     RouteCase("general.read", "力量训练后为什么会酸痛", "general", "query", "read"),
