@@ -12,6 +12,18 @@ def normalize_food_reference(value: str) -> str:
     return " ".join(normalized.split())
 
 
+def normalized_food_name(column):
+    """Normalize stored names for comparison without changing catalog values.
+
+    PostgreSQL's UTF8 NFKC support avoids normalizing only the request. Use the
+    whitespace set recognized by Python str.split, rather than a locale-based
+    SQL whitespace class, so tabs and Unicode separators compare consistently.
+    """
+    whitespace = "[\t-\r\x1c-\x20\x85\xa0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000]+"
+    value = func.lower(func.normalize(column, sa.literal_column("NFKC")))
+    return func.btrim(func.regexp_replace(value, whitespace, " ", "g"), type_=sa.Text())
+
+
 async def resolve_food_reference(
     db: AsyncSession,
     *,
@@ -35,7 +47,7 @@ async def resolve_food_reference(
             select(Food)
             .where(
                 Food.is_active.is_(True),
-                func.lower(func.trim(name_column)) == normalized,
+                normalized_food_name(name_column) == normalized,
             )
             .order_by(Food.id)
             .limit(2)
@@ -77,8 +89,8 @@ async def query_nutrition_database(
         normalized = normalize_food_reference(query)
         if normalized:
             stmt = stmt.where(
-                Food.name_zh.ilike(f"%{normalized}%")
-                | Food.name_en.ilike(f"%{normalized}%")
+                normalized_food_name(Food.name_zh).like(f"%{normalized}%")
+                | normalized_food_name(Food.name_en).like(f"%{normalized}%")
                 | sa.exists(
                     select(FoodAlias.id).where(
                         FoodAlias.food_id == Food.id,
