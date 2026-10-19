@@ -1,0 +1,134 @@
+{
+  "task": "trial-before-clarification-local-fix-2b",
+  "status": "local_complete_waiting_user_authorized_real_acceptance",
+  "source_files": 539,
+  "changed_application_files": [
+    "backend/app/services/agent_action_consistency.py"
+  ],
+  "change_scope": "Remove premature return and bind existing trial/execution permissions to existing unconfirmed movement sources. No new recognition patterns.",
+  "related": {
+    "passed": 37,
+    "failed": 0
+  },
+  "core_smoke": {
+    "passed": 4,
+    "failed": 0
+  },
+  "holdout_boundary_replay": {
+    "HO04-r1": "pass",
+    "HO06-r1": "pass",
+    "repair_model": "scripted",
+    "business_rescored": false
+  },
+  "real_baseline": {
+    "source": "guard-fallback-acceptance",
+    "dev": "27/30",
+    "holdout": "5/10",
+    "clinical_main_errors": 0,
+    "equipment_grip_fabrications": 0,
+    "consecutive": "0/2"
+  },
+  "paid_requests": 0,
+  "batch_cost_cny": 0,
+  "cumulative_estimated_cny": 14.90320804,
+  "authorization_pool_cny": 60,
+  "test_database_stopped": true,
+  "attempts": [
+    {
+      "folder": "before-1792374439033",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "status": {
+        "code": 1,
+        "signal": null,
+        "container": "trial-clarification-2b-before-1792374439033",
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 1,
+          "Error": "",
+          "StartedAt": "2026-10-19T01:47:19.9360378Z",
+          "FinishedAt": "2026-10-19T01:47:21.775038109Z"
+        }
+      }
+    },
+    {
+      "folder": "holdout-1792374436457",
+      "tests": 2,
+      "failures": 1,
+      "errors": 0,
+      "status": {
+        "code": 1,
+        "signal": null,
+        "container": "trial-clarification-2b-holdout-1792374436457",
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 1,
+          "Error": "",
+          "StartedAt": "2026-10-19T01:47:17.228355391Z",
+          "FinishedAt": "2026-10-19T01:47:23.806844519Z"
+        }
+      }
+    },
+    {
+      "folder": "holdout-1792374537864",
+      "tests": 2,
+      "failures": 0,
+      "errors": 0,
+      "status": {
+        "code": 0,
+        "signal": null,
+        "container": "trial-clarification-2b-holdout-1792374537864",
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-19T01:48:57.89593762Z",
+          "FinishedAt": "2026-10-19T01:49:03.77322793Z"
+        }
+      }
+    },
+    {
+      "folder": "verify-1792374484919",
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "status": {
+        "code": 0,
+        "signal": null,
+        "container": "trial-clarification-2b-verify-1792374484919",
+        "state": {
+          "Status": "exited",
+          "Running": false,
+          "Paused": false,
+          "Restarting": false,
+          "OOMKilled": false,
+          "Dead": false,
+          "Pid": 0,
+          "ExitCode": 0,
+          "Error": "",
+          "StartedAt": "2026-10-19T01:48:05.183701623Z",
+          "FinishedAt": "2026-10-19T01:48:44.617014289Z"
+        }
+      }
+    }
+  ]
+}

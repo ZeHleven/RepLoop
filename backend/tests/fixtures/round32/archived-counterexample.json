@@ -1,0 +1,336 @@
+{
+  "source": "round-31-frozen-benchmark-attempt-3/runs/G1-r2.json",
+  "draft": {
+    "meals": [
+      {
+        "meal_type": "早餐",
+        "items": [
+          {
+            "food_id": "r31-oats",
+            "amount_g": 70
+          },
+          {
+            "food_id": "r31-egg",
+            "amount_g": 100
+          },
+          {
+            "food_id": "r31-broccoli",
+            "amount_g": 100
+          }
+        ]
+      },
+      {
+        "meal_type": "午餐",
+        "items": [
+          {
+            "food_id": "r31-rice",
+            "amount_g": 250
+          },
+          {
+            "food_id": "r31-chicken",
+            "amount_g": 130
+          },
+          {
+            "food_id": "r31-broccoli",
+            "amount_g": 150
+          },
+          {
+            "food_id": "r31-oil",
+            "amount_g": 10
+          }
+        ]
+      },
+      {
+        "meal_type": "晚餐",
+        "items": [
+          {
+            "food_id": "r31-rice",
+            "amount_g": 220
+          },
+          {
+            "food_id": "r31-tofu",
+            "amount_g": 150
+          },
+          {
+            "food_id": "r31-lentils",
+            "amount_g": 120
+          },
+          {
+            "food_id": "r31-broccoli",
+            "amount_g": 150
+          },
+          {
+            "food_id": "r31-oil",
+            "amount_g": 10
+          }
+        ]
+      }
+    ],
+    "rationale": [
+      "非训练日按维持热量区间设计，三餐主餐覆盖早中晚，不额外增加加餐。",
+      "蛋白质来源分散在鸡蛋、鸡胸、豆腐与扁豆，兼顾动物与植物蛋白，便于落入蛋白质目标区间。",
+      "主食以燕麦与米饭为主，脂肪仅用少量橄榄油与鸡蛋自带脂肪，使碳水与脂肪供能比落在目标范围。",
+      "蔬菜每餐搭配西兰花，增加饱腹感与微量营养素，同时不显著抬高热量。",
+      "所有份量均为建议值，服务端会在安全边界内做确定性微调以贴合热量与供能比例目标。"
+    ]
+  },
+  "final": [
+    {
+      "items": [
+        {
+          "fat_g": 32.9,
+          "carbs_g": 310.2,
+          "food_id": "r31-oats",
+          "amount_g": 470,
+          "calories": 1786,
+          "food_name": "燕麦",
+          "protein_g": 61.1
+        },
+        {
+          "fat_g": 8.5,
+          "carbs_g": 1.9,
+          "food_id": "r31-egg",
+          "amount_g": 95,
+          "calories": 136.8,
+          "food_name": "鸡蛋",
+          "protein_g": 12.3
+        },
+        {
+          "fat_g": 0,
+          "carbs_g": 0.3,
+          "food_id": "r31-broccoli",
+          "amount_g": 5,
+          "calories": 1.7,
+          "food_name": "西兰花",
+          "protein_g": 0.1
+        }
+      ],
+      "totals": {
+        "fat_g": 41.4,
+        "carbs_g": 312.4,
+        "calories": 1924.5,
+        "protein_g": 73.5
+      },
+      "meal_type": "早餐"
+    },
+    {
+      "items": [
+        {
+          "fat_g": 0.1,
+          "carbs_g": 2.8,
+          "food_id": "r31-rice",
+          "amount_g": 10,
+          "calories": 13,
+          "food_name": "米饭",
+          "protein_g": 0.3
+        },
+        {
+          "fat_g": 1.8,
+          "carbs_g": 0,
+          "food_id": "r31-chicken",
+          "amount_g": 50,
+          "calories": 82.5,
+          "food_name": "鸡胸",
+          "protein_g": 15.5
+        },
+        {
+          "fat_g": 0,
+          "carbs_g": 0.7,
+          "food_id": "r31-broccoli",
+          "amount_g": 10,
+          "calories": 3.4,
+          "food_name": "西兰花",
+          "protein_g": 0.3
+        },
+        {
+          "fat_g": 13,
+          "carbs_g": 0,
+          "food_id": "r31-oil",
+          "amount_g": 13,
+          "calories": 117,
+          "food_name": "橄榄油",
+          "protein_g": 0
+        }
+      ],
+      "totals": {
+        "fat_g": 14.9,
+        "carbs_g": 3.5,
+        "calories": 215.9,
+        "protein_g": 16.1
+      },
+      "meal_type": "午餐"
+    },
+    {
+      "items": [
+        {
+          "fat_g": 0.1,
+          "carbs_g": 1.4,
+          "food_id": "r31-rice",
+          "amount_g": 5,
+          "calories": 6.5,
+          "food_name": "米饭",
+          "protein_g": 0.2
+        },
+        {
+          "fat_g": 0.3,
+          "carbs_g": 0.2,
+          "food_id": "r31-tofu",
+          "amount_g": 5,
+          "calories": 5.5,
+          "food_name": "豆腐",
+          "protein_g": 0.6
+        },
+        {
+          "fat_g": 0,
+          "carbs_g": 1,
+          "food_id": "r31-lentils",
+          "amount_g": 5,
+          "calories": 5.8,
+          "food_name": "熟扁豆",
+          "protein_g": 0.5
+        },
+        {
+          "fat_g": 0,
+          "carbs_g": 0.3,
+          "food_id": "r31-broccoli",
+          "amount_g": 5,
+          "calories": 1.7,
+          "food_name": "西兰花",
+          "protein_g": 0.1
+        },
+        {
+          "fat_g": 13,
+          "carbs_g": 0,
+          "food_id": "r31-oil",
+          "amount_g": 13,
+          "calories": 117,
+          "food_name": "橄榄油",
+          "protein_g": 0
+        }
+      ],
+      "totals": {
+        "fat_g": 13.4,
+        "carbs_g": 2.9,
+        "calories": 136.5,
+        "protein_g": 1.4
+      },
+      "meal_type": "晚餐"
+    }
+  ],
+  "foods": [
+    {
+      "id": "rice",
+      "name": "米饭",
+      "category": "grain",
+      "calories": 130,
+      "protein_g": 3,
+      "carbs_g": 28,
+      "fat_g": 1,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "chicken",
+      "name": "鸡胸",
+      "category": "protein",
+      "calories": 165,
+      "protein_g": 31,
+      "carbs_g": 0,
+      "fat_g": 3.6,
+      "diet_tags": []
+    },
+    {
+      "id": "oil",
+      "name": "橄榄油",
+      "category": "oil",
+      "calories": 900,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 100,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "tofu",
+      "name": "豆腐",
+      "category": "protein",
+      "calories": 110,
+      "protein_g": 12,
+      "carbs_g": 3,
+      "fat_g": 6,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "oats",
+      "name": "燕麦",
+      "category": "grain",
+      "calories": 380,
+      "protein_g": 13,
+      "carbs_g": 66,
+      "fat_g": 7,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "lentils",
+      "name": "熟扁豆",
+      "category": "protein",
+      "calories": 116,
+      "protein_g": 9,
+      "carbs_g": 20,
+      "fat_g": 0.4,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "broccoli",
+      "name": "西兰花",
+      "category": "vegetable",
+      "calories": 34,
+      "protein_g": 2.8,
+      "carbs_g": 6.6,
+      "fat_g": 0.4,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "egg",
+      "name": "鸡蛋",
+      "category": "protein",
+      "calories": 144,
+      "protein_g": 13,
+      "carbs_g": 2,
+      "fat_g": 9,
+      "diet_tags": [
+        "vegetarian"
+      ]
+    }
+  ],
+  "targets": {
+    "calories_kcal": {
+      "min": 2085,
+      "max": 2469
+    },
+    "protein_g": {
+      "min": 78,
+      "max": 104
+    },
+    "fat_energy_percent": {
+      "min": 20,
+      "max": 35
+    },
+    "carb_energy_percent": {
+      "min": 45,
+      "max": 65
+    },
+    "weight_kg": 65,
+    "training_day": false
+  }
+}

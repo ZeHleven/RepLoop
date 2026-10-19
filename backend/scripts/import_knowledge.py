@@ -15,6 +15,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from app.config import settings
+from app.database_url import normalize_async_database_url
 from app.services.knowledge import add_knowledge_chunk
 
 
@@ -31,7 +32,9 @@ async def main(file_path: str, topic: str, source: str):
         print("No content found.")
         return
 
-    engine = create_async_engine(settings.DATABASE_URL, echo=False)
+    engine = create_async_engine(
+        normalize_async_database_url(settings.DATABASE_URL), echo=False
+    )
     session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
     async with session_factory() as session:

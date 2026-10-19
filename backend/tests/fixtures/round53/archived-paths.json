@@ -1,0 +1,2106 @@
+{
+  "provenance": "R52 synthetic route decisions, tool data, final reply and trace; no model reasoning; raw_content is the exact retained HTTP tool message string, preserving Python numeric serialization",
+  "rows": [
+    {
+      "id": "DX01-r1",
+      "message": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+      "source": "round-52-read-comparison-scope/runs/DX01-r1.json",
+      "sha256": "f833b5cf0d4e73e9167129c62739d48c07f9846cc2d15cf77a06510b1ce1e753",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2177,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2285,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "tools": [],
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "核对2026-10-08（昨天）全天已记录的食物饮料营养摄入，与每日目标蛋白质100克、碳水80克、脂肪20克的差额；只做核对，不提供食物建议。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "昨天全天的食物饮料已记全",
+                "remove": false
+              },
+              {
+                "key": "protein_target",
+                "quote": "蛋白质100克",
+                "remove": false
+              },
+              {
+                "key": "carb_target",
+                "quote": "碳水80克",
+                "remove": false
+              },
+              {
+                "key": "fat_target",
+                "quote": "脂肪20克",
+                "remove": false
+              },
+              {
+                "key": "no_food_advice",
+                "quote": "不要给食物建议",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "核对2026-10-08全天已记录的食物饮料营养摄入，与每日目标蛋白质100克、碳水80克、脂肪20克的差额，只做核对，不提供食物建议。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "昨天全天的食物饮料已记全",
+                "remove": false
+              },
+              {
+                "key": "protein_goal",
+                "quote": "我的每日目标是蛋白质100克、碳水80克、脂肪20克",
+                "remove": false
+              },
+              {
+                "key": "carb_goal",
+                "quote": "我的每日目标是蛋白质100克、碳水80克、脂肪20克",
+                "remove": false
+              },
+              {
+                "key": "fat_goal",
+                "quote": "我的每日目标是蛋白质100克、碳水80克、脂肪20克",
+                "remove": false
+              },
+              {
+                "key": "no_food_advice",
+                "quote": "不要给食物建议",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "DX01-r2",
+      "message": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+      "source": "round-52-read-comparison-scope/runs/DX01-r2.json",
+      "sha256": "78b60a8b7800278d325c84d05ee5f691960a942faedbe347961d11aec7ad18a5",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2218,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2167,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "tools": [],
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "核对2026-10-08全天已记录的食物饮料摄入与每日目标（蛋白质100克、碳水80克、脂肪20克）之间的差额，只做核对，不提供食物建议。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "昨天全天的食物饮料已记全",
+                "remove": false
+              },
+              {
+                "key": "protein_target",
+                "quote": "蛋白质100克",
+                "remove": false
+              },
+              {
+                "key": "carb_target",
+                "quote": "碳水80克",
+                "remove": false
+              },
+              {
+                "key": "fat_target",
+                "quote": "脂肪20克",
+                "remove": false
+              },
+              {
+                "key": "no_food_advice",
+                "quote": "不要给食物建议",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "核对2026-10-08（昨天）全天已记录的食物饮料营养摄入，与每日目标蛋白质100克、碳水80克、脂肪20克之间的差额；只做核对，不提供食物建议。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "昨天全天的食物饮料已记全",
+                "remove": false
+              },
+              {
+                "key": "protein_target",
+                "quote": "蛋白质100克",
+                "remove": false
+              },
+              {
+                "key": "carb_target",
+                "quote": "碳水80克",
+                "remove": false
+              },
+              {
+                "key": "fat_target",
+                "quote": "脂肪20克",
+                "remove": false
+              },
+              {
+                "key": "no_food_advice",
+                "quote": "不要给食物建议",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "CW02-r1",
+      "message": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+      "source": "round-52-read-comparison-scope/runs/CW02-r1.json",
+      "sha256": "9e8bb370ee1e5feaef6bf470c842a53f7ac65368fad387e378fb8618a13a44c9",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2448,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2110,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "tools": [],
+      "routes": [
+        {
+          "intent_domain": "workout_history",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan",
+            "workout_history",
+            "workout_daily_context"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查看2026-10-05（周一）至2026-10-09（今天）的训练情况：分别核对当前训练计划中显示的完成训练日数量与实际训练记录，说明两者差别，不推断训练强度。",
+          "risk_level": "low",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "看看本周到今天的训练情况",
+                "remove": false
+              },
+              {
+                "key": "compare_plan_vs_records",
+                "quote": "请分别核对计划和实际记录，说明差别",
+                "remove": false
+              },
+              {
+                "key": "no_intensity_inference",
+                "quote": "不推断强度",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "workout_history",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "workout_history",
+            "active_plan",
+            "workout_daily_context"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查看2026-10-05至2026-10-09（本周一到今天）的训练情况：分别核对当前训练计划中显示的完成训练日数量与实际训练记录，说明两者差别，不推断训练强度。",
+          "risk_level": "low",
+          "confidence": 0.9,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "看看本周到今天的训练情况",
+                "remove": false
+              },
+              {
+                "key": "compare_plan_vs_records",
+                "quote": "请分别核对计划和实际记录，说明差别",
+                "remove": false
+              },
+              {
+                "key": "no_intensity_inference",
+                "quote": "不推断强度",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "CW02-r2",
+      "message": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+      "source": "round-52-read-comparison-scope/runs/CW02-r2.json",
+      "sha256": "dd239ced0ca141720a7ce2cfb3d91059fd94a0567ccf7198144c4893ba80da71",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2077,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2199,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "tools": [],
+      "routes": [
+        {
+          "intent_domain": "workout_history",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan",
+            "workout_history",
+            "workout_daily_context"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查看 2026-10-05（周一）至 2026-10-09（今天）的训练情况：分别核对当前训练计划中显示的完成训练日数量与实际训练记录，说明两者差别，不推断训练强度。",
+          "risk_level": "low",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "看看本周到今天的训练情况",
+                "remove": false
+              },
+              {
+                "key": "compare_plan_vs_records",
+                "quote": "请分别核对计划和实际记录，说明差别",
+                "remove": false
+              },
+              {
+                "key": "no_intensity_inference",
+                "quote": "不推断强度",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "workout_history",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "workout_history",
+            "active_plan"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查看2026-10-05（周一）至2026-10-09（今天）的训练情况，分别核对当前训练计划中显示的完成训练日数与实际训练记录，说明两者差别，不推断训练强度。",
+          "risk_level": "low",
+          "confidence": 0.9,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "看看本周到今天的训练情况。当前计划显示完成训练日为0，这是否就表示没有训练记录？请分别核对计划和实际记录，说明差别，不推断强度。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "看看本周到今天的训练情况",
+                "remove": false
+              },
+              {
+                "key": "compare_plan_vs_records",
+                "quote": "请分别核对计划和实际记录，说明差别",
+                "remove": false
+              },
+              {
+                "key": "no_intensity_inference",
+                "quote": "不推断强度",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "CW01-r1",
+      "message": "请核对本周截至今天的训练记录与当前计划：已完成几次训练，对应多少个计划训练日？分别说明统计日期和口径，不要把两项混在一起。",
+      "source": "round-52-read-comparison-scope/runs/CW01-r1.json",
+      "sha256": "ce6056ededaccd2be930fe8aa0bc8ef6dae5d4d4e7e3761e4977ad9cdf976e56",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数，并统计对应的计划训练日数量；分别说明统计日期范围和口径，两项分开说明，不要混在一起。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "workout.list_history",
+            "workout.get_progress",
+            "plan.get_active"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数，并统计对应的计划训练日数量；分别说明统计日期范围和口径，两项分开说明，不要混在一起。",
+              "depends_on": [],
+              "candidate_tools": [
+                "workout.list_history",
+                "workout.get_progress",
+                "plan.get_active"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "inferred"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [
+          {
+            "sequence": 1,
+            "action_type": "call_tool",
+            "call_id": "call_00_0IbFVCE09f1DSengkTVm1371",
+            "batch_id": null,
+            "step_id": null,
+            "plan_version": 1,
+            "tool_id": "workout.list_history",
+            "arguments": {
+              "end_date": "2026-10-09",
+              "statuses": [
+                "completed",
+                "in_progress",
+                "ended_early",
+                "skipped",
+                "abandoned"
+              ],
+              "start_date": "2026-10-05"
+            },
+            "status": "completed"
+          },
+          {
+            "sequence": 2,
+            "action_type": "call_tool",
+            "call_id": "call_01_g9EhJX0Es8Iu41TjJdv31198",
+            "batch_id": null,
+            "step_id": null,
+            "plan_version": 1,
+            "tool_id": "plan.get_active",
+            "arguments": {},
+            "status": "completed"
+          }
+        ],
+        "observations": [
+          {
+            "sequence": 3,
+            "action_sequence": 1,
+            "call_id": "call_00_0IbFVCE09f1DSengkTVm1371",
+            "batch_id": null,
+            "tool_id": "workout.list_history",
+            "status": "success",
+            "summary": {
+              "count": 2
+            },
+            "result_fingerprint": "722808cde27d3d0183c521ecb87051be5ba4bf5f935de60dba9a6cb7f688856c",
+            "fact_keys": [
+              "workout.list_history.count"
+            ]
+          },
+          {
+            "sequence": 4,
+            "action_sequence": 2,
+            "call_id": "call_01_g9EhJX0Es8Iu41TjJdv31198",
+            "batch_id": null,
+            "tool_id": "plan.get_active",
+            "status": "success",
+            "summary": {
+              "found": true,
+              "plan_id": "f544fd9f-9252-495e-bafe-a215b42ae078",
+              "exercise_count": 2
+            },
+            "result_fingerprint": "745b5872106e8e28099f7f050890cbf2d2b9102146716393cca6c2788947eb4c",
+            "fact_keys": [
+              "plan.get_active.found",
+              "plan.get_active.plan_id",
+              "plan.get_active.exercise_count"
+            ]
+          }
+        ],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2501,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 836,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 3812,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "required_evidence_missing",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 2,
+          "tool_calls": 2,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "workout.list_history",
+            "workout.get_progress",
+            "plan.get_active"
+          ],
+          "missing_tools": [
+            "workout.get_progress"
+          ],
+          "status": "partial",
+          "reason": "observations_missing"
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "facbe57e-2667-4e14-926b-31b1be6ce4e5",
+          "tasks": [
+            {
+              "id": "facbe57e-2667-4e14-926b-31b1be6ce4e5",
+              "request": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数，并统计对应的计划训练日数量；分别说明统计日期范围和口径，两项分开说明，不要混在一起。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "本周截至今天",
+                  "source_run_id": "facbe57e-2667-4e14-926b-31b1be6ce4e5",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "metric_completed_sessions",
+                  "quote": "已完成几次训练",
+                  "source_run_id": "facbe57e-2667-4e14-926b-31b1be6ce4e5",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "metric_plan_days",
+                  "quote": "对应多少个计划训练日",
+                  "source_run_id": "facbe57e-2667-4e14-926b-31b1be6ce4e5",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "output_separate",
+                  "quote": "分别说明统计日期和口径，不要把两项混在一起",
+                  "source_run_id": "facbe57e-2667-4e14-926b-31b1be6ce4e5",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "responded",
+              "last_run_id": "facbe57e-2667-4e14-926b-31b1be6ce4e5",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次还没有完整取得训练进度，暂时无法可靠完成这项查询或评估。请稍后重试缺少的部分。",
+      "tools": [
+        {
+          "instance": "CW01-r1",
+          "turn": 0,
+          "attempt_id": "b4e98cb7bf1441179c63af9c6bac9c9c",
+          "tool": "workout.list_history",
+          "arguments": {
+            "name": "workout_list_history",
+            "args": {
+              "start_date": "2026-10-05",
+              "end_date": "2026-10-09",
+              "statuses": [
+                "completed",
+                "in_progress",
+                "ended_early",
+                "skipped",
+                "abandoned"
+              ]
+            },
+            "id": "call_00_0IbFVCE09f1DSengkTVm1371",
+            "type": "tool_call"
+          },
+          "status": "success",
+          "lifecycle_complete": true,
+          "started_wall": 1791873423.086817,
+          "result": {
+            "range_start": "2026-10-05",
+            "range_end": "2026-10-09",
+            "as_of": "2026-10-09",
+            "timezone": "Asia/Shanghai",
+            "total_count": 2,
+            "truncated": false,
+            "status_filter": [
+              "completed",
+              "in_progress",
+              "ended_early",
+              "skipped",
+              "abandoned"
+            ],
+            "count": 2,
+            "sessions": [
+              {
+                "id": "f94e54dd-7a84-4990-9986-5b71f1c0e73b",
+                "user_id": "synthetic-r46-37807a4d09c84c46a171d91b357c7cb7",
+                "plan_id": "f544fd9f-9252-495e-bafe-a215b42ae078",
+                "day_of_week": null,
+                "status": "completed",
+                "trained_at": "2026-10-07",
+                "duration_min": null,
+                "notes": null,
+                "started_at": "2026-10-07T08:00:00Z",
+                "completed_at": "2026-10-07T09:00:00Z",
+                "created_at": "2026-10-13T06:36:58.958026Z",
+                "energy_classification_version": 0,
+                "plan_name": "第31轮合成计划",
+                "orphaned": false,
+                "total_sets": 0,
+                "total_reps": 0,
+                "total_volume_kg": 0,
+                "exercises": [],
+                "feedback": null,
+                "adjustments": [],
+                "adaptive_adjustment_status": "not_needed",
+                "adaptive_adjustment_proposal": null
+              },
+              {
+                "id": "c2c9404c-cbc2-45cc-b805-2ccb0500cd69",
+                "user_id": "synthetic-r46-37807a4d09c84c46a171d91b357c7cb7",
+                "plan_id": "f544fd9f-9252-495e-bafe-a215b42ae078",
+                "day_of_week": 1,
+                "status": "completed",
+                "trained_at": "2026-10-05",
+                "duration_min": null,
+                "notes": null,
+                "started_at": "2026-10-05T08:00:00Z",
+                "completed_at": "2026-10-05T09:00:00Z",
+                "created_at": "2026-10-13T06:36:58.958026Z",
+                "energy_classification_version": 0,
+                "plan_name": "第31轮合成计划",
+                "orphaned": false,
+                "total_sets": 0,
+                "total_reps": 0,
+                "total_volume_kg": 0,
+                "exercises": [],
+                "feedback": null,
+                "adjustments": [],
+                "adaptive_adjustment_status": "not_needed",
+                "adaptive_adjustment_proposal": null
+              }
+            ]
+          },
+          "tool_message": {
+            "content": "{\"range_start\": \"2026-10-05\", \"range_end\": \"2026-10-09\", \"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"total_count\": 2, \"truncated\": false, \"status_filter\": [\"completed\", \"in_progress\", \"ended_early\", \"skipped\", \"abandoned\"], \"count\": 2, \"sessions\": [{\"id\": \"f94e54dd-7a84-4990-9986-5b71f1c0e73b\", \"user_id\": \"synthetic-r46-37807a4d09c84c46a171d91b357c7cb7\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"day_of_week\": null, \"status\": \"completed\", \"trained_at\": \"2026-10-07\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-07T08:00:00Z\", \"completed_at\": \"2026-10-07T09:00:00Z\", \"created_at\": \"2026-10-13T06:36:58.958026Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}, {\"id\": \"c2c9404c-cbc2-45cc-b805-2ccb0500cd69\", \"user_id\": \"synthetic-r46-37807a4d09c84c46a171d91b357c7cb7\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"day_of_week\": 1, \"status\": \"completed\", \"trained_at\": \"2026-10-05\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-05T08:00:00Z\", \"completed_at\": \"2026-10-05T09:00:00Z\", \"created_at\": \"2026-10-13T06:36:58.958026Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}]}",
+            "additional_kwargs": {},
+            "response_metadata": {},
+            "type": "tool",
+            "name": "workout_list_history",
+            "id": null,
+            "tool_call_id": "call_00_0IbFVCE09f1DSengkTVm1371",
+            "artifact": null,
+            "status": "success"
+          },
+          "finished_wall": 1791873423.1240127,
+          "elapsed_ms": 37.195,
+          "raw_content": "{\"range_start\": \"2026-10-05\", \"range_end\": \"2026-10-09\", \"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"total_count\": 2, \"truncated\": false, \"status_filter\": [\"completed\", \"in_progress\", \"ended_early\", \"skipped\", \"abandoned\"], \"count\": 2, \"sessions\": [{\"id\": \"f94e54dd-7a84-4990-9986-5b71f1c0e73b\", \"user_id\": \"synthetic-r46-37807a4d09c84c46a171d91b357c7cb7\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"day_of_week\": null, \"status\": \"completed\", \"trained_at\": \"2026-10-07\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-07T08:00:00Z\", \"completed_at\": \"2026-10-07T09:00:00Z\", \"created_at\": \"2026-10-13T06:36:58.958026Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}, {\"id\": \"c2c9404c-cbc2-45cc-b805-2ccb0500cd69\", \"user_id\": \"synthetic-r46-37807a4d09c84c46a171d91b357c7cb7\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"day_of_week\": 1, \"status\": \"completed\", \"trained_at\": \"2026-10-05\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-05T08:00:00Z\", \"completed_at\": \"2026-10-05T09:00:00Z\", \"created_at\": \"2026-10-13T06:36:58.958026Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}]}"
+        },
+        {
+          "instance": "CW01-r1",
+          "turn": 0,
+          "attempt_id": "99ec2905228c49d180cde31c3d0191a5",
+          "tool": "plan.get_active",
+          "arguments": {
+            "name": "plan_get_active",
+            "args": {},
+            "id": "call_01_g9EhJX0Es8Iu41TjJdv31198",
+            "type": "tool_call"
+          },
+          "status": "success",
+          "lifecycle_complete": true,
+          "started_wall": 1791873423.1002188,
+          "result": {
+            "found": true,
+            "plan": {
+              "id": "f544fd9f-9252-495e-bafe-a215b42ae078",
+              "user_id": "synthetic-r46-37807a4d09c84c46a171d91b357c7cb7",
+              "name": "第31轮合成计划",
+              "goal": "保持体重",
+              "duration_weeks": 4,
+              "days_per_week": 2,
+              "is_active": true,
+              "ai_generated": false,
+              "notes": null,
+              "created_at": "2026-10-13T06:36:58.958026Z",
+              "safety_status": "compatible",
+              "safety_reasons": [],
+              "manual_proposals_enabled": false,
+              "display_name": "第31轮合成计划",
+              "week_start": "2026-10-05",
+              "weekly_completed_days": 1,
+              "weekly_sessions": [
+                {
+                  "day_of_week": 1,
+                  "session_id": "c2c9404c-cbc2-45cc-b805-2ccb0500cd69",
+                  "status": "completed"
+                }
+              ],
+              "exercises": [
+                {
+                  "id": "0b9d2679-5f62-4a95-90a2-360cf40a66ac",
+                  "plan_id": "f544fd9f-9252-495e-bafe-a215b42ae078",
+                  "exercise_id": "r31-ex-0",
+                  "exercise_name": "卧推",
+                  "safety_notice": null,
+                  "day_of_week": 1,
+                  "sets": 3,
+                  "reps": "10",
+                  "rest_seconds": 90,
+                  "recommended_weight_kg": 20,
+                  "order_index": 0
+                },
+                {
+                  "id": "c2e5e0b1-9ba5-40b4-a758-f03c085eb4ab",
+                  "plan_id": "f544fd9f-9252-495e-bafe-a215b42ae078",
+                  "exercise_id": "r31-ex-1",
+                  "exercise_name": "深蹲",
+                  "safety_notice": null,
+                  "day_of_week": 7,
+                  "sets": 3,
+                  "reps": "10",
+                  "rest_seconds": 90,
+                  "recommended_weight_kg": 30,
+                  "order_index": 1
+                }
+              ]
+            },
+            "scope": {
+              "as_of": "2026-10-09",
+              "timezone": "Asia/Shanghai",
+              "week_start": "2026-10-05",
+              "completed_days_basis": "current_plan_continuity_and_scheduled_weekday",
+              "history_session_count_is_distinct": true,
+              "note": "weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。"
+            }
+          },
+          "tool_message": {
+            "content": "{\"found\": true, \"plan\": {\"id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"user_id\": \"synthetic-r46-37807a4d09c84c46a171d91b357c7cb7\", \"name\": \"第31轮合成计划\", \"goal\": \"保持体重\", \"duration_weeks\": 4, \"days_per_week\": 2, \"is_active\": true, \"ai_generated\": false, \"notes\": null, \"created_at\": \"2026-10-13T06:36:58.958026Z\", \"safety_status\": \"compatible\", \"safety_reasons\": [], \"manual_proposals_enabled\": false, \"display_name\": \"第31轮合成计划\", \"week_start\": \"2026-10-05\", \"weekly_completed_days\": 1, \"weekly_sessions\": [{\"day_of_week\": 1, \"session_id\": \"c2c9404c-cbc2-45cc-b805-2ccb0500cd69\", \"status\": \"completed\"}], \"exercises\": [{\"id\": \"0b9d2679-5f62-4a95-90a2-360cf40a66ac\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"exercise_id\": \"r31-ex-0\", \"exercise_name\": \"卧推\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 20.0, \"order_index\": 0}, {\"id\": \"c2e5e0b1-9ba5-40b4-a758-f03c085eb4ab\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"exercise_id\": \"r31-ex-1\", \"exercise_name\": \"深蹲\", \"safety_notice\": null, \"day_of_week\": 7, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 30.0, \"order_index\": 1}]}, \"scope\": {\"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"week_start\": \"2026-10-05\", \"completed_days_basis\": \"current_plan_continuity_and_scheduled_weekday\", \"history_session_count_is_distinct\": true, \"note\": \"weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。\"}}",
+            "additional_kwargs": {},
+            "response_metadata": {},
+            "type": "tool",
+            "name": "plan_get_active",
+            "id": null,
+            "tool_call_id": "call_01_g9EhJX0Es8Iu41TjJdv31198",
+            "artifact": null,
+            "status": "success"
+          },
+          "finished_wall": 1791873423.156561,
+          "elapsed_ms": 56.34,
+          "raw_content": "{\"found\": true, \"plan\": {\"id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"user_id\": \"synthetic-r46-37807a4d09c84c46a171d91b357c7cb7\", \"name\": \"第31轮合成计划\", \"goal\": \"保持体重\", \"duration_weeks\": 4, \"days_per_week\": 2, \"is_active\": true, \"ai_generated\": false, \"notes\": null, \"created_at\": \"2026-10-13T06:36:58.958026Z\", \"safety_status\": \"compatible\", \"safety_reasons\": [], \"manual_proposals_enabled\": false, \"display_name\": \"第31轮合成计划\", \"week_start\": \"2026-10-05\", \"weekly_completed_days\": 1, \"weekly_sessions\": [{\"day_of_week\": 1, \"session_id\": \"c2c9404c-cbc2-45cc-b805-2ccb0500cd69\", \"status\": \"completed\"}], \"exercises\": [{\"id\": \"0b9d2679-5f62-4a95-90a2-360cf40a66ac\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"exercise_id\": \"r31-ex-0\", \"exercise_name\": \"卧推\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 20.0, \"order_index\": 0}, {\"id\": \"c2e5e0b1-9ba5-40b4-a758-f03c085eb4ab\", \"plan_id\": \"f544fd9f-9252-495e-bafe-a215b42ae078\", \"exercise_id\": \"r31-ex-1\", \"exercise_name\": \"深蹲\", \"safety_notice\": null, \"day_of_week\": 7, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 30.0, \"order_index\": 1}]}, \"scope\": {\"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"week_start\": \"2026-10-05\", \"completed_days_basis\": \"current_plan_continuity_and_scheduled_weekday\", \"history_session_count_is_distinct\": true, \"note\": \"weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。\"}}"
+        }
+      ],
+      "routes": [
+        {
+          "intent_domain": "workout_progress",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "workout_history",
+            "workout_progress",
+            "active_plan"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数，并统计对应的计划训练日数量；分别说明统计日期范围和口径，两项分开说明，不要混在一起。",
+          "risk_level": "low",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "请核对本周截至今天的训练记录与当前计划：已完成几次训练，对应多少个计划训练日？分别说明统计日期和口径，不要把两项混在一起。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "本周截至今天",
+                "remove": false
+              },
+              {
+                "key": "metric_completed_sessions",
+                "quote": "已完成几次训练",
+                "remove": false
+              },
+              {
+                "key": "metric_plan_days",
+                "quote": "对应多少个计划训练日",
+                "remove": false
+              },
+              {
+                "key": "output_separate",
+                "quote": "分别说明统计日期和口径，不要把两项混在一起",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "CW01-r2",
+      "message": "请核对本周截至今天的训练记录与当前计划：已完成几次训练，对应多少个计划训练日？分别说明统计日期和口径，不要把两项混在一起。",
+      "source": "round-52-read-comparison-scope/runs/CW01-r2.json",
+      "sha256": "a9045e78a314a8e0ddc1e89711dc0d786bbf32a583f95205eb6340812d0cd8aa",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数（按训练场次口径），并统计对应的计划训练日数量（按计划口径），分别说明统计日期范围与口径，不要混为一谈。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "workout.list_history",
+            "workout.get_progress",
+            "plan.get_active"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数（按训练场次口径），并统计对应的计划训练日数量（按计划口径），分别说明统计日期范围与口径，不要混为一谈。",
+              "depends_on": [],
+              "candidate_tools": [
+                "workout.list_history",
+                "workout.get_progress",
+                "plan.get_active"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "inferred"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [
+          {
+            "sequence": 1,
+            "action_type": "call_tool",
+            "call_id": "call_00_3qNiH4FfpGxY3px8gcny2674",
+            "batch_id": null,
+            "step_id": null,
+            "plan_version": 1,
+            "tool_id": "workout.list_history",
+            "arguments": {
+              "end_date": "2026-10-09",
+              "statuses": [
+                "completed",
+                "in_progress",
+                "ended_early",
+                "skipped",
+                "abandoned"
+              ],
+              "start_date": "2026-10-05"
+            },
+            "status": "completed"
+          },
+          {
+            "sequence": 2,
+            "action_type": "call_tool",
+            "call_id": "call_01_KR3ddnganIdqPjXG99A54205",
+            "batch_id": null,
+            "step_id": null,
+            "plan_version": 1,
+            "tool_id": "plan.get_active",
+            "arguments": {},
+            "status": "completed"
+          }
+        ],
+        "observations": [
+          {
+            "sequence": 3,
+            "action_sequence": 1,
+            "call_id": "call_00_3qNiH4FfpGxY3px8gcny2674",
+            "batch_id": null,
+            "tool_id": "workout.list_history",
+            "status": "success",
+            "summary": {
+              "count": 2
+            },
+            "result_fingerprint": "c1543a10efc8c7f7ede462ba283b7435fcaa9d330feb97874b3ba91e32292275",
+            "fact_keys": [
+              "workout.list_history.count"
+            ]
+          },
+          {
+            "sequence": 4,
+            "action_sequence": 2,
+            "call_id": "call_01_KR3ddnganIdqPjXG99A54205",
+            "batch_id": null,
+            "tool_id": "plan.get_active",
+            "status": "success",
+            "summary": {
+              "found": true,
+              "plan_id": "a36ec333-f5d9-4116-a00c-bacc62207b4a",
+              "exercise_count": 2
+            },
+            "result_fingerprint": "9c2396f2cbae53a8b122643a5f47454efff20c590eedca3721abd98c3abb1cca",
+            "fact_keys": [
+              "plan.get_active.found",
+              "plan.get_active.plan_id",
+              "plan.get_active.exercise_count"
+            ]
+          }
+        ],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2374,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 846,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 3367,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "required_evidence_missing",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 2,
+          "tool_calls": 2,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "workout.list_history",
+            "workout.get_progress",
+            "plan.get_active"
+          ],
+          "missing_tools": [
+            "workout.get_progress"
+          ],
+          "status": "partial",
+          "reason": "observations_missing"
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "25af2db0-7e7c-455a-9d0b-8a201f84d47c",
+          "tasks": [
+            {
+              "id": "25af2db0-7e7c-455a-9d0b-8a201f84d47c",
+              "request": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数（按训练场次口径），并统计对应的计划训练日数量（按计划口径），分别说明统计日期范围与口径，不要混为一谈。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "本周截至今天",
+                  "source_run_id": "25af2db0-7e7c-455a-9d0b-8a201f84d47c",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "metric_completed_sessions",
+                  "quote": "已完成几次训练",
+                  "source_run_id": "25af2db0-7e7c-455a-9d0b-8a201f84d47c",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "metric_plan_days",
+                  "quote": "对应多少个计划训练日",
+                  "source_run_id": "25af2db0-7e7c-455a-9d0b-8a201f84d47c",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "separate_caliber",
+                  "quote": "分别说明统计日期和口径，不要把两项混在一起",
+                  "source_run_id": "25af2db0-7e7c-455a-9d0b-8a201f84d47c",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "responded",
+              "last_run_id": "25af2db0-7e7c-455a-9d0b-8a201f84d47c",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次还没有完整取得训练进度，暂时无法可靠完成这项查询或评估。请稍后重试缺少的部分。",
+      "tools": [
+        {
+          "instance": "CW01-r2",
+          "turn": 0,
+          "attempt_id": "cf2fb4bb71704405a2907e77dd3cb39b",
+          "tool": "plan.get_active",
+          "arguments": {
+            "name": "plan_get_active",
+            "args": {},
+            "id": "call_01_KR3ddnganIdqPjXG99A54205",
+            "type": "tool_call"
+          },
+          "status": "success",
+          "lifecycle_complete": true,
+          "started_wall": 1791873601.3468587,
+          "result": {
+            "found": true,
+            "plan": {
+              "id": "a36ec333-f5d9-4116-a00c-bacc62207b4a",
+              "user_id": "synthetic-r46-e3e7e89e04324bb1ace899be126bf9be",
+              "name": "第31轮合成计划",
+              "goal": "保持体重",
+              "duration_weeks": 4,
+              "days_per_week": 2,
+              "is_active": true,
+              "ai_generated": false,
+              "notes": null,
+              "created_at": "2026-10-13T06:39:57.946071Z",
+              "safety_status": "compatible",
+              "safety_reasons": [],
+              "manual_proposals_enabled": false,
+              "display_name": "第31轮合成计划",
+              "week_start": "2026-10-05",
+              "weekly_completed_days": 1,
+              "weekly_sessions": [
+                {
+                  "day_of_week": 1,
+                  "session_id": "1889917b-834d-4f09-917d-40b08fbd3e82",
+                  "status": "completed"
+                }
+              ],
+              "exercises": [
+                {
+                  "id": "03180186-433b-419c-ae02-3d690694fce3",
+                  "plan_id": "a36ec333-f5d9-4116-a00c-bacc62207b4a",
+                  "exercise_id": "r31-ex-0",
+                  "exercise_name": "卧推",
+                  "safety_notice": null,
+                  "day_of_week": 1,
+                  "sets": 3,
+                  "reps": "10",
+                  "rest_seconds": 90,
+                  "recommended_weight_kg": 20,
+                  "order_index": 0
+                },
+                {
+                  "id": "bb020fc4-d63f-4ec2-a24e-6816e18a4b41",
+                  "plan_id": "a36ec333-f5d9-4116-a00c-bacc62207b4a",
+                  "exercise_id": "r31-ex-1",
+                  "exercise_name": "深蹲",
+                  "safety_notice": null,
+                  "day_of_week": 7,
+                  "sets": 3,
+                  "reps": "10",
+                  "rest_seconds": 90,
+                  "recommended_weight_kg": 30,
+                  "order_index": 1
+                }
+              ]
+            },
+            "scope": {
+              "as_of": "2026-10-09",
+              "timezone": "Asia/Shanghai",
+              "week_start": "2026-10-05",
+              "completed_days_basis": "current_plan_continuity_and_scheduled_weekday",
+              "history_session_count_is_distinct": true,
+              "note": "weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。"
+            }
+          },
+          "tool_message": {
+            "content": "{\"found\": true, \"plan\": {\"id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"user_id\": \"synthetic-r46-e3e7e89e04324bb1ace899be126bf9be\", \"name\": \"第31轮合成计划\", \"goal\": \"保持体重\", \"duration_weeks\": 4, \"days_per_week\": 2, \"is_active\": true, \"ai_generated\": false, \"notes\": null, \"created_at\": \"2026-10-13T06:39:57.946071Z\", \"safety_status\": \"compatible\", \"safety_reasons\": [], \"manual_proposals_enabled\": false, \"display_name\": \"第31轮合成计划\", \"week_start\": \"2026-10-05\", \"weekly_completed_days\": 1, \"weekly_sessions\": [{\"day_of_week\": 1, \"session_id\": \"1889917b-834d-4f09-917d-40b08fbd3e82\", \"status\": \"completed\"}], \"exercises\": [{\"id\": \"03180186-433b-419c-ae02-3d690694fce3\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"exercise_id\": \"r31-ex-0\", \"exercise_name\": \"卧推\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 20.0, \"order_index\": 0}, {\"id\": \"bb020fc4-d63f-4ec2-a24e-6816e18a4b41\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"exercise_id\": \"r31-ex-1\", \"exercise_name\": \"深蹲\", \"safety_notice\": null, \"day_of_week\": 7, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 30.0, \"order_index\": 1}]}, \"scope\": {\"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"week_start\": \"2026-10-05\", \"completed_days_basis\": \"current_plan_continuity_and_scheduled_weekday\", \"history_session_count_is_distinct\": true, \"note\": \"weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。\"}}",
+            "additional_kwargs": {},
+            "response_metadata": {},
+            "type": "tool",
+            "name": "plan_get_active",
+            "id": null,
+            "tool_call_id": "call_01_KR3ddnganIdqPjXG99A54205",
+            "artifact": null,
+            "status": "success"
+          },
+          "finished_wall": 1791873601.387233,
+          "elapsed_ms": 40.374,
+          "raw_content": "{\"found\": true, \"plan\": {\"id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"user_id\": \"synthetic-r46-e3e7e89e04324bb1ace899be126bf9be\", \"name\": \"第31轮合成计划\", \"goal\": \"保持体重\", \"duration_weeks\": 4, \"days_per_week\": 2, \"is_active\": true, \"ai_generated\": false, \"notes\": null, \"created_at\": \"2026-10-13T06:39:57.946071Z\", \"safety_status\": \"compatible\", \"safety_reasons\": [], \"manual_proposals_enabled\": false, \"display_name\": \"第31轮合成计划\", \"week_start\": \"2026-10-05\", \"weekly_completed_days\": 1, \"weekly_sessions\": [{\"day_of_week\": 1, \"session_id\": \"1889917b-834d-4f09-917d-40b08fbd3e82\", \"status\": \"completed\"}], \"exercises\": [{\"id\": \"03180186-433b-419c-ae02-3d690694fce3\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"exercise_id\": \"r31-ex-0\", \"exercise_name\": \"卧推\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 20.0, \"order_index\": 0}, {\"id\": \"bb020fc4-d63f-4ec2-a24e-6816e18a4b41\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"exercise_id\": \"r31-ex-1\", \"exercise_name\": \"深蹲\", \"safety_notice\": null, \"day_of_week\": 7, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 30.0, \"order_index\": 1}]}, \"scope\": {\"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"week_start\": \"2026-10-05\", \"completed_days_basis\": \"current_plan_continuity_and_scheduled_weekday\", \"history_session_count_is_distinct\": true, \"note\": \"weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。\"}}"
+        },
+        {
+          "instance": "CW01-r2",
+          "turn": 0,
+          "attempt_id": "c7ee0a404a2c4f148adb55f9a621233f",
+          "tool": "workout.list_history",
+          "arguments": {
+            "name": "workout_list_history",
+            "args": {
+              "start_date": "2026-10-05",
+              "end_date": "2026-10-09",
+              "statuses": [
+                "completed",
+                "in_progress",
+                "ended_early",
+                "skipped",
+                "abandoned"
+              ]
+            },
+            "id": "call_00_3qNiH4FfpGxY3px8gcny2674",
+            "type": "tool_call"
+          },
+          "status": "success",
+          "lifecycle_complete": true,
+          "started_wall": 1791873601.3586295,
+          "result": {
+            "range_start": "2026-10-05",
+            "range_end": "2026-10-09",
+            "as_of": "2026-10-09",
+            "timezone": "Asia/Shanghai",
+            "total_count": 2,
+            "truncated": false,
+            "status_filter": [
+              "completed",
+              "in_progress",
+              "ended_early",
+              "skipped",
+              "abandoned"
+            ],
+            "count": 2,
+            "sessions": [
+              {
+                "id": "10f3b870-2de1-4ea0-b376-89831cc15d73",
+                "user_id": "synthetic-r46-e3e7e89e04324bb1ace899be126bf9be",
+                "plan_id": "a36ec333-f5d9-4116-a00c-bacc62207b4a",
+                "day_of_week": null,
+                "status": "completed",
+                "trained_at": "2026-10-07",
+                "duration_min": null,
+                "notes": null,
+                "started_at": "2026-10-07T08:00:00Z",
+                "completed_at": "2026-10-07T09:00:00Z",
+                "created_at": "2026-10-13T06:39:57.946071Z",
+                "energy_classification_version": 0,
+                "plan_name": "第31轮合成计划",
+                "orphaned": false,
+                "total_sets": 0,
+                "total_reps": 0,
+                "total_volume_kg": 0,
+                "exercises": [],
+                "feedback": null,
+                "adjustments": [],
+                "adaptive_adjustment_status": "not_needed",
+                "adaptive_adjustment_proposal": null
+              },
+              {
+                "id": "1889917b-834d-4f09-917d-40b08fbd3e82",
+                "user_id": "synthetic-r46-e3e7e89e04324bb1ace899be126bf9be",
+                "plan_id": "a36ec333-f5d9-4116-a00c-bacc62207b4a",
+                "day_of_week": 1,
+                "status": "completed",
+                "trained_at": "2026-10-05",
+                "duration_min": null,
+                "notes": null,
+                "started_at": "2026-10-05T08:00:00Z",
+                "completed_at": "2026-10-05T09:00:00Z",
+                "created_at": "2026-10-13T06:39:57.946071Z",
+                "energy_classification_version": 0,
+                "plan_name": "第31轮合成计划",
+                "orphaned": false,
+                "total_sets": 0,
+                "total_reps": 0,
+                "total_volume_kg": 0,
+                "exercises": [],
+                "feedback": null,
+                "adjustments": [],
+                "adaptive_adjustment_status": "not_needed",
+                "adaptive_adjustment_proposal": null
+              }
+            ]
+          },
+          "tool_message": {
+            "content": "{\"range_start\": \"2026-10-05\", \"range_end\": \"2026-10-09\", \"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"total_count\": 2, \"truncated\": false, \"status_filter\": [\"completed\", \"in_progress\", \"ended_early\", \"skipped\", \"abandoned\"], \"count\": 2, \"sessions\": [{\"id\": \"10f3b870-2de1-4ea0-b376-89831cc15d73\", \"user_id\": \"synthetic-r46-e3e7e89e04324bb1ace899be126bf9be\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"day_of_week\": null, \"status\": \"completed\", \"trained_at\": \"2026-10-07\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-07T08:00:00Z\", \"completed_at\": \"2026-10-07T09:00:00Z\", \"created_at\": \"2026-10-13T06:39:57.946071Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}, {\"id\": \"1889917b-834d-4f09-917d-40b08fbd3e82\", \"user_id\": \"synthetic-r46-e3e7e89e04324bb1ace899be126bf9be\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"day_of_week\": 1, \"status\": \"completed\", \"trained_at\": \"2026-10-05\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-05T08:00:00Z\", \"completed_at\": \"2026-10-05T09:00:00Z\", \"created_at\": \"2026-10-13T06:39:57.946071Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}]}",
+            "additional_kwargs": {},
+            "response_metadata": {},
+            "type": "tool",
+            "name": "workout_list_history",
+            "id": null,
+            "tool_call_id": "call_00_3qNiH4FfpGxY3px8gcny2674",
+            "artifact": null,
+            "status": "success"
+          },
+          "finished_wall": 1791873601.4024189,
+          "elapsed_ms": 43.788,
+          "raw_content": "{\"range_start\": \"2026-10-05\", \"range_end\": \"2026-10-09\", \"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"total_count\": 2, \"truncated\": false, \"status_filter\": [\"completed\", \"in_progress\", \"ended_early\", \"skipped\", \"abandoned\"], \"count\": 2, \"sessions\": [{\"id\": \"10f3b870-2de1-4ea0-b376-89831cc15d73\", \"user_id\": \"synthetic-r46-e3e7e89e04324bb1ace899be126bf9be\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"day_of_week\": null, \"status\": \"completed\", \"trained_at\": \"2026-10-07\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-07T08:00:00Z\", \"completed_at\": \"2026-10-07T09:00:00Z\", \"created_at\": \"2026-10-13T06:39:57.946071Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}, {\"id\": \"1889917b-834d-4f09-917d-40b08fbd3e82\", \"user_id\": \"synthetic-r46-e3e7e89e04324bb1ace899be126bf9be\", \"plan_id\": \"a36ec333-f5d9-4116-a00c-bacc62207b4a\", \"day_of_week\": 1, \"status\": \"completed\", \"trained_at\": \"2026-10-05\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-10-05T08:00:00Z\", \"completed_at\": \"2026-10-05T09:00:00Z\", \"created_at\": \"2026-10-13T06:39:57.946071Z\", \"energy_classification_version\": 0, \"plan_name\": \"第31轮合成计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}]}"
+        }
+      ],
+      "routes": [
+        {
+          "intent_domain": "workout_progress",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "workout_history",
+            "workout_progress",
+            "active_plan"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "核对 2026-10-05（周一）至 2026-10-09（今天）的训练记录与当前训练计划：统计已完成训练次数（按训练场次口径），并统计对应的计划训练日数量（按计划口径），分别说明统计日期范围与口径，不要混为一谈。",
+          "risk_level": "low",
+          "confidence": 0.86,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "请核对本周截至今天的训练记录与当前计划：已完成几次训练，对应多少个计划训练日？分别说明统计日期和口径，不要把两项混在一起。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "本周截至今天",
+                "remove": false
+              },
+              {
+                "key": "metric_completed_sessions",
+                "quote": "已完成几次训练",
+                "remove": false
+              },
+              {
+                "key": "metric_plan_days",
+                "quote": "对应多少个计划训练日",
+                "remove": false
+              },
+              {
+                "key": "separate_caliber",
+                "quote": "分别说明统计日期和口径，不要把两项混在一起",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "WX03-r1",
+      "message": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+      "source": "round-52-read-comparison-scope/runs/WX03-r1.json",
+      "sha256": "61901d1c972e9cc8e7de1de007c91042754c6eebe3401f3549ead7eb56702d51",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "medium",
+        "mode_reasons": [
+          "single_goal_or_tool"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "用户本周工作疲劳，希望每次训练最多15分钟；用户已有膝盖不适记录。请结合当前训练计划，给出本周（2026-10-09 起）的临时训练安排建议，以及恢复后如何回到原计划的建议；仅提供建议，不修改或保存计划。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "plan.get_active",
+            "health.get_screening_summary"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "用户本周工作疲劳，希望每次训练最多15分钟；用户已有膝盖不适记录。请结合当前训练计划，给出本周（2026-10-09 起）的临时训练安排建议，以及恢复后如何回到原计划的建议；仅提供建议，不修改或保存计划。",
+              "depends_on": [],
+              "candidate_tools": [
+                "plan.get_active",
+                "health.get_screening_summary"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "inferred"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [
+          {
+            "sequence": 1,
+            "action_type": "call_tool",
+            "call_id": "call_00_dGUGThRoiYjrHvoXVSas2996",
+            "batch_id": null,
+            "step_id": null,
+            "plan_version": 1,
+            "tool_id": "plan.get_active",
+            "arguments": {},
+            "status": "completed"
+          },
+          {
+            "sequence": 2,
+            "action_type": "call_tool",
+            "call_id": "call_01_3vfvuCqGm6xfOiQbJpSa1088",
+            "batch_id": null,
+            "step_id": null,
+            "plan_version": 1,
+            "tool_id": "health.get_screening_summary",
+            "arguments": {},
+            "status": "completed"
+          }
+        ],
+        "observations": [
+          {
+            "sequence": 3,
+            "action_sequence": 1,
+            "call_id": "call_00_dGUGThRoiYjrHvoXVSas2996",
+            "batch_id": null,
+            "tool_id": "plan.get_active",
+            "status": "success",
+            "summary": {
+              "found": true,
+              "plan_id": "82641027-fa98-44af-ac2e-47b9658ce079",
+              "exercise_count": 2
+            },
+            "result_fingerprint": "c31551471710eed7e63b1c0deadc1dbb1e81d0762a61ab0e2994115796e423fc",
+            "fact_keys": [
+              "plan.get_active.found",
+              "plan.get_active.plan_id",
+              "plan.get_active.exercise_count"
+            ]
+          },
+          {
+            "sequence": 4,
+            "action_sequence": 2,
+            "call_id": "call_01_3vfvuCqGm6xfOiQbJpSa1088",
+            "batch_id": null,
+            "tool_id": "health.get_screening_summary",
+            "status": "success",
+            "summary": {
+              "found": true,
+              "injury_count": 1,
+              "screening_completed": true,
+              "chronic_condition_count": 0
+            },
+            "result_fingerprint": "eca377248c4d5406b16f48704392fd25f7d727726da949a145d01e2e5b40c4ca",
+            "fact_keys": [
+              "health.get_screening_summary.found",
+              "health.get_screening_summary.injury_count",
+              "health.get_screening_summary.chronic_condition_count",
+              "health.get_screening_summary.screening_completed"
+            ]
+          }
+        ],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2869,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 859,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 4399,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "agent_completed",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 2,
+          "tool_calls": 2,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "plan.get_active",
+            "health.get_screening_summary"
+          ],
+          "missing_tools": [],
+          "status": "complete",
+          "reason": null
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+          "tasks": [
+            {
+              "id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+              "request": "用户本周工作疲劳，希望每次训练最多15分钟；用户已有膝盖不适记录。请结合当前训练计划，给出本周（2026-10-09 起）的临时训练安排建议，以及恢复后如何回到原计划的建议；仅提供建议，不修改或保存计划。",
+              "requirements": [
+                {
+                  "key": "duration_per_session",
+                  "quote": "每次最多15分钟",
+                  "source_run_id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "date_scope",
+                  "quote": "这周",
+                  "source_run_id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "knee_condition",
+                  "quote": "膝盖已有不适记录",
+                  "source_run_id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "plan_scope",
+                  "quote": "结合当前计划给我一周临时安排，以及恢复后怎么回到原计划",
+                  "source_run_id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "no_save",
+                  "quote": "只要建议",
+                  "source_run_id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "responded",
+              "last_run_id": "5d375880-4d2d-4e29-ab92-fd252dc67c78",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "**先说结论**：你现在的计划是每周 1 天、两个动作——卧推 3×10（建议 20kg）和深蹲 3×10（建议 30kg）。这周按每次 15 分钟的上限，我建议保留卧推、把深蹲换成对膝盖压力更小的替代动作，而不是硬按原量练。\n\n**本周临时安排（10-09 起，一次 15 分钟内）**\n\n- 热身 3 分钟：快走或原地踏步 + 髋、踝绕环，膝盖不痛的范围。\n- 卧推 3×10，20kg，组间休息 60–75 秒（比原计划的 90 秒短一点，控制在时间内）。\n- 深蹲替换为**臀桥**或**靠墙静蹲（浅角度、无痛范围）**，2–3 组 × 10–12 次，自重即可。\n- 收尾 2 分钟：股四头肌和腘绳肌静态拉伸。\n\n如果这周实在累，只做卧推 + 臀桥也够，重点是别断掉训练节奏。\n\n**关于膝盖**：你档案里记录的是\"膝部不适\"，没有具体诊断信息，所以我不确定是哪个动作、什么角度会诱发。深蹲这类屈膝负重动作风险相对高，先避开；如果臀桥或静蹲也出现疼痛，就停掉那部分，只做上肢。若不适加重、有肿胀、卡顿或上下楼明显疼，建议先找医生或康复师看一下，别自己加量。\n\n**恢复后怎么回原计划**\n\n分两步，别一次跳回去：\n\n1. 第一周：深蹲回到 2 组 × 10 次，重量降到 20–25kg，确认膝盖全程无痛。\n2. 第二周：如果无痛，恢复到原来的 3×10、30kg，组间休息回到 90 秒。\n\n任何一步出现疼痛就退回上一步，稳定几天再试。\n\n以上只是建议，我没有改动或保存你的计划。",
+      "tools": [
+        {
+          "instance": "WX03-r1",
+          "turn": 0,
+          "attempt_id": "567fa3a829644d54a00a5277afc79c94",
+          "tool": "plan.get_active",
+          "arguments": {
+            "name": "plan_get_active",
+            "args": {},
+            "id": "call_00_dGUGThRoiYjrHvoXVSas2996",
+            "type": "tool_call"
+          },
+          "status": "success",
+          "lifecycle_complete": true,
+          "started_wall": 1791873392.002122,
+          "result": {
+            "found": true,
+            "plan": {
+              "id": "82641027-fa98-44af-ac2e-47b9658ce079",
+              "user_id": "synthetic-r46-98308bb6aa084bd998a6cbe39e0cba70",
+              "name": "第31轮合成计划",
+              "goal": "保持体重",
+              "duration_weeks": 4,
+              "days_per_week": 1,
+              "is_active": true,
+              "ai_generated": false,
+              "notes": null,
+              "created_at": "2026-10-13T06:36:28.141568Z",
+              "safety_status": "compatible",
+              "safety_reasons": [],
+              "manual_proposals_enabled": false,
+              "display_name": "第31轮合成计划",
+              "week_start": "2026-10-05",
+              "weekly_completed_days": 0,
+              "weekly_sessions": [],
+              "exercises": [
+                {
+                  "id": "48f5c217-7ceb-4d76-8333-bdd13209af9d",
+                  "plan_id": "82641027-fa98-44af-ac2e-47b9658ce079",
+                  "exercise_id": "r31-ex-0",
+                  "exercise_name": "卧推",
+                  "safety_notice": null,
+                  "day_of_week": 1,
+                  "sets": 3,
+                  "reps": "10",
+                  "rest_seconds": 90,
+                  "recommended_weight_kg": 20,
+                  "order_index": 0
+                },
+                {
+                  "id": "a3a7bf0c-b57d-4a08-8049-8d94b0409046",
+                  "plan_id": "82641027-fa98-44af-ac2e-47b9658ce079",
+                  "exercise_id": "r31-ex-1",
+                  "exercise_name": "深蹲",
+                  "safety_notice": null,
+                  "day_of_week": 1,
+                  "sets": 3,
+                  "reps": "10",
+                  "rest_seconds": 90,
+                  "recommended_weight_kg": 30,
+                  "order_index": 1
+                }
+              ]
+            },
+            "scope": {
+              "as_of": "2026-10-09",
+              "timezone": "Asia/Shanghai",
+              "week_start": "2026-10-05",
+              "completed_days_basis": "current_plan_continuity_and_scheduled_weekday",
+              "history_session_count_is_distinct": true,
+              "note": "weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。"
+            }
+          },
+          "tool_message": {
+            "content": "{\"found\": true, \"plan\": {\"id\": \"82641027-fa98-44af-ac2e-47b9658ce079\", \"user_id\": \"synthetic-r46-98308bb6aa084bd998a6cbe39e0cba70\", \"name\": \"第31轮合成计划\", \"goal\": \"保持体重\", \"duration_weeks\": 4, \"days_per_week\": 1, \"is_active\": true, \"ai_generated\": false, \"notes\": null, \"created_at\": \"2026-10-13T06:36:28.141568Z\", \"safety_status\": \"compatible\", \"safety_reasons\": [], \"manual_proposals_enabled\": false, \"display_name\": \"第31轮合成计划\", \"week_start\": \"2026-10-05\", \"weekly_completed_days\": 0, \"weekly_sessions\": [], \"exercises\": [{\"id\": \"48f5c217-7ceb-4d76-8333-bdd13209af9d\", \"plan_id\": \"82641027-fa98-44af-ac2e-47b9658ce079\", \"exercise_id\": \"r31-ex-0\", \"exercise_name\": \"卧推\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 20.0, \"order_index\": 0}, {\"id\": \"a3a7bf0c-b57d-4a08-8049-8d94b0409046\", \"plan_id\": \"82641027-fa98-44af-ac2e-47b9658ce079\", \"exercise_id\": \"r31-ex-1\", \"exercise_name\": \"深蹲\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 30.0, \"order_index\": 1}]}, \"scope\": {\"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"week_start\": \"2026-10-05\", \"completed_days_basis\": \"current_plan_continuity_and_scheduled_weekday\", \"history_session_count_is_distinct\": true, \"note\": \"weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。\"}}",
+            "additional_kwargs": {},
+            "response_metadata": {},
+            "type": "tool",
+            "name": "plan_get_active",
+            "id": null,
+            "tool_call_id": "call_00_dGUGThRoiYjrHvoXVSas2996",
+            "artifact": null,
+            "status": "success"
+          },
+          "finished_wall": 1791873392.0337424,
+          "elapsed_ms": 31.619,
+          "raw_content": "{\"found\": true, \"plan\": {\"id\": \"82641027-fa98-44af-ac2e-47b9658ce079\", \"user_id\": \"synthetic-r46-98308bb6aa084bd998a6cbe39e0cba70\", \"name\": \"第31轮合成计划\", \"goal\": \"保持体重\", \"duration_weeks\": 4, \"days_per_week\": 1, \"is_active\": true, \"ai_generated\": false, \"notes\": null, \"created_at\": \"2026-10-13T06:36:28.141568Z\", \"safety_status\": \"compatible\", \"safety_reasons\": [], \"manual_proposals_enabled\": false, \"display_name\": \"第31轮合成计划\", \"week_start\": \"2026-10-05\", \"weekly_completed_days\": 0, \"weekly_sessions\": [], \"exercises\": [{\"id\": \"48f5c217-7ceb-4d76-8333-bdd13209af9d\", \"plan_id\": \"82641027-fa98-44af-ac2e-47b9658ce079\", \"exercise_id\": \"r31-ex-0\", \"exercise_name\": \"卧推\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 20.0, \"order_index\": 0}, {\"id\": \"a3a7bf0c-b57d-4a08-8049-8d94b0409046\", \"plan_id\": \"82641027-fa98-44af-ac2e-47b9658ce079\", \"exercise_id\": \"r31-ex-1\", \"exercise_name\": \"深蹲\", \"safety_notice\": null, \"day_of_week\": 1, \"sets\": 3, \"reps\": \"10\", \"rest_seconds\": 90, \"recommended_weight_kg\": 30.0, \"order_index\": 1}]}, \"scope\": {\"as_of\": \"2026-10-09\", \"timezone\": \"Asia/Shanghai\", \"week_start\": \"2026-10-05\", \"completed_days_basis\": \"current_plan_continuity_and_scheduled_weekday\", \"history_session_count_is_distinct\": true, \"note\": \"weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。\"}}"
+        },
+        {
+          "instance": "WX03-r1",
+          "turn": 0,
+          "attempt_id": "397ec930294f41559658ceb9d142734c",
+          "tool": "health.get_screening_summary",
+          "arguments": {
+            "name": "health_get_screening_summary",
+            "args": {},
+            "id": "call_01_3vfvuCqGm6xfOiQbJpSa1088",
+            "type": "tool_call"
+          },
+          "status": "success",
+          "lifecycle_complete": true,
+          "started_wall": 1791873392.00913,
+          "result": {
+            "found": true,
+            "injuries": [
+              "膝部不适"
+            ],
+            "chronic_conditions": [],
+            "screening_completed": true,
+            "updated_at": "2026-10-13T06:36:28.141568+00:00",
+            "medical_boundary": "该信息仅用于训练安全筛查，不构成医疗诊断。"
+          },
+          "tool_message": {
+            "content": "{\"found\": true, \"injuries\": [\"膝部不适\"], \"chronic_conditions\": [], \"screening_completed\": true, \"updated_at\": \"2026-10-13T06:36:28.141568+00:00\", \"medical_boundary\": \"该信息仅用于训练安全筛查，不构成医疗诊断。\"}",
+            "additional_kwargs": {},
+            "response_metadata": {},
+            "type": "tool",
+            "name": "health_get_screening_summary",
+            "id": null,
+            "tool_call_id": "call_01_3vfvuCqGm6xfOiQbJpSa1088",
+            "artifact": null,
+            "status": "success"
+          },
+          "finished_wall": 1791873392.055162,
+          "elapsed_ms": 46.031,
+          "raw_content": "{\"found\": true, \"injuries\": [\"膝部不适\"], \"chronic_conditions\": [], \"screening_completed\": true, \"updated_at\": \"2026-10-13T06:36:28.141568+00:00\", \"medical_boundary\": \"该信息仅用于训练安全筛查，不构成医疗诊断。\"}"
+        }
+      ],
+      "routes": [
+        {
+          "intent_domain": "workout_plan",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan",
+            "health_screening"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "用户本周工作疲劳，希望每次训练最多15分钟；用户已有膝盖不适记录。请结合当前训练计划，给出本周（2026-10-09 起）的临时训练安排建议，以及恢复后如何回到原计划的建议；仅提供建议，不修改或保存计划。",
+          "risk_level": "medium",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+            "requirements": [
+              {
+                "key": "duration_per_session",
+                "quote": "每次最多15分钟",
+                "remove": false
+              },
+              {
+                "key": "date_scope",
+                "quote": "这周",
+                "remove": false
+              },
+              {
+                "key": "knee_condition",
+                "quote": "膝盖已有不适记录",
+                "remove": false
+              },
+              {
+                "key": "plan_scope",
+                "quote": "结合当前计划给我一周临时安排，以及恢复后怎么回到原计划",
+                "remove": false
+              },
+              {
+                "key": "no_save",
+                "quote": "只要建议",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "source": "round-23-lease-meal-clarification/live-01/K07.json",
+  "source_sha256": "6641535313c4ea7659d82cc8e786200d31d5b184d25cbca9f3d5b73e0b326d2a",
+  "message": "准备2026年10月1日午餐记录：米饭160克、鸡胸80克，另外加橄榄油，油量等我下一条补。先别写入。",
+  "route": {
+    "intent_domain": "nutrition",
+    "request_kind": "mutation",
+    "requested_effect": "create",
+    "requested_output": "answer",
+    "read_targets": [],
+    "decision_action": "none",
+    "artifact_action": "none",
+    "normalized_request": "准备2026年10月1日午餐记录：米饭160克、鸡胸80克，另加橄榄油（油量待下一条补充）；先不要写入，等待油量补齐后再处理。",
+    "risk_level": "low",
+    "confidence": 0.9,
+    "task_update": {
+      "action": "new",
+      "task_id": "",
+      "trigger": "准备2026年10月1日午餐记录：米饭160克、鸡胸80克，另外加橄榄油，油量等我下一条补。先别写入。",
+      "requirements": [
+        {
+          "key": "meal_date",
+          "quote": "2026年10月1日午餐记录",
+          "remove": false
+        },
+        {
+          "key": "meal_type",
+          "quote": "2026年10月1日午餐记录",
+          "remove": false
+        },
+        {
+          "key": "rice_grams",
+          "quote": "米饭160克",
+          "remove": false
+        },
+        {
+          "key": "chicken_breast_grams",
+          "quote": "鸡胸80克",
+          "remove": false
+        },
+        {
+          "key": "olive_oil",
+          "quote": "另外加橄榄油",
+          "remove": false
+        },
+        {
+          "key": "olive_oil_amount_pending",
+          "quote": "油量等我下一条补",
+          "remove": false
+        },
+        {
+          "key": "no_save",
+          "quote": "先别写入",
+          "remove": false
+        }
+      ]
+    }
+  },
+  "extraction": {
+    "change_requests": [],
+    "normalized_request": "准备2026年10月1日午餐记录：米饭160克、鸡胸80克，另外加橄榄油，油量等我下一条补。先别写入。",
+    "confidence": 0.9,
+    "plan_input_gaps": [],
+    "pending_plan_withdrawals": []
+  }
+}

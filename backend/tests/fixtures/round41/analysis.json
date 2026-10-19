@@ -1,0 +1,695 @@
+{
+  "failed_instances": 4,
+  "failed_runs": 4,
+  "failures": [
+    {
+      "instance": "MQ02-r1",
+      "raw_sha256": "d5cbdc045469e8f00c5fe6ec2193b3ff631bfbb7347f13ebda87bfc413f8ba1a",
+      "turns": [
+        {
+          "index": 0,
+          "message": "列出2026年10月8日至10月10日的晚餐热量和记录合计；已记录日期、缺记录日期都要说明，未来日期请标明不在历史查询内。",
+          "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+          "actual_error": "intent_understanding_unavailable",
+          "intent_error": "semantic_mutation_structure_missing",
+          "direct_rules_kind": "mutation",
+          "direct_rules_effect": "create",
+          "masked_text": "列出2026年10月8日至10月10日的晚餐热量和记录合计；  日期、  日期都要说明，未来日期请标明不在历史查询内。",
+          "remaining_mutation_tokens": [
+            {
+              "word": "记录",
+              "start": 25,
+              "end": 27
+            }
+          ],
+          "outputs": [
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "列出2026年10月8日至2026年10月10日的晚餐热量与记录合计；说明哪些日期已有记录、哪些日期缺少记录；2026年10月10日属于未来日期，不在历史查询范围内。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "new",
+                  "task_id": "",
+                  "trigger": "列出2026年10月8日至10月10日的晚餐热量和记录合计；已记录日期、缺记录日期都要说明，未来日期请标明不在历史查询内。",
+                  "requirements": [
+                    {
+                      "key": "date_scope",
+                      "quote": "2026年10月8日至10月10日",
+                      "remove": false
+                    },
+                    {
+                      "key": "meal_scope",
+                      "quote": "晚餐热量和记录合计",
+                      "remove": false
+                    },
+                    {
+                      "key": "coverage_note",
+                      "quote": "已记录日期、缺记录日期都要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "future_date_note",
+                      "quote": "未来日期请标明不在历史查询内",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "列出2026年10月8日至2026年10月10日的晚餐热量和记录合计；说明已记录日期与缺记录日期，并标明2026年10月10日属于未来日期、不在历史查询范围内。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "new",
+                  "task_id": "",
+                  "trigger": "列出2026年10月8日至10月10日的晚餐热量和记录合计；已记录日期、缺记录日期都要说明，未来日期请标明不在历史查询内。",
+                  "requirements": [
+                    {
+                      "key": "date_scope",
+                      "quote": "列出2026年10月8日至10月10日的晚餐热量和记录合计",
+                      "remove": false
+                    },
+                    {
+                      "key": "meal_type",
+                      "quote": "晚餐热量和记录合计",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_dates",
+                      "quote": "已记录日期、缺记录日期都要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "future_date_note",
+                      "quote": "未来日期请标明不在历史查询内",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "registered_tool_attempts": 0
+        }
+      ],
+      "root_cause": "A49-record-total-noun",
+      "model_route_correct": true,
+      "fixture_error": false,
+      "scoring_false_failure": false
+    },
+    {
+      "instance": "MQ02-r2",
+      "raw_sha256": "96be145e76702257b269f54e10f122530dc0d7cd415441c971b559815f9d1535",
+      "turns": [
+        {
+          "index": 0,
+          "message": "列出2026年10月8日至10月10日的晚餐热量和记录合计；已记录日期、缺记录日期都要说明，未来日期请标明不在历史查询内。",
+          "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+          "actual_error": "intent_understanding_unavailable",
+          "intent_error": "semantic_mutation_structure_missing",
+          "direct_rules_kind": "mutation",
+          "direct_rules_effect": "create",
+          "masked_text": "列出2026年10月8日至10月10日的晚餐热量和记录合计；  日期、  日期都要说明，未来日期请标明不在历史查询内。",
+          "remaining_mutation_tokens": [
+            {
+              "word": "记录",
+              "start": 25,
+              "end": 27
+            }
+          ],
+          "outputs": [
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "列出2026年10月8日至2026年10月10日的晚餐热量与记录合计；说明哪些日期已有记录、哪些日期缺少记录；2026年10月10日属于未来日期，需标明不在历史查询范围内。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "new",
+                  "task_id": "",
+                  "trigger": "列出2026年10月8日至10月10日的晚餐热量和记录合计；已记录日期、缺记录日期都要说明，未来日期请标明不在历史查询内。",
+                  "requirements": [
+                    {
+                      "key": "date_scope",
+                      "quote": "2026年10月8日至10月10日",
+                      "remove": false
+                    },
+                    {
+                      "key": "meal_scope",
+                      "quote": "晚餐热量和记录合计",
+                      "remove": false
+                    },
+                    {
+                      "key": "coverage_note",
+                      "quote": "已记录日期、缺记录日期都要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "future_date_note",
+                      "quote": "未来日期请标明不在历史查询内",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "列出2026年10月8日至2026年10月10日的晚餐热量和记录合计；说明哪些日期已有记录、哪些日期缺记录；2026年10月10日为未来日期，不在历史查询范围内。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "new",
+                  "task_id": "",
+                  "trigger": "列出2026年10月8日至10月10日的晚餐热量和记录合计；已记录日期、缺记录日期都要说明，未来日期请标明不在历史查询内。",
+                  "requirements": [
+                    {
+                      "key": "date_scope",
+                      "quote": "列出2026年10月8日至10月10日的晚餐热量和记录合计",
+                      "remove": false
+                    },
+                    {
+                      "key": "meal_scope",
+                      "quote": "晚餐热量和记录合计",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_dates",
+                      "quote": "已记录日期、缺记录日期都要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "future_date_note",
+                      "quote": "未来日期请标明不在历史查询内",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "registered_tool_attempts": 0
+        }
+      ],
+      "root_cause": "A49-record-total-noun",
+      "model_route_correct": true,
+      "fixture_error": false,
+      "scoring_false_failure": false
+    },
+    {
+      "instance": "MQ06-r1",
+      "raw_sha256": "a95ecc62147a4370974eee7ac63a1a689735013320302450cd21bfb6050b6a49",
+      "turns": [
+        {
+          "index": 0,
+          "message": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值，没有午餐记录的日期请点明。",
+          "reply": "请求日期：2026-10-05、2026-10-09；截至2026-10-09（Asia/Shanghai）。\n餐次筛选：午餐；以下仅含这些餐次。\n- 2026-10-05：未找到午餐记录。\n实际返回1个有记录日期，记录日期范围：2026-10-09 至 2026-10-09。\n- 2026-10-09：热量 240 千卡。\n热量有记录日期均值 240 千卡（除以1个有记录日期）。\n未记录日期未纳入统计；没有记录不表示未进食。",
+          "actual_error": null,
+          "intent_error": null,
+          "direct_rules_kind": "query",
+          "direct_rules_effect": "read",
+          "masked_text": "查询2026年10月5日和10月9日午餐的每日热量及  日均值，没有午餐  的日期请点明。",
+          "remaining_mutation_tokens": [],
+          "outputs": [
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "查询2026年10月5日和2026年10月9日午餐的每日热量，并计算有记录日期的日均值；对没有午餐记录的日期明确点明。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "new",
+                  "task_id": "",
+                  "trigger": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值，没有午餐记录的日期请点明。",
+                  "requirements": [
+                    {
+                      "key": "date_scope",
+                      "quote": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值",
+                      "remove": false
+                    },
+                    {
+                      "key": "meal_scope",
+                      "quote": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值",
+                      "remove": false
+                    },
+                    {
+                      "key": "metric",
+                      "quote": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_date_note",
+                      "quote": "没有午餐记录的日期请点明",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "submit_nutrition_history_query",
+              "payload": {
+                "days": 30,
+                "start_date": "",
+                "end_date": "",
+                "logged_dates": [
+                  "2026-10-05",
+                  "2026-10-09"
+                ],
+                "meal_types": [
+                  "午餐"
+                ],
+                "supported": true,
+                "metrics": [
+                  "calories"
+                ],
+                "operations": [
+                  "list",
+                  "mean"
+                ]
+              }
+            }
+          ],
+          "registered_tool_attempts": 1
+        },
+        {
+          "index": 1,
+          "message": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐记录的日期也要说明，空结果不要给出零均值。",
+          "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+          "actual_error": "intent_understanding_unavailable",
+          "intent_error": "semantic_mutation_structure_missing",
+          "direct_rules_kind": "mutation",
+          "direct_rules_effect": "create",
+          "masked_text": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐  的日期也要说明，空结果不要给出零均值。",
+          "remaining_mutation_tokens": [
+            {
+              "word": "改为",
+              "start": 5,
+              "end": 7
+            }
+          ],
+          "outputs": [
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "查询2026年10月5日和2026年10月9日晚餐的每日热量，并计算有记录日期的日均值；对没有晚餐记录的日期明确点明；若全部日期均无记录，不要给出零均值。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "continue",
+                  "task_id": "45aaf109-a5ec-456f-b237-616ebc04816b",
+                  "trigger": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐记录的日期也要说明，空结果不要给出零均值。",
+                  "requirements": [
+                    {
+                      "key": "meal_scope",
+                      "quote": "把查询餐次改为晚餐",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_date_note",
+                      "quote": "没有晚餐记录的日期也要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "empty_result_no_zero_mean",
+                      "quote": "空结果不要给出零均值",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "查询2026年10月5日和2026年10月9日晚餐的每日热量，并计算有记录日期的日均值；对没有晚餐记录的日期明确点明；若两天均无晚餐记录，不要给出零均值。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "continue",
+                  "task_id": "45aaf109-a5ec-456f-b237-616ebc04816b",
+                  "trigger": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐记录的日期也要说明，空结果不要给出零均值。",
+                  "requirements": [
+                    {
+                      "key": "meal_scope",
+                      "quote": "把查询餐次改为晚餐",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_date_note",
+                      "quote": "没有晚餐记录的日期也要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "empty_result_no_zero_mean",
+                      "quote": "空结果不要给出零均值",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "registered_tool_attempts": 0,
+          "verified_prior_query": {
+            "source_run_id": "45aaf109-a5ec-456f-b237-616ebc04816b",
+            "primary_intent": "nutrition_history_query",
+            "resolved_query": "查询2026年10月5日和2026年10月9日午餐的每日热量，并计算有记录日期的日均值；对没有午餐记录的日期明确点明。",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "risk_level": "low",
+            "successful_query": true
+          },
+          "active_task_id": "45aaf109-a5ec-456f-b237-616ebc04816b",
+          "revision_gate": [
+            false,
+            false
+          ],
+          "route_task_ids": [
+            "45aaf109-a5ec-456f-b237-616ebc04816b",
+            "45aaf109-a5ec-456f-b237-616ebc04816b"
+          ],
+          "full_grammar_match": false,
+          "clause_probe": [
+            {
+              "text": "把查询餐次改为晚餐",
+              "edit_with_clause_matches": true
+            },
+            {
+              "text": "其他查询条件保留",
+              "edit_with_clause_matches": false
+            },
+            {
+              "text": "没有晚餐记录的日期也要说明",
+              "edit_with_clause_matches": false
+            },
+            {
+              "text": "空结果不要给出零均值",
+              "edit_with_clause_matches": false
+            }
+          ]
+        }
+      ],
+      "root_cause": "A49-query-revision-supplemental-clauses",
+      "model_route_correct": true,
+      "fixture_error": false,
+      "scoring_false_failure": false
+    },
+    {
+      "instance": "MQ06-r2",
+      "raw_sha256": "9b3b748c8628f6fecf60bf32017dd37084f8dd064ea97248deb2d1e10ec02fd9",
+      "turns": [
+        {
+          "index": 0,
+          "message": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值，没有午餐记录的日期请点明。",
+          "reply": "请求日期：2026-10-05、2026-10-09；截至2026-10-09（Asia/Shanghai）。\n餐次筛选：午餐；以下仅含这些餐次。\n- 2026-10-05：未找到午餐记录。\n实际返回1个有记录日期，记录日期范围：2026-10-09 至 2026-10-09。\n- 2026-10-09：热量 240 千卡。\n热量有记录日期均值 240 千卡（除以1个有记录日期）。\n未记录日期未纳入统计；没有记录不表示未进食。",
+          "actual_error": null,
+          "intent_error": null,
+          "direct_rules_kind": "query",
+          "direct_rules_effect": "read",
+          "masked_text": "查询2026年10月5日和10月9日午餐的每日热量及  日均值，没有午餐  的日期请点明。",
+          "remaining_mutation_tokens": [],
+          "outputs": [
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "查询2026年10月5日和2026年10月9日午餐的每日热量，并计算有记录日期的日均值；对没有午餐记录的日期明确点明。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "new",
+                  "task_id": "",
+                  "trigger": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值，没有午餐记录的日期请点明。",
+                  "requirements": [
+                    {
+                      "key": "date_scope",
+                      "quote": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值",
+                      "remove": false
+                    },
+                    {
+                      "key": "meal_scope",
+                      "quote": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值",
+                      "remove": false
+                    },
+                    {
+                      "key": "metric",
+                      "quote": "查询2026年10月5日和10月9日午餐的每日热量及记录日均值",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_date_note",
+                      "quote": "没有午餐记录的日期请点明",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "submit_nutrition_history_query",
+              "payload": {
+                "days": 30,
+                "start_date": "",
+                "end_date": "",
+                "logged_dates": [
+                  "2026-10-05",
+                  "2026-10-09"
+                ],
+                "meal_types": [
+                  "午餐"
+                ],
+                "supported": true,
+                "metrics": [
+                  "calories"
+                ],
+                "operations": [
+                  "list",
+                  "mean"
+                ]
+              }
+            }
+          ],
+          "registered_tool_attempts": 1
+        },
+        {
+          "index": 1,
+          "message": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐记录的日期也要说明，空结果不要给出零均值。",
+          "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+          "actual_error": "intent_understanding_unavailable",
+          "intent_error": "semantic_mutation_structure_missing",
+          "direct_rules_kind": "mutation",
+          "direct_rules_effect": "create",
+          "masked_text": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐  的日期也要说明，空结果不要给出零均值。",
+          "remaining_mutation_tokens": [
+            {
+              "word": "改为",
+              "start": 5,
+              "end": 7
+            }
+          ],
+          "outputs": [
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "查询2026年10月5日和2026年10月9日晚餐的每日热量，并计算有记录日期的日均值；对没有晚餐记录的日期明确点明；若全部日期均无晚餐记录，不给出零均值。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "continue",
+                  "task_id": "8769b35f-6df3-4a6b-9cbf-700e94905406",
+                  "trigger": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐记录的日期也要说明，空结果不要给出零均值。",
+                  "requirements": [
+                    {
+                      "key": "meal_scope",
+                      "quote": "把查询餐次改为晚餐",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_date_note",
+                      "quote": "没有晚餐记录的日期也要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "empty_result_rule",
+                      "quote": "空结果不要给出零均值",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "submit_semantic_route",
+              "payload": {
+                "intent_domain": "nutrition",
+                "request_kind": "query",
+                "requested_effect": "read",
+                "requested_output": "answer",
+                "read_targets": [
+                  "nutrition_history"
+                ],
+                "decision_action": "none",
+                "artifact_action": "none",
+                "normalized_request": "查询2026年10月5日和2026年10月9日晚餐的每日热量，并计算有记录日期的日均值；对没有晚餐记录的日期明确点明；若两天都没有晚餐记录，则空结果不给出零均值。",
+                "risk_level": "low",
+                "confidence": 0.95,
+                "task_update": {
+                  "action": "continue",
+                  "task_id": "8769b35f-6df3-4a6b-9cbf-700e94905406",
+                  "trigger": "把查询餐次改为晚餐，其他查询条件保留。没有晚餐记录的日期也要说明，空结果不要给出零均值。",
+                  "requirements": [
+                    {
+                      "key": "meal_scope",
+                      "quote": "把查询餐次改为晚餐",
+                      "remove": false
+                    },
+                    {
+                      "key": "missing_date_note",
+                      "quote": "没有晚餐记录的日期也要说明",
+                      "remove": false
+                    },
+                    {
+                      "key": "empty_result_no_zero_mean",
+                      "quote": "空结果不要给出零均值",
+                      "remove": false
+                    }
+                  ]
+                }
+              }
+            }
+          ],
+          "registered_tool_attempts": 0,
+          "verified_prior_query": {
+            "source_run_id": "8769b35f-6df3-4a6b-9cbf-700e94905406",
+            "primary_intent": "nutrition_history_query",
+            "resolved_query": "查询2026年10月5日和2026年10月9日午餐的每日热量，并计算有记录日期的日均值；对没有午餐记录的日期明确点明。",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "risk_level": "low",
+            "successful_query": true
+          },
+          "active_task_id": "8769b35f-6df3-4a6b-9cbf-700e94905406",
+          "revision_gate": [
+            false,
+            false
+          ],
+          "route_task_ids": [
+            "8769b35f-6df3-4a6b-9cbf-700e94905406",
+            "8769b35f-6df3-4a6b-9cbf-700e94905406"
+          ],
+          "full_grammar_match": false,
+          "clause_probe": [
+            {
+              "text": "把查询餐次改为晚餐",
+              "edit_with_clause_matches": true
+            },
+            {
+              "text": "其他查询条件保留",
+              "edit_with_clause_matches": false
+            },
+            {
+              "text": "没有晚餐记录的日期也要说明",
+              "edit_with_clause_matches": false
+            },
+            {
+              "text": "空结果不要给出零均值",
+              "edit_with_clause_matches": false
+            }
+          ]
+        }
+      ],
+      "root_cause": "A49-query-revision-supplemental-clauses",
+      "model_route_correct": true,
+      "fixture_error": false,
+      "scoring_false_failure": false
+    }
+  ],
+  "note": "Read-only frozen source/real SQL history replay. MQ02 remaining record verb is in record total; MQ06 has a successful matching prior query but whole-clause filter grammar rejects preserve/missing/empty-result clauses. No model calls or app edits."
+}

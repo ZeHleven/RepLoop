@@ -25,6 +25,8 @@ class MealItem(Base):
     id: Mapped[str] = mapped_column(String, primary_key=True)
     meal_id: Mapped[str] = mapped_column(String, ForeignKey("meal_logs.id"), index=True)
     food_id: Mapped[str | None] = mapped_column(String, ForeignKey("foods.id"), nullable=True)
+    custom_food_id: Mapped[str | None] = mapped_column(String, ForeignKey('custom_foods.id'), nullable=True)
+    custom_food_version: Mapped[int | None] = mapped_column(Integer, nullable=True)
     food_name: Mapped[str] = mapped_column(String(100))
     amount_g: Mapped[float] = mapped_column(Float)
     calories: Mapped[float] = mapped_column(Float)

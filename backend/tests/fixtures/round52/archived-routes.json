@@ -1,0 +1,209 @@
+{
+  "provenance": "R51 synthetic actual route decisions only; no model reasoning",
+  "rows": [
+    {
+      "id": "WX03-r1",
+      "message": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+      "source": "round-51-grounded-assessment/runs/WX03-r1.json",
+      "sha256": "b8ed1b8d7bd35de2acac867ad9e59bb3b9d90f702b0c972273bc10e73a630b50",
+      "routes": [
+        {
+          "intent_domain": "workout_plan",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan",
+            "health_screening"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "用户本周工作疲劳，希望每次训练最多15分钟，并提到膝盖已有不适记录。请结合当前训练计划，给出一周临时训练安排建议，以及恢复后如何回到原计划的建议；仅提供建议，不写入或修改计划。",
+          "risk_level": "medium",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+            "requirements": [
+              {
+                "key": "session_duration_limit",
+                "quote": "每次最多15分钟",
+                "remove": false
+              },
+              {
+                "key": "knee_discomfort",
+                "quote": "膝盖已有不适记录",
+                "remove": false
+              },
+              {
+                "key": "temporary_week_plan",
+                "quote": "结合当前计划给我一周临时安排",
+                "remove": false
+              },
+              {
+                "key": "return_to_plan",
+                "quote": "恢复后怎么回到原计划",
+                "remove": false
+              },
+              {
+                "key": "advice_only",
+                "quote": "只要建议",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "workout_plan",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan",
+            "health_screening"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "用户本周工作疲劳，希望结合当前训练计划，给出每次不超过15分钟的一周临时训练安排，并说明恢复后如何回到原计划；用户已记录膝盖不适，需考虑该限制。仅提供建议，不写入或修改计划。",
+          "risk_level": "medium",
+          "confidence": 0.86,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+            "requirements": [
+              {
+                "key": "duration_per_session",
+                "quote": "每次最多15分钟",
+                "remove": false
+              },
+              {
+                "key": "date_scope",
+                "quote": "这周",
+                "remove": false
+              },
+              {
+                "key": "knee_limitation",
+                "quote": "膝盖已有不适记录",
+                "remove": false
+              },
+              {
+                "key": "plan_scope",
+                "quote": "结合当前计划给我一周临时安排，以及恢复后怎么回到原计划",
+                "remove": false
+              },
+              {
+                "key": "no_save",
+                "quote": "只要建议",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "WX03-r2",
+      "message": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+      "source": "round-51-grounded-assessment/runs/WX03-r2.json",
+      "sha256": "11f26cd9b01f90c28e96beea98928577eca28a171da2070d2f16a5c2b207c6ad",
+      "routes": [
+        {
+          "intent_domain": "workout_plan",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan",
+            "health_screening"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "用户本周工作疲劳，希望结合当前训练计划，给出每次不超过15分钟的一周临时训练安排，以及恢复后如何回到原计划的建议；用户膝盖已有不适记录，需考虑该限制；仅提供建议，不修改或保存计划。",
+          "risk_level": "medium",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+            "requirements": [
+              {
+                "key": "duration_per_session",
+                "quote": "每次最多15分钟",
+                "remove": false
+              },
+              {
+                "key": "date_scope",
+                "quote": "这周",
+                "remove": false
+              },
+              {
+                "key": "knee_limitation",
+                "quote": "膝盖已有不适记录",
+                "remove": false
+              },
+              {
+                "key": "plan_scope",
+                "quote": "结合当前计划给我一周临时安排，以及恢复后怎么回到原计划",
+                "remove": false
+              },
+              {
+                "key": "no_save",
+                "quote": "只要建议",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "workout_plan",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan",
+            "health_screening"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "用户本周工作疲劳，希望结合当前训练计划，给出每次不超过15分钟的一周临时训练安排，以及恢复后如何回到原计划的建议；用户已有膝盖不适记录，需考虑该限制；只要建议，不写入或修改计划。",
+          "risk_level": "medium",
+          "confidence": 0.9,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "这周工作累，每次最多15分钟，膝盖已有不适记录。结合当前计划给我一周临时安排，以及恢复后怎么回到原计划，只要建议。",
+            "requirements": [
+              {
+                "key": "duration_limit",
+                "quote": "每次最多15分钟",
+                "remove": false
+              },
+              {
+                "key": "date_scope",
+                "quote": "这周",
+                "remove": false
+              },
+              {
+                "key": "knee_limitation",
+                "quote": "膝盖已有不适记录",
+                "remove": false
+              },
+              {
+                "key": "plan_scope",
+                "quote": "结合当前计划给我一周临时安排，以及恢复后怎么回到原计划",
+                "remove": false
+              },
+              {
+                "key": "no_save",
+                "quote": "只要建议",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

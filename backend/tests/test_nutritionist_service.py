@@ -1,6 +1,6 @@
 import pytest
 from datetime import date
-from unittest.mock import patch, MagicMock, AsyncMock
+from unittest.mock import patch, AsyncMock
 from app.models.user import User
 from app.models.meal import MealLog, MealItem
 from app.services.nutritionist import get_daily_nutrition_advice
@@ -12,27 +12,15 @@ def _make_user(uid: str, email: str) -> User:
     return User(id=uid, email=email, password_hash=pw)
 
 
-def _mock_deepseek(reply: str):
-    mock_resp = MagicMock()
-    mock_resp.json.return_value = {"choices": [{"message": {"content": reply}}]}
-    mock_resp.raise_for_status.return_value = None
-
-    mock_client = AsyncMock()
-    mock_client.post.return_value = mock_resp
-
-    mock_cls = MagicMock()
-    mock_cls.return_value.__aenter__.return_value = mock_client
-    mock_cls.return_value.__aexit__.return_value = AsyncMock(return_value=False)
-    return mock_cls
-
-
 @pytest.mark.asyncio
 async def test_advice_no_meals(db_session):
     db_session.add(_make_user("nut-u1", "nut1@example.com"))
     await db_session.commit()
 
-    mock_cls = _mock_deepseek("建议增加蛋白质摄入。")
-    with patch("app.services.nutritionist.httpx.AsyncClient", mock_cls):
+    with patch(
+        "app.services.nutritionist.chat_completion",
+        new=AsyncMock(return_value="建议增加蛋白质摄入。"),
+    ):
         advice = await get_daily_nutrition_advice(db_session, user_id="nut-u1")
 
     assert "建议" in advice
@@ -58,8 +46,10 @@ async def test_advice_with_meals(db_session):
     ))
     await db_session.commit()
 
-    mock_cls = _mock_deepseek("今日蛋白质摄入充足，建议补充蔬菜。")
-    with patch("app.services.nutritionist.httpx.AsyncClient", mock_cls):
+    with patch(
+        "app.services.nutritionist.chat_completion",
+        new=AsyncMock(return_value="今日蛋白质摄入充足，建议补充蔬菜。"),
+    ):
         advice = await get_daily_nutrition_advice(db_session, user_id="nut-u2")
 
     assert isinstance(advice, str)
@@ -74,8 +64,10 @@ async def test_advice_endpoint(client):
     )
     token = resp.json()["access_token"]
 
-    mock_cls = _mock_deepseek("营养均衡，继续保持。")
-    with patch("app.services.nutritionist.httpx.AsyncClient", mock_cls):
+    with patch(
+        "app.services.nutritionist.chat_completion",
+        new=AsyncMock(return_value="营养均衡，继续保持。"),
+    ):
         resp = await client.get(
             "/api/v1/meals/advice",
             headers={"Authorization": f"Bearer {token}"},

@@ -1,0 +1,70 @@
+{
+  "name": "miniapp",
+  "version": "0.5.46",
+  "private": true,
+  "description": "AI 健身助手微信小程序",
+  "templateInfo": {
+    "name": "default",
+    "typescript": true,
+    "css": "Sass",
+    "framework": "React"
+  },
+  "packageManager": "pnpm@11.19.0",
+  "scripts": {
+    "new": "taro new",
+    "build:weapp": "node scripts/build-weapp.mjs",
+    "build:h5": "taro build --type h5",
+    "dev:weapp": "taro build --type weapp --watch",
+    "dev:h5": "taro build --type h5 --watch",
+    "test:proposal-contract": "node --test tests/plan-adjustment-proposal-interaction-contract.test.mjs tests/plan-adjustment-proposal-client.test.mjs tests/plan-adjustment-proposal-ui-integration-contract.test.mjs tests/proposal-confirmation-adapter.test.mjs tests/proposal-reference-sync.test.mjs tests/manual-proposal-confirmation.test.mjs tests/domain-proposal-confirmation.test.mjs",
+    "test:build-contract": "node --test tests/scroll-edges.test.mjs tests/capsule-navigation.test.mjs tests/read-cache.test.mjs tests/loading-pages.test.mjs tests/weapp-build-contract.test.mjs tests/core-loop-contract.test.mjs tests/agent-new-conversation.test.mjs tests/agent-message-format.test.mjs tests/reliability-regressions.test.mjs tests/meal-draft.test.mjs tests/auth-refresh.test.mjs tests/nutrition-interactions.test.mjs tests/nutrition-energy.test.mjs tests/profile-save.test.mjs tests/recovery-navigation.test.mjs tests/training-interactions.test.mjs tests/training-ui-styles.test.mjs tests/energy-classification.test.mjs tests/plan-builder-schedule.test.mjs tests/interaction-motion.test.mjs tests/training-motion.test.mjs tests/custom-exercise-sheet.test.mjs tests/plan-editor-dirty.test.mjs tests/plan-navigation-theme.test.mjs tests/workout-disclosure.test.mjs tests/workout-history-presentation.test.mjs tests/exercise-picker.test.mjs",
+    "test:interactions": "node --test tests/packaged-food.test.mjs tests/nutrition-interactions.test.mjs tests/interaction-motion.test.mjs tests/training-motion.test.mjs tests/custom-exercise-sheet.test.mjs tests/plan-editor-dirty.test.mjs tests/plan-navigation-theme.test.mjs tests/workout-disclosure.test.mjs tests/workout-history-presentation.test.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "browserslist": [
+    "defaults and fully supports es6-module",
+    "maintained node versions"
+  ],
+  "author": "",
+  "dependencies": {
+    "@babel/runtime": "^7.24.4",
+    "@tarojs/components": "4.2.1",
+    "@tarojs/helper": "4.2.1",
+    "@tarojs/plugin-platform-weapp": "4.2.1",
+    "@tarojs/plugin-platform-h5": "4.2.1",
+    "@tarojs/runtime": "4.2.1",
+    "@tarojs/shared": "4.2.1",
+    "@tarojs/taro": "4.2.1",
+    "@tarojs/plugin-framework-react": "4.2.1",
+    "@tarojs/react": "4.2.1",
+    "react-dom": "^18.0.0",
+    "react": "^18.0.0"
+  },
+  "devDependencies": {
+    "@tarojs/plugin-generator": "4.2.1",
+    "stylelint-config-standard": "^38.0.0",
+    "@babel/core": "^7.24.4",
+    "@tarojs/cli": "4.2.1",
+    "@babel/plugin-transform-class-properties": "7.25.9",
+    "@types/webpack-env": "^1.13.6",
+    "@types/react": "^18.0.0",
+    "webpack": "5.91.0",
+    "@tarojs/taro-loader": "4.2.1",
+    "@tarojs/webpack5-runner": "4.2.1",
+    "sass": "^1.75.0",
+    "babel-preset-taro": "4.2.1",
+    "eslint-config-taro": "4.2.1",
+    "eslint": "^8.57.0",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
+    "react-refresh": "^0.14.0",
+    "@babel/preset-react": "^7.24.1",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.4.0",
+    "stylelint": "^16.4.0",
+    "typescript": "^5.4.5",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "postcss": "^8.5.6",
+    "@types/node": "^18",
+    "@types/minimatch": "^5"
+  }
+}

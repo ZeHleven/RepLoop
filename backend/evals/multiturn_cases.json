@@ -1,0 +1,168 @@
+{
+  "version": "1.1",
+  "source": "synthetic independent requirements; fixture assistant acknowledgements; semantic routing only",
+  "cases": [
+    {
+      "id": "duration_correction",
+      "replaced_minutes": {"40": 30},
+      "split": "development",
+      "turns": [
+        "给我训练安排建议，每次最多40分钟，周三不能练，只看建议不要保存。",
+        "时间改为最多30分钟，其余要求保持。"
+      ],
+      "gap": true,
+      "must_match": [
+        "30\\s*分钟",
+        "周三",
+        "不能|不安排|不.*训练",
+        "建议",
+        "不.*(?:保存|写入|持久化)"
+      ],
+      "must_not_match": [
+        "40分钟"
+      ],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    },
+    {
+      "id": "nutrition_constraint",
+      "split": "development",
+      "turns": [
+        "帮我安排今天的全天饮食，不吃鸡肉，只生成方案。",
+        "按刚才要求重新安排。"
+      ],
+      "gap": true,
+      "must_match": [
+        "鸡肉",
+        "不吃|排除|避免|不含",
+        "今天|2026-09-29",
+        "全天|三餐|多餐"
+      ],
+      "must_not_match": [],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    },
+    {
+      "id": "query_range",
+      "split": "development",
+      "turns": [
+        "查2026年9月1日至9月7日的训练记录，只列已完成的场次。",
+        "再按这个范围列一次。"
+      ],
+      "gap": true,
+      "must_match": [
+        "(?:9月1日|09-01)",
+        "(?:9月7日|09-07)",
+        "完成",
+        "训练"
+      ],
+      "must_not_match": [],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    },
+    {
+      "id": "topic_return",
+      "split": "development",
+      "turns": [
+        "给我晚餐建议，不吃花生，不要保存。",
+        "解释一下什么是训练容量。",
+        "回到刚才的晚餐建议，其他限制保持。"
+      ],
+      "gap": false,
+      "must_match": [
+        "晚餐",
+        "花生",
+        "不吃|排除|避免|不含",
+        "不.*(?:保存|写入|持久化)"
+      ],
+      "must_not_match": [],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    },
+    {
+      "id": "cancel_old_task",
+      "split": "development",
+      "turns": [
+        "给我晚餐建议，不吃鸡肉。",
+        "取消刚才的晚餐任务。",
+        "查今天吃了多少热量。"
+      ],
+      "gap": false,
+      "must_match": [
+        "今天|今日|2026-09-29",
+        "热量|能量|卡路里"
+      ],
+      "must_not_match": [
+        "不吃鸡肉"
+      ],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    },
+    {
+      "id": "latest_replaces",
+      "split": "development",
+      "exposure_note": "Used to calibrate explicit-replacement wording in the evaluator; removed from holdout.",
+      "replaced_minutes": {"25": 35},
+      "turns": [
+        "给我训练建议，每次最多25分钟，不安排周五。",
+        "现在每次最多35分钟，其他条件保持。"
+      ],
+      "gap": true,
+      "must_match": [
+        "35\\s*分钟",
+        "周五",
+        "不安排|不能|不.*训练",
+        "建议"
+      ],
+      "must_not_match": [
+        "25分钟"
+      ],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    },
+    {
+      "id": "temporary_not_global",
+      "split": "holdout",
+      "turns": [
+        "今天的晚餐不要米饭。",
+        "另一个问题：解释碳水化合物的作用。"
+      ],
+      "gap": false,
+      "must_match": [
+        "碳水",
+        "作用|功能"
+      ],
+      "must_not_match": [
+        "不要米饭"
+      ],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    },
+    {
+      "id": "return_query",
+      "split": "holdout",
+      "turns": [
+        "查2026年8月10日至8月16日的训练记录。",
+        "解释什么是蛋白质。",
+        "回到刚才那段时间的训练记录。"
+      ],
+      "gap": false,
+      "must_match": [
+        "(?:8月10日|08-10)",
+        "(?:8月16日|08-16)",
+        "训练"
+      ],
+      "must_not_match": [],
+      "semantic_fields": {
+        "requested_effect": "read"
+      }
+    }
+  ]
+}

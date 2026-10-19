@@ -1,0 +1,597 @@
+{
+  "source": "R74 original synthetic HN07; frozen before R79 implementation",
+  "case": {
+    "id": "HN07",
+    "group": "new",
+    "kind": "nutrition_query",
+    "title": "两历史日期蛋白质对比",
+    "turns": [
+      "我想知道2026年9月27日和10月2日哪天吃到的蛋白质更多。先列这两天各自的热量、蛋白质、碳水和脂肪，再比较蛋白质差多少。"
+    ],
+    "clarifications": [
+      false
+    ],
+    "foods": [
+      {
+        "id": "rice",
+        "name": "米饭",
+        "category": "grain",
+        "calories": 130,
+        "protein_g": 3,
+        "carbs_g": 28,
+        "fat_g": 1,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "chicken",
+        "name": "鸡胸",
+        "category": "protein",
+        "calories": 165,
+        "protein_g": 31,
+        "carbs_g": 0,
+        "fat_g": 3.6,
+        "diet_tags": []
+      },
+      {
+        "id": "oil",
+        "name": "橄榄油",
+        "category": "oil",
+        "calories": 900,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 100,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "tofu",
+        "name": "豆腐",
+        "category": "protein",
+        "calories": 110,
+        "protein_g": 12,
+        "carbs_g": 3,
+        "fat_g": 6,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "oats",
+        "name": "燕麦",
+        "category": "grain",
+        "calories": 380,
+        "protein_g": 13,
+        "carbs_g": 66,
+        "fat_g": 7,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "lentils",
+        "name": "熟扁豆",
+        "category": "protein",
+        "calories": 116,
+        "protein_g": 9,
+        "carbs_g": 20,
+        "fat_g": 0.4,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "broccoli",
+        "name": "西兰花",
+        "category": "vegetable",
+        "calories": 34,
+        "protein_g": 2.8,
+        "carbs_g": 6.6,
+        "fat_g": 0.4,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "egg",
+        "name": "鸡蛋",
+        "category": "protein",
+        "calories": 144,
+        "protein_g": 13,
+        "carbs_g": 2,
+        "fat_g": 9,
+        "diet_tags": [
+          "vegetarian"
+        ]
+      },
+      {
+        "id": "potato",
+        "name": "土豆",
+        "category": "grain",
+        "calories": 77,
+        "protein_g": 2,
+        "carbs_g": 17,
+        "fat_g": 0.1,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "corn",
+        "name": "玉米",
+        "category": "grain",
+        "calories": 112,
+        "protein_g": 4,
+        "carbs_g": 23,
+        "fat_g": 1.2,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "milk",
+        "name": "牛奶",
+        "category": "dairy",
+        "calories": 61,
+        "protein_g": 3.2,
+        "carbs_g": 4.8,
+        "fat_g": 3.3,
+        "diet_tags": [
+          "vegetarian"
+        ]
+      },
+      {
+        "id": "soymilk",
+        "name": "无糖豆浆",
+        "category": "protein",
+        "calories": 33,
+        "protein_g": 3.6,
+        "carbs_g": 1.8,
+        "fat_g": 1.5,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "apple",
+        "name": "苹果",
+        "category": "fruit",
+        "calories": 52,
+        "protein_g": 0.3,
+        "carbs_g": 14,
+        "fat_g": 0.2,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "fish",
+        "name": "鱼肉",
+        "category": "protein",
+        "calories": 120,
+        "protein_g": 22,
+        "carbs_g": 0,
+        "fat_g": 3,
+        "diet_tags": []
+      },
+      {
+        "id": "peanut",
+        "name": "花生",
+        "category": "nuts",
+        "calories": 567,
+        "protein_g": 26,
+        "carbs_g": 16,
+        "fat_g": 49,
+        "diet_tags": [
+          "vegan"
+        ]
+      },
+      {
+        "id": "spinach",
+        "name": "菠菜",
+        "category": "vegetable",
+        "calories": 23,
+        "protein_g": 2.9,
+        "carbs_g": 3.6,
+        "fat_g": 0.4,
+        "diet_tags": [
+          "vegan"
+        ]
+      }
+    ],
+    "meals": [
+      {
+        "date": "2026-09-24",
+        "meal_type": "早餐",
+        "items": {
+          "燕麦": 60,
+          "牛奶": 200
+        }
+      },
+      {
+        "date": "2026-09-27",
+        "meal_type": "午餐",
+        "items": {
+          "米饭": 180,
+          "豆腐": 100
+        }
+      },
+      {
+        "date": "2026-09-27",
+        "meal_type": "晚餐",
+        "items": {
+          "土豆": 200,
+          "鱼肉": 100
+        }
+      },
+      {
+        "date": "2026-09-30",
+        "meal_type": "早餐",
+        "items": {
+          "燕麦": 40,
+          "鸡蛋": 100
+        }
+      },
+      {
+        "date": "2026-10-02",
+        "meal_type": "午餐",
+        "items": {
+          "米饭": 120,
+          "鸡胸": 100
+        }
+      },
+      {
+        "date": "2026-10-02",
+        "meal_type": "晚餐",
+        "items": {
+          "米饭": 100,
+          "豆腐": 150
+        }
+      },
+      {
+        "date": "2026-10-04",
+        "meal_type": "早餐",
+        "items": {
+          "玉米": 100,
+          "无糖豆浆": 200
+        }
+      },
+      {
+        "date": "2026-10-04",
+        "meal_type": "晚餐",
+        "items": {
+          "土豆": 150,
+          "鱼肉": 120
+        }
+      },
+      {
+        "date": "2026-10-05",
+        "meal_type": "晚餐",
+        "items": {
+          "米饭": 200,
+          "豆腐": 80
+        }
+      },
+      {
+        "date": "2026-10-07",
+        "meal_type": "早餐",
+        "items": {
+          "燕麦": 50,
+          "牛奶": 150
+        }
+      },
+      {
+        "date": "2026-10-08",
+        "meal_type": "午餐",
+        "items": {
+          "米饭": 150,
+          "鸡胸": 80
+        }
+      },
+      {
+        "date": "2026-10-09",
+        "meal_type": "午餐",
+        "items": {
+          "米饭": 100,
+          "鱼肉": 150
+        }
+      },
+      {
+        "date": "2026-10-10",
+        "meal_type": "早餐",
+        "items": {
+          "米饭": 500
+        }
+      },
+      {
+        "date": "2026-10-11",
+        "meal_type": "晚餐",
+        "items": {
+          "米饭": 600
+        }
+      }
+    ],
+    "query_gold": [
+      {
+        "arguments": {
+          "logged_dates": [
+            "2026-09-27",
+            "2026-10-02"
+          ]
+        },
+        "rows": [
+          {
+            "date": "2026-10-02",
+            "calories": 616,
+            "protein_g": 55.6,
+            "carbs_g": 66.1,
+            "fat_g": 14.8
+          },
+          {
+            "date": "2026-09-27",
+            "calories": 618,
+            "protein_g": 43.4,
+            "carbs_g": 87.4,
+            "fat_g": 11
+          }
+        ],
+        "answer_facts": [],
+        "forbidden": []
+      }
+    ],
+    "reply_rules": [
+      "日期、餐次、范围和每项请求必须完整；未记录不等于未进食或零摄入；未来记录排除；不写入、不生成提案。",
+      "9/27蛋白质43.4g、10/2为55.6g，10/2多12.2g；无需另查今天或索要近期饮食。"
+    ]
+  },
+  "rows": [
+    {
+      "id": "HN07-r1",
+      "message": "我想知道2026年9月27日和10月2日哪天吃到的蛋白质更多。先列这两天各自的热量、蛋白质、碳水和脂肪，再比较蛋白质差多少。",
+      "resolved_query": "查询2026年9月27日和2026年10月2日两天的饮食营养汇总，分别列出热量、蛋白质、碳水和脂肪，并比较两天的蛋白质摄入量差值。",
+      "calls": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月27日和2026年10月2日两天的饮食营养汇总，分别列出热量、蛋白质、碳水和脂肪，并比较两天的蛋白质摄入量差值。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "我想知道2026年9月27日和10月2日哪天吃到的蛋白质更多。先列这两天各自的热量、蛋白质、碳水和脂肪，再比较蛋白质差多少。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026年9月27日和10月2日",
+                  "remove": false
+                },
+                {
+                  "key": "metrics",
+                  "quote": "先列这两天各自的热量、蛋白质、碳水和脂肪",
+                  "remove": false
+                },
+                {
+                  "key": "comparison",
+                  "quote": "再比较蛋白质差多少",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-09-27",
+              "2026-10-02"
+            ],
+            "meal_types": [],
+            "supported": false,
+            "response_mode": "structured",
+            "metrics": [
+              "calories",
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-09-27",
+              "2026-10-02"
+            ],
+            "meal_types": [],
+            "supported": false,
+            "response_mode": "structured",
+            "metrics": [
+              "calories",
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        }
+      ],
+      "score": {
+        "dimensions": {
+          "R": "fail",
+          "B": "pass",
+          "C": "pass",
+          "P": "pass"
+        },
+        "errors": {
+          "R": [
+            {
+              "check": "nutrition_card_count",
+              "turn": 0
+            }
+          ],
+          "B": [],
+          "C": [],
+          "P": []
+        },
+        "structural_pass": false,
+        "semantic_review": "pending",
+        "task_pass": null
+      },
+      "error": "nutrition_query_unsupported"
+    },
+    {
+      "id": "HN07-r2",
+      "message": "我想知道2026年9月27日和10月2日哪天吃到的蛋白质更多。先列这两天各自的热量、蛋白质、碳水和脂肪，再比较蛋白质差多少。",
+      "resolved_query": "查询2026年9月27日和2026年10月2日两天的营养摄入，分别列出热量、蛋白质、碳水和脂肪，并比较两天的蛋白质摄入量差值。",
+      "calls": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月27日和2026年10月2日两天的营养摄入，分别列出热量、蛋白质、碳水和脂肪，并比较两天的蛋白质摄入量差值。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "我想知道2026年9月27日和10月2日哪天吃到的蛋白质更多。先列这两天各自的热量、蛋白质、碳水和脂肪，再比较蛋白质差多少。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026年9月27日和10月2日",
+                  "remove": false
+                },
+                {
+                  "key": "metrics",
+                  "quote": "先列这两天各自的热量、蛋白质、碳水和脂肪",
+                  "remove": false
+                },
+                {
+                  "key": "comparison",
+                  "quote": "再比较蛋白质差多少",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-09-27",
+              "2026-10-02"
+            ],
+            "meal_types": [],
+            "supported": false,
+            "response_mode": "structured",
+            "metrics": [
+              "calories",
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-09-27",
+              "2026-10-02"
+            ],
+            "meal_types": [],
+            "supported": false,
+            "response_mode": "structured",
+            "metrics": [
+              "calories",
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        }
+      ],
+      "score": {
+        "dimensions": {
+          "R": "fail",
+          "B": "pass",
+          "C": "pass",
+          "P": "pass"
+        },
+        "errors": {
+          "R": [
+            {
+              "check": "nutrition_card_count",
+              "turn": 0
+            }
+          ],
+          "B": [],
+          "C": [],
+          "P": []
+        },
+        "structural_pass": false,
+        "semantic_review": "pending",
+        "task_pass": null
+      },
+      "error": "nutrition_query_unsupported"
+    }
+  ]
+}

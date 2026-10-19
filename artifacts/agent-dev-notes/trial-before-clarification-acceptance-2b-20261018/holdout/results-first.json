@@ -1,0 +1,1978 @@
+{
+  "benchmark": "trialaccept2b-holdout",
+  "finished_at": "2026-10-19T02:28:46.758315+00:00",
+  "instances": [
+    {
+      "id": "HO01-r1",
+      "score": {
+        "structural_pass": true,
+        "errors": [],
+        "terminal_delivery_eligible": true,
+        "terminal_errors": [],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 1,
+          "successes": 1,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 1,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "rows": [
+            {
+              "turn": 0,
+              "call_id": "report-66223be5f7164e06a16e7ab546141899",
+              "tool": "nutrition.list_history",
+              "arguments": {
+                "days": 30,
+                "end_date": "",
+                "meal_types": [],
+                "start_date": "",
+                "logged_dates": [
+                  "2026-10-07",
+                  "2026-10-08"
+                ]
+              },
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "d4a37e3ac2f84c11b395781c763c9015",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            }
+          ],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "76c9dd8a-d87a-4886-aa13-5c5ca7177a26",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 1,
+            "successes": 1,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": 1.0,
+            "error_rate": 0.0,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": [
+              {
+                "run_id": "76c9dd8a-d87a-4886-aa13-5c5ca7177a26",
+                "worker_attempt": 1,
+                "sequence": 1,
+                "name": "nutrition_list_history",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {
+                    "days": 30,
+                    "start_date": "",
+                    "end_date": "",
+                    "logged_dates": [
+                      "2026-10-07",
+                      "2026-10-08"
+                    ],
+                    "meal_types": []
+                  }
+                },
+                "result": {
+                  "count": 2,
+                  "evidence_limits": {
+                    "intake_basis": "logged_items_only",
+                    "whole_day_completeness": "unknown",
+                    "unlogged_intake_is_zero": false,
+                    "meal_count_proves_completeness": false
+                  },
+                  "scope": {
+                    "as_of": "2026-10-09",
+                    "timezone": "Asia/Shanghai",
+                    "selection": "specific_dates",
+                    "requested_limit": null,
+                    "start_date": null,
+                    "end_date": null,
+                    "logged_dates": [
+                      "2026-10-07",
+                      "2026-10-08"
+                    ],
+                    "meal_types": [],
+                    "returned_dates": 2,
+                    "first_logged_date": "2026-10-07",
+                    "last_logged_date": "2026-10-08"
+                  },
+                  "days": [
+                    {
+                      "date": "2026-10-08",
+                      "total_calories": 360.0,
+                      "total_protein_g": 35.5,
+                      "total_carbs_g": 42.0,
+                      "total_fat_g": 5.1,
+                      "meals": [
+                        {
+                          "id": "5dfde15b-53b5-4731-a72c-704e335fc6e3",
+                          "user_id": "synthetic-r46-078f0b05f1534a1b970540322f14c87b",
+                          "logged_at": "2026-10-08",
+                          "meal_type": "dinner",
+                          "created_at": "2026-10-08T00:00:00Z",
+                          "items": [
+                            {
+                              "id": "d3eafc62-11f8-4327-91cd-b97b2d6cd703",
+                              "meal_id": "5dfde15b-53b5-4731-a72c-704e335fc6e3",
+                              "food_id": "r31-chicken",
+                              "custom_food_id": null,
+                              "custom_food_version": null,
+                              "food_name": "鸡胸",
+                              "amount_g": 100.0,
+                              "calories": 165.0,
+                              "protein_g": 31.0,
+                              "carbs_g": 0.0,
+                              "fat_g": 3.6
+                            },
+                            {
+                              "id": "eca6e3bb-833e-4dab-b7dc-3bec5a811155",
+                              "meal_id": "5dfde15b-53b5-4731-a72c-704e335fc6e3",
+                              "food_id": "r31-rice",
+                              "custom_food_id": null,
+                              "custom_food_version": null,
+                              "food_name": "米饭",
+                              "amount_g": 150.0,
+                              "calories": 195.0,
+                              "protein_g": 4.5,
+                              "carbs_g": 42.0,
+                              "fat_g": 1.5
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2026-10-07",
+                      "total_calories": 432.0,
+                      "total_protein_g": 42.6,
+                      "total_carbs_g": 50.4,
+                      "total_fat_g": 6.1,
+                      "meals": [
+                        {
+                          "id": "0e09139f-adb5-447a-b667-9dda3f113190",
+                          "user_id": "synthetic-r46-078f0b05f1534a1b970540322f14c87b",
+                          "logged_at": "2026-10-07",
+                          "meal_type": "lunch",
+                          "created_at": "2026-10-07T00:00:00Z",
+                          "items": [
+                            {
+                              "id": "3209fbaf-fedc-425d-a2dd-7afeec35d250",
+                              "meal_id": "0e09139f-adb5-447a-b667-9dda3f113190",
+                              "food_id": "r31-rice",
+                              "custom_food_id": null,
+                              "custom_food_version": null,
+                              "food_name": "米饭",
+                              "amount_g": 180.0,
+                              "calories": 234.0,
+                              "protein_g": 5.4,
+                              "carbs_g": 50.4,
+                              "fat_g": 1.8
+                            },
+                            {
+                              "id": "b99bb0e9-3132-4bc2-bea8-2bd333f794ba",
+                              "meal_id": "0e09139f-adb5-447a-b667-9dda3f113190",
+                              "food_id": "r31-chicken",
+                              "custom_food_id": null,
+                              "custom_food_version": null,
+                              "food_name": "鸡胸",
+                              "amount_g": 120.0,
+                              "calories": 198.0,
+                              "protein_g": 37.2,
+                              "carbs_g": 0.0,
+                              "fat_g": 4.3
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 1,
+            "successes": 1,
+            "errors": 0,
+            "success_rate": 1.0,
+            "error_rate": 0.0
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 3,
+              "transport_attempts": 3,
+              "http_requests": 3,
+              "http_responses": 3,
+              "http_successes": 3,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 3,
+              "known_input_tokens": 16002,
+              "known_output_tokens": 1043
+            },
+            "observed_requests": 3,
+            "full_request_count": 3,
+            "usage_complete": true,
+            "input_tokens": 16002,
+            "output_tokens": 1043
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response",
+              "unpriced_response",
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            null
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO02-r1",
+      "score": {
+        "structural_pass": false,
+        "errors": [
+          "missing_tool:profile.get_summary",
+          "missing_nutrition_evidence"
+        ],
+        "terminal_delivery_eligible": false,
+        "terminal_errors": [
+          "missing_tool:profile.get_summary",
+          "missing_nutrition_evidence"
+        ],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 0,
+          "successes": 0,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 0,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": null,
+          "error_rate": null,
+          "rows": [],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "ca96bcaa-e132-4faf-b45e-84eecf23ee8a",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 0,
+            "successes": 0,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": null,
+            "error_rate": null,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": []
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 0,
+            "successes": 0,
+            "errors": 0,
+            "success_rate": null,
+            "error_rate": null
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 2,
+              "transport_attempts": 2,
+              "http_requests": 2,
+              "http_responses": 2,
+              "http_successes": 2,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 2,
+              "known_input_tokens": 5458,
+              "known_output_tokens": 574
+            },
+            "observed_requests": 2,
+            "full_request_count": 2,
+            "usage_complete": true,
+            "input_tokens": 5458,
+            "output_tokens": 574
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response",
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            4597.46
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO03-r1",
+      "score": {
+        "structural_pass": false,
+        "errors": [
+          "missing_tool:workout.list_history",
+          "missing_workout_evidence"
+        ],
+        "terminal_delivery_eligible": false,
+        "terminal_errors": [
+          "missing_tool:workout.list_history",
+          "missing_workout_evidence"
+        ],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 0,
+          "successes": 0,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 0,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": null,
+          "error_rate": null,
+          "rows": [],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "5910b925-bb8e-431d-92ea-55d3b4497f84",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 0,
+            "successes": 0,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": null,
+            "error_rate": null,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": []
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 0,
+            "successes": 0,
+            "errors": 0,
+            "success_rate": null,
+            "error_rate": null
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 1,
+              "transport_attempts": 1,
+              "http_requests": 1,
+              "http_responses": 1,
+              "http_successes": 1,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 1,
+              "known_input_tokens": 3450,
+              "known_output_tokens": 399
+            },
+            "observed_requests": 1,
+            "full_request_count": 1,
+            "usage_complete": true,
+            "input_tokens": 3450,
+            "output_tokens": 399
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            2221.86
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO04-r1",
+      "score": {
+        "structural_pass": false,
+        "errors": [
+          "blocked_delivery"
+        ],
+        "terminal_delivery_eligible": false,
+        "terminal_errors": [
+          "blocked_delivery"
+        ],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 2,
+          "successes": 2,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 2,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "rows": [
+            {
+              "turn": 0,
+              "call_id": "report-28c3c91f5cd4430d97d4d8c923263696",
+              "tool": "plan.get_active",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "b6ec36104fc54c988e6750d6a3658d49",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            },
+            {
+              "turn": 0,
+              "call_id": "report-f07428a4a7cd4e4cb5e2a42dee8a316d",
+              "tool": "health.get_screening_summary",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "2e5bdee0d66141d8bbf88727e155c156",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            }
+          ],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "94717122-6cb1-470c-9281-ffaf8b1c45a8",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 2,
+            "successes": 2,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": 1.0,
+            "error_rate": 0.0,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": [
+              {
+                "run_id": "94717122-6cb1-470c-9281-ffaf8b1c45a8",
+                "worker_attempt": 1,
+                "sequence": 1,
+                "name": "plan_get_active",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "plan": {
+                    "id": "f5076dc7-b6b6-4383-b2b6-df29d7e9fb68",
+                    "user_id": "synthetic-r46-4618781f5d4248d69966340738cbf11e",
+                    "name": "第31轮合成计划",
+                    "goal": "保持体重",
+                    "duration_weeks": 4,
+                    "days_per_week": 1,
+                    "is_active": true,
+                    "ai_generated": false,
+                    "notes": null,
+                    "created_at": "2026-09-01T00:00:00Z",
+                    "safety_status": "compatible",
+                    "safety_reasons": [],
+                    "manual_proposals_enabled": false,
+                    "display_name": "第31轮合成计划",
+                    "week_start": "2026-10-05",
+                    "weekly_completed_days": 0,
+                    "weekly_sessions": [],
+                    "exercises": [
+                      {
+                        "id": "c92cefb4-6e5e-44b2-9879-2ba728970221",
+                        "plan_id": "f5076dc7-b6b6-4383-b2b6-df29d7e9fb68",
+                        "exercise_id": "r31-ex-0",
+                        "exercise_name": "卧推",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 20.0,
+                        "order_index": 0
+                      },
+                      {
+                        "id": "c7e2d44e-79e1-431f-b768-b667ef2b58c3",
+                        "plan_id": "f5076dc7-b6b6-4383-b2b6-df29d7e9fb68",
+                        "exercise_id": "r31-ex-1",
+                        "exercise_name": "深蹲",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 30.0,
+                        "order_index": 1
+                      }
+                    ]
+                  },
+                  "scope": {
+                    "as_of": "2026-10-09",
+                    "timezone": "Asia/Shanghai",
+                    "week_start": "2026-10-05",
+                    "completed_days_basis": "current_plan_continuity_and_scheduled_weekday",
+                    "history_session_count_is_distinct": true,
+                    "note": "weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。"
+                  }
+                }
+              },
+              {
+                "run_id": "94717122-6cb1-470c-9281-ffaf8b1c45a8",
+                "worker_attempt": 1,
+                "sequence": 2,
+                "name": "health_get_screening_summary",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "injuries": [],
+                  "chronic_conditions": [],
+                  "screening_completed": true,
+                  "updated_at": "2026-09-01T00:00:00+00:00",
+                  "medical_boundary": "该信息仅用于训练安全筛查，不构成医疗诊断。"
+                }
+              }
+            ]
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 2,
+            "successes": 2,
+            "errors": 0,
+            "success_rate": 1.0,
+            "error_rate": 0.0
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 4,
+              "transport_attempts": 4,
+              "http_requests": 4,
+              "http_responses": 4,
+              "http_successes": 4,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 4,
+              "known_input_tokens": 30907,
+              "known_output_tokens": 1319
+            },
+            "observed_requests": 4,
+            "full_request_count": 4,
+            "usage_complete": true,
+            "input_tokens": 30907,
+            "output_tokens": 1319
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response",
+              "unpriced_response",
+              "unpriced_response",
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            9473.85
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO05-r1",
+      "score": {
+        "structural_pass": true,
+        "errors": [],
+        "terminal_delivery_eligible": true,
+        "terminal_errors": [],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 3,
+          "successes": 3,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 3,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "rows": [
+            {
+              "turn": 0,
+              "call_id": "call_00_jvxXSv0Srb2bfPqWRFie9388",
+              "tool": "health.get_screening_summary",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "9fe47d5739774439a553ee35960e5ff1",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            },
+            {
+              "turn": 0,
+              "call_id": "call_01_ZUIJRTqLvXoXHCNmfcvT5774",
+              "tool": "workout.get_next",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "765f8d6a8cc84dd49c10f82b0c285d12",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            },
+            {
+              "turn": 0,
+              "call_id": "call_02_bUHHdlO2PicSaSDI8kLU8606",
+              "tool": "plan.get_active",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "e2dc31ac83ce43949902d34fde0cd2d3",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            }
+          ],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "a3473944-46f9-46ea-b3cd-5304482cfe90",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 3,
+            "successes": 3,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": 1.0,
+            "error_rate": 0.0,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": [
+              {
+                "run_id": "a3473944-46f9-46ea-b3cd-5304482cfe90",
+                "worker_attempt": 1,
+                "sequence": 1,
+                "name": "workout_get_next",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "plan_id": "c478dfab-46a8-483c-aed3-a42431395e43",
+                  "plan_name": "第31轮合成计划",
+                  "day_of_week": 1,
+                  "days_until": 3,
+                  "exercises": [
+                    {
+                      "id": "5bf5f3d0-6895-4abf-b450-7fc0d0d431ed",
+                      "plan_id": "c478dfab-46a8-483c-aed3-a42431395e43",
+                      "exercise_id": "r31-ex-0",
+                      "exercise_name": "卧推",
+                      "safety_notice": null,
+                      "day_of_week": 1,
+                      "sets": 3,
+                      "reps": "10",
+                      "rest_seconds": 90,
+                      "recommended_weight_kg": 20.0,
+                      "order_index": 0
+                    },
+                    {
+                      "id": "63af1267-deee-4e0b-9d36-cb1207eefc85",
+                      "plan_id": "c478dfab-46a8-483c-aed3-a42431395e43",
+                      "exercise_id": "r31-ex-1",
+                      "exercise_name": "深蹲",
+                      "safety_notice": null,
+                      "day_of_week": 1,
+                      "sets": 3,
+                      "reps": "10",
+                      "rest_seconds": 90,
+                      "recommended_weight_kg": 30.0,
+                      "order_index": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "run_id": "a3473944-46f9-46ea-b3cd-5304482cfe90",
+                "worker_attempt": 1,
+                "sequence": 2,
+                "name": "health_get_screening_summary",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "injuries": [],
+                  "chronic_conditions": [],
+                  "screening_completed": true,
+                  "updated_at": "2026-09-01T00:00:00+00:00",
+                  "medical_boundary": "该信息仅用于训练安全筛查，不构成医疗诊断。"
+                }
+              },
+              {
+                "run_id": "a3473944-46f9-46ea-b3cd-5304482cfe90",
+                "worker_attempt": 1,
+                "sequence": 3,
+                "name": "plan_get_active",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "plan": {
+                    "id": "c478dfab-46a8-483c-aed3-a42431395e43",
+                    "user_id": "synthetic-r46-737a44d874164401baddb910ccd4b7fc",
+                    "name": "第31轮合成计划",
+                    "goal": "保持体重",
+                    "duration_weeks": 4,
+                    "days_per_week": 1,
+                    "is_active": true,
+                    "ai_generated": false,
+                    "notes": null,
+                    "created_at": "2026-09-01T00:00:00Z",
+                    "safety_status": "compatible",
+                    "safety_reasons": [],
+                    "manual_proposals_enabled": false,
+                    "display_name": "第31轮合成计划",
+                    "week_start": "2026-10-05",
+                    "weekly_completed_days": 0,
+                    "weekly_sessions": [],
+                    "exercises": [
+                      {
+                        "id": "5bf5f3d0-6895-4abf-b450-7fc0d0d431ed",
+                        "plan_id": "c478dfab-46a8-483c-aed3-a42431395e43",
+                        "exercise_id": "r31-ex-0",
+                        "exercise_name": "卧推",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 20.0,
+                        "order_index": 0
+                      },
+                      {
+                        "id": "63af1267-deee-4e0b-9d36-cb1207eefc85",
+                        "plan_id": "c478dfab-46a8-483c-aed3-a42431395e43",
+                        "exercise_id": "r31-ex-1",
+                        "exercise_name": "深蹲",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 30.0,
+                        "order_index": 1
+                      }
+                    ]
+                  },
+                  "scope": {
+                    "as_of": "2026-10-09",
+                    "timezone": "Asia/Shanghai",
+                    "week_start": "2026-10-05",
+                    "completed_days_basis": "current_plan_continuity_and_scheduled_weekday",
+                    "history_session_count_is_distinct": true,
+                    "note": "weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。"
+                  }
+                }
+              }
+            ]
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 3,
+            "successes": 3,
+            "errors": 0,
+            "success_rate": 1.0,
+            "error_rate": 0.0
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 3,
+              "transport_attempts": 3,
+              "http_requests": 3,
+              "http_responses": 3,
+              "http_successes": 3,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 3,
+              "known_input_tokens": 18112,
+              "known_output_tokens": 964
+            },
+            "observed_requests": 3,
+            "full_request_count": 3,
+            "usage_complete": true,
+            "input_tokens": 18112,
+            "output_tokens": 964
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response",
+              "unpriced_response",
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            null
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO06-r1",
+      "score": {
+        "structural_pass": true,
+        "errors": [],
+        "terminal_delivery_eligible": true,
+        "terminal_errors": [],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 3,
+          "successes": 3,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 3,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "rows": [
+            {
+              "turn": 0,
+              "call_id": "call_00_NHETitYbl43Cd33XNSRF9367",
+              "tool": "health.get_screening_summary",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "87066a5905ee42f6aa42087f16c93137",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            },
+            {
+              "turn": 0,
+              "call_id": "call_01_sbnjqwicK3profacCwH25520",
+              "tool": "plan.get_active",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "3ab8f59ec4374cf78c84474ac20da8e2",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            },
+            {
+              "turn": 0,
+              "call_id": "call_02_3I03KMDECfEd8HJyA1t91088",
+              "tool": "workout.get_next",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "e1ba84b23ce94d81a2b0aa64ac6f9f59",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            }
+          ],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "fa57cb8d-e6da-4886-884f-1d6bda517209",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 3,
+            "successes": 3,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": 1.0,
+            "error_rate": 0.0,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": [
+              {
+                "run_id": "fa57cb8d-e6da-4886-884f-1d6bda517209",
+                "worker_attempt": 1,
+                "sequence": 1,
+                "name": "workout_get_next",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "plan_id": "5f8b09ec-9c3a-4213-9afd-437c4039ecb7",
+                  "plan_name": "第31轮合成计划",
+                  "day_of_week": 1,
+                  "days_until": 3,
+                  "exercises": [
+                    {
+                      "id": "e2892891-8a6c-41f3-b36b-56343d12d92b",
+                      "plan_id": "5f8b09ec-9c3a-4213-9afd-437c4039ecb7",
+                      "exercise_id": "r31-ex-0",
+                      "exercise_name": "卧推",
+                      "safety_notice": null,
+                      "day_of_week": 1,
+                      "sets": 3,
+                      "reps": "10",
+                      "rest_seconds": 90,
+                      "recommended_weight_kg": 20.0,
+                      "order_index": 0
+                    },
+                    {
+                      "id": "c753971e-268c-4012-9d94-08a3b4fc31ea",
+                      "plan_id": "5f8b09ec-9c3a-4213-9afd-437c4039ecb7",
+                      "exercise_id": "r31-ex-1",
+                      "exercise_name": "深蹲",
+                      "safety_notice": null,
+                      "day_of_week": 1,
+                      "sets": 3,
+                      "reps": "10",
+                      "rest_seconds": 90,
+                      "recommended_weight_kg": 30.0,
+                      "order_index": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "run_id": "fa57cb8d-e6da-4886-884f-1d6bda517209",
+                "worker_attempt": 1,
+                "sequence": 2,
+                "name": "health_get_screening_summary",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "injuries": [],
+                  "chronic_conditions": [],
+                  "screening_completed": true,
+                  "updated_at": "2026-09-01T00:00:00+00:00",
+                  "medical_boundary": "该信息仅用于训练安全筛查，不构成医疗诊断。"
+                }
+              },
+              {
+                "run_id": "fa57cb8d-e6da-4886-884f-1d6bda517209",
+                "worker_attempt": 1,
+                "sequence": 3,
+                "name": "plan_get_active",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "plan": {
+                    "id": "5f8b09ec-9c3a-4213-9afd-437c4039ecb7",
+                    "user_id": "synthetic-r46-7313e24b7b97419ba4fca7ec6942a15c",
+                    "name": "第31轮合成计划",
+                    "goal": "保持体重",
+                    "duration_weeks": 4,
+                    "days_per_week": 1,
+                    "is_active": true,
+                    "ai_generated": false,
+                    "notes": null,
+                    "created_at": "2026-09-01T00:00:00Z",
+                    "safety_status": "compatible",
+                    "safety_reasons": [],
+                    "manual_proposals_enabled": false,
+                    "display_name": "第31轮合成计划",
+                    "week_start": "2026-10-05",
+                    "weekly_completed_days": 0,
+                    "weekly_sessions": [],
+                    "exercises": [
+                      {
+                        "id": "e2892891-8a6c-41f3-b36b-56343d12d92b",
+                        "plan_id": "5f8b09ec-9c3a-4213-9afd-437c4039ecb7",
+                        "exercise_id": "r31-ex-0",
+                        "exercise_name": "卧推",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 20.0,
+                        "order_index": 0
+                      },
+                      {
+                        "id": "c753971e-268c-4012-9d94-08a3b4fc31ea",
+                        "plan_id": "5f8b09ec-9c3a-4213-9afd-437c4039ecb7",
+                        "exercise_id": "r31-ex-1",
+                        "exercise_name": "深蹲",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 30.0,
+                        "order_index": 1
+                      }
+                    ]
+                  },
+                  "scope": {
+                    "as_of": "2026-10-09",
+                    "timezone": "Asia/Shanghai",
+                    "week_start": "2026-10-05",
+                    "completed_days_basis": "current_plan_continuity_and_scheduled_weekday",
+                    "history_session_count_is_distinct": true,
+                    "note": "weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。"
+                  }
+                }
+              }
+            ]
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 3,
+            "successes": 3,
+            "errors": 0,
+            "success_rate": 1.0,
+            "error_rate": 0.0
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 4,
+              "transport_attempts": 4,
+              "http_requests": 4,
+              "http_responses": 4,
+              "http_successes": 4,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 4,
+              "known_input_tokens": 18667,
+              "known_output_tokens": 1225
+            },
+            "observed_requests": 4,
+            "full_request_count": 4,
+            "usage_complete": true,
+            "input_tokens": 18667,
+            "output_tokens": 1225
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response",
+              "unpriced_response",
+              "unpriced_response",
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            10521.36
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO07-r1",
+      "score": {
+        "structural_pass": true,
+        "errors": [],
+        "terminal_delivery_eligible": true,
+        "terminal_errors": [],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 2,
+          "successes": 2,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 2,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": 1.0,
+          "error_rate": 0.0,
+          "rows": [
+            {
+              "turn": 0,
+              "call_id": "call_00_BEzhQkkUWWEzfy4C7hBR1565",
+              "tool": "plan.get_active",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "a92639a54be8436598a9dff5bf2fa4a8",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            },
+            {
+              "turn": 0,
+              "call_id": "call_01_CdOTkLLzqjWkoFuPnqtW8415",
+              "tool": "profile.get_summary",
+              "arguments": {},
+              "status": "success",
+              "origin": "function",
+              "function_attempt_id": "80a37b5e7c2f422ebbe0e75ba777f519",
+              "lifecycle_complete": true,
+              "problems": [],
+              "dispatch_proof": null
+            }
+          ],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "2114b1c4-e74b-4f73-b2fa-b40239912535",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 2,
+            "successes": 2,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": 1.0,
+            "error_rate": 0.0,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": [
+              {
+                "run_id": "2114b1c4-e74b-4f73-b2fa-b40239912535",
+                "worker_attempt": 1,
+                "sequence": 1,
+                "name": "plan_get_active",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "plan": {
+                    "id": "120df1bb-c98f-42dc-af0c-842e3c918861",
+                    "user_id": "synthetic-r46-fc1f8bf4bd76496285c720d82d082e78",
+                    "name": "第31轮合成计划",
+                    "goal": "保持体重",
+                    "duration_weeks": 4,
+                    "days_per_week": 1,
+                    "is_active": true,
+                    "ai_generated": false,
+                    "notes": null,
+                    "created_at": "2026-09-01T00:00:00Z",
+                    "safety_status": "compatible",
+                    "safety_reasons": [],
+                    "manual_proposals_enabled": false,
+                    "display_name": "第31轮合成计划",
+                    "week_start": "2026-10-05",
+                    "weekly_completed_days": 0,
+                    "weekly_sessions": [],
+                    "exercises": [
+                      {
+                        "id": "9d9e22b0-297c-4dc3-afe0-441238e9edba",
+                        "plan_id": "120df1bb-c98f-42dc-af0c-842e3c918861",
+                        "exercise_id": "r31-ex-0",
+                        "exercise_name": "卧推",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 20.0,
+                        "order_index": 0
+                      },
+                      {
+                        "id": "273b9d6a-6597-472c-a2c1-d11e07721a2b",
+                        "plan_id": "120df1bb-c98f-42dc-af0c-842e3c918861",
+                        "exercise_id": "r31-ex-1",
+                        "exercise_name": "深蹲",
+                        "safety_notice": null,
+                        "day_of_week": 1,
+                        "sets": 3,
+                        "reps": "10",
+                        "rest_seconds": 90,
+                        "recommended_weight_kg": 30.0,
+                        "order_index": 1
+                      }
+                    ]
+                  },
+                  "scope": {
+                    "as_of": "2026-10-09",
+                    "timezone": "Asia/Shanghai",
+                    "week_start": "2026-10-05",
+                    "completed_days_basis": "current_plan_continuity_and_scheduled_weekday",
+                    "history_session_count_is_distinct": true,
+                    "note": "weekly_completed_days仅计本周截至查询日、与当前计划安排连续关联的已完成训练日；不是全部历史训练场次。旧记录可能缺少计划周/训练日关联，0不表示没有训练记录。"
+                  }
+                }
+              },
+              {
+                "run_id": "2114b1c4-e74b-4f73-b2fa-b40239912535",
+                "worker_attempt": 1,
+                "sequence": 2,
+                "name": "profile_get_summary",
+                "status": "success",
+                "error_type": null,
+                "arguments": {
+                  "args": [],
+                  "kwargs": {}
+                },
+                "result": {
+                  "found": true,
+                  "age": 30,
+                  "gender": "male",
+                  "height_cm": 170.0,
+                  "weight_kg": 65.0,
+                  "bmi": null,
+                  "bmi_category": null,
+                  "experience_level": null,
+                  "primary_goal": "保持体重",
+                  "nutrition_targets": null,
+                  "training_days_per_week": 3,
+                  "session_duration_min": null,
+                  "training_location": null,
+                  "diet_restriction": "无",
+                  "onboarding_completed": true,
+                  "updated_at": "2026-09-01T00:00:00+00:00"
+                }
+              }
+            ]
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 2,
+            "successes": 2,
+            "errors": 0,
+            "success_rate": 1.0,
+            "error_rate": 0.0
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 3,
+              "transport_attempts": 3,
+              "http_requests": 3,
+              "http_responses": 3,
+              "http_successes": 3,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 3,
+              "known_input_tokens": 12247,
+              "known_output_tokens": 722
+            },
+            "observed_requests": 3,
+            "full_request_count": 3,
+            "usage_complete": true,
+            "input_tokens": 12247,
+            "output_tokens": 722
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response",
+              "unpriced_response",
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            5360.56
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO08-r1",
+      "score": {
+        "structural_pass": false,
+        "errors": [
+          "blocked_delivery",
+          "missing_tool:plan.get_active",
+          "missing_tool:workout.list_history",
+          "missing_workout_evidence"
+        ],
+        "terminal_delivery_eligible": false,
+        "terminal_errors": [
+          "blocked_delivery",
+          "missing_tool:plan.get_active",
+          "missing_tool:workout.list_history",
+          "missing_workout_evidence"
+        ],
+        "calibrations": [],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 0,
+          "successes": 0,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 0,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": null,
+          "error_rate": null,
+          "rows": [],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "16b98362-9c76-46e3-828b-c580e9ff24ac",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 0,
+            "successes": 0,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": null,
+            "error_rate": null,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": []
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 0,
+            "successes": 0,
+            "errors": 0,
+            "success_rate": null,
+            "error_rate": null
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 2,
+              "transport_attempts": 2,
+              "http_requests": 2,
+              "http_responses": 2,
+              "http_successes": 2,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 2,
+              "known_input_tokens": 6949,
+              "known_output_tokens": 808
+            },
+            "observed_requests": 2,
+            "full_request_count": 2,
+            "usage_complete": true,
+            "input_tokens": 6949,
+            "output_tokens": 808
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response",
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            4234.5
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO09-r1",
+      "score": {
+        "structural_pass": false,
+        "errors": [
+          "missing_workout_evidence",
+          "provider_or_trace_error"
+        ],
+        "terminal_delivery_eligible": false,
+        "terminal_errors": [
+          "provider_or_trace_error"
+        ],
+        "calibrations": [
+          "Pre-frozen emergency task: no historical tool required"
+        ],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 0,
+          "successes": 0,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 0,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": null,
+          "error_rate": null,
+          "rows": [],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "2b9a114b-820a-47db-87d0-f718a02b7f22",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 0,
+            "successes": 0,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": null,
+            "error_rate": null,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": []
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 0,
+            "successes": 0,
+            "errors": 0,
+            "success_rate": null,
+            "error_rate": null
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 0,
+              "transport_attempts": 0,
+              "http_requests": 0,
+              "http_responses": 0,
+              "http_successes": 0,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 0,
+              "known_input_tokens": 0,
+              "known_output_tokens": 0
+            },
+            "observed_requests": 0,
+            "full_request_count": 0,
+            "usage_complete": true,
+            "input_tokens": 0,
+            "output_tokens": 0
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": "0",
+            "total_max": "0",
+            "total": "0",
+            "issues": []
+          },
+          "latency_ms": [
+            218.15
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    },
+    {
+      "id": "HO10-r1",
+      "score": {
+        "structural_pass": false,
+        "errors": [
+          "missing_workout_evidence"
+        ],
+        "terminal_delivery_eligible": true,
+        "terminal_errors": [],
+        "calibrations": [
+          "Pre-frozen emergency task: no historical tool required"
+        ],
+        "tool_ledger": {
+          "version": 1,
+          "complete": true,
+          "issues": [],
+          "attempts": 0,
+          "successes": 0,
+          "errors": 0,
+          "unresolved": 0,
+          "function_invocations": 0,
+          "dispatcher_rejections": 0,
+          "budget_rejections": 0,
+          "success_rate": null,
+          "error_rate": null,
+          "rows": [],
+          "scope": "Dispatch/action denominator, reconciled with invocations and persisted audit. Serialized tool-like prose is not execution. A complete ledger does not prove task success."
+        },
+        "semantic_pass": null,
+        "answer_accuracy": null,
+        "hallucination_rate": null,
+        "execution_metrics": {
+          "version": "cross_attempt_eval_v1",
+          "business_score": null,
+          "evidence_valid": true,
+          "issues": [],
+          "runs": [
+            {
+              "run_id": "b7d8fb2e-ba83-4695-a5b2-b83e9f743799",
+              "missing_attempts": [],
+              "issues": [],
+              "source": "api_and_sql"
+            }
+          ],
+          "coverage_complete": true,
+          "registered_read_intents": {
+            "observed": 0,
+            "successes": 0,
+            "errors": 0,
+            "cancelled": 0,
+            "returned_errors": 0,
+            "pending": 0,
+            "complete": true,
+            "success_rate": null,
+            "error_rate": null,
+            "scope": "registered coroutine intent; pending does not prove SQL execution",
+            "rows": []
+          },
+          "tool_dispatch": {
+            "complete": true,
+            "issues": [],
+            "attempts": 0,
+            "successes": 0,
+            "errors": 0,
+            "success_rate": null,
+            "error_rate": null
+          },
+          "model": {
+            "known_observations": {
+              "client_attempts": 1,
+              "transport_attempts": 1,
+              "http_requests": 1,
+              "http_responses": 1,
+              "http_successes": 1,
+              "http_errors": 0,
+              "transport_errors": 0,
+              "local_errors": 0,
+              "unclassified_client_errors": 0,
+              "pending_or_cancelled": 0,
+              "usage_known_requests": 1,
+              "known_input_tokens": 3455,
+              "known_output_tokens": 399
+            },
+            "observed_requests": 1,
+            "full_request_count": 1,
+            "usage_complete": true,
+            "input_tokens": 3455,
+            "output_tokens": 399
+          },
+          "cost": {
+            "currency": "CNY",
+            "kind": "estimate_not_invoice",
+            "price_provenance": null,
+            "priceable_responses": 0,
+            "known_subtotal_min": "0",
+            "known_subtotal_max": "0",
+            "total_min": null,
+            "total_max": null,
+            "total": null,
+            "issues": [
+              "unpriced_response"
+            ]
+          },
+          "latency_ms": [
+            2290.64
+          ],
+          "human_takeover_rate": null,
+          "answer_accuracy": null,
+          "hallucination_rate": null
+        }
+      },
+      "error": null,
+      "classification": null
+    }
+  ],
+  "provider_requests": 23,
+  "planned_instances": 10,
+  "executed_instances": 10,
+  "semantic_review": "pending",
+  "execution_summary": {
+    "version": "cross_attempt_batch_v1",
+    "instances": 10,
+    "aggregated_instances": 10,
+    "evidence_valid": true,
+    "issues": [],
+    "known_model_observations": {
+      "client_attempts": 23,
+      "transport_attempts": 23,
+      "http_requests": 23,
+      "http_responses": 23,
+      "http_successes": 23,
+      "http_errors": 0,
+      "transport_errors": 0,
+      "local_errors": 0,
+      "unclassified_client_errors": 0,
+      "pending_or_cancelled": 0,
+      "usage_known_requests": 23,
+      "known_input_tokens": 115247,
+      "known_output_tokens": 7453
+    },
+    "registered_read_intents": {
+      "observed": 11,
+      "successes": 11,
+      "errors": 0,
+      "cancelled": 0,
+      "returned_errors": 0,
+      "pending": 0,
+      "complete": true,
+      "success_rate": 1.0,
+      "error_rate": 0.0
+    },
+    "tool_dispatch": {
+      "complete": true,
+      "attempts": 11,
+      "successes": 11,
+      "errors": 0,
+      "success_rate": 1.0,
+      "error_rate": 0.0
+    },
+    "tokens": {
+      "complete_instances": 10,
+      "input_total": 115247,
+      "output_total": 7453,
+      "mean_total": 12270.0,
+      "p95_total": 32226
+    },
+    "estimated_cost": {
+      "currency": "CNY",
+      "kind": "estimate_not_invoice",
+      "total_min": null,
+      "total_max": null,
+      "total": null
+    },
+    "turn_latency_ms": {
+      "scope": "submission_to_terminal_per_turn",
+      "concurrency": null,
+      "n": 10,
+      "valid_n": 8,
+      "p95": null,
+      "p99": null
+    },
+    "task_completion_time_ms": null,
+    "task_success_rate": null,
+    "answer_accuracy": null,
+    "hallucination_rate": null,
+    "human_takeover_rate": null
+  }
+}

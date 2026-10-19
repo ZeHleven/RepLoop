@@ -1,0 +1,2433 @@
+{
+  "provenance": "R54 synthetic archived failures; original task, structured decisions, trace, reply; no model reasoning",
+  "rows": [
+    {
+      "id": "NX08-r1",
+      "message": "核对2026-10-08午餐各食物的蛋白质，给一条搭配建议。",
+      "source": "round-54-task-evidence/runs/NX08-r1.json",
+      "sha256": "9b1f41f1fa5c77e860ad67a641001b9f3c894fc6480652d1357cfd28dca3e604",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "nutrition_query_plan_invalid"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "nutrition.list_history"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+              "depends_on": [],
+              "candidate_tools": [
+                "nutrition.list_history"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2338,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 686,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 3001,
+            "error_category": "nutrition_query_plan_invalid",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "safe_stop",
+        "termination_reason": "nutrition_query_plan_invalid",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "nutrition.list_history"
+          ],
+          "missing_tools": [],
+          "status": "pending",
+          "reason": null,
+          "substitutions": [],
+          "optional_tools": [],
+          "scope_quotes": []
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "b60e4f13-6c5a-4ea3-a206-0b0c38e4a668",
+          "tasks": [
+            {
+              "id": "b60e4f13-6c5a-4ea3-a206-0b0c38e4a668",
+              "request": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "b60e4f13-6c5a-4ea3-a206-0b0c38e4a668",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "b60e4f13-6c5a-4ea3-a206-0b0c38e4a668",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "各食物的蛋白质",
+                  "source_run_id": "b60e4f13-6c5a-4ea3-a206-0b0c38e4a668",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "advice_type",
+                  "quote": "给一条搭配建议",
+                  "source_run_id": "b60e4f13-6c5a-4ea3-a206-0b0c38e4a668",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "blocked",
+              "last_run_id": "b60e4f13-6c5a-4ea3-a206-0b0c38e4a668",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "未能可靠识别饮食查询条件，本次尚未查询记录。请重新说明日期范围和餐次后再试。",
+      "error": "nutrition_query_plan_invalid",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+            "risk_level": "low",
+            "confidence": 0.9,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "核对2026-10-08午餐各食物的蛋白质，给一条搭配建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "各食物的蛋白质",
+                  "remove": false
+                },
+                {
+                  "key": "advice_type",
+                  "quote": "给一条搭配建议",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-10-08"
+            ],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "2026-10-08",
+            "end_date": "2026-10-08",
+            "logged_dates": [],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "NX08-r2",
+      "message": "核对2026-10-08午餐各食物的蛋白质，给一条搭配建议。",
+      "source": "round-54-task-evidence/runs/NX08-r2.json",
+      "sha256": "310c90a3575d63a16aae7af8f3f26343eaf7e079fd987cadb14f12a20a7b6db6",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "nutrition_query_plan_invalid"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "nutrition.list_history"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+              "depends_on": [],
+              "candidate_tools": [
+                "nutrition.list_history"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2158,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 687,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 3245,
+            "error_category": "nutrition_query_plan_invalid",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "safe_stop",
+        "termination_reason": "nutrition_query_plan_invalid",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "nutrition.list_history"
+          ],
+          "missing_tools": [],
+          "status": "pending",
+          "reason": null,
+          "substitutions": [],
+          "optional_tools": [],
+          "scope_quotes": []
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "146a37d0-5a2e-4fe3-8134-fe9e40c0863e",
+          "tasks": [
+            {
+              "id": "146a37d0-5a2e-4fe3-8134-fe9e40c0863e",
+              "request": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "146a37d0-5a2e-4fe3-8134-fe9e40c0863e",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "146a37d0-5a2e-4fe3-8134-fe9e40c0863e",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "各食物的蛋白质",
+                  "source_run_id": "146a37d0-5a2e-4fe3-8134-fe9e40c0863e",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "advice_scope",
+                  "quote": "给一条搭配建议",
+                  "source_run_id": "146a37d0-5a2e-4fe3-8134-fe9e40c0863e",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "blocked",
+              "last_run_id": "146a37d0-5a2e-4fe3-8134-fe9e40c0863e",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "未能可靠识别饮食查询条件，本次尚未查询记录。请重新说明日期范围和餐次后再试。",
+      "error": "nutrition_query_plan_invalid",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对2026-10-08午餐各食物的蛋白质含量，并给出一条搭配建议（仅提供建议，不写入记录）。",
+            "risk_level": "low",
+            "confidence": 0.9,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "核对2026-10-08午餐各食物的蛋白质，给一条搭配建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "各食物的蛋白质",
+                  "remove": false
+                },
+                {
+                  "key": "advice_scope",
+                  "quote": "给一条搭配建议",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-10-08"
+            ],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "2026-10-08",
+            "end_date": "2026-10-08",
+            "logged_dates": [],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "NX10-r1",
+      "message": "核对2026-10-08午餐食品的蛋白质，给一条建议。",
+      "source": "round-54-task-evidence/runs/NX10-r1.json",
+      "sha256": "c72bc0ed68e6dee898a159ff074bbdcc2387d2123190f28264ac8ea635f9be24",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "nutrition_query_plan_invalid"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "nutrition.list_history"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+              "depends_on": [],
+              "candidate_tools": [
+                "nutrition.list_history"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2125,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 678,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 3101,
+            "error_category": "nutrition_query_plan_invalid",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "safe_stop",
+        "termination_reason": "nutrition_query_plan_invalid",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "nutrition.list_history"
+          ],
+          "missing_tools": [],
+          "status": "pending",
+          "reason": null,
+          "substitutions": [],
+          "optional_tools": [],
+          "scope_quotes": []
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "8f5f4ade-2b71-4c16-b180-8e6fa0961414",
+          "tasks": [
+            {
+              "id": "8f5f4ade-2b71-4c16-b180-8e6fa0961414",
+              "request": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "8f5f4ade-2b71-4c16-b180-8e6fa0961414",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "8f5f4ade-2b71-4c16-b180-8e6fa0961414",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "核对2026-10-08午餐食品的蛋白质",
+                  "source_run_id": "8f5f4ade-2b71-4c16-b180-8e6fa0961414",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "advice",
+                  "quote": "给一条建议",
+                  "source_run_id": "8f5f4ade-2b71-4c16-b180-8e6fa0961414",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "blocked",
+              "last_run_id": "8f5f4ade-2b71-4c16-b180-8e6fa0961414",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "未能可靠识别饮食查询条件，本次尚未查询记录。请重新说明日期范围和餐次后再试。",
+      "error": "nutrition_query_plan_invalid",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+            "risk_level": "low",
+            "confidence": 0.9,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "核对2026-10-08午餐食品的蛋白质，给一条建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "核对2026-10-08午餐食品的蛋白质",
+                  "remove": false
+                },
+                {
+                  "key": "advice",
+                  "quote": "给一条建议",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-10-08"
+            ],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "2026-10-08",
+            "end_date": "2026-10-08",
+            "logged_dates": [],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "NX10-r2",
+      "message": "核对2026-10-08午餐食品的蛋白质，给一条建议。",
+      "source": "round-54-task-evidence/runs/NX10-r2.json",
+      "sha256": "b4e700ccc5cb47b6d4e2ee6bec1367635f7612bbf35b8cbc914fc38234cbd0fb",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "nutrition_query_plan_invalid"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "nutrition.list_history"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+              "depends_on": [],
+              "candidate_tools": [
+                "nutrition.list_history"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2489,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 683,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 3046,
+            "error_category": "nutrition_query_plan_invalid",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "safe_stop",
+        "termination_reason": "nutrition_query_plan_invalid",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "nutrition.list_history"
+          ],
+          "missing_tools": [],
+          "status": "pending",
+          "reason": null,
+          "substitutions": [],
+          "optional_tools": [],
+          "scope_quotes": []
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "039a64bd-0563-4f96-9348-475513b322e4",
+          "tasks": [
+            {
+              "id": "039a64bd-0563-4f96-9348-475513b322e4",
+              "request": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "039a64bd-0563-4f96-9348-475513b322e4",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "source_run_id": "039a64bd-0563-4f96-9348-475513b322e4",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "核对2026-10-08午餐食品的蛋白质",
+                  "source_run_id": "039a64bd-0563-4f96-9348-475513b322e4",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "advice_only",
+                  "quote": "给一条建议",
+                  "source_run_id": "039a64bd-0563-4f96-9348-475513b322e4",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "blocked",
+              "last_run_id": "039a64bd-0563-4f96-9348-475513b322e4",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "未能可靠识别饮食查询条件，本次尚未查询记录。请重新说明日期范围和餐次后再试。",
+      "error": "nutrition_query_plan_invalid",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对2026-10-08午餐食品的蛋白质含量，并基于该结果给出一条建议。",
+            "risk_level": "low",
+            "confidence": 0.9,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "核对2026-10-08午餐食品的蛋白质，给一条建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "meal_scope",
+                  "quote": "2026-10-08午餐",
+                  "remove": false
+                },
+                {
+                  "key": "nutrient_focus",
+                  "quote": "核对2026-10-08午餐食品的蛋白质",
+                  "remove": false
+                },
+                {
+                  "key": "advice_only",
+                  "quote": "给一条建议",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-10-08"
+            ],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "2026-10-08",
+            "end_date": "2026-10-08",
+            "logged_dates": [],
+            "meal_types": [
+              "午餐"
+            ],
+            "supported": true,
+            "response_mode": "narrative",
+            "metrics": [
+              "protein_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [],
+            "comparison_scope": "meal",
+            "comparison_scope_quote": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "DX01-r2",
+      "message": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+      "source": "round-54-task-evidence/runs/DX01-r2.json",
+      "sha256": "97eec826d64d39bcb2c7f102cb4782beff2e340613141541f010c26c4dba9322",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "nutrition_query_plan_invalid"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "核对2026-10-08（昨天）全天已记录的食物饮料营养摄入，与每日目标蛋白质100克、碳水80克、脂肪20克的差额，仅核对差额，不提供食物建议。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "nutrition.list_history"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "核对2026-10-08（昨天）全天已记录的食物饮料营养摄入，与每日目标蛋白质100克、碳水80克、脂肪20克的差额，仅核对差额，不提供食物建议。",
+              "depends_on": [],
+              "candidate_tools": [
+                "nutrition.list_history"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2300,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 806,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 3551,
+            "error_category": "nutrition_query_plan_invalid",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "safe_stop",
+        "termination_reason": "nutrition_query_plan_invalid",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "nutrition.list_history"
+          ],
+          "missing_tools": [],
+          "status": "pending",
+          "reason": null,
+          "substitutions": [],
+          "optional_tools": [],
+          "scope_quotes": []
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "675c0efc-4b58-41be-82ad-65710620de3b",
+          "tasks": [
+            {
+              "id": "675c0efc-4b58-41be-82ad-65710620de3b",
+              "request": "核对2026-10-08（昨天）全天已记录的食物饮料营养摄入，与每日目标蛋白质100克、碳水80克、脂肪20克的差额，仅核对差额，不提供食物建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "昨天全天的食物饮料已记全",
+                  "source_run_id": "675c0efc-4b58-41be-82ad-65710620de3b",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "protein_target",
+                  "quote": "蛋白质100克",
+                  "source_run_id": "675c0efc-4b58-41be-82ad-65710620de3b",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "carb_target",
+                  "quote": "碳水80克",
+                  "source_run_id": "675c0efc-4b58-41be-82ad-65710620de3b",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "fat_target",
+                  "quote": "脂肪20克",
+                  "source_run_id": "675c0efc-4b58-41be-82ad-65710620de3b",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "no_food_advice",
+                  "quote": "不要给食物建议",
+                  "source_run_id": "675c0efc-4b58-41be-82ad-65710620de3b",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "blocked",
+              "last_run_id": "675c0efc-4b58-41be-82ad-65710620de3b",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "未能可靠识别饮食查询条件，本次尚未查询记录。请重新说明日期范围和餐次后再试。",
+      "error": "nutrition_query_plan_invalid",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对2026-10-08（昨天）全天已记录的食物饮料营养摄入，与每日目标蛋白质100克、碳水80克、脂肪20克的差额，仅核对差额，不提供食物建议。",
+            "risk_level": "low",
+            "confidence": 0.93,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "昨天全天的食物饮料已记全。我的每日目标是蛋白质100克、碳水80克、脂肪20克，请只核对昨天全部记录与这三个目标的差额，不要给食物建议。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "昨天全天的食物饮料已记全",
+                  "remove": false
+                },
+                {
+                  "key": "protein_target",
+                  "quote": "蛋白质100克",
+                  "remove": false
+                },
+                {
+                  "key": "carb_target",
+                  "quote": "碳水80克",
+                  "remove": false
+                },
+                {
+                  "key": "fat_target",
+                  "quote": "脂肪20克",
+                  "remove": false
+                },
+                {
+                  "key": "no_food_advice",
+                  "quote": "不要给食物建议",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "2026-10-08",
+            "end_date": "2026-10-08",
+            "logged_dates": [],
+            "meal_types": [],
+            "supported": true,
+            "response_mode": "structured",
+            "metrics": [
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "sum"
+            ],
+            "comparison_targets": [
+              {
+                "metric": "protein_g",
+                "value": 100,
+                "source_quote": "蛋白质100克"
+              },
+              {
+                "metric": "carbs_g",
+                "value": 80,
+                "source_quote": "碳水80克"
+              },
+              {
+                "metric": "fat_g",
+                "value": 20,
+                "source_quote": "脂肪20克"
+              }
+            ],
+            "comparison_scope": "day",
+            "comparison_scope_quote": "每日目标"
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-10-08"
+            ],
+            "meal_types": [],
+            "supported": true,
+            "response_mode": "structured",
+            "metrics": [
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "list"
+            ],
+            "comparison_targets": [
+              {
+                "metric": "protein_g",
+                "value": 100,
+                "source_quote": "蛋白质100克"
+              },
+              {
+                "metric": "carbs_g",
+                "value": 80,
+                "source_quote": "碳水80克"
+              },
+              {
+                "metric": "fat_g",
+                "value": 20,
+                "source_quote": "脂肪20克"
+              }
+            ],
+            "comparison_scope": "day",
+            "comparison_scope_quote": "每日目标"
+          }
+        }
+      ]
+    },
+    {
+      "id": "DX02-r2",
+      "message": "昨天的饮食还没记齐。我的每日目标是蛋白质30克、碳水35克、脂肪6克，只比较昨天已经记录的总量和目标差额，不判断实际全天是否达标。",
+      "source": "round-54-task-evidence/runs/DX02-r2.json",
+      "sha256": "7088fe096bea46c042030ad8525724d23d12fa306d0b6e7b0f9d78a3aa75bf18",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "nutrition_query_plan_invalid"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "比较 2026-10-08（昨天）已记录的饮食营养总量与用户每日目标（蛋白质30克、碳水35克、脂肪6克）之间的差额，仅基于已记录总量计算，不判断实际全天是否达标。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "nutrition.list_history"
+          ],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "比较 2026-10-08（昨天）已记录的饮食营养总量与用户每日目标（蛋白质30克、碳水35克、脂肪6克）之间的差额，仅基于已记录总量计算，不判断实际全天是否达标。",
+              "depends_on": [],
+              "candidate_tools": [
+                "nutrition.list_history"
+              ],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "success",
+            "latency_ms": 2863,
+            "error_category": null,
+            "transport": "deepseek_strict_tool",
+            "input_chars": null,
+            "output_chars": 945,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": "tool_calls"
+          },
+          {
+            "stage": "direct_agent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 3131,
+            "error_category": "nutrition_query_plan_invalid",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "safe_stop",
+        "termination_reason": "nutrition_query_plan_invalid",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "evidence_contract": {
+          "version": 1,
+          "required_tools": [
+            "nutrition.list_history"
+          ],
+          "missing_tools": [],
+          "status": "pending",
+          "reason": null,
+          "substitutions": [],
+          "optional_tools": [],
+          "scope_quotes": []
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+          "tasks": [
+            {
+              "id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+              "request": "比较 2026-10-08（昨天）已记录的饮食营养总量与用户每日目标（蛋白质30克、碳水35克、脂肪6克）之间的差额，仅基于已记录总量计算，不判断实际全天是否达标。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "昨天的饮食还没记齐",
+                  "source_run_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "goal_protein",
+                  "quote": "我的每日目标是蛋白质30克、碳水35克、脂肪6克",
+                  "source_run_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "goal_carbs",
+                  "quote": "我的每日目标是蛋白质30克、碳水35克、脂肪6克",
+                  "source_run_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "goal_fat",
+                  "quote": "我的每日目标是蛋白质30克、碳水35克、脂肪6克",
+                  "source_run_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "comparison_basis",
+                  "quote": "只比较昨天已经记录的总量和目标差额",
+                  "source_run_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                },
+                {
+                  "key": "no_full_day_judgement",
+                  "quote": "不判断实际全天是否达标",
+                  "source_run_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+                  "kind": "goal",
+                  "as_of": "2026-10-09"
+                }
+              ],
+              "phase": "blocked",
+              "last_run_id": "ccc270b0-aa91-4b5f-b74b-6abb4999848f",
+              "artifact_id": null,
+              "proposal_id": null,
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "pending_meal": null,
+              "unproposed_plan_changes": [],
+              "plan_input_gaps": []
+            }
+          ],
+          "transition": "new",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "未能可靠识别饮食查询条件，本次尚未查询记录。请重新说明日期范围和餐次后再试。",
+      "error": "nutrition_query_plan_invalid",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "比较 2026-10-08（昨天）已记录的饮食营养总量与用户每日目标（蛋白质30克、碳水35克、脂肪6克）之间的差额，仅基于已记录总量计算，不判断实际全天是否达标。",
+            "risk_level": "low",
+            "confidence": 0.9,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "昨天的饮食还没记齐。我的每日目标是蛋白质30克、碳水35克、脂肪6克，只比较昨天已经记录的总量和目标差额，不判断实际全天是否达标。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "昨天的饮食还没记齐",
+                  "remove": false
+                },
+                {
+                  "key": "goal_protein",
+                  "quote": "我的每日目标是蛋白质30克、碳水35克、脂肪6克",
+                  "remove": false
+                },
+                {
+                  "key": "goal_carbs",
+                  "quote": "我的每日目标是蛋白质30克、碳水35克、脂肪6克",
+                  "remove": false
+                },
+                {
+                  "key": "goal_fat",
+                  "quote": "我的每日目标是蛋白质30克、碳水35克、脂肪6克",
+                  "remove": false
+                },
+                {
+                  "key": "comparison_basis",
+                  "quote": "只比较昨天已经记录的总量和目标差额",
+                  "remove": false
+                },
+                {
+                  "key": "no_full_day_judgement",
+                  "quote": "不判断实际全天是否达标",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "2026-10-08",
+            "end_date": "2026-10-08",
+            "logged_dates": [],
+            "meal_types": [],
+            "supported": true,
+            "response_mode": "structured",
+            "metrics": [
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "sum"
+            ],
+            "comparison_targets": [
+              {
+                "metric": "protein_g",
+                "value": 30,
+                "source_quote": "蛋白质30克"
+              },
+              {
+                "metric": "carbs_g",
+                "value": 35,
+                "source_quote": "碳水35克"
+              },
+              {
+                "metric": "fat_g",
+                "value": 6,
+                "source_quote": "脂肪6克"
+              }
+            ],
+            "comparison_scope": "day",
+            "comparison_scope_quote": "每日目标"
+          }
+        },
+        {
+          "name": "submit_nutrition_history_query",
+          "payload": {
+            "days": 30,
+            "start_date": "",
+            "end_date": "",
+            "logged_dates": [
+              "2026-10-08"
+            ],
+            "meal_types": [],
+            "supported": true,
+            "response_mode": "structured",
+            "metrics": [
+              "protein_g",
+              "carbs_g",
+              "fat_g"
+            ],
+            "operations": [
+              "sum"
+            ],
+            "comparison_targets": [
+              {
+                "metric": "protein_g",
+                "value": 30,
+                "source_quote": "蛋白质30克"
+              },
+              {
+                "metric": "carbs_g",
+                "value": 35,
+                "source_quote": "碳水35克"
+              },
+              {
+                "metric": "fat_g",
+                "value": 6,
+                "source_quote": "脂肪6克"
+              }
+            ],
+            "comparison_scope": "day",
+            "comparison_scope_quote": "每日目标"
+          }
+        }
+      ]
+    },
+    {
+      "id": "CW05-r1",
+      "message": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+      "source": "round-54-task-evidence/runs/CW05-r1.json",
+      "sha256": "8f272c2b618f138718499804284297f85233bee5f21b518e417cd1d662d68dde",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2360,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2770,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "error": "intent_understanding_unavailable",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history",
+              "workout_daily_context"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对 2026-10-05（周一）至 2026-10-09（今天）的实际训练记录与计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+            "risk_level": "low",
+            "confidence": 0.82,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "本周到今天",
+                  "remove": false
+                },
+                {
+                  "key": "compare_actual_vs_planned",
+                  "quote": "分别给出已完成场次、计划完成日及其含义",
+                  "remove": false
+                },
+                {
+                  "key": "zero_plan_day_meaning",
+                  "quote": "不要把计划0日当作没有训练记录",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history",
+              "workout_daily_context"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对 2026-10-05（周一）至 2026-10-09（今天）的实际训练记录与计划安排的训练日，分别给出已完成场次、计划完成日及其含义；计划完成日为 0 时也要说明实际训练记录情况，不能把计划 0 日当作没有训练记录。",
+            "risk_level": "low",
+            "confidence": 0.82,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "本周到今天",
+                  "remove": false
+                },
+                {
+                  "key": "compare_actual_vs_planned",
+                  "quote": "核对本周到今天的实际训练记录和计划完成训练日",
+                  "remove": false
+                },
+                {
+                  "key": "output_completed_sessions",
+                  "quote": "分别给出已完成场次",
+                  "remove": false
+                },
+                {
+                  "key": "output_planned_days",
+                  "quote": "计划完成日及其含义",
+                  "remove": false
+                },
+                {
+                  "key": "zero_plan_not_no_record",
+                  "quote": "不要把计划0日当作没有训练记录",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "CW05-r2",
+      "message": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+      "source": "round-54-task-evidence/runs/CW05-r2.json",
+      "sha256": "4b4a0270b5640d81ae48d80997e3d555d3679dc06b2199edf4d6dec14fe1cacd",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2382,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2702,
+            "error_category": "task_requirement_not_current_user_quote",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "error": "intent_understanding_unavailable",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history",
+              "workout_daily_context"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对 2026-10-05（周一）至 2026-10-09（今天）的实际训练记录与计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+            "risk_level": "low",
+            "confidence": 0.82,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "本周到今天",
+                  "remove": false
+                },
+                {
+                  "key": "compare_actual_vs_planned",
+                  "quote": "分别给出已完成场次、计划完成日及其含义",
+                  "remove": false
+                },
+                {
+                  "key": "zero_day_meaning",
+                  "quote": "不要把计划0日当作没有训练记录",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history",
+              "workout_daily_context"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "核对 2026-10-05 至 2026-10-09（本周到今天）的实际训练记录与计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+            "risk_level": "low",
+            "confidence": 0.86,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "请核对本周到今天的实际训练记录和计划完成训练日，分别给出已完成场次、计划完成日及其含义；不要把计划0日当作没有训练记录。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "本周到今天",
+                  "remove": false
+                },
+                {
+                  "key": "compare_actual_vs_planned",
+                  "quote": "请核对本周到今天的实际训练记录和计划完成训练日",
+                  "remove": false
+                },
+                {
+                  "key": "output_completed_sessions",
+                  "quote": "分别给出已完成场次",
+                  "remove": false
+                },
+                {
+                  "key": "output_planned_days",
+                  "quote": "计划完成训练日及其含义",
+                  "remove": false
+                },
+                {
+                  "key": "zero_plan_not_no_record",
+                  "quote": "不要把计划0日当作没有训练记录",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WX09-r1",
+      "message": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+      "source": "round-54-task-evidence/runs/WX09-r1.json",
+      "sha256": "7cc055367ebcc1a661d799153fc3f8688244cbdad7d1924cb1b106d531bda416",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2810,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2600,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "error": "intent_understanding_unavailable",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_plan",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "active_plan",
+              "health_screening"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "用户近期工作疲劳，希望基于已保存的训练计划和身体限制，给出为期两周的临时训练安排建议（仅建议、不修改计划）：每次训练最多12分钟，并说明状态更差时如何降级调整、恢复后如何逐步加回训练量。",
+            "risk_level": "low",
+            "confidence": 0.82,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+              "requirements": [
+                {
+                  "key": "goal",
+                  "quote": "请根据已保存计划和身体限制给两周临时训练安排",
+                  "remove": false
+                },
+                {
+                  "key": "duration_weeks",
+                  "quote": "两周临时训练安排",
+                  "remove": false
+                },
+                {
+                  "key": "session_max_minutes",
+                  "quote": "每次最多12分钟",
+                  "remove": false
+                },
+                {
+                  "key": "worse_state_guidance",
+                  "quote": "写明状态更差时怎么办",
+                  "remove": false
+                },
+                {
+                  "key": "recovery_progression",
+                  "quote": "恢复后怎么加回来",
+                  "remove": false
+                },
+                {
+                  "key": "no_plan_modification",
+                  "quote": "不修改计划",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_plan",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "active_plan",
+              "health_screening"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "用户近期工作疲劳，要求基于已保存的训练计划和身体限制，给出为期两周的临时训练安排建议，每次训练不超过12分钟，并说明状态更差时的降级处理方式以及恢复后如何逐步加回训练量；明确不修改现有训练计划，仅提供文字建议。",
+            "risk_level": "medium",
+            "confidence": 0.82,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+              "requirements": [
+                {
+                  "key": "goal",
+                  "quote": "给两周临时训练安排",
+                  "remove": false
+                },
+                {
+                  "key": "duration_weeks",
+                  "quote": "两周临时训练安排",
+                  "remove": false
+                },
+                {
+                  "key": "session_duration_limit",
+                  "quote": "每次最多12分钟",
+                  "remove": false
+                },
+                {
+                  "key": "basis",
+                  "quote": "根据已保存计划和身体限制",
+                  "remove": false
+                },
+                {
+                  "key": "worse_state_guidance",
+                  "quote": "写明状态更差时怎么办",
+                  "remove": false
+                },
+                {
+                  "key": "recovery_progression",
+                  "quote": "恢复后怎么加回来",
+                  "remove": false
+                },
+                {
+                  "key": "no_plan_modification",
+                  "quote": "不修改计划",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "WX09-r2",
+      "message": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+      "source": "round-54-task-evidence/runs/WX09-r2.json",
+      "sha256": "7adbf7c1fc3c88c7a094e0e34906783d0657c82d562ae40859a8bb1ae14fa117",
+      "trace": {
+        "trace_version": "1.0",
+        "router_version": "semantic_route_v2",
+        "execution_mode": "direct",
+        "risk_level": "low",
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "intent_understanding_unavailable"
+        ],
+        "status": "completed",
+        "plan": {
+          "version": 1,
+          "goal": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+          "planner_source": "direct_v1",
+          "candidate_tools": [],
+          "steps": [
+            {
+              "id": "step_1",
+              "objective": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+              "depends_on": [],
+              "candidate_tools": [],
+              "execution_strategy": "direct",
+              "completion_policy": "executor_decides",
+              "planned_actions": [],
+              "success_signal": "完成当前单一目标",
+              "status": "completed",
+              "status_source": "runtime"
+            }
+          ],
+          "revision_reason": null
+        },
+        "actions": [],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "attempt": 1,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 2530,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 2,
+            "source": "model",
+            "status": "error",
+            "latency_ms": 3723,
+            "error_category": "semantic_mutation_structure_missing",
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          },
+          {
+            "stage": "intent",
+            "attempt": 0,
+            "source": "rules",
+            "status": "success",
+            "latency_ms": 0,
+            "error_category": null,
+            "transport": null,
+            "input_chars": null,
+            "output_chars": null,
+            "input_tokens": null,
+            "output_tokens": null,
+            "finish_reason": null
+          }
+        ],
+        "finalization_contract": null,
+        "terminal_action": "answer",
+        "termination_reason": "intent_understanding_unavailable",
+        "budget_usage": {
+          "plan_steps": 1,
+          "model_calls": 0,
+          "tool_calls": 0,
+          "replans": 0
+        },
+        "request_context": {
+          "as_of": "2026-10-09",
+          "timezone": "Asia/Shanghai"
+        },
+        "task_state": {
+          "version": 1,
+          "active_task_id": null,
+          "tasks": [],
+          "transition": "untracked",
+          "evicted_task_ids": []
+        }
+      },
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "error": "intent_understanding_unavailable",
+      "tools": [],
+      "decisions": [
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_plan",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "active_plan",
+              "health_screening"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "用户近期工作疲劳，希望基于已保存的训练计划和身体限制，给出为期两周的临时训练安排建议（每次不超过12分钟），并说明状态更差时的降级处理方式以及恢复后如何逐步加回训练量；明确不修改现有训练计划，仅提供文字建议。",
+            "risk_level": "medium",
+            "confidence": 0.82,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+              "requirements": [
+                {
+                  "key": "goal",
+                  "quote": "给两周临时训练安排",
+                  "remove": false
+                },
+                {
+                  "key": "duration_scope",
+                  "quote": "两周",
+                  "remove": false
+                },
+                {
+                  "key": "session_duration_limit",
+                  "quote": "每次最多12分钟",
+                  "remove": false
+                },
+                {
+                  "key": "basis",
+                  "quote": "根据已保存计划和身体限制",
+                  "remove": false
+                },
+                {
+                  "key": "worse_state_guidance",
+                  "quote": "写明状态更差时怎么办",
+                  "remove": false
+                },
+                {
+                  "key": "recovery_progression",
+                  "quote": "恢复后怎么加回来",
+                  "remove": false
+                },
+                {
+                  "key": "no_plan_modification",
+                  "quote": "不修改计划",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "submit_semantic_route",
+          "payload": {
+            "intent_domain": "workout_plan",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "active_plan",
+              "health_screening"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "用户近期工作疲劳，要求基于已保存的训练计划和身体限制，给出两周的临时训练安排建议：每次训练最多12分钟，说明状态更差时如何降级处理、恢复后如何逐步加回训练量；明确不修改现有训练计划，仅提供文字建议。",
+            "risk_level": "medium",
+            "confidence": 0.82,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "最近工作很累，请根据已保存计划和身体限制给两周临时训练安排，每次最多12分钟，写明状态更差时怎么办、恢复后怎么加回来；不修改计划。",
+              "requirements": [
+                {
+                  "key": "goal",
+                  "quote": "请根据已保存计划和身体限制给两周临时训练安排",
+                  "remove": false
+                },
+                {
+                  "key": "duration_scope",
+                  "quote": "给两周临时训练安排",
+                  "remove": false
+                },
+                {
+                  "key": "session_duration_limit",
+                  "quote": "每次最多12分钟",
+                  "remove": false
+                },
+                {
+                  "key": "worse_state_guidance",
+                  "quote": "写明状态更差时怎么办",
+                  "remove": false
+                },
+                {
+                  "key": "recovery_progression",
+                  "quote": "恢复后怎么加回来",
+                  "remove": false
+                },
+                {
+                  "key": "no_plan_modification",
+                  "quote": "不修改计划",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

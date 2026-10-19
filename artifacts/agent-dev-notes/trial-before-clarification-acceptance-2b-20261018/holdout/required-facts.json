@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "scope": "All delivered replies in the R76 targeted30 and original-user8 batches, including failed tasks. Earlier partial R73 fact review cannot substitute for this denominator.",
+  "before_live_requirements": [
+    "Every claim about current symptoms, onset, side/site, trigger, tolerated activity and absent symptom must match the current user report or a valid retained user requirement. Quoted other-person symptoms and resolved history remain distinct.",
+    "Plan frequency, exercise names, sets/reps/rest/weights and completion counts must match the actual successful tool/SQL sources. A saved preference is not the active plan schedule; prescribed weight is not proven safe load.",
+    "If a quantified temporary plan is delivered, independently recompute frequency, weekly sets, time including preparation/rest and return increments; label timing estimates. Missing necessary quantities remain task-completeness defects, not a way to improve accuracy.",
+    "General mechanical claims must have an identified source; the two curated variants do not establish other variants or personal tolerance. Individual diagnostic/exclusion/effect guarantees need individual evidence and may remain unsupported.",
+    "Food/date/nutrient claims in original user questions must match the scoped tool rows; missing or future dates cannot become zero actual intake or already completed activity. Recorded intake and actual whole-day intake remain distinct.",
+    "Claims of tools used, saved state, no change and proposal outcomes must match runtime/SQL lifecycle records. Read-only advice cannot be described as a persisted plan."
+  ],
+  "record_schema": {
+    "claim_id": "stable per reply/atomic proposition",
+    "instance_turn_and_raw_sha256": "required",
+    "quote_and_offsets": "exact delivered wording; split distinct propositions in shared spans",
+    "claim_type": "user_report | stored_fact | arithmetic | general_fact | inference | state_or_tool_claim",
+    "evidence": "source file/hash and JSON path or primary-source URL; absent evidence explicitly recorded",
+    "verdict": "correct | incorrect | unsupported | unresolved",
+    "severity": "critical | ordinary",
+    "reason": "specific evidence comparison, not a copied success label"
+  },
+  "excluded_from_fact_denominator": "Pure preferences, questions, explicitly conditional recommendations and disclosed estimates without factual claims; still reviewed for task fulfillment and safety. Do not omit factual premises embedded inside recommendations.",
+  "full_coverage_required": "Mark every reply's inventory complete only after all sentences have been considered. Unreviewed replies or unresolved claims keep global accuracy/hallucination metrics null. Do not count obligation checklist items as invented atomic facts.",
+  "gate": "Existing roadmap thresholds unchanged; at least400 atomic facts per acceptance batch, accuracy98%, critical100%, unsupported/fabricated1% maximum and prohibited individual certainty0. This development batch cannot replace fresh60x2 acceptance batches or real-user evidence.",
+  "reviewer": "implementation main agent; not independent blind human review"
+}

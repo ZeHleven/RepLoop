@@ -1,0 +1,70 @@
+{
+  "message": "查看2026-10-07至2026-10-11晚餐的每日蛋白质和记录总和。缺晚餐记录的历史日期要说明，未来日期单独标明未纳入历史查询。",
+  "route": {
+    "intent_domain": "nutrition",
+    "request_kind": "query",
+    "requested_effect": "read",
+    "requested_output": "answer",
+    "read_targets": [
+      "nutrition_history",
+      "nutrition_recent_context"
+    ],
+    "decision_action": "none",
+    "artifact_action": "none",
+    "normalized_request": "查询2026-10-07至2026-10-11期间每天的晚餐蛋白质摄入量及该范围内已记录晚餐的蛋白质总和；对缺少晚餐记录的历史日期（2026-10-07、2026-10-08）予以说明；未来日期（2026-10-10、2026-10-11，相对业务日期2026-10-09）单独标明且不纳入历史查询统计。",
+    "risk_level": "low",
+    "confidence": 0.9,
+    "task_update": {
+      "action": "new",
+      "task_id": "",
+      "trigger": "查看2026-10-07至2026-10-11晚餐的每日蛋白质和记录总和。缺晚餐记录的历史日期要说明，未来日期单独标明未纳入历史查询。",
+      "requirements": [
+        {
+          "key": "date_scope",
+          "quote": "查看2026-10-07至2026-10-11晚餐的每日蛋白质和记录总和",
+          "remove": false
+        },
+        {
+          "key": "meal_scope",
+          "quote": "查看2026-10-07至2026-10-11晚餐的每日蛋白质和记录总和",
+          "remove": false
+        },
+        {
+          "key": "metric",
+          "quote": "查看2026-10-07至2026-10-11晚餐的每日蛋白质和记录总和",
+          "remove": false
+        },
+        {
+          "key": "missing_day_note",
+          "quote": "缺晚餐记录的历史日期要说明",
+          "remove": false
+        },
+        {
+          "key": "future_day_exclusion",
+          "quote": "未来日期单独标明未纳入历史查询",
+          "remove": false
+        }
+      ]
+    }
+  },
+  "calls": [
+    {
+      "name": "nutrition_list_history",
+      "args": {
+        "start_date": "2026-10-07",
+        "end_date": "2026-10-11",
+        "meal_types": [
+          "晚餐"
+        ]
+      },
+      "id": "call_00_Mjc9QTfoNertA8fDVBfB1046",
+      "type": "tool_call"
+    },
+    {
+      "name": "nutrition_get_recent_context",
+      "args": {},
+      "id": "call_01_mtpeTUgHHBroAYebw1tL0785",
+      "type": "tool_call"
+    }
+  ]
+}

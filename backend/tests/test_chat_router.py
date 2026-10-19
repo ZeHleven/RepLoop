@@ -1,5 +1,6 @@
 import pytest
 from unittest.mock import patch, AsyncMock
+from app.config import settings
 
 
 async def get_token(client, email):
@@ -56,3 +57,17 @@ async def test_get_messages_wrong_session_returns_404(client):
         headers={"Authorization": f"Bearer {token}"},
     )
     assert resp.status_code == 404
+
+
+@pytest.mark.asyncio
+async def test_chat_returns_503_when_ai_is_not_configured(client):
+    token = await get_token(client, "chat-unconfigured@example.com")
+    with patch.object(settings, "DEEPSEEK_API_KEY", ""):
+        resp = await client.post(
+            "/api/v1/chat",
+            json={"message": "帮我安排训练"},
+            headers={"Authorization": f"Bearer {token}"},
+        )
+
+    assert resp.status_code == 503
+    assert "DEEPSEEK_API_KEY" in resp.json()["detail"]

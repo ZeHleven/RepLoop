@@ -1,0 +1,1157 @@
+{
+  "schema_version": "1.1",
+  "description": "15项合成用户 PostgreSQL/API 完整任务。模型层在 scripted 模式记为 not_run。1.1增加正文范围检查；query_sparse_history于round07真实模型验收暴露后移入development，不再计为保留集。",
+  "cases": [
+    {
+      "id": "meal_confirm",
+      "split": "development",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "action": "confirm",
+        "rationale_count": 6
+      },
+      "live_supported": true,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "evidence",
+          "path": "generation.evidence_count",
+          "op": "eq",
+          "expected": 6
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.nutrition_consistent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.card_matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.rationale_preserved",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_decision",
+          "op": "eq",
+          "expected": 3
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_replay",
+          "op": "eq",
+          "expected": 3
+        },
+        {
+          "dimension": "task_state",
+          "path": "decision.status",
+          "op": "eq",
+          "expected": "applied"
+        },
+        {
+          "dimension": "facts",
+          "path": "readback.matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "decision.replay_equal",
+          "op": "eq",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "meal_long_explanations",
+      "split": "holdout",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "action": "confirm",
+        "rationale_count": 20
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "evidence",
+          "path": "generation.evidence_count",
+          "op": "eq",
+          "expected": 6
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.nutrition_consistent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.card_matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.rationale_preserved",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_decision",
+          "op": "eq",
+          "expected": 3
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_replay",
+          "op": "eq",
+          "expected": 3
+        },
+        {
+          "dimension": "task_state",
+          "path": "decision.status",
+          "op": "eq",
+          "expected": "applied"
+        },
+        {
+          "dimension": "facts",
+          "path": "readback.matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "decision.replay_equal",
+          "op": "eq",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "meal_reject",
+      "split": "development",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "action": "reject",
+        "rationale_count": 5
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "evidence",
+          "path": "generation.evidence_count",
+          "op": "eq",
+          "expected": 6
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.nutrition_consistent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.card_matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.rationale_preserved",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "task_state",
+          "path": "decision.status",
+          "op": "eq",
+          "expected": "rejected"
+        }
+      ]
+    },
+    {
+      "id": "meal_expired",
+      "split": "development",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "action": "expired",
+        "rationale_count": 6
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "evidence",
+          "path": "generation.evidence_count",
+          "op": "eq",
+          "expected": 6
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.nutrition_consistent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.card_matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.rationale_preserved",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "task_state",
+          "path": "decision.http_status",
+          "op": "eq",
+          "expected": 409
+        }
+      ]
+    },
+    {
+      "id": "meal_changed_context",
+      "split": "holdout",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "action": "conflict",
+        "rationale_count": 6
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "evidence",
+          "path": "generation.evidence_count",
+          "op": "eq",
+          "expected": 6
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.nutrition_consistent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.card_matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.rationale_preserved",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "task_state",
+          "path": "decision.http_status",
+          "op": "eq",
+          "expected": 409
+        }
+      ]
+    },
+    {
+      "id": "meal_revision",
+      "split": "holdout",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "action": "revision",
+        "rationale_count": 6
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "evidence",
+          "path": "generation.evidence_count",
+          "op": "eq",
+          "expected": 6
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.nutrition_consistent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.card_matches_artifact",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "facts",
+          "path": "generation.rationale_preserved",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.after_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "task_state",
+          "path": "decision.http_status",
+          "op": "eq",
+          "expected": 409
+        }
+      ]
+    },
+    {
+      "id": "meal_explanation_limit",
+      "split": "development",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "rationale_count": 21
+      },
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": false
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 2
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.has_proposal",
+          "op": "eq",
+          "expected": false
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        }
+      ]
+    },
+    {
+      "id": "meal_unknown_food",
+      "split": "holdout",
+      "scenario": "meal_lifecycle",
+      "message": "结合我的情况安排今天怎么吃",
+      "parameters": {
+        "bad_food": true
+      },
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "generation.request_kind",
+          "op": "eq",
+          "expected": "generation"
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.has_artifact",
+          "op": "eq",
+          "expected": false
+        },
+        {
+          "dimension": "task_state",
+          "path": "generation.model_attempts",
+          "op": "eq",
+          "expected": 2
+        },
+        {
+          "dimension": "persistence",
+          "path": "writes.before_decision",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "presentation",
+          "path": "generation.has_proposal",
+          "op": "eq",
+          "expected": false
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        }
+      ]
+    },
+    {
+      "id": "query_today",
+      "split": "development",
+      "scenario": "query",
+      "message": "今天吃了多少？",
+      "parameters": {
+        "evidence": [
+          "nutrition_today"
+        ]
+      },
+      "live_supported": true,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "query.request_kind",
+          "op": "eq",
+          "expected": "query"
+        },
+        {
+          "dimension": "persistence",
+          "path": "query.meal_count_unchanged",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.idempotent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "facts",
+          "path": "query.as_of",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.contract_status",
+          "op": "eq",
+          "expected": "complete"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.required_count",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.terminal_action",
+          "op": "eq",
+          "expected": "answer"
+        },
+        {
+          "dimension": "facts",
+          "path": "query.calories",
+          "op": "eq",
+          "expected": 130
+        },
+        {
+          "dimension": "presentation",
+          "path": "query.card_date",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "facts",
+          "path": "query.reply_facts_consistent",
+          "op": "eq",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "query_sparse_history",
+      "split": "development",
+      "scenario": "query",
+      "message": "最近有记录的饮食日期和营养汇总",
+      "parameters": {
+        "evidence": [
+          "nutrition_history"
+        ]
+      },
+      "live_supported": true,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "query.request_kind",
+          "op": "eq",
+          "expected": "query"
+        },
+        {
+          "dimension": "persistence",
+          "path": "query.meal_count_unchanged",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.idempotent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "facts",
+          "path": "query.as_of",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.contract_status",
+          "op": "eq",
+          "expected": "complete"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.required_count",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.terminal_action",
+          "op": "eq",
+          "expected": "answer"
+        },
+        {
+          "dimension": "facts",
+          "path": "query.logged_dates",
+          "op": "eq",
+          "expected": [
+            "2026-09-29",
+            "2026-08-01"
+          ]
+        },
+        {
+          "dimension": "presentation",
+          "path": "query.scope_selection",
+          "op": "eq",
+          "expected": "latest_logged_dates"
+        },
+        {
+          "dimension": "facts",
+          "path": "query.reply_facts_consistent",
+          "op": "eq",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "query_recovered_midnight",
+      "split": "development",
+      "scenario": "query",
+      "message": "今天吃了多少？",
+      "parameters": {
+        "evidence": [
+          "nutrition_today"
+        ],
+        "recovered": true
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "query.request_kind",
+          "op": "eq",
+          "expected": "query"
+        },
+        {
+          "dimension": "persistence",
+          "path": "query.meal_count_unchanged",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.idempotent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "facts",
+          "path": "query.as_of",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.contract_status",
+          "op": "eq",
+          "expected": "complete"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.required_count",
+          "op": "eq",
+          "expected": 1
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.terminal_action",
+          "op": "eq",
+          "expected": "answer"
+        },
+        {
+          "dimension": "facts",
+          "path": "query.calories",
+          "op": "eq",
+          "expected": 130
+        },
+        {
+          "dimension": "presentation",
+          "path": "query.card_date",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "facts",
+          "path": "query.reply_facts_consistent",
+          "op": "eq",
+          "expected": true
+        }
+      ]
+    },
+    {
+      "id": "query_budget_five",
+      "split": "development",
+      "scenario": "query",
+      "message": "结合资料、健康限制、体重、计划和训练进度评估状态",
+      "parameters": {
+        "evidence": [
+          "profile_summary",
+          "health_screening",
+          "weight_history",
+          "active_plan",
+          "workout_progress"
+        ]
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "query.request_kind",
+          "op": "eq",
+          "expected": "query"
+        },
+        {
+          "dimension": "persistence",
+          "path": "query.meal_count_unchanged",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.idempotent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "facts",
+          "path": "query.as_of",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.contract_status",
+          "op": "eq",
+          "expected": "blocked"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.required_count",
+          "op": "eq",
+          "expected": 5
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.terminal_action",
+          "op": "eq",
+          "expected": "clarify"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.tool_calls",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "presentation",
+          "path": "query.reply",
+          "op": "contains",
+          "expected": "请先选"
+        }
+      ]
+    },
+    {
+      "id": "query_budget_six",
+      "split": "holdout",
+      "scenario": "query",
+      "message": "结合资料、健康限制、体重、计划、训练进度和今日饮食评估状态",
+      "parameters": {
+        "evidence": [
+          "profile_summary",
+          "health_screening",
+          "weight_history",
+          "active_plan",
+          "workout_progress",
+          "nutrition_today"
+        ]
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "query.request_kind",
+          "op": "eq",
+          "expected": "query"
+        },
+        {
+          "dimension": "persistence",
+          "path": "query.meal_count_unchanged",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.idempotent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "facts",
+          "path": "query.as_of",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.contract_status",
+          "op": "eq",
+          "expected": "blocked"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.required_count",
+          "op": "eq",
+          "expected": 6
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.terminal_action",
+          "op": "eq",
+          "expected": "clarify"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.tool_calls",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "presentation",
+          "path": "query.reply",
+          "op": "contains",
+          "expected": "请先选"
+        }
+      ]
+    },
+    {
+      "id": "query_budget_one",
+      "split": "development",
+      "scenario": "query",
+      "message": "结合个人资料和今天饮食评估状态",
+      "parameters": {
+        "evidence": [
+          "profile_summary",
+          "nutrition_today"
+        ],
+        "budget": 1
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "query.request_kind",
+          "op": "eq",
+          "expected": "query"
+        },
+        {
+          "dimension": "persistence",
+          "path": "query.meal_count_unchanged",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.idempotent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "facts",
+          "path": "query.as_of",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.contract_status",
+          "op": "eq",
+          "expected": "blocked"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.required_count",
+          "op": "eq",
+          "expected": 2
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.terminal_action",
+          "op": "eq",
+          "expected": "clarify"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.tool_calls",
+          "op": "eq",
+          "expected": 0
+        },
+        {
+          "dimension": "presentation",
+          "path": "query.reply",
+          "op": "contains",
+          "expected": "请先选"
+        }
+      ]
+    },
+    {
+      "id": "query_missing_observation",
+      "split": "development",
+      "scenario": "query",
+      "message": "结合个人资料和今天饮食评估状态",
+      "parameters": {
+        "evidence": [
+          "profile_summary",
+          "nutrition_today"
+        ],
+        "omit_tool": true
+      },
+      "live_supported": false,
+      "checks": [
+        {
+          "dimension": "semantic",
+          "path": "query.request_kind",
+          "op": "eq",
+          "expected": "query"
+        },
+        {
+          "dimension": "persistence",
+          "path": "query.meal_count_unchanged",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.idempotent",
+          "op": "eq",
+          "expected": true
+        },
+        {
+          "dimension": "facts",
+          "path": "query.as_of",
+          "op": "eq",
+          "expected": "2026-09-29"
+        },
+        {
+          "dimension": "latency",
+          "path": "duration_ms",
+          "op": "lte",
+          "expected": 240000
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.contract_status",
+          "op": "eq",
+          "expected": "partial"
+        },
+        {
+          "dimension": "evidence",
+          "path": "query.required_count",
+          "op": "eq",
+          "expected": 2
+        },
+        {
+          "dimension": "task_state",
+          "path": "query.terminal_action",
+          "op": "eq",
+          "expected": "answer"
+        },
+        {
+          "dimension": "presentation",
+          "path": "query.reply",
+          "op": "contains",
+          "expected": "还没有完整取得"
+        }
+      ]
+    }
+  ]
+}

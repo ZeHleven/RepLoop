@@ -1,0 +1,335 @@
+{
+  "fixture_version": "1.0.0",
+  "gate_defaults": {
+    "feature_enabled": true,
+    "run_owned": true,
+    "selected_outcome": "adjustment_proposal",
+    "terminal_action": "proposal",
+    "intent_allows_adjustment": true,
+    "risk_level": "low",
+    "clarification_required": false,
+    "evidence_state": "complete",
+    "draft_state": "valid",
+    "proposal_type": "plan_adjustment_v1",
+    "requested_ttl_hours": null
+  },
+  "response_contract": {
+    "transport_field": "proposal",
+    "success_surfaces": [
+      "AgentChatResponse",
+      "AgentRunResponse"
+    ],
+    "reference_keys": [
+      "id",
+      "proposal_type",
+      "status",
+      "version",
+      "expires_at",
+      "payload_fingerprint"
+    ],
+    "excluded_reference_keys": [
+      "payload_data",
+      "before",
+      "after",
+      "changes",
+      "evidence"
+    ],
+    "omission_policy": "omit_when_not_created"
+  },
+  "cases": [
+    {
+      "case_id": "flag_off.adjustment_text_is_exact_legacy_parity",
+      "overrides": {
+        "feature_enabled": false
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "feature_disabled"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.valid_adjustment_creates_one_reference",
+      "overrides": {},
+      "persistence_outcome": "created",
+      "expected": {
+        "creation": {
+          "eligible": true,
+          "reason_code": null
+        },
+        "persistence_called": true,
+        "transaction_outcome": "commit_result_with_proposal",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 1
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_plus_optional_proposal",
+          "proposal_reference": "present",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.worker_replay_returns_same_reference",
+      "overrides": {},
+      "persistence_outcome": "replayed",
+      "expected": {
+        "creation": {
+          "eligible": true,
+          "reason_code": null
+        },
+        "persistence_called": true,
+        "transaction_outcome": "commit_result_with_proposal",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 1
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_plus_optional_proposal",
+          "proposal_reference": "present",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.informational_answer_does_not_create",
+      "overrides": {
+        "selected_outcome": "informational_answer",
+        "terminal_action": "answer"
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "outcome_not_adjustment_proposal"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.no_change_needed_does_not_create",
+      "overrides": {
+        "selected_outcome": "no_change_needed",
+        "terminal_action": "answer"
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "outcome_not_adjustment_proposal"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.insufficient_evidence_does_not_create",
+      "overrides": {
+        "selected_outcome": "insufficient_evidence",
+        "terminal_action": "answer"
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "outcome_not_adjustment_proposal"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.health_red_flag_does_not_create",
+      "overrides": {
+        "risk_level": "high"
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "health_red_flag"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.unresolved_clarification_does_not_create",
+      "overrides": {
+        "clarification_required": true
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "clarification_required"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.missing_active_plan_does_not_create",
+      "overrides": {
+        "evidence_state": "plan_missing"
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "plan_evidence_missing"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.invalid_draft_does_not_create",
+      "overrides": {
+        "draft_state": "invalid"
+      },
+      "persistence_outcome": "must_not_be_called",
+      "expected": {
+        "creation": {
+          "eligible": false,
+          "reason_code": "proposal_draft_invalid"
+        },
+        "persistence_called": false,
+        "transaction_outcome": "commit_legacy_result",
+        "durable": {
+          "run_status": "completed",
+          "run_error_code": null,
+          "assistant_message_count": 1,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 200,
+          "top_level_shape": "legacy_exact",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": true
+        }
+      }
+    },
+    {
+      "case_id": "flag_on.persistence_error_rolls_back_final_result",
+      "overrides": {},
+      "persistence_outcome": "error",
+      "expected": {
+        "creation": {
+          "eligible": true,
+          "reason_code": null
+        },
+        "persistence_called": true,
+        "transaction_outcome": "rollback_result_then_mark_failed",
+        "durable": {
+          "run_status": "failed",
+          "run_error_code": "agent_runtime_error",
+          "assistant_message_count": 0,
+          "proposal_count": 0
+        },
+        "response": {
+          "http_status": 503,
+          "top_level_shape": "error",
+          "proposal_reference": "absent",
+          "legacy_reply_cards_trace_unchanged": false
+        }
+      }
+    }
+  ]
+}

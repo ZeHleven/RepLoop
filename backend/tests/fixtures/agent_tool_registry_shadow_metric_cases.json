@@ -1,0 +1,469 @@
+{
+  "fixture_version": "1.0.0",
+  "contract": {
+    "projection_inputs": [
+      "report"
+    ],
+    "requires_persisted_trace": false,
+    "on_projection_error": "drop_metrics",
+    "error_mismatch_codes_are_not_counted": true,
+    "allowed_error_categories": [
+      "comparator_internal_error",
+      "invalid_shadow_fact",
+      "shadow_fact_builder_error",
+      "other"
+    ],
+    "unknown_error_category": "other",
+    "metric_kinds": {
+      "agent_tool_registry_shadow_runs_total": "counter",
+      "agent_tool_registry_shadow_checks_total": "counter",
+      "agent_tool_registry_shadow_mismatches_total": "counter",
+      "agent_tool_registry_shadow_errors_total": "counter",
+      "agent_tool_registry_shadow_latency_ms": "histogram"
+    },
+    "metric_labels": {
+      "agent_tool_registry_shadow_runs_total": [
+        "status"
+      ],
+      "agent_tool_registry_shadow_checks_total": [
+        "check_type",
+        "status"
+      ],
+      "agent_tool_registry_shadow_mismatches_total": [
+        "check_type",
+        "code"
+      ],
+      "agent_tool_registry_shadow_errors_total": [
+        "check_type",
+        "error_category"
+      ],
+      "agent_tool_registry_shadow_latency_ms": []
+    }
+  },
+  "cases": [
+    {
+      "case_id": "match.emits_run_checks_and_latency",
+      "report": {
+        "registry_version": "2.0.0",
+        "mode": "shadow",
+        "status": "match",
+        "sample_bucket": 137,
+        "checks": [
+          {
+            "check_type": "route_allowlist",
+            "status": "match",
+            "mismatch_codes": [],
+            "legacy_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "registry_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "legacy_tool_ids": [
+              "plan.get_active"
+            ],
+            "registry_tool_ids": [
+              "plan.get_active"
+            ],
+            "latency_ms": 1,
+            "skip_reason": null,
+            "error_category": null
+          },
+          {
+            "check_type": "constructed_tools",
+            "status": "match",
+            "mismatch_codes": [],
+            "legacy_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "registry_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "legacy_tool_ids": [
+              "plan.get_active"
+            ],
+            "registry_tool_ids": [
+              "plan.get_active"
+            ],
+            "latency_ms": 2,
+            "skip_reason": null,
+            "error_category": null
+          }
+        ],
+        "total_latency_ms": 3
+      },
+      "expected_samples": [
+        {
+          "name": "agent_tool_registry_shadow_runs_total",
+          "kind": "counter",
+          "labels": {
+            "status": "match"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "route_allowlist",
+            "status": "match"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "constructed_tools",
+            "status": "match"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_latency_ms",
+          "kind": "histogram",
+          "labels": {},
+          "value": 3
+        }
+      ]
+    },
+    {
+      "case_id": "mismatch.emits_each_stable_code",
+      "report": {
+        "registry_version": "2.0.0",
+        "mode": "shadow",
+        "status": "mismatch",
+        "sample_bucket": 2048,
+        "checks": [
+          {
+            "check_type": "route_allowlist",
+            "status": "mismatch",
+            "mismatch_codes": [
+              "permission_expansion",
+              "registered_tool_missing"
+            ],
+            "legacy_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "registry_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "legacy_tool_ids": [
+              "plan.get_active"
+            ],
+            "registry_tool_ids": [
+              "profile.get_summary"
+            ],
+            "latency_ms": 3,
+            "skip_reason": null,
+            "error_category": null
+          },
+          {
+            "check_type": "argument_schema",
+            "status": "mismatch",
+            "mismatch_codes": [
+              "default_argument_mismatch"
+            ],
+            "legacy_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "registry_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "legacy_tool_ids": [
+              "workout.get_progress"
+            ],
+            "registry_tool_ids": [
+              "workout.get_progress"
+            ],
+            "latency_ms": 4,
+            "skip_reason": null,
+            "error_category": null
+          }
+        ],
+        "total_latency_ms": 7
+      },
+      "expected_samples": [
+        {
+          "name": "agent_tool_registry_shadow_runs_total",
+          "kind": "counter",
+          "labels": {
+            "status": "mismatch"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "route_allowlist",
+            "status": "mismatch"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_mismatches_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "route_allowlist",
+            "code": "permission_expansion"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_mismatches_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "route_allowlist",
+            "code": "registered_tool_missing"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "argument_schema",
+            "status": "mismatch"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_mismatches_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "argument_schema",
+            "code": "default_argument_mismatch"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_latency_ms",
+          "kind": "histogram",
+          "labels": {},
+          "value": 7
+        }
+      ]
+    },
+    {
+      "case_id": "error.emits_error_without_duplicate_mismatch",
+      "report": {
+        "registry_version": "2.0.0",
+        "mode": "shadow",
+        "status": "error",
+        "sample_bucket": 4096,
+        "checks": [
+          {
+            "check_type": "parallel_policy",
+            "status": "match",
+            "mismatch_codes": [],
+            "legacy_fingerprint": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "registry_fingerprint": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+            "legacy_tool_ids": [
+              "plan.get_active"
+            ],
+            "registry_tool_ids": [
+              "plan.get_active"
+            ],
+            "latency_ms": 2,
+            "skip_reason": null,
+            "error_category": null
+          },
+          {
+            "check_type": "observation_semantics",
+            "status": "error",
+            "mismatch_codes": [
+              "shadow_internal_error"
+            ],
+            "legacy_fingerprint": null,
+            "registry_fingerprint": null,
+            "legacy_tool_ids": [],
+            "registry_tool_ids": [],
+            "latency_ms": 1,
+            "skip_reason": null,
+            "error_category": "shadow_fact_builder_error"
+          }
+        ],
+        "total_latency_ms": 3
+      },
+      "expected_samples": [
+        {
+          "name": "agent_tool_registry_shadow_runs_total",
+          "kind": "counter",
+          "labels": {
+            "status": "error"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "parallel_policy",
+            "status": "match"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "observation_semantics",
+            "status": "error"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_errors_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "observation_semantics",
+            "error_category": "shadow_fact_builder_error"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_latency_ms",
+          "kind": "histogram",
+          "labels": {},
+          "value": 3
+        }
+      ]
+    },
+    {
+      "case_id": "error.bounds_unknown_error_category",
+      "report": {
+        "registry_version": "2.0.0",
+        "mode": "shadow",
+        "status": "error",
+        "sample_bucket": 6144,
+        "checks": [
+          {
+            "check_type": "constructed_tools",
+            "status": "error",
+            "mismatch_codes": [
+              "shadow_internal_error"
+            ],
+            "legacy_fingerprint": null,
+            "registry_fingerprint": null,
+            "legacy_tool_ids": [],
+            "registry_tool_ids": [],
+            "latency_ms": 1,
+            "skip_reason": null,
+            "error_category": "private-provider-error-12345"
+          }
+        ],
+        "total_latency_ms": 1
+      },
+      "expected_samples": [
+        {
+          "name": "agent_tool_registry_shadow_runs_total",
+          "kind": "counter",
+          "labels": {
+            "status": "error"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "constructed_tools",
+            "status": "error"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_errors_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "constructed_tools",
+            "error_category": "other"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_latency_ms",
+          "kind": "histogram",
+          "labels": {},
+          "value": 1
+        }
+      ]
+    },
+    {
+      "case_id": "partial.counts_skipped_checks",
+      "report": {
+        "registry_version": "2.0.0",
+        "mode": "shadow",
+        "status": "partial",
+        "sample_bucket": 8191,
+        "checks": [
+          {
+            "check_type": "conditional_evidence",
+            "status": "match",
+            "mismatch_codes": [],
+            "legacy_fingerprint": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "registry_fingerprint": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+            "legacy_tool_ids": [],
+            "registry_tool_ids": [],
+            "latency_ms": 2,
+            "skip_reason": null,
+            "error_category": null
+          },
+          {
+            "check_type": "observation_semantics",
+            "status": "skipped",
+            "mismatch_codes": [],
+            "legacy_fingerprint": null,
+            "registry_fingerprint": null,
+            "legacy_tool_ids": [],
+            "registry_tool_ids": [],
+            "latency_ms": 0,
+            "skip_reason": "lifecycle_point_not_reached",
+            "error_category": null
+          }
+        ],
+        "total_latency_ms": 2
+      },
+      "expected_samples": [
+        {
+          "name": "agent_tool_registry_shadow_runs_total",
+          "kind": "counter",
+          "labels": {
+            "status": "partial"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "conditional_evidence",
+            "status": "match"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_checks_total",
+          "kind": "counter",
+          "labels": {
+            "check_type": "observation_semantics",
+            "status": "skipped"
+          },
+          "value": 1
+        },
+        {
+          "name": "agent_tool_registry_shadow_latency_ms",
+          "kind": "histogram",
+          "labels": {},
+          "value": 2
+        }
+      ]
+    },
+    {
+      "case_id": "not_sampled.emits_run_only",
+      "report": {
+        "registry_version": "2.0.0",
+        "mode": "shadow",
+        "status": "not_sampled",
+        "sample_bucket": 9999,
+        "checks": [],
+        "total_latency_ms": 0
+      },
+      "expected_samples": [
+        {
+          "name": "agent_tool_registry_shadow_runs_total",
+          "kind": "counter",
+          "labels": {
+            "status": "not_sampled"
+          },
+          "value": 1
+        }
+      ]
+    }
+  ]
+}

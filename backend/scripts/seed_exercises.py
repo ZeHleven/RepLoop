@@ -9,6 +9,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from app.config import settings
 from app.database import Base
+from app.database_url import normalize_async_database_url
 from app.models.exercise import Exercise
 
 EXERCISES = [
@@ -36,7 +37,9 @@ EXERCISES = [
 
 
 async def main():
-    engine = create_async_engine(settings.DATABASE_URL, echo=False)
+    engine = create_async_engine(
+        normalize_async_database_url(settings.DATABASE_URL), echo=False
+    )
     session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
     async with session_factory() as session:

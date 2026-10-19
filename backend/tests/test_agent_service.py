@@ -3,6 +3,7 @@ from unittest.mock import patch, AsyncMock, MagicMock
 from app.models.user import User
 from app.models.chat import ChatSession, ChatMessage
 from app.services.agent import chat_with_agent
+from app.config import settings
 import bcrypt
 
 
@@ -50,7 +51,8 @@ async def test_chat_includes_knowledge_in_context(db_session):
     await db_session.commit()
 
     mock_chunks = [MagicMock(content="高蛋白饮食有助于增肌。", topic="nutrition")]
-    with patch("app.services.agent.call_deepseek", new=AsyncMock(return_value="好的")) as mock_call, \
+    with patch.object(settings, "RAG_ENABLED", True), \
+         patch("app.services.agent.call_deepseek", new=AsyncMock(return_value="好的")) as mock_call, \
          patch("app.services.agent.search_knowledge_base", new=AsyncMock(return_value=mock_chunks)):
         await chat_with_agent(db_session, user_id="agent-u2", session_id=session.id, user_message="蛋白质重要吗？")
 

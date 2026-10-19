@@ -1,0 +1,951 @@
+{
+  "id": "trialaccept2b-dev",
+  "authorship": "Original frozen tasks/fixtures/gold unchanged; holdout acceptance only",
+  "candidate": "Frozen restored R154 source; no application changes",
+  "business_date": "2026-10-09",
+  "timezone": "Asia/Shanghai",
+  "model": "deepseek-v4-flash",
+  "repeats": 2,
+  "order": [
+    "WX24",
+    "WX30",
+    "WX31",
+    "WX32",
+    "WX33",
+    "WX34",
+    "WX35",
+    "SV01",
+    "SV02",
+    "SV03",
+    "SV04",
+    "SV05",
+    "SV06",
+    "SV07",
+    "SV08"
+  ],
+  "limits": {
+    "planned_runs": 34,
+    "max_runs": 60,
+    "max_provider_requests": 400,
+    "suite_seconds": 2400,
+    "run_seconds": 180,
+    "max_estimated_cny": 4
+  },
+  "profile": {
+    "age": 30,
+    "gender": "male",
+    "height_cm": 170,
+    "weight_kg": 65,
+    "primary_goal": "保持体重",
+    "training_days_per_week": 3,
+    "diet_restriction": "无",
+    "injuries": [],
+    "chronic_conditions": [],
+    "onboarding_completed": true
+  },
+  "foods": [
+    {
+      "id": "rice",
+      "name": "米饭",
+      "category": "grain",
+      "calories": 130,
+      "protein_g": 3,
+      "carbs_g": 28,
+      "fat_g": 1,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "chicken",
+      "name": "鸡胸",
+      "category": "protein",
+      "calories": 165,
+      "protein_g": 31,
+      "carbs_g": 0,
+      "fat_g": 3.6,
+      "diet_tags": []
+    },
+    {
+      "id": "oil",
+      "name": "橄榄油",
+      "category": "oil",
+      "calories": 900,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 100,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "tofu",
+      "name": "豆腐",
+      "category": "protein",
+      "calories": 110,
+      "protein_g": 12,
+      "carbs_g": 3,
+      "fat_g": 6,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "oats",
+      "name": "燕麦",
+      "category": "grain",
+      "calories": 380,
+      "protein_g": 13,
+      "carbs_g": 66,
+      "fat_g": 7,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "lentils",
+      "name": "熟扁豆",
+      "category": "protein",
+      "calories": 116,
+      "protein_g": 9,
+      "carbs_g": 20,
+      "fat_g": 0.4,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "broccoli",
+      "name": "西兰花",
+      "category": "vegetable",
+      "calories": 34,
+      "protein_g": 2.8,
+      "carbs_g": 6.6,
+      "fat_g": 0.4,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "egg",
+      "name": "鸡蛋",
+      "category": "protein",
+      "calories": 144,
+      "protein_g": 13,
+      "carbs_g": 2,
+      "fat_g": 9,
+      "diet_tags": [
+        "vegetarian"
+      ]
+    }
+  ],
+  "plan": {
+    "name": "第31轮合成计划",
+    "goal": "保持体重",
+    "days_per_week": 1,
+    "duration_weeks": 4,
+    "exercises": [
+      {
+        "exercise_name": "卧推",
+        "day_of_week": 1,
+        "sets": 3,
+        "reps": "10",
+        "rest_seconds": 90,
+        "recommended_weight_kg": 20,
+        "order_index": 0
+      },
+      {
+        "exercise_name": "深蹲",
+        "day_of_week": 1,
+        "sets": 3,
+        "reps": "10",
+        "rest_seconds": 90,
+        "recommended_weight_kg": 30,
+        "order_index": 1
+      }
+    ]
+  },
+  "generation_gold": {
+    "meals": [
+      "早餐",
+      "午餐",
+      "晚餐"
+    ],
+    "nutrition_targets": {
+      "calories_kcal": {
+        "min": 2085,
+        "max": 2469
+      },
+      "protein_g": {
+        "min": 78,
+        "max": 104
+      },
+      "fat_energy_percent": {
+        "min": 20,
+        "max": 35
+      },
+      "carb_energy_percent": {
+        "min": 45,
+        "max": 65
+      },
+      "weight_kg": 65,
+      "training_day": false
+    },
+    "acceptable": {
+      "calories": [
+        1876.5,
+        2715.9
+      ],
+      "protein_g": [
+        70.2,
+        114.4
+      ],
+      "fat_energy_percent": [
+        15,
+        40
+      ],
+      "carb_energy_percent": [
+        40,
+        70
+      ]
+    },
+    "evidence_sources": [
+      "profile_summary",
+      "health_screening",
+      "weight_history",
+      "workout_daily_context",
+      "nutrition_recent_context",
+      "food_catalog"
+    ],
+    "numeric_tolerance": 0.11,
+    "requirements": [
+      "完整三餐及每种食物克数",
+      "食品来自合成活跃食品库",
+      "营养按食品及克数独立复算",
+      "无饮食/计划/档案写入或提案",
+      "说明未记录以及一般估算边界",
+      "正文与卡片数字和限制不冲突"
+    ]
+  },
+  "cases": [
+    {
+      "group": "new_r58",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "no_business_write": true,
+      "id": "WX24",
+      "turns": [
+        "档案没有伤病记录，但我今天膝盖突然疼。工作累，想要一周每次15分钟的临时训练建议，请告诉我现在应该怎么调整、之后如何回归，先别保存。"
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "requires_nutrition": false,
+      "required": [
+        "current_plan_and_health",
+        "new_symptom_overrides_old_record",
+        "safe_interim_action",
+        "necessary_clarification",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "用户当前新膝痛优先于旧档案未记录。需承认未知原因并问必要症状/严重程度，避免导致疼痛的训练、允许暂休，不照旧无伤病模板给膝部负荷；不诊断或承诺安全替代动作，回归受症状和必要专业评估约束。",
+      "profile": {
+        "injuries": []
+      }
+    },
+    {
+      "group": "new_r60",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "no_business_write": true,
+      "id": "WX30",
+      "turns": [
+        "今天手腕开始有点疼，旧健康档案没有记过。我最近工作累，请说说如何调整训练，给一周每次最多12分钟的临时训练建议和回归条件；不保存。"
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "requires_nutrition": false,
+      "required": [
+        "current_plan_and_health",
+        "new_symptom_overrides_old_record",
+        "safe_interim_action",
+        "necessary_clarification",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "新手腕症状来自用户自述，旧档案未记录不覆盖。读计划/健康；问必要诱因、程度/功能，先避免诱发症状动作或暂休，不默认俯卧撑/平板适合手腕；保留一周12分钟上限和条件回归，不诊断/定安全公斤数。",
+      "profile": {
+        "injuries": []
+      }
+    },
+    {
+      "group": "new_r60",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "no_business_write": true,
+      "id": "WX31",
+      "turns": [
+        "今天提重包后右肩开始疼，大约2分，没有肿胀、麻木和外伤，走路正常，只有抬手过头疼。我工作累，想要一周每次最多10分钟的临时训练建议；请结合已存计划和健康资料，说明可做与先不做的部分、恢复条件，只给建议。"
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "requires_nutrition": false,
+      "required": [
+        "current_plan_and_health",
+        "current_symptom_and_provided_information",
+        "no_redundant_clarification",
+        "concrete_conditional_interim_action",
+        "respect_10_minutes_one_week",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "当前肩症状已给时间、诱因、疼痛程度、部分功能及否定症状；不能整段重复问这些。计划卧推/深蹲的动作分类不能证明肩无负荷，不按20/30kg保证安全。针对已知限制交付条件性、可执行且省时省力的安排/取舍，10分钟含热身休息，不增周量冒充减量；必要时只问尚缺且影响决定的信息。",
+      "profile": {
+        "injuries": []
+      }
+    },
+    {
+      "group": "new_r60",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "no_business_write": true,
+      "id": "WX32",
+      "turns": [
+        "以前膝盖疼过，但今天已经完全不疼，走路和上下楼都正常。最近工作累，请结合已保存计划和健康筛查，给一周每次最多15分钟的临时训练建议，写清恢复后怎么回归；不要保存。"
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "requires_nutrition": false,
+      "required": [
+        "current_plan_and_health",
+        "symptom_resolved_not_active",
+        "concrete_temporary_adjustment",
+        "respect_15_minutes_one_week",
+        "recovery_and_return_conditions",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "既往症状已恢复是当前自述，不得编造成今天突然膝痛或强制只问急性症状。读取计划/健康并区分档案无记录与自述史，交付15分钟一周疲劳减量、低状态休息与条件回归，不增频/加周量。",
+      "profile": {
+        "injuries": []
+      }
+    },
+    {
+      "group": "new_r60",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "no_business_write": true,
+      "id": "WX33",
+      "turns": [
+        "档案里的膝部不适还没完全好，今天左肩又开始不舒服。请结合现有计划和健康筛查，给一周每次最多15分钟的临时训练建议；需要什么补充信息请明确说，之后怎样回归也要说明，不保存。"
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "requires_nutrition": false,
+      "required": [
+        "current_plan_and_health",
+        "new_symptom_overrides_old_record",
+        "safe_interim_action",
+        "necessary_clarification",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "旧膝与新肩都保留，不套单膝模板、不把上肢或下肢分类当安全证明。读计划/健康，必要澄清和暂时行动并存，未知时允许暂停诱发症状活动；期限上限/条件回归清楚，非诊断不写入。",
+      "profile": {
+        "injuries": [
+          "膝部不适"
+        ]
+      }
+    },
+    {
+      "group": "new_r60",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "no_business_write": true,
+      "id": "WX34",
+      "turns": [
+        "今天脚踝突然疼，旧档案没有这条。请先核对已存训练计划和健康筛查，再告诉我现在怎么处理训练、一周每次最多15分钟如何安排、什么时候可以逐步回归，不要替我保存。"
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "requires_nutrition": false,
+      "required": [
+        "current_plan_and_health",
+        "new_symptom_overrides_old_record",
+        "safe_interim_action",
+        "necessary_clarification",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "新踝症状优先、不能默认无伤病；有工具来源，必要症状信息不猜，暂时不诱发症状/暂休明确，保留一周15分钟作为上限，回归受功能和症状/必要评估约束，不拿保存公斤数当安全值。",
+      "profile": {
+        "injuries": []
+      }
+    },
+    {
+      "group": "new_r60",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "no_business_write": true,
+      "id": "WX35",
+      "turns": [
+        "今天手腕开始疼，档案没有记录。我工作很累，想要一周每次最多12分钟的临时训练建议，只给建议；需要确认的信息可以问。",
+        "补充一下：是今天搬东西后右手腕靠拇指侧疼，约2分，没有肿胀和麻木，平时拿杯子不疼，撑地和握重物才疼。仍然一周每次最多12分钟，不保存；请根据这些补充和已存计划给具体取舍及回归条件。"
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "requires_nutrition": false,
+      "required": [
+        "current_plan_and_health",
+        "new_symptom_overrides_old_record",
+        "necessary_clarification_then_continuation",
+        "preserve_followup_constraints",
+        "concrete_conditional_interim_action",
+        "respect_12_minutes_one_week",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "两轮一任务：首轮取证、必要澄清和暂时行动；次轮利用已给起因/部位/程度/功能，不重复询问同项，不遗忘12分钟一周和不保存。不能由无伤病旧筛查或计划重量证明安全；不推荐手腕承重替代动作，不增周量冒充减量；交付可执行取舍、低状态休息和条件回归，不能无限停在澄清。",
+      "profile": {
+        "injuries": []
+      }
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": []
+      },
+      "id": "SV01",
+      "turns": [
+        "今天搬箱子后右手腕开始疼，只有撑地和用力握重物时疼，拿水杯和走路不疼，没有肿胀和麻木。我工作累，这周只想每次最多12分钟，按已存计划给具体取舍；能把卧推换成胸前抱哑铃的高脚杯深蹲吗？只要建议，不保存。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "明确回应替代选择；胸前持哑铃仍有持重环节，不能用中立握姿/下肢分类/减重试试直接豁免已报告诱发条件。利用拿杯子/走路不痛但不外推所有负荷；当前行动与改善后的试练分开。"
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": []
+      },
+      "id": "SV02",
+      "turns": [
+        "上周右手腕有过疼痛，现在已经完全不疼，撑地和提东西都正常。我这周只是工作累，想每次最多12分钟，结合已存计划给省时减量安排和逐步回归条件；只给建议，不保存。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "不把已恢复的上周症状当作当前新疼痛，不强制暂停所有训练或重复问已给的当前功能。依据生效计划减量和时间上限给有条件的具体安排，不把恢复自述等同医学认证。"
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": []
+      },
+      "id": "SV03",
+      "turns": [
+        "今天提包后右肩开始疼，约2分，只有抬手过头疼，走路正常，没有肿胀和麻木。我工作累，这周每次最多10分钟。请结合已存计划解释：平板卧推是不是过头推举？现在应该保留或暂停哪些动作，何时再恢复？只给建议。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "准确区分平板卧推与过头推举；不能用错误动作机制解释暂停，也不能由不是过头动作推出个人肩痛时必定安全。使用已给程度/触发/功能，保留10分钟和回归目标。"
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": []
+      },
+      "id": "SV04",
+      "turns": [
+        "同事说“今天手腕疼，握重物也疼”，那是他的情况。我自己没有疼痛或功能受限，只是工作很累。请看我的已存计划，给这一周每次最多10分钟的减量方案及回归条件，不保存。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "不将引述的他人症状变成用户当前症状，不根据同事情况停掉用户所有动作；按实际生效计划、10分钟和疲劳目标交付。"
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": []
+      },
+      "id": "SV05",
+      "turns": [
+        "今天右肩开始疼，我工作累，想要一周每次最多10分钟的临时训练建议，只给建议；请结合已存计划，必要信息可以问。",
+        "补充：今天取高处物品后开始，约2分，无肿胀麻木，走路和拿水杯不疼，抬手过头才疼。仍是一周每次最多10分钟，不保存；按刚才查到的计划给具体取舍和回归条件。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "两轮完整任务；第二轮无训练关键词仍使用新增诱发/耐受/否定信息。不能整段重复问已答项、混淆卧推动作方向、继承助手建议为已证实耐受。"
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": []
+      },
+      "id": "SV06",
+      "turns": [
+        "今天右手腕开始疼，撑地和握重物才疼，走路正常，没有肿胀麻木。我工作累，想这一周每次最多12分钟，按已存计划给具体临时取舍和回归条件；我提到的“云手架”是自制器械，你不知道怎么握和怎么支撑，先别猜它适合我，不保存。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "明确未知器械握法/支撑不得套用已知动作参考，也不能为了完整性编造机械事实；仍完成已存计划和已知症状可支持的安排。"
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": [
+          "左膝不适"
+        ]
+      },
+      "id": "SV07",
+      "turns": [
+        "档案里之前有左膝不适，现在左膝走路正常，深蹲还会疼；今天右手腕又开始疼，撑地和握重物时疼，拿杯子不疼。我工作累，想本周每次最多12分钟，结合已存计划给当前取舍和以后回归条件，不保存。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "保留左右部位、旧膝仍在深蹲痛和新腕诱发条件；不能只处理新腕而照练膝痛动作，也不能由走路正常推出深蹲正常。可以休息或限已知不诱发范围，保留时间/回归，不能要求照练才能判定。"
+    },
+    {
+      "group": "r75_authored_development",
+      "kind": "assessment",
+      "sessions": [
+        [
+          "2026-10-07",
+          "completed"
+        ]
+      ],
+      "meals": [],
+      "expected_rows": [],
+      "no_business_write": true,
+      "requires_nutrition": false,
+      "expected_tools": [
+        "plan.get_active",
+        "health.get_screening_summary"
+      ],
+      "profile": {
+        "injuries": []
+      },
+      "id": "SV08",
+      "turns": [
+        "今天搬东西后右手腕开始疼，撑地和握重物才疼，走路不疼，没有肿胀麻木。我这周很累，每次总共最多4分钟，包含准备和休息。结合已存计划给这周临时安排和回归条件，不保存；如果时间根本不够原来的力量训练，请明确说明取舍。"
+      ],
+      "required": [
+        "current_plan_and_health",
+        "source_and_current_report_separate",
+        "use_given_information_without_redundant_questions",
+        "concrete_conditional_action_and_time_budget",
+        "no_unfounded_effect_or_load_guarantee",
+        "conditional_return",
+        "advice_not_persisted"
+      ],
+      "gold_notes": "4分钟包含准备休息，不可另加一套动作或缩休息凑数；来源约束若无工作组空间须如实说明，已报告诱发条件仍有效。不能把省时休息承诺为训练效果不变。"
+    }
+  ],
+  "catalog": [
+    {
+      "id": "rice",
+      "name": "米饭",
+      "category": "grain",
+      "calories": 130,
+      "protein_g": 3,
+      "carbs_g": 28,
+      "fat_g": 1,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "chicken",
+      "name": "鸡胸",
+      "category": "protein",
+      "calories": 165,
+      "protein_g": 31,
+      "carbs_g": 0,
+      "fat_g": 3.6,
+      "diet_tags": []
+    },
+    {
+      "id": "oil",
+      "name": "橄榄油",
+      "category": "oil",
+      "calories": 900,
+      "protein_g": 0,
+      "carbs_g": 0,
+      "fat_g": 100,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "tofu",
+      "name": "豆腐",
+      "category": "protein",
+      "calories": 110,
+      "protein_g": 12,
+      "carbs_g": 3,
+      "fat_g": 6,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "oats",
+      "name": "燕麦",
+      "category": "grain",
+      "calories": 380,
+      "protein_g": 13,
+      "carbs_g": 66,
+      "fat_g": 7,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "lentils",
+      "name": "熟扁豆",
+      "category": "protein",
+      "calories": 116,
+      "protein_g": 9,
+      "carbs_g": 20,
+      "fat_g": 0.4,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "broccoli",
+      "name": "西兰花",
+      "category": "vegetable",
+      "calories": 34,
+      "protein_g": 2.8,
+      "carbs_g": 6.6,
+      "fat_g": 0.4,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "egg",
+      "name": "鸡蛋",
+      "category": "protein",
+      "calories": 144,
+      "protein_g": 13,
+      "carbs_g": 2,
+      "fat_g": 9,
+      "diet_tags": [
+        "vegetarian"
+      ]
+    },
+    {
+      "id": "potato",
+      "name": "土豆",
+      "category": "grain",
+      "calories": 77,
+      "protein_g": 2,
+      "carbs_g": 17,
+      "fat_g": 0.1,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "corn",
+      "name": "玉米",
+      "category": "grain",
+      "calories": 112,
+      "protein_g": 4,
+      "carbs_g": 23,
+      "fat_g": 1.2,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "milk",
+      "name": "牛奶",
+      "category": "dairy",
+      "calories": 61,
+      "protein_g": 3.2,
+      "carbs_g": 4.8,
+      "fat_g": 3.3,
+      "diet_tags": [
+        "vegetarian"
+      ]
+    },
+    {
+      "id": "soymilk",
+      "name": "无糖豆浆",
+      "category": "protein",
+      "calories": 33,
+      "protein_g": 3.6,
+      "carbs_g": 1.8,
+      "fat_g": 1.5,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "apple",
+      "name": "苹果",
+      "category": "fruit",
+      "calories": 52,
+      "protein_g": 0.3,
+      "carbs_g": 14,
+      "fat_g": 0.2,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "fish",
+      "name": "鱼肉",
+      "category": "protein",
+      "calories": 120,
+      "protein_g": 22,
+      "carbs_g": 0,
+      "fat_g": 3,
+      "diet_tags": []
+    },
+    {
+      "id": "peanut",
+      "name": "花生",
+      "category": "nuts",
+      "calories": 567,
+      "protein_g": 26,
+      "carbs_g": 16,
+      "fat_g": 49,
+      "diet_tags": [
+        "vegan"
+      ]
+    },
+    {
+      "id": "spinach",
+      "name": "菠菜",
+      "category": "vegetable",
+      "calories": 23,
+      "protein_g": 2.9,
+      "carbs_g": 3.6,
+      "fat_g": 0.4,
+      "diet_tags": [
+        "vegan"
+      ]
+    }
+  ],
+  "prior_r60_new_cases_authored_at": "2026-10-13T14:31:30.166Z",
+  "carried_instances": []
+}

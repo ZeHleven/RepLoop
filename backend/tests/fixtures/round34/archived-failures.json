@@ -1,0 +1,2383 @@
+{
+  "source": "Round 33 immutable synthetic live provider responses",
+  "diagnostics": {
+    "model_calls": 0,
+    "rule_conflicts": [
+      {
+        "instance": "DQ03-r1",
+        "turn": 0,
+        "text": "查2026年9月30日到10月3日（含两端）的饮食，每天热量列出来，再给总热量和记录日平均值。只查记录。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "create"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月30日至2026年10月3日（含两端）的饮食记录，按天列出每日热量，并给出该区间总热量和记录日平均热量；仅查询，不写入。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月30日到10月3日（含两端）的饮食，每天热量列出来，再给总热量和记录日平均值。只查记录。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "查2026年9月30日到10月3日（含两端）的饮食",
+                  "remove": false
+                },
+                {
+                  "key": "daily_calories",
+                  "quote": "每天热量列出来",
+                  "remove": false
+                },
+                {
+                  "key": "total_calories",
+                  "quote": "再给总热量",
+                  "remove": false
+                },
+                {
+                  "key": "daily_average",
+                  "quote": "记录日平均值",
+                  "remove": false
+                },
+                {
+                  "key": "read_only",
+                  "quote": "只查记录。",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月30日至2026年10月3日（含两端）的饮食记录，按天列出每日热量，并给出该区间总热量和记录日平均热量；仅查询，不写入。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月30日到10月3日（含两端）的饮食，每天热量列出来，再给总热量和记录日平均值。只查记录。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "查2026年9月30日到10月3日（含两端）的饮食",
+                  "remove": false
+                },
+                {
+                  "key": "daily_calories",
+                  "quote": "每天热量列出来",
+                  "remove": false
+                },
+                {
+                  "key": "total_calories",
+                  "quote": "再给总热量",
+                  "remove": false
+                },
+                {
+                  "key": "daily_average",
+                  "quote": "记录日平均值",
+                  "remove": false
+                },
+                {
+                  "key": "read_only",
+                  "quote": "只查记录。",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      },
+      {
+        "instance": "DQ03-r2",
+        "turn": 0,
+        "text": "查2026年9月30日到10月3日（含两端）的饮食，每天热量列出来，再给总热量和记录日平均值。只查记录。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "create"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月30日至2026年10月3日（含两端）的饮食记录，逐日列出每天的热量，并给出该区间总热量和记录日平均热量；仅查询，不写入。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月30日到10月3日（含两端）的饮食，每天热量列出来，再给总热量和记录日平均值。只查记录。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "查2026年9月30日到10月3日（含两端）的饮食",
+                  "remove": false
+                },
+                {
+                  "key": "daily_calories",
+                  "quote": "每天热量列出来",
+                  "remove": false
+                },
+                {
+                  "key": "total_calories",
+                  "quote": "再给总热量",
+                  "remove": false
+                },
+                {
+                  "key": "daily_average",
+                  "quote": "记录日平均值",
+                  "remove": false
+                },
+                {
+                  "key": "read_only",
+                  "quote": "只查记录。",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月30日至2026年10月3日（含两端）的饮食记录，按天列出每日热量，并给出该区间总热量和记录日平均热量；仅查询，不写入。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月30日到10月3日（含两端）的饮食，每天热量列出来，再给总热量和记录日平均值。只查记录。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "查2026年9月30日到10月3日（含两端）的饮食",
+                  "remove": false
+                },
+                {
+                  "key": "daily_calories",
+                  "quote": "每天热量列出来",
+                  "remove": false
+                },
+                {
+                  "key": "total_calories",
+                  "quote": "再给总热量",
+                  "remove": false
+                },
+                {
+                  "key": "daily_average",
+                  "quote": "记录日平均值",
+                  "remove": false
+                },
+                {
+                  "key": "read_only",
+                  "quote": "只查记录。",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      },
+      {
+        "instance": "DQ09-r1",
+        "turn": 0,
+        "text": "查2026年9月1日至9月20日每天饮食总热量及记录日均值；如果没记录请明确告诉我。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "create"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月1日至2026年9月20日每天的饮食总热量，并计算有记录日期的日均热量；若该区间没有饮食记录，需明确告知用户没有记录。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月1日至9月20日每天饮食总热量及记录日均值；如果没记录请明确告诉我。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "2026年9月1日至9月20日",
+                  "remove": false
+                },
+                {
+                  "key": "metric_daily_calories",
+                  "quote": "每天饮食总热量",
+                  "remove": false
+                },
+                {
+                  "key": "metric_daily_average",
+                  "quote": "记录日均值",
+                  "remove": false
+                },
+                {
+                  "key": "empty_result_notice",
+                  "quote": "如果没记录请明确告诉我",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月1日至2026年9月20日每天的饮食总热量，并计算有记录日期的日均热量；若该区间没有饮食记录，需明确告知用户没有记录。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月1日至9月20日每天饮食总热量及记录日均值；如果没记录请明确告诉我。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "2026年9月1日至9月20日",
+                  "remove": false
+                },
+                {
+                  "key": "metric_daily_calories",
+                  "quote": "每天饮食总热量",
+                  "remove": false
+                },
+                {
+                  "key": "metric_daily_average",
+                  "quote": "记录日均值",
+                  "remove": false
+                },
+                {
+                  "key": "empty_result_notice",
+                  "quote": "如果没记录请明确告诉我",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      },
+      {
+        "instance": "DQ09-r2",
+        "turn": 0,
+        "text": "查2026年9月1日至9月20日每天饮食总热量及记录日均值；如果没记录请明确告诉我。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "create"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月1日至2026年9月20日每天的饮食总热量，并计算有记录日期的日均热量；若该区间没有饮食记录，需明确告知用户没有记录。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月1日至9月20日每天饮食总热量及记录日均值；如果没记录请明确告诉我。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "2026年9月1日至9月20日",
+                  "remove": false
+                },
+                {
+                  "key": "metric_daily_calories",
+                  "quote": "每天饮食总热量",
+                  "remove": false
+                },
+                {
+                  "key": "metric_average",
+                  "quote": "记录日均值",
+                  "remove": false
+                },
+                {
+                  "key": "empty_result_notice",
+                  "quote": "如果没记录请明确告诉我",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年9月1日至2026年9月20日每天的饮食总热量记录，并计算记录日均值；若该期间没有饮食记录，需明确告知用户没有记录。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查2026年9月1日至9月20日每天饮食总热量及记录日均值；如果没记录请明确告诉我。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "2026年9月1日至9月20日",
+                  "remove": false
+                },
+                {
+                  "key": "metric_daily_calories",
+                  "quote": "每天饮食总热量",
+                  "remove": false
+                },
+                {
+                  "key": "metric_daily_average",
+                  "quote": "记录日均值",
+                  "remove": false
+                },
+                {
+                  "key": "empty_result_notice",
+                  "quote": "如果没记录请明确告诉我",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      },
+      {
+        "instance": "DQ12-r1",
+        "turn": 0,
+        "text": "查本周一到今天的饮食记录，列各日总热量并算合计，未记录日期不要当成没吃饭。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "create"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询 2026-10-05（本周一）至 2026-10-09（今天）的饮食记录，列出各日总热量并计算合计；未记录的日期视为无记录，不得当作未进食。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查本周一到今天的饮食记录，列各日总热量并算合计，未记录日期不要当成没吃饭。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "查本周一到今天的饮食记录",
+                  "remove": false
+                },
+                {
+                  "key": "output_daily_calories",
+                  "quote": "列各日总热量并算合计",
+                  "remove": false
+                },
+                {
+                  "key": "missing_days_handling",
+                  "quote": "未记录日期不要当成没吃饭",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询 2026-10-05（本周一）到 2026-10-09（今天）的饮食记录，列出各日总热量并计算合计；未记录的日期不要当作没有进食。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查本周一到今天的饮食记录，列各日总热量并算合计，未记录日期不要当成没吃饭。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "查本周一到今天的饮食记录",
+                  "remove": false
+                },
+                {
+                  "key": "output_daily_calories",
+                  "quote": "列各日总热量并算合计",
+                  "remove": false
+                },
+                {
+                  "key": "unrecorded_not_skipped",
+                  "quote": "未记录日期不要当成没吃饭",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      },
+      {
+        "instance": "DQ12-r2",
+        "turn": 0,
+        "text": "查本周一到今天的饮食记录，列各日总热量并算合计，未记录日期不要当成没吃饭。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "create"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询 2026-10-05（本周一）至 2026-10-09（今天）的饮食记录，按日列出总热量并计算合计；未记录的日期应标注为无记录，不能视为未进食。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查本周一到今天的饮食记录，列各日总热量并算合计，未记录日期不要当成没吃饭。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "查本周一到今天的饮食记录",
+                  "remove": false
+                },
+                {
+                  "key": "daily_total_calories",
+                  "quote": "列各日总热量并算合计",
+                  "remove": false
+                },
+                {
+                  "key": "missing_days_not_skipped",
+                  "quote": "未记录日期不要当成没吃饭",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "nutrition",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "nutrition_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026-10-05（本周一）至2026-10-09（今天）的饮食记录，列出各日总热量并计算合计；未记录的日期不要当作没有进食处理。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "new",
+              "task_id": "",
+              "trigger": "查本周一到今天的饮食记录，列各日总热量并算合计，未记录日期不要当成没吃饭。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "查本周一到今天的饮食记录",
+                  "remove": false
+                },
+                {
+                  "key": "output_daily_calories",
+                  "quote": "列各日总热量并算合计",
+                  "remove": false
+                },
+                {
+                  "key": "unrecorded_not_skipped",
+                  "quote": "未记录日期不要当成没吃饭",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      },
+      {
+        "instance": "TQ04-r1",
+        "turn": 1,
+        "text": "日期改成2026年10月3日，只查进行中的训练，给日期状态。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "update"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年10月3日进行中的训练记录，并给出日期与状态信息。",
+            "risk_level": "low",
+            "confidence": 0.93,
+            "task_update": {
+              "action": "continue",
+              "task_id": "8f8c65a8-4e3a-4214-a810-f5bb5523c153",
+              "trigger": "日期改成2026年10月3日，只查进行中的训练，给日期状态。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "日期改成2026年10月3日",
+                  "remove": false
+                },
+                {
+                  "key": "status_filter",
+                  "quote": "只查进行中的训练",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "给日期状态",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年10月3日进行中的训练记录，并给出日期和状态。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "continue",
+              "task_id": "8f8c65a8-4e3a-4214-a810-f5bb5523c153",
+              "trigger": "日期改成2026年10月3日，只查进行中的训练，给日期状态。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "日期改成2026年10月3日",
+                  "remove": false
+                },
+                {
+                  "key": "status_filter",
+                  "quote": "只查进行中的训练",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "给日期状态",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      },
+      {
+        "instance": "TQ04-r2",
+        "turn": 1,
+        "text": "日期改成2026年10月3日，只查进行中的训练，给日期状态。",
+        "direct_rules": {
+          "kind": "mutation",
+          "effect": "update"
+        },
+        "provider_routes": [
+          {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年10月3日状态为进行中的训练记录，并给出日期和状态信息。",
+            "risk_level": "low",
+            "confidence": 0.93,
+            "task_update": {
+              "action": "continue",
+              "task_id": "f6b01075-80f3-404d-b63f-80e932dd6a69",
+              "trigger": "日期改成2026年10月3日，只查进行中的训练，给日期状态。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "日期改成2026年10月3日",
+                  "remove": false
+                },
+                {
+                  "key": "status_filter",
+                  "quote": "只查进行中的训练",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "给日期状态",
+                  "remove": false
+                }
+              ]
+            }
+          },
+          {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "查询2026年10月3日进行中的训练记录，并给出日期和状态。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "continue",
+              "task_id": "f6b01075-80f3-404d-b63f-80e932dd6a69",
+              "trigger": "日期改成2026年10月3日，只查进行中的训练，给日期状态。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "日期改成2026年10月3日",
+                  "remove": false
+                },
+                {
+                  "key": "status_filter",
+                  "quote": "只查进行中的训练",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "给日期状态",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        ],
+        "error": "semantic_mutation_structure_missing",
+        "tool_calls": 0
+      }
+    ],
+    "portion_conflicts": [
+      {
+        "instance": "EG03-r1",
+        "request_index": 111,
+        "food_id": "r31-peanut",
+        "draft_grams": 10,
+        "feasible_grams_lower": 25,
+        "feasible_grams_upper": 15,
+        "repair_context": null
+      },
+      {
+        "instance": "EG03-r1",
+        "request_index": 112,
+        "food_id": "r31-peanut",
+        "draft_grams": 15,
+        "feasible_grams_lower": 25,
+        "feasible_grams_upper": 20,
+        "repair_context": {
+          "error_code": "daily_meal_ideal_optimization_infeasible",
+          "candidate_totals": {
+            "calories": 1573.8,
+            "protein_g": 74,
+            "carbs_g": 233.4,
+            "fat_g": 45.2
+          },
+          "target_gaps": [
+            {
+              "metric": "calories",
+              "actual": 1573.8,
+              "target_min": 1661,
+              "target_max": 1967,
+              "direction": "below",
+              "gap": 87.2
+            }
+          ],
+          "infeasible_metrics": [
+            "calories"
+          ],
+          "acceptable_candidate_found": false,
+          "instruction": "当前食品组合无法同时满足营养和餐次份量要求；请更换食品组合或合理原稿，仍须遵守每项0.5–1.5倍、非油至少25克和各餐能量占比，不放宽边界"
+        }
+      },
+      {
+        "instance": "EG03-r2",
+        "request_index": 170,
+        "food_id": "r31-peanut",
+        "draft_grams": 12,
+        "feasible_grams_lower": 25,
+        "feasible_grams_upper": 15,
+        "repair_context": null
+      },
+      {
+        "instance": "EG03-r2",
+        "request_index": 171,
+        "food_id": "r31-peanut",
+        "draft_grams": 15,
+        "feasible_grams_lower": 25,
+        "feasible_grams_upper": 20,
+        "repair_context": {
+          "error_code": "daily_meal_ideal_optimization_infeasible",
+          "candidate_totals": {
+            "calories": 1512,
+            "protein_g": 73.1,
+            "carbs_g": 216.2,
+            "fat_g": 45.9
+          },
+          "target_gaps": [
+            {
+              "metric": "calories",
+              "actual": 1512,
+              "target_min": 1661,
+              "target_max": 1967,
+              "direction": "below",
+              "gap": 149
+            }
+          ],
+          "infeasible_metrics": [
+            "calories"
+          ],
+          "acceptable_candidate_found": false,
+          "instruction": "当前食品组合无法同时满足营养和餐次份量要求；请更换食品组合或合理原稿，仍须遵守每项0.5–1.5倍、非油至少25克和各餐能量占比，不放宽边界"
+        }
+      }
+    ],
+    "requirement_failure": [
+      {
+        "instance": "EW03-r2",
+        "request_index": 185,
+        "route": {
+          "intent_domain": "workout_plan",
+          "request_kind": "mutation",
+          "requested_effect": "update",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "修改当前待确认的训练计划提案：卧推建议重量改为22.5公斤，卧推组数保持原计划不变，深蹲组间休息保持原计划不变，其余内容保持不变，仍以待确认提案形式呈现。",
+          "risk_level": "low",
+          "confidence": 0.93,
+          "task_update": {
+            "action": "continue",
+            "task_id": "0f5d6db3-25af-4097-82f6-26b3ed4c168e",
+            "trigger": "这份待确认提案只把卧推建议重量改为22.5公斤，组数和深蹲休息都保留。",
+            "requirements": [
+              {
+                "key": "bench_weight",
+                "quote": "只把卧推建议重量改为22.5公斤",
+                "remove": false
+              },
+              {
+                "key": "bench_sets",
+                "quote": "组数和深蹲休息都保留",
+                "remove": true
+              },
+              {
+                "key": "squat_rest",
+                "quote": "组数和深蹲休息都保留",
+                "remove": true
+              },
+              {
+                "key": "keep_others",
+                "quote": "组数和深蹲休息都保留",
+                "remove": false
+              }
+            ]
+          }
+        },
+        "error": "task_preserved_requirement_cannot_remove"
+      },
+      {
+        "instance": "EW03-r2",
+        "request_index": 186,
+        "route": {
+          "intent_domain": "workout_plan",
+          "request_kind": "mutation",
+          "requested_effect": "update",
+          "requested_output": "answer",
+          "read_targets": [
+            "active_plan"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "修改当前待确认的训练计划提案：卧推建议重量改为22.5公斤，卧推组数保持原计划不变，深蹲组间休息保持原计划不变，其余内容保持不变，仍以待确认提案形式呈现。",
+          "risk_level": "low",
+          "confidence": 0.93,
+          "task_update": {
+            "action": "continue",
+            "task_id": "0f5d6db3-25af-4097-82f6-26b3ed4c168e",
+            "trigger": "这份待确认提案只把卧推建议重量改为22.5公斤，组数和深蹲休息都保留。",
+            "requirements": [
+              {
+                "key": "bench_weight",
+                "quote": "只把卧推建议重量改为22.5公斤",
+                "remove": false
+              },
+              {
+                "key": "bench_sets",
+                "quote": "组数和深蹲休息都保留",
+                "remove": true
+              },
+              {
+                "key": "squat_rest",
+                "quote": "组数和深蹲休息都保留",
+                "remove": true
+              }
+            ]
+          }
+        },
+        "error": "task_preserved_requirement_cannot_remove"
+      }
+    ]
+  },
+  "drafts": [
+    {
+      "instance": "EG03-r1",
+      "index": 111,
+      "request": {
+        "request": "按我档案中的纯素限制和维持体重目标安排今天三顿正餐，不加餐，每项写克数和全天营养，先不保存。\n本轮有效任务要求（用户原文，不是业务事实或写入授权；以最新要求为准）：{\"request\": \"按用户档案中的纯素饮食限制和维持体重目标，安排2026-10-09全天的三顿正餐（不含加餐），每项标注克数并给出全天营养汇总，先不保存。\", \"requirements\": [{\"key\": \"diet_pattern\", \"quote\": \"按我档案中的纯素限制\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"goal\", \"quote\": \"维持体重目标\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"date_scope\", \"quote\": \"今天\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"meal_count\", \"quote\": \"三顿正餐\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"excluded_meals\", \"quote\": \"不加餐\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"portion_detail\", \"quote\": \"每项写克数\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-",
+        "targets": {
+          "strategy": "mifflin_st_jeor_amdr_v1",
+          "calories_kcal": {
+            "min": 1661,
+            "max": 1967
+          },
+          "protein_g": {
+            "min": 66,
+            "max": 88
+          },
+          "fat_energy_percent": {
+            "min": 20,
+            "max": 35
+          },
+          "carb_energy_percent": {
+            "min": 45,
+            "max": 65
+          },
+          "weight_kg": 55,
+          "training_day": false
+        },
+        "training": {
+          "target_date": "2026-10-09",
+          "is_training_day": false,
+          "plan": {
+            "id": "70820b4a-d2bd-4139-8417-2b2caae9657b",
+            "name": "第31轮合成计划",
+            "days_per_week": 1,
+            "goal": "保持体重",
+            "fingerprint": "9723cb725a48788881226d3ddf53da7fc4daeb17855a131fb04109842e0ff225"
+          },
+          "today_exercises": [],
+          "progress_4_weeks": {
+            "weeks": 4,
+            "total_sessions": 0,
+            "total_sets": 0,
+            "total_reps": 0,
+            "total_volume_kg": 0,
+            "weekly": [
+              {
+                "week_start": "2026-09-14",
+                "week_end": "2026-09-20",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-21",
+                "week_end": "2026-09-27",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-28",
+                "week_end": "2026-10-04",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-10-05",
+                "week_end": "2026-10-11",
+                "is_complete": false,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              }
+            ],
+            "selected_week": null,
+            "daily": [],
+            "as_of": "2026-10-09",
+            "timezone": "Asia/Shanghai",
+            "averages_per_calendar_week": {
+              "sessions": 0,
+              "sets": 0,
+              "reps": 0,
+              "volume_kg": 0
+            },
+            "average_denominator_weeks": 4
+          }
+        },
+        "existing_today": {
+          "date": "2026-10-09",
+          "total_calories": 0,
+          "total_protein_g": 0,
+          "total_carbs_g": 0,
+          "total_fat_g": 0,
+          "meals": []
+        },
+        "existing_meal_types": [],
+        "food_candidates": [
+          {
+            "id": "r31-potato",
+            "name": "土豆",
+            "category": "grain",
+            "calories_per_100g": 77,
+            "protein_g": 2,
+            "carbs_g": 17,
+            "fat_g": 0.1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-soymilk",
+            "name": "无糖豆浆",
+            "category": "protein",
+            "calories_per_100g": 33,
+            "protein_g": 3.6,
+            "carbs_g": 1.8,
+            "fat_g": 1.5,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oil",
+            "name": "橄榄油",
+            "category": "oil",
+            "calories_per_100g": 900,
+            "protein_g": 0,
+            "carbs_g": 0,
+            "fat_g": 100,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-lentils",
+            "name": "熟扁豆",
+            "category": "protein",
+            "calories_per_100g": 116,
+            "protein_g": 9,
+            "carbs_g": 20,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oats",
+            "name": "燕麦",
+            "category": "grain",
+            "calories_per_100g": 380,
+            "protein_g": 13,
+            "carbs_g": 66,
+            "fat_g": 7,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-corn",
+            "name": "玉米",
+            "category": "grain",
+            "calories_per_100g": 112,
+            "protein_g": 4,
+            "carbs_g": 23,
+            "fat_g": 1.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-rice",
+            "name": "米饭",
+            "category": "grain",
+            "calories_per_100g": 130,
+            "protein_g": 3,
+            "carbs_g": 28,
+            "fat_g": 1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-peanut",
+            "name": "花生",
+            "category": "nuts",
+            "calories_per_100g": 567,
+            "protein_g": 26,
+            "carbs_g": 16,
+            "fat_g": 49,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-apple",
+            "name": "苹果",
+            "category": "fruit",
+            "calories_per_100g": 52,
+            "protein_g": 0.3,
+            "carbs_g": 14,
+            "fat_g": 0.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-spinach",
+            "name": "菠菜",
+            "category": "vegetable",
+            "calories_per_100g": 23,
+            "protein_g": 2.9,
+            "carbs_g": 3.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-broccoli",
+            "name": "西兰花",
+            "category": "vegetable",
+            "calories_per_100g": 34,
+            "protein_g": 2.8,
+            "carbs_g": 6.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-tofu",
+            "name": "豆腐",
+            "category": "protein",
+            "calories_per_100g": 110,
+            "protein_g": 12,
+            "carbs_g": 3,
+            "fat_g": 6,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          }
+        ],
+        "revision_source": null,
+        "repair_context": null
+      },
+      "draft": {
+        "meals": [
+          {
+            "meal_type": "早餐",
+            "items": [
+              {
+                "food_id": "r31-oats",
+                "amount_g": 60
+              },
+              {
+                "food_id": "r31-soymilk",
+                "amount_g": 250
+              },
+              {
+                "food_id": "r31-apple",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-peanut",
+                "amount_g": 10
+              }
+            ]
+          },
+          {
+            "meal_type": "午餐",
+            "items": [
+              {
+                "food_id": "r31-rice",
+                "amount_g": 200
+              },
+              {
+                "food_id": "r31-lentils",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-broccoli",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 10
+              }
+            ]
+          },
+          {
+            "meal_type": "晚餐",
+            "items": [
+              {
+                "food_id": "r31-potato",
+                "amount_g": 250
+              },
+              {
+                "food_id": "r31-tofu",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-spinach",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-corn",
+                "amount_g": 80
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 8
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          "全部选用 vegan 标签食材，符合纯素限制",
+          "三餐能量按早约25%、午约35%、晚约40%分配，均在15%-50%区间内",
+          "以燕麦、米饭、土豆、玉米为主食，碳水供能约55%，落在45%-65%",
+          "扁豆、豆腐、豆浆、花生提供植物蛋白，全天蛋白约70g，满足66-88g",
+          "脂肪主要来自橄榄油与花生，供能约25%，处于20%-35%区间"
+        ]
+      }
+    },
+    {
+      "instance": "EG03-r1",
+      "index": 112,
+      "request": {
+        "request": "按我档案中的纯素限制和维持体重目标安排今天三顿正餐，不加餐，每项写克数和全天营养，先不保存。\n本轮有效任务要求（用户原文，不是业务事实或写入授权；以最新要求为准）：{\"request\": \"按用户档案中的纯素饮食限制和维持体重目标，安排2026-10-09全天的三顿正餐（不含加餐），每项标注克数并给出全天营养汇总，先不保存。\", \"requirements\": [{\"key\": \"diet_pattern\", \"quote\": \"按我档案中的纯素限制\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"goal\", \"quote\": \"维持体重目标\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"date_scope\", \"quote\": \"今天\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"meal_count\", \"quote\": \"三顿正餐\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"excluded_meals\", \"quote\": \"不加餐\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"portion_detail\", \"quote\": \"每项写克数\", \"source_run_id\": \"3ca42269-cacf-4159-be60-4d1f9d350546\", \"kind\": \"goal\", \"as_of\": \"2026-",
+        "targets": {
+          "strategy": "mifflin_st_jeor_amdr_v1",
+          "calories_kcal": {
+            "min": 1661,
+            "max": 1967
+          },
+          "protein_g": {
+            "min": 66,
+            "max": 88
+          },
+          "fat_energy_percent": {
+            "min": 20,
+            "max": 35
+          },
+          "carb_energy_percent": {
+            "min": 45,
+            "max": 65
+          },
+          "weight_kg": 55,
+          "training_day": false
+        },
+        "training": {
+          "target_date": "2026-10-09",
+          "is_training_day": false,
+          "plan": {
+            "id": "70820b4a-d2bd-4139-8417-2b2caae9657b",
+            "name": "第31轮合成计划",
+            "days_per_week": 1,
+            "goal": "保持体重",
+            "fingerprint": "9723cb725a48788881226d3ddf53da7fc4daeb17855a131fb04109842e0ff225"
+          },
+          "today_exercises": [],
+          "progress_4_weeks": {
+            "weeks": 4,
+            "total_sessions": 0,
+            "total_sets": 0,
+            "total_reps": 0,
+            "total_volume_kg": 0,
+            "weekly": [
+              {
+                "week_start": "2026-09-14",
+                "week_end": "2026-09-20",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-21",
+                "week_end": "2026-09-27",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-28",
+                "week_end": "2026-10-04",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-10-05",
+                "week_end": "2026-10-11",
+                "is_complete": false,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              }
+            ],
+            "selected_week": null,
+            "daily": [],
+            "as_of": "2026-10-09",
+            "timezone": "Asia/Shanghai",
+            "averages_per_calendar_week": {
+              "sessions": 0,
+              "sets": 0,
+              "reps": 0,
+              "volume_kg": 0
+            },
+            "average_denominator_weeks": 4
+          }
+        },
+        "existing_today": {
+          "date": "2026-10-09",
+          "total_calories": 0,
+          "total_protein_g": 0,
+          "total_carbs_g": 0,
+          "total_fat_g": 0,
+          "meals": []
+        },
+        "existing_meal_types": [],
+        "food_candidates": [
+          {
+            "id": "r31-potato",
+            "name": "土豆",
+            "category": "grain",
+            "calories_per_100g": 77,
+            "protein_g": 2,
+            "carbs_g": 17,
+            "fat_g": 0.1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-soymilk",
+            "name": "无糖豆浆",
+            "category": "protein",
+            "calories_per_100g": 33,
+            "protein_g": 3.6,
+            "carbs_g": 1.8,
+            "fat_g": 1.5,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oil",
+            "name": "橄榄油",
+            "category": "oil",
+            "calories_per_100g": 900,
+            "protein_g": 0,
+            "carbs_g": 0,
+            "fat_g": 100,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-lentils",
+            "name": "熟扁豆",
+            "category": "protein",
+            "calories_per_100g": 116,
+            "protein_g": 9,
+            "carbs_g": 20,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oats",
+            "name": "燕麦",
+            "category": "grain",
+            "calories_per_100g": 380,
+            "protein_g": 13,
+            "carbs_g": 66,
+            "fat_g": 7,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-corn",
+            "name": "玉米",
+            "category": "grain",
+            "calories_per_100g": 112,
+            "protein_g": 4,
+            "carbs_g": 23,
+            "fat_g": 1.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-rice",
+            "name": "米饭",
+            "category": "grain",
+            "calories_per_100g": 130,
+            "protein_g": 3,
+            "carbs_g": 28,
+            "fat_g": 1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-peanut",
+            "name": "花生",
+            "category": "nuts",
+            "calories_per_100g": 567,
+            "protein_g": 26,
+            "carbs_g": 16,
+            "fat_g": 49,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-apple",
+            "name": "苹果",
+            "category": "fruit",
+            "calories_per_100g": 52,
+            "protein_g": 0.3,
+            "carbs_g": 14,
+            "fat_g": 0.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-spinach",
+            "name": "菠菜",
+            "category": "vegetable",
+            "calories_per_100g": 23,
+            "protein_g": 2.9,
+            "carbs_g": 3.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-broccoli",
+            "name": "西兰花",
+            "category": "vegetable",
+            "calories_per_100g": 34,
+            "protein_g": 2.8,
+            "carbs_g": 6.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-tofu",
+            "name": "豆腐",
+            "category": "protein",
+            "calories_per_100g": 110,
+            "protein_g": 12,
+            "carbs_g": 3,
+            "fat_g": 6,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          }
+        ],
+        "revision_source": null,
+        "repair_context": {
+          "error_code": "daily_meal_ideal_optimization_infeasible",
+          "candidate_totals": {
+            "calories": 1573.8,
+            "protein_g": 74,
+            "carbs_g": 233.4,
+            "fat_g": 45.2
+          },
+          "target_gaps": [
+            {
+              "metric": "calories",
+              "actual": 1573.8,
+              "target_min": 1661,
+              "target_max": 1967,
+              "direction": "below",
+              "gap": 87.2
+            }
+          ],
+          "infeasible_metrics": [
+            "calories"
+          ],
+          "acceptable_candidate_found": false,
+          "instruction": "当前食品组合无法同时满足营养和餐次份量要求；请更换食品组合或合理原稿，仍须遵守每项0.5–1.5倍、非油至少25克和各餐能量占比，不放宽边界"
+        }
+      },
+      "draft": {
+        "meals": [
+          {
+            "meal_type": "早餐",
+            "items": [
+              {
+                "food_id": "r31-oats",
+                "amount_g": 60
+              },
+              {
+                "food_id": "r31-soymilk",
+                "amount_g": 250
+              },
+              {
+                "food_id": "r31-peanut",
+                "amount_g": 15
+              },
+              {
+                "food_id": "r31-apple",
+                "amount_g": 150
+              }
+            ]
+          },
+          {
+            "meal_type": "午餐",
+            "items": [
+              {
+                "food_id": "r31-rice",
+                "amount_g": 200
+              },
+              {
+                "food_id": "r31-lentils",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-broccoli",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 10
+              }
+            ]
+          },
+          {
+            "meal_type": "晚餐",
+            "items": [
+              {
+                "food_id": "r31-potato",
+                "amount_g": 250
+              },
+              {
+                "food_id": "r31-tofu",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-spinach",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-corn",
+                "amount_g": 100
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 8
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          "全部选用 vegan 标签食材，符合纯素限制",
+          "更换为燕麦+花生+米饭+土豆的高能量密度组合，修复上一版热量不足",
+          "蛋白质由豆浆、扁豆、豆腐、燕麦共同提供，落在66–88g区间",
+          "脂肪主要来自花生与橄榄油，控制在供能20–35%",
+          "仅三顿正餐、无加餐，符合本轮要求"
+        ]
+      }
+    },
+    {
+      "instance": "EG03-r2",
+      "index": 170,
+      "request": {
+        "request": "按我档案中的纯素限制和维持体重目标安排今天三顿正餐，不加餐，每项写克数和全天营养，先不保存。\n本轮有效任务要求（用户原文，不是业务事实或写入授权；以最新要求为准）：{\"request\": \"按用户档案中的纯素饮食限制和维持体重目标，安排 2026-10-09 全天的三顿正餐（不含加餐），每项标注克数并给出全天营养汇总，先不保存。\", \"requirements\": [{\"key\": \"diet_pattern\", \"quote\": \"按我档案中的纯素限制\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"goal\", \"quote\": \"维持体重目标\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"date_scope\", \"quote\": \"今天\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"meal_count\", \"quote\": \"三顿正餐\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"excluded_meals\", \"quote\": \"不加餐\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"portion_grams\", \"quote\": \"每项写克数\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026",
+        "targets": {
+          "strategy": "mifflin_st_jeor_amdr_v1",
+          "calories_kcal": {
+            "min": 1661,
+            "max": 1967
+          },
+          "protein_g": {
+            "min": 66,
+            "max": 88
+          },
+          "fat_energy_percent": {
+            "min": 20,
+            "max": 35
+          },
+          "carb_energy_percent": {
+            "min": 45,
+            "max": 65
+          },
+          "weight_kg": 55,
+          "training_day": false
+        },
+        "training": {
+          "target_date": "2026-10-09",
+          "is_training_day": false,
+          "plan": {
+            "id": "d3861fc1-3ce3-43ac-83c0-9fdac93781f1",
+            "name": "第31轮合成计划",
+            "days_per_week": 1,
+            "goal": "保持体重",
+            "fingerprint": "7c585a03e85877197e4191bce77ea6a61d45a5ae22635e59d9f7d874e6f5e67f"
+          },
+          "today_exercises": [],
+          "progress_4_weeks": {
+            "weeks": 4,
+            "total_sessions": 0,
+            "total_sets": 0,
+            "total_reps": 0,
+            "total_volume_kg": 0,
+            "weekly": [
+              {
+                "week_start": "2026-09-14",
+                "week_end": "2026-09-20",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-21",
+                "week_end": "2026-09-27",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-28",
+                "week_end": "2026-10-04",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-10-05",
+                "week_end": "2026-10-11",
+                "is_complete": false,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              }
+            ],
+            "selected_week": null,
+            "daily": [],
+            "as_of": "2026-10-09",
+            "timezone": "Asia/Shanghai",
+            "averages_per_calendar_week": {
+              "sessions": 0,
+              "sets": 0,
+              "reps": 0,
+              "volume_kg": 0
+            },
+            "average_denominator_weeks": 4
+          }
+        },
+        "existing_today": {
+          "date": "2026-10-09",
+          "total_calories": 0,
+          "total_protein_g": 0,
+          "total_carbs_g": 0,
+          "total_fat_g": 0,
+          "meals": []
+        },
+        "existing_meal_types": [],
+        "food_candidates": [
+          {
+            "id": "r31-potato",
+            "name": "土豆",
+            "category": "grain",
+            "calories_per_100g": 77,
+            "protein_g": 2,
+            "carbs_g": 17,
+            "fat_g": 0.1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-soymilk",
+            "name": "无糖豆浆",
+            "category": "protein",
+            "calories_per_100g": 33,
+            "protein_g": 3.6,
+            "carbs_g": 1.8,
+            "fat_g": 1.5,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oil",
+            "name": "橄榄油",
+            "category": "oil",
+            "calories_per_100g": 900,
+            "protein_g": 0,
+            "carbs_g": 0,
+            "fat_g": 100,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-lentils",
+            "name": "熟扁豆",
+            "category": "protein",
+            "calories_per_100g": 116,
+            "protein_g": 9,
+            "carbs_g": 20,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oats",
+            "name": "燕麦",
+            "category": "grain",
+            "calories_per_100g": 380,
+            "protein_g": 13,
+            "carbs_g": 66,
+            "fat_g": 7,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-corn",
+            "name": "玉米",
+            "category": "grain",
+            "calories_per_100g": 112,
+            "protein_g": 4,
+            "carbs_g": 23,
+            "fat_g": 1.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-rice",
+            "name": "米饭",
+            "category": "grain",
+            "calories_per_100g": 130,
+            "protein_g": 3,
+            "carbs_g": 28,
+            "fat_g": 1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-peanut",
+            "name": "花生",
+            "category": "nuts",
+            "calories_per_100g": 567,
+            "protein_g": 26,
+            "carbs_g": 16,
+            "fat_g": 49,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-apple",
+            "name": "苹果",
+            "category": "fruit",
+            "calories_per_100g": 52,
+            "protein_g": 0.3,
+            "carbs_g": 14,
+            "fat_g": 0.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-spinach",
+            "name": "菠菜",
+            "category": "vegetable",
+            "calories_per_100g": 23,
+            "protein_g": 2.9,
+            "carbs_g": 3.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-broccoli",
+            "name": "西兰花",
+            "category": "vegetable",
+            "calories_per_100g": 34,
+            "protein_g": 2.8,
+            "carbs_g": 6.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-tofu",
+            "name": "豆腐",
+            "category": "protein",
+            "calories_per_100g": 110,
+            "protein_g": 12,
+            "carbs_g": 3,
+            "fat_g": 6,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          }
+        ],
+        "revision_source": null,
+        "repair_context": null
+      },
+      "draft": {
+        "meals": [
+          {
+            "meal_type": "早餐",
+            "items": [
+              {
+                "food_id": "r31-oats",
+                "amount_g": 60
+              },
+              {
+                "food_id": "r31-soymilk",
+                "amount_g": 300
+              },
+              {
+                "food_id": "r31-apple",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-peanut",
+                "amount_g": 12
+              }
+            ]
+          },
+          {
+            "meal_type": "午餐",
+            "items": [
+              {
+                "food_id": "r31-rice",
+                "amount_g": 200
+              },
+              {
+                "food_id": "r31-lentils",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-broccoli",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 10
+              }
+            ]
+          },
+          {
+            "meal_type": "晚餐",
+            "items": [
+              {
+                "food_id": "r31-potato",
+                "amount_g": 250
+              },
+              {
+                "food_id": "r31-tofu",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-spinach",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 8
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          "全部选用 vegan 标签食材，符合纯素限制",
+          "三餐能量按早约25%、午约38%、晚约37%分配，均在15%–50%区间",
+          "蛋白质来自燕麦、豆浆、扁豆、豆腐、花生，预计约70g，落在66–88g",
+          "脂肪主要来自橄榄油与花生，供能比约25%，碳水约55%，符合AMDR",
+          "无加餐，仅三顿正餐，符合本轮要求"
+        ]
+      }
+    },
+    {
+      "instance": "EG03-r2",
+      "index": 171,
+      "request": {
+        "request": "按我档案中的纯素限制和维持体重目标安排今天三顿正餐，不加餐，每项写克数和全天营养，先不保存。\n本轮有效任务要求（用户原文，不是业务事实或写入授权；以最新要求为准）：{\"request\": \"按用户档案中的纯素饮食限制和维持体重目标，安排 2026-10-09 全天的三顿正餐（不含加餐），每项标注克数并给出全天营养汇总，先不保存。\", \"requirements\": [{\"key\": \"diet_pattern\", \"quote\": \"按我档案中的纯素限制\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"goal\", \"quote\": \"维持体重目标\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"date_scope\", \"quote\": \"今天\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"meal_count\", \"quote\": \"三顿正餐\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"excluded_meals\", \"quote\": \"不加餐\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026-10-09\"}, {\"key\": \"portion_grams\", \"quote\": \"每项写克数\", \"source_run_id\": \"f463a95a-ba46-40ad-846e-17b907988cbc\", \"kind\": \"goal\", \"as_of\": \"2026",
+        "targets": {
+          "strategy": "mifflin_st_jeor_amdr_v1",
+          "calories_kcal": {
+            "min": 1661,
+            "max": 1967
+          },
+          "protein_g": {
+            "min": 66,
+            "max": 88
+          },
+          "fat_energy_percent": {
+            "min": 20,
+            "max": 35
+          },
+          "carb_energy_percent": {
+            "min": 45,
+            "max": 65
+          },
+          "weight_kg": 55,
+          "training_day": false
+        },
+        "training": {
+          "target_date": "2026-10-09",
+          "is_training_day": false,
+          "plan": {
+            "id": "d3861fc1-3ce3-43ac-83c0-9fdac93781f1",
+            "name": "第31轮合成计划",
+            "days_per_week": 1,
+            "goal": "保持体重",
+            "fingerprint": "7c585a03e85877197e4191bce77ea6a61d45a5ae22635e59d9f7d874e6f5e67f"
+          },
+          "today_exercises": [],
+          "progress_4_weeks": {
+            "weeks": 4,
+            "total_sessions": 0,
+            "total_sets": 0,
+            "total_reps": 0,
+            "total_volume_kg": 0,
+            "weekly": [
+              {
+                "week_start": "2026-09-14",
+                "week_end": "2026-09-20",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-21",
+                "week_end": "2026-09-27",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-09-28",
+                "week_end": "2026-10-04",
+                "is_complete": true,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              },
+              {
+                "week_start": "2026-10-05",
+                "week_end": "2026-10-11",
+                "is_complete": false,
+                "sessions": 0,
+                "sets": 0,
+                "reps": 0,
+                "volume_kg": 0
+              }
+            ],
+            "selected_week": null,
+            "daily": [],
+            "as_of": "2026-10-09",
+            "timezone": "Asia/Shanghai",
+            "averages_per_calendar_week": {
+              "sessions": 0,
+              "sets": 0,
+              "reps": 0,
+              "volume_kg": 0
+            },
+            "average_denominator_weeks": 4
+          }
+        },
+        "existing_today": {
+          "date": "2026-10-09",
+          "total_calories": 0,
+          "total_protein_g": 0,
+          "total_carbs_g": 0,
+          "total_fat_g": 0,
+          "meals": []
+        },
+        "existing_meal_types": [],
+        "food_candidates": [
+          {
+            "id": "r31-potato",
+            "name": "土豆",
+            "category": "grain",
+            "calories_per_100g": 77,
+            "protein_g": 2,
+            "carbs_g": 17,
+            "fat_g": 0.1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-soymilk",
+            "name": "无糖豆浆",
+            "category": "protein",
+            "calories_per_100g": 33,
+            "protein_g": 3.6,
+            "carbs_g": 1.8,
+            "fat_g": 1.5,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oil",
+            "name": "橄榄油",
+            "category": "oil",
+            "calories_per_100g": 900,
+            "protein_g": 0,
+            "carbs_g": 0,
+            "fat_g": 100,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-lentils",
+            "name": "熟扁豆",
+            "category": "protein",
+            "calories_per_100g": 116,
+            "protein_g": 9,
+            "carbs_g": 20,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-oats",
+            "name": "燕麦",
+            "category": "grain",
+            "calories_per_100g": 380,
+            "protein_g": 13,
+            "carbs_g": 66,
+            "fat_g": 7,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-corn",
+            "name": "玉米",
+            "category": "grain",
+            "calories_per_100g": 112,
+            "protein_g": 4,
+            "carbs_g": 23,
+            "fat_g": 1.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-rice",
+            "name": "米饭",
+            "category": "grain",
+            "calories_per_100g": 130,
+            "protein_g": 3,
+            "carbs_g": 28,
+            "fat_g": 1,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-peanut",
+            "name": "花生",
+            "category": "nuts",
+            "calories_per_100g": 567,
+            "protein_g": 26,
+            "carbs_g": 16,
+            "fat_g": 49,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-apple",
+            "name": "苹果",
+            "category": "fruit",
+            "calories_per_100g": 52,
+            "protein_g": 0.3,
+            "carbs_g": 14,
+            "fat_g": 0.2,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-spinach",
+            "name": "菠菜",
+            "category": "vegetable",
+            "calories_per_100g": 23,
+            "protein_g": 2.9,
+            "carbs_g": 3.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-broccoli",
+            "name": "西兰花",
+            "category": "vegetable",
+            "calories_per_100g": 34,
+            "protein_g": 2.8,
+            "carbs_g": 6.6,
+            "fat_g": 0.4,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          },
+          {
+            "id": "r31-tofu",
+            "name": "豆腐",
+            "category": "protein",
+            "calories_per_100g": 110,
+            "protein_g": 12,
+            "carbs_g": 3,
+            "fat_g": 6,
+            "common_portion_g": null,
+            "diet_tags": [
+              "vegan"
+            ]
+          }
+        ],
+        "revision_source": null,
+        "repair_context": {
+          "error_code": "daily_meal_ideal_optimization_infeasible",
+          "candidate_totals": {
+            "calories": 1512,
+            "protein_g": 73.1,
+            "carbs_g": 216.2,
+            "fat_g": 45.9
+          },
+          "target_gaps": [
+            {
+              "metric": "calories",
+              "actual": 1512,
+              "target_min": 1661,
+              "target_max": 1967,
+              "direction": "below",
+              "gap": 149
+            }
+          ],
+          "infeasible_metrics": [
+            "calories"
+          ],
+          "acceptable_candidate_found": false,
+          "instruction": "当前食品组合无法同时满足营养和餐次份量要求；请更换食品组合或合理原稿，仍须遵守每项0.5–1.5倍、非油至少25克和各餐能量占比，不放宽边界"
+        }
+      },
+      "draft": {
+        "meals": [
+          {
+            "meal_type": "早餐",
+            "items": [
+              {
+                "food_id": "r31-oats",
+                "amount_g": 60
+              },
+              {
+                "food_id": "r31-soymilk",
+                "amount_g": 300
+              },
+              {
+                "food_id": "r31-peanut",
+                "amount_g": 15
+              },
+              {
+                "food_id": "r31-apple",
+                "amount_g": 150
+              }
+            ]
+          },
+          {
+            "meal_type": "午餐",
+            "items": [
+              {
+                "food_id": "r31-rice",
+                "amount_g": 200
+              },
+              {
+                "food_id": "r31-lentils",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-broccoli",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 10
+              }
+            ]
+          },
+          {
+            "meal_type": "晚餐",
+            "items": [
+              {
+                "food_id": "r31-potato",
+                "amount_g": 250
+              },
+              {
+                "food_id": "r31-tofu",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-spinach",
+                "amount_g": 150
+              },
+              {
+                "food_id": "r31-corn",
+                "amount_g": 100
+              },
+              {
+                "food_id": "r31-oil",
+                "amount_g": 8
+              }
+            ]
+          }
+        ],
+        "rationale": [
+          "全部选用 vegan 标签食材，符合纯素限制",
+          "更换为燕麦+花生+米饭+土豆的高能量密度组合，修正上次热量不足",
+          "蛋白质由扁豆、豆腐、豆浆、燕麦共同提供，落在 66–88 g 区间",
+          "脂肪主要来自花生与橄榄油，控制在供能 20–35%",
+          "三餐能量分别约占 25%/33%/42%，均在 15–50% 内，无加餐"
+        ]
+      }
+    }
+  ],
+  "prior_route": {
+    "intent_domain": "workout_plan",
+    "request_kind": "mutation",
+    "requested_effect": "update",
+    "requested_output": "answer",
+    "read_targets": [
+      "active_plan"
+    ],
+    "decision_action": "none",
+    "artifact_action": "none",
+    "normalized_request": "修改当前训练计划：卧推改为4组、建议重量25公斤，深蹲组间休息改为100秒，其余内容保持不变，并生成待确认提案。",
+    "risk_level": "low",
+    "confidence": 0.95,
+    "task_update": {
+      "action": "new",
+      "task_id": "",
+      "trigger": "当前计划卧推改成4组、建议重量25公斤，深蹲休息改为100秒，其余保留，先出待确认提案。",
+      "requirements": [
+        {
+          "key": "bench_sets",
+          "quote": "卧推改成4组",
+          "remove": false
+        },
+        {
+          "key": "bench_weight",
+          "quote": "建议重量25公斤",
+          "remove": false
+        },
+        {
+          "key": "squat_rest",
+          "quote": "深蹲休息改为100秒",
+          "remove": false
+        },
+        {
+          "key": "keep_others",
+          "quote": "其余保留",
+          "remove": false
+        },
+        {
+          "key": "proposal_first",
+          "quote": "先出待确认提案",
+          "remove": false
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,29 @@
+diff --git "a/C:\\Users\\12521\\Documents\\ChatGPT\\FitnessAgent\\artifacts\\agent-dev-notes\\trial-before-clarification-local-fix-2b\\source-before\\agent_action_consistency.py" "b/C:\\Users\\12521\\.codex\\worktrees\\r87-trigger-consistency\\FitnessAgent\\backend\\app\\services\\agent_action_consistency.py"
+index 2bf6c63..d193dd2 100644
+--- "a/C:\\Users\\12521\\Documents\\ChatGPT\\FitnessAgent\\artifacts\\agent-dev-notes\\trial-before-clarification-local-fix-2b\\source-before\\agent_action_consistency.py"
++++ "b/C:\\Users\\12521\\.codex\\worktrees\\r87-trigger-consistency\\FitnessAgent\\backend\\app\\services\\agent_action_consistency.py"
+@@ -413,7 +413,7 @@ def action_consistency_findings(text, records, query):
+     query_pending=_pending_clarifications(query,names|{'动作'},unknown_variants|{'动作'})
+     required=unknown_variants if symptomatic else (set(query_pending)&names)
+     if not symptomatic and '动作' in query_pending:required|=unknown_variants
+-    if not symptomatic and not required:return draft_conflicts
++    # Inspect the final answer even when query extractors found no prerequisite.
+     pending=_pending_clarifications(text,names,unknown_variants)
+     # The source gap exists even when the draft omits its own uncertainty.
+     # None is a source prerequisite, not an invented quote in the draft.
+@@ -477,6 +477,7 @@ def action_consistency_findings(text, records, query):
+                             or (not tail.strip() and text[offset+candidate.end():].startswith(('？','?')))
+                             or re.match(r'(?:这个|这种)?(?:说法|做法|建议)?(?:不成立|不合适|不对|是错误的)',tail)):continue
+                     prescriptions.append(candidate)
++                    if name in unknown_variants:pending.setdefault(name,None)
+                 # "Can do ... <action>" grants execution without numeric sets.
+                 # The qualifier and source/negative checks below still apply.
+                 for candidate in re.finditer(r'(?:可以|建议|先)(?:只)?(?:做|练)[^。！？；\n]{0,28}?'+re.escape(name),masked):
+@@ -485,6 +486,7 @@ def action_consistency_findings(text, records, query):
+                     if any(p.start()<=candidate.start()<candidate.end()<=p.end() for p in prescriptions):continue
+                     if text[offset+candidate.end():].startswith(('？','?')):continue
+                     prescriptions.append(candidate)
++                    if name in unknown_variants:pending.setdefault(name,None)
+                 if not prescriptions or name not in stopped and name not in pending:continue
+                 for prescription in sorted(prescriptions,key=lambda p:p.start()):
+                     start,end=offset+prescription.start(),offset+prescription.end()

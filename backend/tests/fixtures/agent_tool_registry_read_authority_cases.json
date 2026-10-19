@@ -1,0 +1,412 @@
+{
+  "fixture_version": "1.0.0",
+  "cases": [
+    {
+      "case_id": "exact_match.preserves_legacy_order",
+      "legacy_tool_ids": [
+        "plan.get_active",
+        "profile.get_summary"
+      ],
+      "cohort_tool_ids": [
+        "profile.get_summary",
+        "plan.get_active"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "profile.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        },
+        {
+          "tool_id": "plan.get_active",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "plan.get_active",
+          "profile.get_summary"
+        ],
+        "denied_tool_ids": [],
+        "reason_codes": []
+      }
+    },
+    {
+      "case_id": "future_read_tool.remains_generic",
+      "legacy_tool_ids": [
+        "recovery.get_summary"
+      ],
+      "cohort_tool_ids": [
+        "recovery.get_summary"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "recovery.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "recovery.get_summary"
+        ],
+        "denied_tool_ids": [],
+        "reason_codes": []
+      }
+    },
+    {
+      "case_id": "legacy_tool.outside_enforce_cohort",
+      "legacy_tool_ids": [
+        "plan.get_active",
+        "profile.get_summary"
+      ],
+      "cohort_tool_ids": [
+        "profile.get_summary"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "plan.get_active",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        },
+        {
+          "tool_id": "profile.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "profile.get_summary"
+        ],
+        "denied_tool_ids": [
+          "plan.get_active"
+        ],
+        "reason_codes": [
+          "outside_enforce_cohort"
+        ]
+      }
+    },
+    {
+      "case_id": "legacy_tool.unregistered",
+      "legacy_tool_ids": [
+        "legacy.read_unknown",
+        "profile.get_summary"
+      ],
+      "cohort_tool_ids": [
+        "legacy.read_unknown",
+        "profile.get_summary"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "profile.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "profile.get_summary"
+        ],
+        "denied_tool_ids": [
+          "legacy.read_unknown"
+        ],
+        "reason_codes": [
+          "unregistered_tool"
+        ]
+      }
+    },
+    {
+      "case_id": "legacy_tool.inactive",
+      "legacy_tool_ids": [
+        "health.get_screening_summary",
+        "workout.get_progress"
+      ],
+      "cohort_tool_ids": [
+        "health.get_screening_summary",
+        "workout.get_progress"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "health.get_screening_summary",
+          "availability": "hidden",
+          "mode": "read",
+          "side_effects": "none"
+        },
+        {
+          "tool_id": "workout.get_progress",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "workout.get_progress"
+        ],
+        "denied_tool_ids": [
+          "health.get_screening_summary"
+        ],
+        "reason_codes": [
+          "inactive_tool"
+        ]
+      }
+    },
+    {
+      "case_id": "write_tools.proposal_and_execute_denied",
+      "legacy_tool_ids": [
+        "plan.propose_adjustment",
+        "plan.apply_adjustment",
+        "profile.get_summary"
+      ],
+      "cohort_tool_ids": [
+        "plan.propose_adjustment",
+        "plan.apply_adjustment",
+        "profile.get_summary"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "plan.propose_adjustment",
+          "availability": "active",
+          "mode": "proposal",
+          "side_effects": "proposal_only"
+        },
+        {
+          "tool_id": "plan.apply_adjustment",
+          "availability": "active",
+          "mode": "execute",
+          "side_effects": "writes_data"
+        },
+        {
+          "tool_id": "profile.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "profile.get_summary"
+        ],
+        "denied_tool_ids": [
+          "plan.propose_adjustment",
+          "plan.apply_adjustment"
+        ],
+        "reason_codes": [
+          "non_read_tool",
+          "side_effecting_tool"
+        ]
+      }
+    },
+    {
+      "case_id": "registry_tool.permission_expansion",
+      "legacy_tool_ids": [
+        "plan.get_active"
+      ],
+      "cohort_tool_ids": [
+        "plan.get_active",
+        "profile.get_summary"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "plan.get_active",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        },
+        {
+          "tool_id": "profile.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "plan.get_active"
+        ],
+        "denied_tool_ids": [
+          "profile.get_summary"
+        ],
+        "reason_codes": [
+          "permission_expansion"
+        ]
+      }
+    },
+    {
+      "case_id": "empty_legacy.permission_expansion_stays_empty",
+      "legacy_tool_ids": [],
+      "cohort_tool_ids": [
+        "health.get_screening_summary"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "health.get_screening_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [],
+        "denied_tool_ids": [
+          "health.get_screening_summary"
+        ],
+        "reason_codes": [
+          "permission_expansion"
+        ]
+      }
+    },
+    {
+      "case_id": "legacy_duplicates.stable_first_seen_order",
+      "legacy_tool_ids": [
+        "plan.get_active",
+        "plan.get_active",
+        "profile.get_summary",
+        "plan.get_active"
+      ],
+      "cohort_tool_ids": [
+        "profile.get_summary",
+        "plan.get_active"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "profile.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        },
+        {
+          "tool_id": "plan.get_active",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "plan.get_active",
+          "profile.get_summary"
+        ],
+        "denied_tool_ids": [],
+        "reason_codes": []
+      }
+    },
+    {
+      "case_id": "conditional_pair.progress_and_history_kept",
+      "legacy_tool_ids": [
+        "workout.get_progress",
+        "workout.list_history"
+      ],
+      "cohort_tool_ids": [
+        "workout.get_progress",
+        "workout.list_history"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "workout.get_progress",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        },
+        {
+          "tool_id": "workout.list_history",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "workout.get_progress",
+          "workout.list_history"
+        ],
+        "denied_tool_ids": [],
+        "reason_codes": []
+      }
+    },
+    {
+      "case_id": "registry_error.legacy_read_fallback",
+      "legacy_tool_ids": [
+        "plan.get_active",
+        "plan.get_active",
+        "profile.get_summary"
+      ],
+      "cohort_tool_ids": [
+        "profile.get_summary"
+      ],
+      "registry_entries": [],
+      "registry_error": "registry_internal_error",
+      "expected": {
+        "authority_mode": "legacy_fallback",
+        "effective_tool_ids": [
+          "plan.get_active",
+          "profile.get_summary"
+        ],
+        "denied_tool_ids": [],
+        "reason_codes": [
+          "registry_internal_error"
+        ]
+      }
+    },
+    {
+      "case_id": "registry_extra.outside_cohort_ignored",
+      "legacy_tool_ids": [
+        "profile.get_summary"
+      ],
+      "cohort_tool_ids": [
+        "profile.get_summary"
+      ],
+      "registry_entries": [
+        {
+          "tool_id": "profile.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        },
+        {
+          "tool_id": "recovery.get_summary",
+          "availability": "active",
+          "mode": "read",
+          "side_effects": "none"
+        }
+      ],
+      "registry_error": null,
+      "expected": {
+        "authority_mode": "enforce",
+        "effective_tool_ids": [
+          "profile.get_summary"
+        ],
+        "denied_tool_ids": [],
+        "reason_codes": []
+      }
+    }
+  ]
+}

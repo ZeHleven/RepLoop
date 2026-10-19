@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import bcrypt
-from jose import jwt
+from jose import JWTError, jwt
 from app.config import settings
 
 
@@ -34,6 +34,10 @@ def create_refresh_token(user_id: str) -> str:
     )
 
 
-def decode_token(token: str) -> str:
+def decode_token(token: str, *, expected_type: str | None = None) -> str:
     payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-    return payload["sub"]
+    user_id = payload.get("sub")
+    token_type = payload.get("type")
+    if not user_id or (expected_type is not None and token_type != expected_type):
+        raise JWTError("invalid token payload")
+    return user_id

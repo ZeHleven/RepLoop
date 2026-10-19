@@ -1,0 +1,16 @@
+{
+  "version": "meal-usability-v1.1",
+  "purpose": "产品可用性约束，非医学标准；v1.0营养、写入边界、持久化规则全部保留",
+  "non_oil_grams": [25, 500],
+  "oil_grams": [1, 50],
+  "relative_to_model_draft": [0.5, 1.5],
+  "gram_steps": {"non_oil": 5, "oil": 1},
+  "main_meal_non_oil_items_min": 1,
+  "main_energy_share_by_count": {"3": [0.15, 0.5], "2": [0.25, 0.75]},
+  "snack_energy_share_max_with_main": 0.15,
+  "share_denominator": "新生成所有餐次的未舍入食品能量合计；已有记录不参与此比例且不得修改",
+  "one_main_rule": "仍须实质非油食物；若含加餐适用加餐上限，不另设单餐比例",
+  "composite_foods": "允许一项有实质份量的混合食品构成主餐；不以食品项数冒充营养多样性",
+  "infeasible": "最多两次模型原稿，均须通过相同硬约束；失败不能输出可保存的伪合格方案",
+  "evaluation": "生成任务若无有效方案仍记任务失败；有界明确失败仅通过安全边界维度，不能记任务通过"
+}

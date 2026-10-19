@@ -1,0 +1,178 @@
+{
+  "provenance": "Four original provider routing decisions; no model reasoning copied",
+  "rows": [
+    {
+      "id": "NA15-r1",
+      "message": "今天只记了午餐，晚餐还没吃，其他是否记全我不确定。请结合我已存资料评价目前这餐的营养和记录情况，给我一个下一步建议，不要判断全天是否达标。",
+      "source": "artifacts\\agent-dev-notes\\round-49-required-evidence\\runs\\NA15-r1.json",
+      "sha256": "acd2359d98ff85c0b69a5f039d6fa5a0ba9cd510ceb3ca3f921e6993a5792317",
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "assessment",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_today",
+            "nutrition_recent_context",
+            "profile_summary"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "结合用户已存资料，评价今天已记录的午餐这一餐的营养情况和今天的饮食记录完整情况，并给出下一步建议；不判断全天营养是否达标。",
+          "risk_level": "low",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "今天只记了午餐，晚餐还没吃，其他是否记全我不确定。请结合我已存资料评价目前这餐的营养和记录情况，给我一个下一步建议，不要判断全天是否达标。",
+            "requirements": [
+              {
+                "key": "scope",
+                "quote": "评价目前这餐的营养和记录情况",
+                "remove": false
+              },
+              {
+                "key": "excluded_judgement",
+                "quote": "不要判断全天是否达标",
+                "remove": false
+              },
+              {
+                "key": "next_step_advice",
+                "quote": "给我一个下一步建议",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "assessment",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_today",
+            "nutrition_history",
+            "nutrition_recent_context"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "结合已存资料，评价今天已记录的午餐这餐的营养情况和今天的饮食记录完整情况（今天只记了午餐，晚餐未吃，其他餐次是否记全不确定），并给出下一步建议；不要判断全天是否达标。",
+          "risk_level": "low",
+          "confidence": 0.86,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "今天只记了午餐，晚餐还没吃，其他是否记全我不确定。请结合我已存资料评价目前这餐的营养和记录情况，给我一个下一步建议，不要判断全天是否达标。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "今天只记了午餐，晚餐还没吃",
+                "remove": false
+              },
+              {
+                "key": "assessment_scope",
+                "quote": "评价目前这餐的营养和记录情况",
+                "remove": false
+              },
+              {
+                "key": "excluded_judgement",
+                "quote": "不要判断全天是否达标",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "NA15-r2",
+      "message": "今天只记了午餐，晚餐还没吃，其他是否记全我不确定。请结合我已存资料评价目前这餐的营养和记录情况，给我一个下一步建议，不要判断全天是否达标。",
+      "source": "artifacts\\agent-dev-notes\\round-49-required-evidence\\runs\\NA15-r2.json",
+      "sha256": "5dbd12b4239aa446ee1d251409f7348177dc8f21002c0e6163b4d99fcdd02473",
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "assessment",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_today",
+            "nutrition_recent_context",
+            "profile_summary"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "结合用户已存资料，评价今天已记录的午餐这餐的营养情况和今天的饮食记录完整情况，并给出下一步建议；不判断全天营养是否达标。",
+          "risk_level": "low",
+          "confidence": 0.82,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "今天只记了午餐，晚餐还没吃，其他是否记全我不确定。请结合我已存资料评价目前这餐的营养和记录情况，给我一个下一步建议，不要判断全天是否达标。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "今天只记了午餐，晚餐还没吃",
+                "remove": false
+              },
+              {
+                "key": "assessment_scope",
+                "quote": "评价目前这餐的营养和记录情况",
+                "remove": false
+              },
+              {
+                "key": "excluded_judgement",
+                "quote": "不要判断全天是否达标",
+                "remove": false
+              },
+              {
+                "key": "output_form",
+                "quote": "给我一个下一步建议",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "assessment",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_today",
+            "nutrition_history",
+            "nutrition_recent_context"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "结合已存饮食资料，评价今天已记录的午餐这一餐的营养情况和今天的记录完整情况，并给出下一步建议；不要判断全天营养是否达标。",
+          "risk_level": "low",
+          "confidence": 0.86,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "今天只记了午餐，晚餐还没吃，其他是否记全我不确定。请结合我已存资料评价目前这餐的营养和记录情况，给我一个下一步建议，不要判断全天是否达标。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "今天只记了午餐，晚餐还没吃",
+                "remove": false
+              },
+              {
+                "key": "assessment_scope",
+                "quote": "评价目前这餐的营养和记录情况",
+                "remove": false
+              },
+              {
+                "key": "excluded_judgement",
+                "quote": "不要判断全天是否达标",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+/usr/local/lib/python3.13/site-packages/pytest_asyncio/plugin.py:208: PytestDeprecationWarning: The configuration option "asyncio_default_fixture_loop_scope" is unset.
+The event loop scope for asynchronous fixtures will default to the fixture caching scope. Future versions of pytest-asyncio will default the loop scope for asynchronous fixtures to function scope. Set the default fixture loop scope explicitly in order to avoid unexpected behavior in the future. Valid fixture loop scopes are: "function", "class", "module", "package", "session"
+
+  warnings.warn(PytestDeprecationWarning(_DEFAULT_FIXTURE_LOOP_SCOPE_UNSET))
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_empty_query_extractors_do_not_skip_unconfirmed_permission[\u5367\u63a8\u5b9e\u9645\u505a\u6cd5\u5c1a\u672a\u786e\u8ba4\uff0c\u53ef\u4ee5\u5148\u7528\u8f7b\u8d1f\u8377\u8bd5\u4e24\u6b21\u3002] _
+/evidence/test_trial_gate.py:70: in test_empty_query_extractors_do_not_skip_unconfirmed_permission
+    assert any(f['code']=='training_action_conflict' for f in assessment_findings(draft,evidence(draft),query))
+E   AssertionError
+_ test_empty_query_extractors_do_not_skip_unconfirmed_permission[\u53ef\u4ee5\u53ea\u505a\u4e0a\u80a2\u7ec3\u4e60\uff0c\u6bd4\u5982\u9760\u80cc\u5367\u63a8\uff0c\u91c7\u7528\u8f7b\u8d1f\u8377\uff0c\u611f\u89c9\u7a33\u5b9a\u518d\u7ee7\u7eed\u3002] _
+/evidence/test_trial_gate.py:70: in test_empty_query_extractors_do_not_skip_unconfirmed_permission
+    assert any(f['code']=='training_action_conflict' for f in assessment_findings(draft,evidence(draft),query))
+E   AssertionError
+--------- generated xml file: /evidence/before-1792374439033/tests.xml ---------
+=========================== short test summary info ============================
+FAILED ../../evidence/test_trial_gate.py::test_empty_query_extractors_do_not_skip_unconfirmed_permission[\u5367\u63a8\u5b9e\u9645\u505a\u6cd5\u5c1a\u672a\u786e\u8ba4\uff0c\u53ef\u4ee5\u5148\u7528\u8f7b\u8d1f\u8377\u8bd5\u4e24\u6b21\u3002]
+FAILED ../../evidence/test_trial_gate.py::test_empty_query_extractors_do_not_skip_unconfirmed_permission[\u53ef\u4ee5\u53ea\u505a\u4e0a\u80a2\u7ec3\u4e60\uff0c\u6bd4\u5982\u9760\u80cc\u5367\u63a8\uff0c\u91c7\u7528\u8f7b\u8d1f\u8377\uff0c\u611f\u89c9\u7a33\u5b9a\u518d\u7ee7\u7eed\u3002]
+2 failed, 20 deselected in 1.95s

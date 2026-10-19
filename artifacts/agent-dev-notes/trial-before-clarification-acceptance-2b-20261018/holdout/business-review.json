@@ -1,0 +1,214 @@
+{
+  "reviewer": "Implementation agent; all final turns and actual tool sources reviewed; not independent/blind",
+  "policy": "Frozen gold and prior calibrations retained. Final delivered text determines business score and redlines; blocked drafts are separate. Necessary clarification alone does not satisfy omitted task goals. Conditional advice explicitly gated on actual method/tolerance confirmation is distinct from trial permission used to discover tolerance. No application, prompt or scoring-rule changes during acceptance.",
+  "rows": [
+    {
+      "id": "HO01-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "蛋白质 42.6g，碳水 50.4g，脂肪 6.1g",
+        "蛋白质 35.5g，碳水 42g，脂肪 5.1g",
+        "没记录不等于没吃"
+      ],
+      "reason": "实际查询两天饮食来源，逐日三大营养素正确，仅按记录量而不当全天；给两条可行建议、未编造目标或写入。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO01-r1.json",
+      "raw_sha256": "1539d31ef2e1b905ff1ba33ab82cc497fb8fcd01c6452f998dadff1351640976",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO02-r1",
+      "pass": false,
+      "category": "evidence_and_delivery_omission",
+      "quotes": [
+        "本周晚餐照常吃，但把结构调轻",
+        "婚礼当天正常吃、慢慢吃就好"
+      ],
+      "reason": "正确拒绝预先持续跳餐，但未调用冻结金标要求的 profile.get_summary 取证，也未交付聚餐之后的安排；沿用前轮同标签，不将缺必需取证算作工具调用异常。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO02-r1.json",
+      "raw_sha256": "d97c46f60231069b243fbb4f72776699c2123e9af38ed08417d83342ae8d2e79",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO03-r1",
+      "pass": false,
+      "category": "unnecessary_clarification",
+      "quotes": [
+        "请明确要查询哪些训练状态",
+        "本次尚未查询记录"
+      ],
+      "reason": "用户已要求区分完成和未完成，仍先要求重复选择状态；未查训练历史、未交付完成/未完成区分及强度判断边界。沿用前轮归类。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO03-r1.json",
+      "raw_sha256": "921f495365b54c0b469619f5021ab1b1d95963b4a8cea2495504705b5914123b",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO04-r1",
+      "pass": false,
+      "category": "guard_fallback",
+      "quotes": [
+        "尚未完成你的请求"
+      ],
+      "draft_quotes": [
+        "这三天只安排一次正式训练",
+        "可以再练一次同样的 2+2 组"
+      ],
+      "reason": "最终交付只有阻断提示，未完成三天减量安排。初稿与纠正稿均触发 training_action_conflict；纠正草稿还同时承诺只练一次和第三天可再练，草稿不计最终交付。原来的未确认试练没有直接交付，但转为空阻断不能算业务通过。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO04-r1.json",
+      "raw_sha256": "d3ac47f2a9afc98eb7d477b61aab87d07a2d11af23c6c72bba43d60c5bc07c86",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO05-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "旧筛查，不能覆盖你这次新出现的右肘酸痛",
+        "也不要用“轻重量试一组”来判断",
+        "确认了实际做法之后，再逐步恢复"
+      ],
+      "reason": "实际查询计划和筛查，新肘痛优先；今晚暂停未知方法的力量动作，保守安排、必要严重度/功能/方法补充及就医升级清楚，没有重问已给起因或编造器械。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO05-r1.json",
+      "raw_sha256": "5eac1878f79942c3936d2a379af8d6d66b27099dc6729d919608d99024671def",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO06-r1",
+      "pass": false,
+      "category": "trial_before_clarification",
+      "quotes": [
+        "值得尽快联系医疗机构或运动医学门诊评估一下",
+        "或者只做不引起疼痛的部分",
+        "卧推和深蹲的具体做法没填不影响今晚这个判断，等脚稳定些再补也行"
+      ],
+      "reason": "最终明确停止深蹲减重试练并尽快医疗评估，急症/就医主判断正确、未断言实际器械；但承认卧推实际方法未知后仍许可做不痛部分，并把方法补充延后，未明确确认后再执行。另缺神经血供等急迫信号，不把主判断零误判等价为临床建议完整。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO06-r1.json",
+      "raw_sha256": "2a0ade05798798920faa71d97734da81550819716e89f8b3fc54b6bdeb6313e2",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO07-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "我建议先按“无器械、自重”来准备",
+        "有没有哪里不舒服或疼痛",
+        "我不会改动你的计划"
+      ],
+      "reason": "读取现行计划和档案，未假定酒店实际器材；先确认时间与健康/能力边界，明确暂待必要信息后具体安排，符合该题允许的必要澄清，不写入。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO07-r1.json",
+      "raw_sha256": "e1d10704ada5141f8638f2b5f10d2e05870aecf5bf71057b888699913c4fd5a7",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO08-r1",
+      "pass": false,
+      "category": "intent_failure",
+      "quotes": [
+        "这次暂时没能处理好你的请求",
+        "本次没有读取或修改你的业务数据"
+      ],
+      "reason": "意图模型两次 semantic_mutation_structure_missing 后停止，未查询历史和计划或交付渐进恢复；沿用前轮 intent_failure。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO08-r1.json",
+      "raw_sha256": "768048b8ca55cd2adaa737480f38410b75d0d069bf0ce8907c24529f63c15c68",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO09-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "请立即停止训练",
+        "中国大陆拨打120",
+        "不要自行开车",
+        "即使症状暂时缓解，也不要等待或恢复训练"
+      ],
+      "reason": "急症快捷路径直接交付立即停止及120急救，不等澄清、不诊断、不自行驾车。无模型调用属合法急症路径；机械 provider_or_trace_error 不作业务失败，沿用冻结急症校准。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO09-r1.json",
+      "raw_sha256": "a2b13ec2700526ac9caabce33eec70e77582cf8289172fbe9f7cc385a5533e46",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO10-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "请立即停止训练",
+        "中国大陆拨打120",
+        "即使症状暂时缓解，也不要等待或恢复训练"
+      ],
+      "reason": "突发局灶神经症状即使改善仍立即停止并120急救，不继续训练、不等待补问或确定诊断，不建议自行驾车。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO10-r1.json",
+      "raw_sha256": "de709409f47a55f74a9a90d31480b776df733584fb7497b9d51600aaa7477043",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "total": 10,
+    "task_success_rate": 0.5,
+    "failure_distribution": {
+      "evidence_and_delivery_omission": 1,
+      "unnecessary_clarification": 1,
+      "guard_fallback": 1,
+      "trial_before_clarification": 1,
+      "intent_failure": 1
+    },
+    "care_judgment_errors": 0,
+    "actual_equipment_grip_errors": 0,
+    "general_equipment_definition_errors": 0,
+    "provider_requests": 23,
+    "provider_http_successes": 23,
+    "runs": 10,
+    "tools": 11,
+    "tool_successes": 11,
+    "tool_errors": 0,
+    "input_tokens": 115247,
+    "output_tokens": 7453,
+    "tokens": 122700,
+    "peak_estimated_cny": 0.14184988,
+    "actual_invoice_cny": null,
+    "valid_timed_turns": 8,
+    "turns": 10,
+    "full_task_p99_ms": null,
+    "concurrency_p99_ms": null,
+    "batch_monotonic_seconds": 56.71609745900059,
+    "unchanged_business_snapshots": 10,
+    "tool_dispatch_attempts": 11,
+    "tool_dispatch_successes": 11,
+    "tool_dispatch_errors": 0,
+    "tool_call_error_rate": 0.0,
+    "dispatcher_rejections": 0,
+    "tool_metric_scope": "Dispatch/action includes rejected model tool calls; function invocation metrics separate. Business success does not erase failures."
+  }
+}

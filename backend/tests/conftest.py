@@ -1,3 +1,5 @@
+import os
+
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy import text
@@ -6,10 +8,13 @@ from sqlalchemy.pool import NullPool
 from app.main import app
 from app.database import Base, get_db
 
-TEST_DATABASE_URL = "postgresql+asyncpg://fitness:fitness_pass@localhost:5432/fitness_test"
+TEST_DATABASE_URL = os.getenv(
+    "TEST_DATABASE_URL",
+    "postgresql+asyncpg://fitness:fitness_pass@localhost:5432/fitness_test",
+)
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
 async def engine():
     # NullPool prevents connections from being tied to a specific event loop
     _engine = create_async_engine(TEST_DATABASE_URL, echo=False, poolclass=NullPool)
@@ -17,12 +22,12 @@ async def engine():
     await _engine.dispose()
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
 async def session_factory(engine):
     return async_sessionmaker(engine, expire_on_commit=False)
 
 
-@pytest_asyncio.fixture(scope="session", autouse=True)
+@pytest_asyncio.fixture(scope="session", loop_scope="session", autouse=True)
 async def setup_db(engine):
     async with engine.begin() as conn:
         await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
@@ -37,11 +42,8 @@ async def setup_db(engine):
 
 @pytest_asyncio.fixture
 async def db_session(session_factory):
-    # Don't use async with — __aexit__ does async close/rollback which fails
-    # when event loop is closed at teardown (pytest-asyncio 0.24 bug).
-    # NullPool means no pooled connections are leaked.
-    session = session_factory()
-    yield session
+    async with session_factory() as session:
+        yield session
 
 
 @pytest_asyncio.fixture

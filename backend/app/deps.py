@@ -15,7 +15,7 @@ async def get_current_user(
     db: AsyncSession = Depends(get_db),
 ) -> User:
     try:
-        user_id = decode_token(credentials.credentials)
+        user_id = decode_token(credentials.credentials, expected_type="access")
     except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

@@ -1,0 +1,83 @@
+{
+  "category": "A53-redundant-today-evidence",
+  "instance": "NQ03-r2",
+  "raw_sha256": "04b0feb7e6a13e428b0937119d02e2284e54a795c7d4d468875749dc45a08c70",
+  "model_calls": 0,
+  "application_modified": false,
+  "message": "查看2026年10月8日至10月11日晚餐的每日热量和记录总和。缺晚餐记录的历史日期要说明，未来日期单独标明未纳入历史查询。",
+  "route": {
+    "intent_domain": "nutrition",
+    "request_kind": "query",
+    "requested_effect": "read",
+    "requested_output": "answer",
+    "read_targets": [
+      "nutrition_history",
+      "nutrition_today"
+    ],
+    "decision_action": "none",
+    "artifact_action": "none",
+    "normalized_request": "查询2026年10月8日至2026年10月11日每天晚餐的热量及记录总和；对缺少晚餐记录的历史日期（2026-10-08、2026-10-09）予以说明；未来日期（2026-10-10、2026-10-11）单独标明，不纳入历史查询。",
+    "risk_level": "low",
+    "confidence": 0.9,
+    "task_update": {
+      "action": "new",
+      "task_id": "",
+      "trigger": "查看2026年10月8日至10月11日晚餐的每日热量和记录总和。缺晚餐记录的历史日期要说明，未来日期单独标明未纳入历史查询。",
+      "requirements": [
+        {
+          "key": "meal_scope",
+          "quote": "查看2026年10月8日至10月11日晚餐的每日热量和记录总和",
+          "remove": false
+        },
+        {
+          "key": "date_range",
+          "quote": "2026年10月8日至10月11日",
+          "remove": false
+        },
+        {
+          "key": "missing_record_note",
+          "quote": "缺晚餐记录的历史日期要说明",
+          "remove": false
+        },
+        {
+          "key": "future_date_handling",
+          "quote": "未来日期单独标明未纳入历史查询",
+          "remove": false
+        }
+      ]
+    }
+  },
+  "finite_single_history_proof": false,
+  "requirements_after_narrowing": [
+    "nutrition_history",
+    "nutrition_today"
+  ],
+  "numeric_history_card_matches_gold": true,
+  "tool_attempts": 1,
+  "tool_errors": 0,
+  "model_draft": "查了 10月8日–10月11日的晚餐记录，结果如下。\n\n**有记录的日期**\n- 10月8日：晚餐 199 kcal（西兰花 100g 34 kcal + 鸡胸 100g 165 kcal），蛋白质 33.8g、碳水 6.6g、脂肪 4.0g，共 1 条晚餐记录。\n\n**缺少晚餐记录的历史日期**\n- 10月9日（今天）：目前没有晚餐记录。这天还没过完，也可能是尚未记录。\n- 说明：10月9日之外，10月8日已有记录，不存在缺失。\n\n**未来日期（未纳入历史查询）**\n- 10月10日、10月11日：均为未来日期，不纳入本次历史查询，也没有可查的记录。\n\n合计：区间内有效晚餐记录 1 条，热量总计 199 kcal。",
+  "final_reply": "这次还没有完整取得当天饮食，暂时无法可靠完成这项查询或评估。请稍后重试缺少的部分。",
+  "missing_tools": [
+    "nutrition.get_today"
+  ],
+  "guard_exactly_reproduced": true,
+  "sources": [
+    {
+      "file": "backend/app/services/agent_query_reports.py",
+      "sha256": "dd8fa4585fc431f95a58c037151f01f93ba20f8f53c46750b44c8532cca7089a"
+    },
+    {
+      "file": "backend/app/services/nutrition_query_scope.py",
+      "sha256": "6a2a4d13af614922155d0398aa376c0f22f9ab639b358392faae4954d6fc6ab6"
+    },
+    {
+      "file": "backend/app/services/agent_evidence_contract.py",
+      "sha256": "92469b7705134c0d091a7146af6c8d86be3875ae4234f9b84f0b06ee7d23c034"
+    },
+    {
+      "file": "backend/app/services/agent_intent_model.py",
+      "sha256": "000340aad7a4db7c61e317c797c85e4cbb8555c6a725b0a28f922e29158e430a"
+    }
+  ],
+  "cause": "Model adds nutrition_today to one absolute historical range; existing single-goal grammar only covers a limited relative-period form and cannot remove that extra evidence. Required-evidence guard then replaces the answer. Preserve genuine independent today-detail requests when extending the proof."
+}

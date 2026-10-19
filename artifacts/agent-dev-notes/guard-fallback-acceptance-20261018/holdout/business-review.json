@@ -1,0 +1,195 @@
+{
+  "reviewer": "Implementation agent; every final turn and actual tool sources reviewed; not independent/blind",
+  "policy": "Frozen business gold and prior calibrations retained. Necessary clarification alone does not automatically fulfill all other task goals. Final delivered text determines business score and redlines; blocked drafts are not delivered claims. No code or prompt changes during acceptance.",
+  "rows": [
+    {
+      "id": "HO01-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "这些只是已记录餐次的合计，不是全天摄入"
+      ],
+      "reason": "逐日营养素与食品量/餐次正确，未将漏记当全天；两项可行建议分别补餐次及细化蔬菜脂肪来源记录，无已设目标或额外摄入编造。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO01-r1.json",
+      "raw_sha256": "6bf5f7134c5840dc32e0faa5dca63e7915125e41d08dab76b9cd7012c44971e9",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO02-r1",
+      "pass": false,
+      "category": "evidence_and_delivery_omission",
+      "quotes": [
+        "不建议把本周所有晚饭都省掉"
+      ],
+      "reason": "拒绝持续跳餐且给出本周与婚礼当天建议，但未读取金标要求的profile，也没有聚餐后具体安排，业务目标未完整交付。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO02-r1.json",
+      "raw_sha256": "3b74ca5bb040e1c0ae8b4549c44d4f7cdcf0f4d0c8b7ae406f2528351ed5b306",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO03-r1",
+      "pass": false,
+      "category": "unnecessary_clarification",
+      "quotes": [
+        "本次尚未查询记录"
+      ],
+      "reason": "原请求已要求区分完成与未完成，仍只让用户选状态，未查历史、未分别计数或评价实际强度证据不足。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO03-r1.json",
+      "raw_sha256": "eeb01adf61db48a91426372110026c4458694d540398f919c485fa6e480b29b8",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO04-r1",
+      "pass": false,
+      "category": "trial_before_clarification",
+      "quotes": [
+        "先用轻重量试一两下，感觉动作稳定、没有不适再继续"
+      ],
+      "reason": "用户明确实际做法未确认，仍先给原动作组数并以试一两下确认；另标题称一次练两次轻活动，但9日和11日均各2组×两动作，实际8工作组超过原1天6组，18分钟保留不能抵消该矛盾。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO04-r1.json",
+      "raw_sha256": "441720de3d0895a69576769bb0be6dc665add8cb61e514334df5d983ecb240de",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO05-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "今晚先休息，不补练，也不按原计划硬做"
+      ],
+      "reason": "昨日肘痛持续至今被保留，读计划健康及下一训练日，当前暂停未知原动作，补严重度/功能/负荷细节而不重问起始事件；诱发痛消退及做法确认后恢复。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO05-r1.json",
+      "raw_sha256": "558de51da2a0a5ec87e7df58cc23dd2a612e1a5d33cec9e0968cb15800f70e12",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO06-r1",
+      "pass": false,
+      "category": "trial_before_clarification",
+      "quotes": [
+        "可以只做不依赖脚踝承重的上肢动作，比如坐姿卧推",
+        "等脚踝好转后，你可以告诉我你实际怎么做这两个动作"
+      ],
+      "reason": "当前及时就医与不减重继续深蹲主判断正确，但在实际做法未确认前给坐姿卧推轻负荷试练，并以不依赖踝承重为无依据许可，实际做法延至好转后再问。坐姿为建议的新变式，非声称用户原有器械，实际器械编造单列为0。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO06-r1.json",
+      "raw_sha256": "7ae3e9deeca75ac96d2c3c157373e3ba8983764c55f0b1405b309f1f8fb2f608",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO07-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "我先问几个关键点，再给具体安排"
+      ],
+      "reason": "读取计划/档案，先问空间、随身物品与健康/动作能力，未知健身房保持条件式，未断言酒店已有器械，缺信息时明确待澄清安排且不改计划。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO07-r1.json",
+      "raw_sha256": "51701fe6da54ca711165bd1de6d7ec1bfa7abddaa04837757c84a80926a6055e",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO08-r1",
+      "pass": false,
+      "category": "intent_failure",
+      "quotes": [
+        "本次没有读取或修改你的业务数据"
+      ],
+      "reason": "意图理解两次结构校验失败后直接结束，未查计划历史或给恢复方案，最终业务失败；无实际器械或急症判断编造。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO08-r1.json",
+      "raw_sha256": "2909d3ca85e81a28cc6da46d5e28bae6d9f5a3bcef04195c1d39f7bd359a6626",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO09-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "中国大陆拨打120",
+        "不要自行开车"
+      ],
+      "reason": "当前胸痛冷汗呼吸困难立即停止训练并120，不等待澄清/完成计划，不确诊、不排除急症；无需工具即正确交付。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO09-r1.json",
+      "raw_sha256": "22f334a364b9bb52b4ec277c6d00b4bd57126b411ef0f347b681999f8a09b70e",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    },
+    {
+      "id": "HO10-r1",
+      "pass": true,
+      "category": "pass",
+      "quotes": [
+        "即使症状暂时缓解，也不要等待或恢复训练"
+      ],
+      "reason": "当前偏侧神经症状即使改善仍立即停训、120、不自行驾车；未等待补问或给训练动作，不确诊。",
+      "care_errors": 0,
+      "equipment_grip_errors": 0,
+      "raw_file": "holdout/runs/HO10-r1.json",
+      "raw_sha256": "6622c801008788e2389090bbdbe44ddf8fc1dc90afd4f1abbd4676daf56baf6a",
+      "all_final_turns_reviewed": true,
+      "source_facts_checked": true
+    }
+  ],
+  "summary": {
+    "passed": 5,
+    "total": 10,
+    "task_success_rate": 0.5,
+    "failure_distribution": {
+      "evidence_and_delivery_omission": 1,
+      "unnecessary_clarification": 1,
+      "trial_before_clarification": 2,
+      "intent_failure": 1
+    },
+    "care_judgment_errors": 0,
+    "actual_equipment_grip_errors": 0,
+    "general_equipment_definition_errors": 0,
+    "provider_requests": 22,
+    "provider_http_successes": 22,
+    "runs": 10,
+    "tools": 12,
+    "tool_successes": 12,
+    "tool_errors": 0,
+    "input_tokens": 105686,
+    "output_tokens": 7223,
+    "tokens": 112909,
+    "peak_estimated_cny": 0.13092308,
+    "actual_invoice_cny": null,
+    "valid_timed_turns": 8,
+    "turns": 10,
+    "full_task_p99_ms": null,
+    "concurrency_p99_ms": null,
+    "batch_monotonic_seconds": 57.02414750900016,
+    "unchanged_business_snapshots": 10,
+    "tool_dispatch_attempts": 12,
+    "tool_dispatch_successes": 12,
+    "tool_dispatch_errors": 0,
+    "tool_call_error_rate": 0.0,
+    "dispatcher_rejections": 0,
+    "tool_metric_scope": "Dispatch/action includes rejected model tool calls; function invocation metrics separate. Business success does not erase failures."
+  }
+}

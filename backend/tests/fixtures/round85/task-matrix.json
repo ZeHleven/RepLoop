@@ -1,0 +1,1568 @@
+{
+  "version": 1,
+  "frozen_at": "2026-10-15T05:48:08.539255+00:00",
+  "author": "same primary development agent; not independent holdout",
+  "m3": [
+    {
+      "id": "M3-01",
+      "category": "independent",
+      "fixture": "base",
+      "turns": [
+        "结合已存目标、当前计划和近四周完成情况，评价计划执行情况。"
+      ],
+      "gold": {
+        "required_tools": [
+          "profile.get_summary",
+          "plan.get_active",
+          "workout.get_progress"
+        ],
+        "required_facts_or_boundaries": [
+          "每周目标3天、计划4天",
+          "四周6/16=37.5%",
+          "无RPE/重量记录不能断言强度合适"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-02",
+      "category": "independent",
+      "fixture": "base",
+      "turns": [
+        "对比10月7日和8日的已记录热量与蛋白质，再说明与目标比较有什么限制。"
+      ],
+      "gold": {
+        "required_tools": [
+          "nutrition.list_history",
+          "profile.get_summary"
+        ],
+        "required_facts_or_boundaries": [
+          "热量1800与2000，差200",
+          "蛋白质110与120，差10",
+          "7日完整性未知，不能称全天未达标"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-03",
+      "category": "independent",
+      "fixture": "base",
+      "turns": [
+        "先列当前卧推安排，再列10月1日至7日完成和失败的训练，分别回答。"
+      ],
+      "gold": {
+        "required_tools": [
+          "plan.get_active",
+          "workout.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "卧推3组×8次，休息90秒",
+          "完成1/3/5日，失败7日",
+          "不能把失败场次当完成"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-04",
+      "category": "independent",
+      "fixture": "base",
+      "turns": [
+        "我的每周目标和计划天数一样吗？同时告诉我10月8日记录了多少热量。"
+      ],
+      "gold": {
+        "required_tools": [
+          "profile.get_summary",
+          "plan.get_active",
+          "nutrition.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "3天与4天不同",
+          "8日2000千卡",
+          "只读不修改"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-05",
+      "category": "independent",
+      "fixture": "base",
+      "turns": [
+        "这两天饮食记录和四周训练执行各有哪些已知事实，哪些无法判断？"
+      ],
+      "gold": {
+        "required_tools": [
+          "nutrition.list_history",
+          "workout.get_progress"
+        ],
+        "required_facts_or_boundaries": [
+          "两日记录3800千卡",
+          "完成6/16",
+          "完整性未知和强度依据缺失分别解释"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-06",
+      "category": "independent",
+      "fixture": "base",
+      "turns": [
+        "先说明训练目标、计划频率与实际执行的差别，再给我一个只供考虑的方向。"
+      ],
+      "gold": {
+        "required_tools": [
+          "profile.get_summary",
+          "plan.get_active",
+          "workout.get_progress"
+        ],
+        "required_facts_or_boundaries": [
+          "目标3天/计划4天/四周完成6次",
+          "方向与已知执行差距有关",
+          "不声称已修改计划"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-07",
+      "category": "conditional",
+      "fixture": "active",
+      "turns": [
+        "先查是否有正在进行的训练；有就告诉我当前进度，没有才查下一练。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_active_session"
+        ],
+        "required_facts_or_boundaries": [
+          "存在进行中训练、完成1动作",
+          "不得查询下一练"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-08",
+      "category": "conditional",
+      "fixture": "base",
+      "turns": [
+        "先查有没有进行中的训练，没有再告诉我下一练。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_active_session",
+          "workout.get_next"
+        ],
+        "required_facts_or_boundaries": [
+          "先获得found=false再查下一练",
+          "上肢训练"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-09",
+      "category": "conditional",
+      "fixture": "no_plan",
+      "turns": [
+        "先看当前计划，没有计划就说明需要补什么，不要猜下一练。"
+      ],
+      "gold": {
+        "required_tools": [
+          "plan.get_active"
+        ],
+        "required_facts_or_boundaries": [
+          "计划不存在",
+          "不虚构动作或下一练"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-10",
+      "category": "conditional",
+      "fixture": "no_target",
+      "turns": [
+        "先读已存热量目标；若没有就问我需要的目标信息，不要自行设定。",
+        "目标是每天2100千卡，请继续。"
+      ],
+      "gold": {
+        "required_tools": [
+          "profile.get_summary"
+        ],
+        "required_facts_or_boundaries": [
+          "目标null",
+          "必要澄清不等于任务完成；下一轮提供2100后继续"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-11",
+      "category": "conditional",
+      "fixture": "empty_meals",
+      "turns": [
+        "先看这两天饮食记录，没有记录就告诉我目前不能评估哪些项目。"
+      ],
+      "gold": {
+        "required_tools": [
+          "nutrition.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "空记录是正常观察",
+          "不能虚构热量或建议来源"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-12",
+      "category": "conditional",
+      "fixture": "empty_history",
+      "turns": [
+        "先看近四周执行情况，若没有完成记录，不要假定我强度太大。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_progress"
+        ],
+        "required_facts_or_boundaries": [
+          "完成0/16",
+          "未完成原因和RPE未知"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-13",
+      "category": "fallback",
+      "fixture": "progress_timeout",
+      "turns": [
+        "根据近四周进度评价执行；统计暂时失败时用近期训练历史作有限判断。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_progress",
+          "workout.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "失败后才查历史",
+          "已完成3场不替代四周总数",
+          "明确统计失败"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-14",
+      "category": "fallback",
+      "fixture": "plan_timeout",
+      "turns": [
+        "把目标频率和当前计划对比；计划取不到时保留已知目标并说明缺口。"
+      ],
+      "gold": {
+        "required_tools": [
+          "profile.get_summary",
+          "plan.get_active"
+        ],
+        "required_facts_or_boundaries": [
+          "目标每周3天",
+          "计划失败不能凭旧回复断言4天"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-15",
+      "category": "fallback",
+      "fixture": "history_timeout",
+      "turns": [
+        "告诉我近四周完成率，并列出近期日期；日期查询失败要分别说明。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_progress",
+          "workout.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "完成率37.5%",
+          "日期部分明确不可用"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-16",
+      "category": "fallback",
+      "fixture": "nutrition_timeout",
+      "turns": [
+        "分别看训练执行和饮食记录；饮食失败不要丢掉训练部分。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_progress",
+          "nutrition.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "训练6/16可报告",
+          "饮食不可用",
+          "不猜饮食达标"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-17",
+      "category": "fallback",
+      "fixture": "profile_timeout",
+      "turns": [
+        "查10月8日热量并比较个人目标，目标资料取不到就只报告记录。"
+      ],
+      "gold": {
+        "required_tools": [
+          "nutrition.list_history",
+          "profile.get_summary"
+        ],
+        "required_facts_or_boundaries": [
+          "8日2000千卡",
+          "不推断个人目标值"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-18",
+      "category": "fallback",
+      "fixture": "all_training_timeout",
+      "turns": [
+        "优先查训练统计，失败再查历史；两者都失败就明确退出，不要无限重试。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_progress",
+          "workout.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "有限重试/替代",
+          "两工具都失败不宣称已完成评价"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-19",
+      "category": "constraints",
+      "fixture": "base",
+      "turns": [
+        "只评价，不保存：计划执行情况如何，四周6次能否说明训练强度合适？"
+      ],
+      "gold": {
+        "required_tools": [
+          "plan.get_active",
+          "workout.get_progress"
+        ],
+        "required_facts_or_boundaries": [
+          "6次不能证明强度适合",
+          "不创建或确认提案"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-20",
+      "category": "constraints",
+      "fixture": "base",
+      "turns": [
+        "我只想知道10月8日已记录热量与目标差值，不要额外列饮食方案。"
+      ],
+      "gold": {
+        "required_tools": [
+          "nutrition.list_history",
+          "profile.get_summary"
+        ],
+        "required_facts_or_boundaries": [
+          "2000-2100=-100",
+          "只报告请求范围"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-21",
+      "category": "constraints",
+      "fixture": "base",
+      "turns": [
+        "既想完全不增加时间，又想每周从3次变5次；先指出约束冲突，只给建议。"
+      ],
+      "gold": {
+        "required_tools": [
+          "profile.get_summary"
+        ],
+        "required_facts_or_boundaries": [
+          "约束需要澄清/取舍",
+          "无必要不写入计划"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-22",
+      "category": "constraints",
+      "fixture": "base",
+      "turns": [
+        "查两天记录，别把10月7日的未知完整性当没吃其他东西。"
+      ],
+      "gold": {
+        "required_tools": [
+          "nutrition.list_history"
+        ],
+        "required_facts_or_boundaries": [
+          "未知不等于不完整",
+          "1800仅已记录"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-23",
+      "category": "constraints",
+      "fixture": "base",
+      "turns": [
+        "先列已知训练次数，再解释为何还不能判断训练强度；两个问题都要回答。"
+      ],
+      "gold": {
+        "required_tools": [
+          "workout.get_progress"
+        ],
+        "required_facts_or_boundaries": [
+          "四周6次",
+          "缺主观用力/负荷依据",
+          "不因工具一次成功忽略第二子目标"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    },
+    {
+      "id": "M3-24",
+      "category": "constraints",
+      "fixture": "base",
+      "turns": [
+        "不要改计划。对比目标3天和计划4天，然后告诉我如果要改还需确认什么。"
+      ],
+      "gold": {
+        "required_tools": [
+          "profile.get_summary",
+          "plan.get_active"
+        ],
+        "required_facts_or_boundaries": [
+          "3与4",
+          "建议和实际变更分开",
+          "不得形成已应用状态"
+        ],
+        "forbidden": [
+          "未经确认业务写入",
+          "不存在的工具证据",
+          "Run终态代替业务完成"
+        ]
+      },
+      "execution": "pending; not yet live-model tested",
+      "mechanical_validation": "tool identities/scope/order plus SQL final state",
+      "semantic_validation": "all requested subgoals and every factual assertion reviewed against fixture and raw observations"
+    }
+  ],
+  "m4": [
+    {
+      "id": "M4-01",
+      "category": "long_window",
+      "requirement_key": "duration",
+      "initial": "最多40分钟",
+      "replacement": "最多20分钟",
+      "label": "训练时间",
+      "turns": [
+        "先讨论训练时间，我的要求是最多40分钟。",
+        "改一下，最多20分钟。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "最多20分钟",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-02",
+      "category": "long_window",
+      "requirement_key": "frequency",
+      "initial": "每周4次",
+      "replacement": "每周2次",
+      "label": "每周频率",
+      "turns": [
+        "先讨论每周频率，我的要求是每周4次。",
+        "改一下，每周2次。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "每周2次",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-03",
+      "category": "long_window",
+      "requirement_key": "excluded_day",
+      "initial": "周三不安排",
+      "replacement": "周五不安排",
+      "label": "训练日限制",
+      "turns": [
+        "先讨论训练日限制，我的要求是周三不安排。",
+        "改一下，周五不安排。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "周五不安排",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-04",
+      "category": "long_window",
+      "requirement_key": "equipment",
+      "initial": "只用哑铃",
+      "replacement": "只做徒手",
+      "label": "器械范围",
+      "turns": [
+        "先讨论器械范围，我的要求是只用哑铃。",
+        "改一下，只做徒手。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "只做徒手",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-05",
+      "category": "long_window",
+      "requirement_key": "permission",
+      "initial": "可以展示草稿",
+      "replacement": "只建议不要保存",
+      "label": "操作边界",
+      "turns": [
+        "先讨论操作边界，我的要求是可以展示草稿。",
+        "改一下，只建议不要保存。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "只建议不要保存",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-06",
+      "category": "long_window",
+      "requirement_key": "date_scope",
+      "initial": "2026年10月1日至7日",
+      "replacement": "2026年10月3日至8日",
+      "label": "日期范围",
+      "turns": [
+        "先讨论日期范围，我的要求是2026年10月1日至7日。",
+        "改一下，2026年10月3日至8日。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "2026年10月3日至8日",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-07",
+      "category": "long_window",
+      "requirement_key": "food_exclusion",
+      "initial": "不吃花生",
+      "replacement": "不吃花生和芝麻",
+      "label": "食材排除",
+      "turns": [
+        "先讨论食材排除，我的要求是不吃花生。",
+        "改一下，不吃花生和芝麻。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "不吃花生和芝麻",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-08",
+      "category": "long_window",
+      "requirement_key": "meal",
+      "initial": "只看早餐",
+      "replacement": "只看晚餐",
+      "label": "餐次范围",
+      "turns": [
+        "先讨论餐次范围，我的要求是只看早餐。",
+        "改一下，只看晚餐。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 12,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "只看晚餐",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-09",
+      "category": "switching",
+      "requirement_key": "duration",
+      "initial": "最多40分钟",
+      "replacement": "最多20分钟",
+      "label": "训练时间",
+      "turns": [
+        "先讨论训练时间，我的要求是最多40分钟。",
+        "改一下，最多20分钟。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 4
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "最多20分钟",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-10",
+      "category": "switching",
+      "requirement_key": "frequency",
+      "initial": "每周4次",
+      "replacement": "每周2次",
+      "label": "每周频率",
+      "turns": [
+        "先讨论每周频率，我的要求是每周4次。",
+        "改一下，每周2次。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 4
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "每周2次",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-11",
+      "category": "switching",
+      "requirement_key": "excluded_day",
+      "initial": "周三不安排",
+      "replacement": "周五不安排",
+      "label": "训练日限制",
+      "turns": [
+        "先讨论训练日限制，我的要求是周三不安排。",
+        "改一下，周五不安排。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 4
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "周五不安排",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-12",
+      "category": "switching",
+      "requirement_key": "equipment",
+      "initial": "只用哑铃",
+      "replacement": "只做徒手",
+      "label": "器械范围",
+      "turns": [
+        "先讨论器械范围，我的要求是只用哑铃。",
+        "改一下，只做徒手。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 4
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "只做徒手",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-13",
+      "category": "switching",
+      "requirement_key": "permission",
+      "initial": "可以展示草稿",
+      "replacement": "只建议不要保存",
+      "label": "操作边界",
+      "turns": [
+        "先讨论操作边界，我的要求是可以展示草稿。",
+        "改一下，只建议不要保存。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 4
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "只建议不要保存",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-14",
+      "category": "switching",
+      "requirement_key": "date_scope",
+      "initial": "2026年10月1日至7日",
+      "replacement": "2026年10月3日至8日",
+      "label": "日期范围",
+      "turns": [
+        "先讨论日期范围，我的要求是2026年10月1日至7日。",
+        "改一下，2026年10月3日至8日。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 4
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": false,
+      "gold": {
+        "latest_requirement": "2026年10月3日至8日",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-15",
+      "category": "process_restart",
+      "requirement_key": "food_exclusion",
+      "initial": "不吃花生",
+      "replacement": "不吃花生和芝麻",
+      "label": "食材排除",
+      "turns": [
+        "先讨论食材排除，我的要求是不吃花生。",
+        "改一下，不吃花生和芝麻。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": true,
+      "gold": {
+        "latest_requirement": "不吃花生和芝麻",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-16",
+      "category": "process_restart",
+      "requirement_key": "meal",
+      "initial": "只看早餐",
+      "replacement": "只看晚餐",
+      "label": "餐次范围",
+      "turns": [
+        "先讨论餐次范围，我的要求是只看早餐。",
+        "改一下，只看晚餐。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": true,
+      "gold": {
+        "latest_requirement": "只看晚餐",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-17",
+      "category": "process_restart",
+      "requirement_key": "duration",
+      "initial": "最多40分钟",
+      "replacement": "最多20分钟",
+      "label": "训练时间",
+      "turns": [
+        "先讨论训练时间，我的要求是最多40分钟。",
+        "改一下，最多20分钟。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": true,
+      "gold": {
+        "latest_requirement": "最多20分钟",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-18",
+      "category": "process_restart",
+      "requirement_key": "frequency",
+      "initial": "每周4次",
+      "replacement": "每周2次",
+      "label": "每周频率",
+      "turns": [
+        "先讨论每周频率，我的要求是每周4次。",
+        "改一下，每周2次。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": true,
+      "gold": {
+        "latest_requirement": "每周2次",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-19",
+      "category": "process_restart",
+      "requirement_key": "excluded_day",
+      "initial": "周三不安排",
+      "replacement": "周五不安排",
+      "label": "训练日限制",
+      "turns": [
+        "先讨论训练日限制，我的要求是周三不安排。",
+        "改一下，周五不安排。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": true,
+      "gold": {
+        "latest_requirement": "周五不安排",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-20",
+      "category": "process_restart",
+      "requirement_key": "equipment",
+      "initial": "只用哑铃",
+      "replacement": "只做徒手",
+      "label": "器械范围",
+      "turns": [
+        "先讨论器械范围，我的要求是只用哑铃。",
+        "改一下，只做徒手。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": {
+        "after_validated_update": "provider failure",
+        "persisted_task_state_expected": true
+      },
+      "restart": true,
+      "gold": {
+        "latest_requirement": "只做徒手",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-21",
+      "category": "cancel",
+      "requirement_key": "permission",
+      "initial": "可以展示草稿",
+      "replacement": "只建议不要保存",
+      "label": "操作边界",
+      "turns": [
+        "先讨论操作边界，我的要求是可以展示草稿。",
+        "改一下，只建议不要保存。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": null,
+      "restart": false,
+      "gold": {
+        "latest_requirement": "只建议不要保存",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-22",
+      "category": "invalid_source",
+      "requirement_key": "date_scope",
+      "initial": "2026年10月1日至7日",
+      "replacement": "2026年10月3日至8日",
+      "label": "日期范围",
+      "turns": [
+        "先讨论日期范围，我的要求是2026年10月1日至7日。",
+        "改一下，2026年10月3日至8日。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": null,
+      "restart": false,
+      "gold": {
+        "latest_requirement": "2026年10月3日至8日",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-23",
+      "category": "eviction",
+      "requirement_key": "food_exclusion",
+      "initial": "不吃花生",
+      "replacement": "不吃花生和芝麻",
+      "label": "食材排除",
+      "turns": [
+        "先讨论食材排除，我的要求是不吃花生。",
+        "改一下，不吃花生和芝麻。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": null,
+      "restart": false,
+      "gold": {
+        "latest_requirement": "不吃花生和芝麻",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    },
+    {
+      "id": "M4-24",
+      "category": "isolation",
+      "requirement_key": "meal",
+      "initial": "只看早餐",
+      "replacement": "只看晚餐",
+      "label": "餐次范围",
+      "turns": [
+        "先讨论餐次范围，我的要求是只看早餐。",
+        "改一下，只看晚餐。",
+        "继续刚才的任务，按我最新说的要求。"
+      ],
+      "insert_after_initial": {
+        "neutral_turns": 0,
+        "task_switches": 0
+      },
+      "fault": null,
+      "restart": false,
+      "gold": {
+        "latest_requirement": "只看晚餐",
+        "source": "current user literal quote, not model-invented",
+        "no_old_value_revival": true,
+        "no_business_write": true,
+        "cancel": "cancelled task unavailable for resume",
+        "invalid_source": "invalid quotation cannot supersede prior requirements",
+        "eviction": "evicted identity cannot implicitly revive",
+        "isolation": "same-user/same-conversation preceding terminal states only"
+      }
+    }
+  ],
+  "fixtures": {
+    "base": {
+      "as_of": "2026-10-09",
+      "user_profile": {
+        "goal": "维持体重",
+        "training_days_per_week": 3,
+        "daily_calorie_target": 2100
+      },
+      "plan": {
+        "found": true,
+        "days_per_week": 4,
+        "duration_weeks": 8,
+        "exercises": [
+          {
+            "name": "卧推",
+            "sets": 3,
+            "reps": "8",
+            "rest_seconds": 90
+          }
+        ]
+      },
+      "workout_progress": {
+        "weeks": 4,
+        "completed_sessions": 6,
+        "planned_sessions": 16,
+        "completion_rate": 0.375,
+        "volume_available": false,
+        "rpe_available": false
+      },
+      "workout_history": {
+        "completed_dates": [
+          "2026-10-01",
+          "2026-10-03",
+          "2026-10-05"
+        ],
+        "failed_dates": [
+          "2026-10-07"
+        ]
+      },
+      "nutrition_days": [
+        {
+          "date": "2026-10-07",
+          "calories": 1800,
+          "protein_g": 110,
+          "carbs_g": 220,
+          "fat_g": 53,
+          "completeness": "unknown"
+        },
+        {
+          "date": "2026-10-08",
+          "calories": 2000,
+          "protein_g": 120,
+          "carbs_g": 250,
+          "fat_g": 58,
+          "completeness": "complete"
+        }
+      ],
+      "active_session": {
+        "found": false
+      },
+      "next_workout": {
+        "found": true,
+        "title": "上肢训练"
+      },
+      "health": {
+        "red_flags": false,
+        "self_reported_symptoms": []
+      }
+    },
+    "active": {
+      "inherits": "base",
+      "active_session": {
+        "found": true,
+        "title": "进行中的上肢训练",
+        "completed_exercises": 1
+      }
+    },
+    "no_plan": {
+      "inherits": "base",
+      "plan": {
+        "found": false
+      },
+      "next_workout": {
+        "found": false
+      }
+    },
+    "no_target": {
+      "inherits": "base",
+      "user_profile": {
+        "goal": "维持体重",
+        "training_days_per_week": 3,
+        "daily_calorie_target": null
+      }
+    },
+    "empty_meals": {
+      "inherits": "base",
+      "nutrition_days": []
+    },
+    "empty_history": {
+      "inherits": "base",
+      "workout_progress": {
+        "weeks": 4,
+        "completed_sessions": 0,
+        "planned_sessions": 16,
+        "completion_rate": 0,
+        "volume_available": false,
+        "rpe_available": false
+      },
+      "workout_history": {
+        "completed_dates": [],
+        "failed_dates": []
+      }
+    },
+    "progress_timeout": {
+      "inherits": "base",
+      "fault": {
+        "tool": "workout.get_progress",
+        "type": "timeout",
+        "persistent": true
+      }
+    },
+    "plan_timeout": {
+      "inherits": "base",
+      "fault": {
+        "tool": "plan.get_active",
+        "type": "timeout",
+        "persistent": true
+      }
+    },
+    "history_timeout": {
+      "inherits": "base",
+      "fault": {
+        "tool": "workout.list_history",
+        "type": "timeout",
+        "persistent": true
+      }
+    },
+    "nutrition_timeout": {
+      "inherits": "base",
+      "fault": {
+        "tool": "nutrition.list_history",
+        "type": "timeout",
+        "persistent": true
+      }
+    },
+    "profile_timeout": {
+      "inherits": "base",
+      "fault": {
+        "tool": "profile.get_summary",
+        "type": "timeout",
+        "persistent": true
+      }
+    },
+    "all_training_timeout": {
+      "inherits": "base",
+      "fault": {
+        "tools": [
+          "workout.get_progress",
+          "workout.list_history"
+        ],
+        "type": "timeout",
+        "persistent": true
+      }
+    }
+  },
+  "scoring": {
+    "business_pass": "all pre-registered subgoals, scoped evidence, exact facts and final SQL state; no critical false claim",
+    "mechanism_pass": "only the explicitly checked state/ordering/isolation invariant; never promoted to business success",
+    "missing_or_unexecuted": "unknown, never success",
+    "m3_gate": "24 tasks; >=12 real multi-step/conditional executions required",
+    "m4_gate": "24 multi-turn tasks; >=8 beyond20 messages, >=6 with3switches, >=6 acrossprocess; real semantic delivery still required",
+    "real_model_authorization": "not established for this new matrix; no external requests in R85"
+  }
+}

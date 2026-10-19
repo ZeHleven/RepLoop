@@ -1,0 +1,332 @@
+{
+  "failures": [
+    {
+      "instance": "KQ02-r1",
+      "raw_sha256": "ae1eea00ada363fa95fac8ba5f5c94aefe4f0f71de8e860d1ceb4408b6d83376",
+      "message": "查询2026年10月4日和10月5日的早餐，各日热量是多少？未记录的日期请说明没有记录。",
+      "reply": "请求日期：2026-10-04、2026-10-05；截至2026-10-09（Asia/Shanghai）。\n餐次筛选：早餐；以下仅含这些餐次。\n实际返回1个有记录日期，记录日期范围：2026-10-04 至 2026-10-04。\n- 2026-10-04：热量 195 千卡。\n未记录日期未纳入统计；没有记录不表示未进食。",
+      "structural_pass": true,
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查询2026年10月4日和2026年10月5日的早餐记录，并给出各日早餐的热量；对没有记录的日期说明没有记录。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "查询2026年10月4日和10月5日的早餐，各日热量是多少？未记录的日期请说明没有记录。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "查询2026年10月4日和10月5日的早餐",
+                "remove": false
+              },
+              {
+                "key": "meal_type",
+                "quote": "查询2026年10月4日和10月5日的早餐",
+                "remove": false
+              },
+              {
+                "key": "metric",
+                "quote": "各日热量是多少？",
+                "remove": false
+              },
+              {
+                "key": "missing_date_handling",
+                "quote": "未记录的日期请说明没有记录。",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ],
+      "tool_attempts": 1,
+      "error_code": null,
+      "intent_error": null,
+      "classification": "A55-explicit-missing-day-response",
+      "model_error": false,
+      "fixture_error": false,
+      "scorer_false_failure": false,
+      "expectation": "Explicitly state Oct5 breakfast has no record, alongside Oct4 195 kcal; do not equate absent record with zero intake"
+    },
+    {
+      "instance": "KQ02-r2",
+      "raw_sha256": "48e03f60d8aa16e952fc3222ea3c1d7db65ba9d22eeb804154e59786594f3de5",
+      "message": "查询2026年10月4日和10月5日的早餐，各日热量是多少？未记录的日期请说明没有记录。",
+      "reply": "请求日期：2026-10-04、2026-10-05；截至2026-10-09（Asia/Shanghai）。\n餐次筛选：早餐；以下仅含这些餐次。\n实际返回1个有记录日期，记录日期范围：2026-10-04 至 2026-10-04。\n- 2026-10-04：热量 195 千卡。\n未记录日期未纳入统计；没有记录不表示未进食。",
+      "structural_pass": true,
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查询2026年10月4日和2026年10月5日的早餐记录，并给出各日早餐的热量；对没有记录的日期说明没有记录。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "查询2026年10月4日和10月5日的早餐，各日热量是多少？未记录的日期请说明没有记录。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "查询2026年10月4日和10月5日的早餐",
+                "remove": false
+              },
+              {
+                "key": "meal_type",
+                "quote": "查询2026年10月4日和10月5日的早餐",
+                "remove": false
+              },
+              {
+                "key": "metric",
+                "quote": "各日热量是多少？",
+                "remove": false
+              },
+              {
+                "key": "missing_date_handling",
+                "quote": "未记录的日期请说明没有记录。",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ],
+      "tool_attempts": 1,
+      "error_code": null,
+      "intent_error": null,
+      "classification": "A55-explicit-missing-day-response",
+      "model_error": false,
+      "fixture_error": false,
+      "scorer_false_failure": false,
+      "expectation": "Explicitly state Oct5 breakfast has no record, alongside Oct4 195 kcal; do not equate absent record with zero intake"
+    },
+    {
+      "instance": "KQ04-r1",
+      "raw_sha256": "d6459be7cfcf72a0759f32f68dfde8c113a79ce2b9fdb9d577d485fdb0ac5875",
+      "message": "只查询2026年10月8日早餐和晚餐的合并记录，列出当天这两餐合计热量。",
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "structural_pass": false,
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查询2026年10月8日早餐和晚餐的饮食记录，列出当天这两餐合计的热量。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "只查询2026年10月8日早餐和晚餐的合并记录，列出当天这两餐合计热量。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "只查询2026年10月8日早餐和晚餐的合并记录",
+                "remove": false
+              },
+              {
+                "key": "meal_scope",
+                "quote": "只查询2026年10月8日早餐和晚餐的合并记录",
+                "remove": false
+              },
+              {
+                "key": "metric",
+                "quote": "列出当天这两餐合计热量",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查询2026年10月8日早餐和晚餐的饮食记录，列出当天这两餐合计的热量。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "只查询2026年10月8日早餐和晚餐的合并记录，列出当天这两餐合计热量。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "只查询2026年10月8日早餐和晚餐的合并记录",
+                "remove": false
+              },
+              {
+                "key": "meal_scope",
+                "quote": "只查询2026年10月8日早餐和晚餐的合并记录",
+                "remove": false
+              },
+              {
+                "key": "metric",
+                "quote": "列出当天这两餐合计热量",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ],
+      "tool_attempts": 0,
+      "error_code": "intent_understanding_unavailable",
+      "intent_error": "semantic_mutation_structure_missing",
+      "classification": "A49-nominal-record-read-misblocked",
+      "model_error": false,
+      "fixture_error": false,
+      "scorer_false_failure": false,
+      "expectation": "Return Oct8 breakfast+dinner total329 kcal without writes"
+    },
+    {
+      "instance": "KQ04-r2",
+      "raw_sha256": "2741d70191be407a0ae2e8387937de0ce8e4e91d8a5a7eb87dfe71fde8ac0402",
+      "message": "只查询2026年10月8日早餐和晚餐的合并记录，列出当天这两餐合计热量。",
+      "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+      "structural_pass": false,
+      "routes": [
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查询2026年10月8日早餐和晚餐的饮食记录，列出当天这两餐合计的热量。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "只查询2026年10月8日早餐和晚餐的合并记录，列出当天这两餐合计热量。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "只查询2026年10月8日",
+                "remove": false
+              },
+              {
+                "key": "meal_scope",
+                "quote": "早餐和晚餐的合并记录",
+                "remove": false
+              },
+              {
+                "key": "output_metric",
+                "quote": "列出当天这两餐合计热量",
+                "remove": false
+              }
+            ]
+          }
+        },
+        {
+          "intent_domain": "nutrition",
+          "request_kind": "query",
+          "requested_effect": "read",
+          "requested_output": "answer",
+          "read_targets": [
+            "nutrition_history"
+          ],
+          "decision_action": "none",
+          "artifact_action": "none",
+          "normalized_request": "查询2026年10月8日早餐和晚餐的饮食记录，列出当天这两餐合计的热量。",
+          "risk_level": "low",
+          "confidence": 0.95,
+          "task_update": {
+            "action": "new",
+            "task_id": "",
+            "trigger": "只查询2026年10月8日早餐和晚餐的合并记录，列出当天这两餐合计热量。",
+            "requirements": [
+              {
+                "key": "date_scope",
+                "quote": "只查询2026年10月8日早餐和晚餐的合并记录",
+                "remove": false
+              },
+              {
+                "key": "meal_scope",
+                "quote": "只查询2026年10月8日早餐和晚餐的合并记录",
+                "remove": false
+              },
+              {
+                "key": "metric",
+                "quote": "列出当天这两餐合计热量",
+                "remove": false
+              }
+            ]
+          }
+        }
+      ],
+      "tool_attempts": 0,
+      "error_code": "intent_understanding_unavailable",
+      "intent_error": "semantic_mutation_structure_missing",
+      "classification": "A49-nominal-record-read-misblocked",
+      "model_error": false,
+      "fixture_error": false,
+      "scorer_false_failure": false,
+      "expectation": "Return Oct8 breakfast+dinner total329 kcal without writes"
+    }
+  ],
+  "groups": {
+    "A49": 2,
+    "A55": 2
+  },
+  "reasoning": "Four KQ04 semantic routes are query/read, but rules classify bare 记录 in 合并记录 as mutation and semantic guard rejects both attempts. KQ02 has correct rows/scope and successful tool; deterministic rendering omits an explicit per-missing-date statement. Final semantic review enforces the pre-registered complete-task requirement; no scorer/gold edits.",
+  "source_evidence": [
+    {
+      "file": "backend/app/services/agent_intent.py",
+      "start": 458,
+      "end": 483,
+      "sha256": "e1d638ce9a72359cebda7e150ca3dee3c3c366065f1c9a650c186b1f2e909904",
+      "excerpt": "_NOMINAL_RECORD_PATTERN = re.compile(\n    # Completed-set counts and saved attributes describe existing facts.\n    # Mask only these occurrences, preserving any independent write verb.\n    r\"(?<=[已未])完成|完成(?=(?:状态|组数|次数|的(?:训练|组|场次)))|保存(?=的)|\"\n    r\"(?:查(?:看|询)?|列出|统计|汇总)(?:已有|现有|历史|全部|所有|这些|那些|的)*记录\"\n    r\"(?!下|到|为|成|一(?:条|次|笔))|\"\n    # Date/count qualifiers and existence predicates refer to saved records.\n    # Match just the noun phrase, never suppress a separate positive write.\n    r\"(?:每个|每一个|各个|这些|那些)记录(?=日期)|\"\n    r\"记录(?=过的)|\"\n    # Record as the subject of a bounded temporal predicate, not the verb in\n    # 记录跨月饮食 / 记录集中训练后的晚餐. Other clauses remain intact.\n    r\"记录(?=跨(?:年|月|周)(?:也|仍|但|[，,。；;！？!?]|$))|\"\n    r\"记录(?=集中在(?:上|本|这|那)(?:个)?(?:月|周|年)(?:[，,。；;！？!?]|$))|\"\n    r\"记录(?=日(?:平均|均值|均|数|的|[，,。；;！？!? ]|$)|天数|数量|总数)|\"\n    r\"(?:没有|没|无|有)记录(?!下|到|为|成|一(?:条|次|笔))|\"\n    r\"未记录(?=日期|日数|天数)|\"\n    r\"(?<=修改|删除|更新)记录(?!下|到|为|成|一(?:条|次|笔))|\"\n    # A locative/attributive suffix makes 记录 a noun, not a write command.\n    # Keep bare 记录 and verbal objects such as 记录中午... / 记录里程... .\n    r\"记录(?=(?:[里内中](?:面)?(?:的|[ \\t:：，,。；;！？!?])|的))|\"\n    # Compound nouns remain nouns before a verb: 用训练记录回顾... . Only\n    # mask this occurrence, not its clause or any separate write request.\n    # Preserve verbal complements in 把训练记录下来 / 将饮食记录为... .\n    r\"(?<=训练|饮食|体重|餐次|早餐|午餐|晚餐|加餐|运动|健康)记录\"\n    r\"(?!下|上|到|进|为|成|在|好|完|过|了(?!解)|一(?:下|笔|条|次|组|份|餐))\""
+    },
+    {
+      "file": "backend/app/services/agent_intent.py",
+      "start": 850,
+      "end": 880,
+      "sha256": "e1d638ce9a72359cebda7e150ca3dee3c3c366065f1c9a650c186b1f2e909904",
+      "excerpt": "    mutation_text = _NEGATED_MUTATION_PATTERN.sub(\" \", normalized)\n    status_write = bool(_STATUS_WRITE_PATTERN.search(mutation_text))\n    mutation_text = _NEGATED_MUTATION_PATTERN.sub(\" \", _NOMINAL_RECORD_PATTERN.sub(\"  \", normalized))\n    mutation_requested = status_write or bool(_MUTATION_VERB_PATTERN.search(mutation_text))\n    advice_or_question = bool(\n        _HOW_TO_PREFIX_PATTERN.search(normalized)\n        or re.search(\n            r\"(?:怎样|怎么|如何|是否|能否|还能|应该|什么|多少|第几|\"\n            r\"哪里|哪一|吗[？?。]?$)\",\n            normalized,\n        )\n    )\n    direct_polite_mutation = bool(re.search(\n        r\"(?:把|将).{0,80}?\"\n        r\"(?:改成|改为|改到|设成|设为|设置为|调整为|调整到).{0,30}?\"\n        r\"(?:\\d|[一二三四五六七八九十])\",\n        normalized,\n    ))\n    if advice_or_question and not direct_polite_mutation and not re.search(\n        r\"(?:请|帮我|替我|给我|直接帮我)\", normalized\n    ):\n        mutation_requested = False\n    if mutation_requested and not contains_health_red_flag(message):\n        effect: RequestedEffect = (\n            \"create\"\n            if _CREATE_VERB_PATTERN.search(normalized)\n            or (\"记录\" in normalized and domain in {\"profile\", \"nutrition\"})\n            else \"delete\"\n            if _DELETE_VERB_PATTERN.search(normalized)\n            else \"update\"\n        )"
+    },
+    {
+      "file": "backend/app/services/agent_intent_model.py",
+      "start": 1150,
+      "end": 1171,
+      "sha256": "000340aad7a4db7c61e317c797c85e4cbb8555c6a725b0a28f922e29158e430a",
+      "excerpt": "            from app.services.agent_query_reports import narrow_report_evidence\n            normalized_resolution = narrow_report_evidence(normalized_resolution, message)\n            if (\n                direct_rules_resolution.request_kind == \"mutation\"\n                and resolution.request_kind != \"mutation\"\n                and not is_read_only_revision(context_messages, resolution.task_update, message)\n                and not is_calendar_query_revision(context_messages, resolution, message)\n            ):\n                artifact_save_requested = any(\n                    change.resource == \"nutrition\"\n                    and change.operation == \"create\"\n                    and change.field_path == \"daily_meal_plan.save\"\n                    for change in direct_rules_resolution.change_requests\n                )\n                raise IntentStructuredOutputError(\n                    \"semantic_artifact_save_requires_mutation\"\n                    if artifact_save_requested\n                    else \"semantic_mutation_action_conflict\"\n                    if resolution.request_kind == \"proposal_decision\"\n                    else \"semantic_mutation_structure_missing\"\n                )\n            if ("
+    }
+  ],
+  "next_order": [
+    "A49 read/write object boundary with genuine write counterexamples",
+    "A55 explicit missing-date presentation without zero-intake inference",
+    "normal144 regression and independent holdout",
+    "real provider concurrency only after correctness gate"
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "baseline_task": "trial-clarification-acceptance",
+  "experiment": "guard-fallback-acceptance",
+  "status": "Paused after the single authorized paired acceptance; no second pair or repairs without confirmation",
+  "application_changes": 0,
+  "source_files_verified": 539,
+  "checks": {
+    "reused_same_candidate_local_passes": 26,
+    "new_local_suite": 0
+  },
+  "batches": {
+    "dev": {
+      "passed": 27,
+      "total": 30,
+      "task_success_rate": 0.9,
+      "failure_distribution": {
+        "unnecessary_clarification": 1,
+        "guard_fallback": 2
+      },
+      "care_judgment_errors": 0,
+      "actual_equipment_grip_errors": 0,
+      "general_equipment_definition_errors": 0,
+      "provider_requests": 99,
+      "provider_http_successes": 99,
+      "runs": 34,
+      "tools": 79,
+      "tool_successes": 79,
+      "tool_errors": 0,
+      "input_tokens": 802610,
+      "output_tokens": 39902,
+      "tokens": 842512,
+      "peak_estimated_cny": 1.10308232,
+      "actual_invoice_cny": null,
+      "valid_timed_turns": 23,
+      "turns": 34,
+      "full_task_p99_ms": null,
+      "concurrency_p99_ms": null,
+      "batch_monotonic_seconds": 301.7991341500001,
+      "unchanged_business_snapshots": 30,
+      "tool_dispatch_attempts": 79,
+      "tool_dispatch_successes": 79,
+      "tool_dispatch_errors": 0,
+      "tool_call_error_rate": 0.0,
+      "dispatcher_rejections": 0,
+      "tool_metric_scope": "Dispatch/action includes rejected model tool calls; function invocation metrics separate. Business success does not erase failures."
+    },
+    "holdout": {
+      "passed": 5,
+      "total": 10,
+      "task_success_rate": 0.5,
+      "failure_distribution": {
+        "evidence_and_delivery_omission": 1,
+        "unnecessary_clarification": 1,
+        "trial_before_clarification": 2,
+        "intent_failure": 1
+      },
+      "care_judgment_errors": 0,
+      "actual_equipment_grip_errors": 0,
+      "general_equipment_definition_errors": 0,
+      "provider_requests": 22,
+      "provider_http_successes": 22,
+      "runs": 10,
+      "tools": 12,
+      "tool_successes": 12,
+      "tool_errors": 0,
+      "input_tokens": 105686,
+      "output_tokens": 7223,
+      "tokens": 112909,
+      "peak_estimated_cny": 0.13092308,
+      "actual_invoice_cny": null,
+      "valid_timed_turns": 8,
+      "turns": 10,
+      "full_task_p99_ms": null,
+      "concurrency_p99_ms": null,
+      "batch_monotonic_seconds": 57.02414750900016,
+      "unchanged_business_snapshots": 10,
+      "tool_dispatch_attempts": 12,
+      "tool_dispatch_successes": 12,
+      "tool_dispatch_errors": 0,
+      "tool_call_error_rate": 0.0,
+      "dispatcher_rejections": 0,
+      "tool_metric_scope": "Dispatch/action includes rejected model tool calls; function invocation metrics separate. Business success does not erase failures."
+    }
+  },
+  "comparison": {
+    "previous_passed": 25,
+    "current_passed": 27,
+    "recovered": [
+      "SV08-r1",
+      "SV01-r2",
+      "SV05-r2",
+      "SV07-r2"
+    ],
+    "regressed": [
+      "SV05-r1",
+      "SV03-r2"
+    ],
+    "note": "Known development set, stochastic samples; not causal proof or blind review",
+    "delta": 2
+  },
+  "batch_pair_estimated_cny": 1.2340054,
+  "cumulative_estimated_cny": 14.90320804,
+  "total_authorized_cny": 60,
+  "pair_gate_passed": false,
+  "consecutive_qualified_pairs": 0,
+  "holdout_non_tuning": true,
+  "answer_accuracy": null,
+  "overall_hallucination_rate": null,
+  "human_takeover_rate": null,
+  "uncovered": "Actual invoice, independent blind reviewer, real users, full atomic claim inventory, complete/concurrent P99",
+  "next_unique_task": "停等用户",
+  "prior_pair_consecutive": 0,
+  "critical_error_instances": 0,
+  "urgent_care_error_instances": 0,
+  "holdout_comparison": {
+    "previous_passed": 5,
+    "current_passed": 5,
+    "acceptance_only": true,
+    "delta": 0
+  },
+  "provider_alias_backend_change": {
+    "checked_date": "2026-10-18",
+    "url": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing/",
+    "documented_serving_model": "DeepSeek-V4.1-Flash-1017",
+    "model_alias_unchanged": "deepseek-v4-flash",
+    "peak_cny_per_million": {
+      "cache_hit": 0.04,
+      "cache_miss": 2,
+      "output": 8
+    },
+    "actual_invoice_not_measured": true,
+    "comparison_limit": "Same alias and documented serving version as prior acceptance; stochastic output still prevents causal attribution to patch alone"
+  },
+  "previous_cumulative_estimated_cny": 13.66920264,
+  "remaining_authorized_estimated_cny": 45.09679196,
+  "model_and_tool_metrics_scope": "HTTP success, actual function invocations and dispatch/action attempts reported separately; tool_call_error_rate includes dispatcher rejections. None implies business correctness or covers omitted required tools.",
+  "guard_fallback_outcomes": {
+    "application_changes_during_acceptance": 0,
+    "source_files_verified_after": 539,
+    "guard_clarification_handoffs": [],
+    "guard_failures": [
+      {
+        "id": "SV07-r1",
+        "batch": "dev",
+        "remaining_codes": [
+          "daily_function_scope"
+        ]
+      },
+      {
+        "id": "SV03-r2",
+        "batch": "dev",
+        "remaining_codes": [
+          "training_action_conflict"
+        ]
+      }
+    ],
+    "trial_before_clarification": [
+      {
+        "id": "HO04-r1",
+        "batch": "holdout"
+      },
+      {
+        "id": "HO06-r1",
+        "batch": "holdout"
+      }
+    ],
+    "target_prior_guard_instances": {
+      "SV01-r2": {
+        "pass": true,
+        "category": "pass"
+      },
+      "SV07-r2": {
+        "pass": true,
+        "category": "pass"
+      },
+      "HO06-r1": {
+        "pass": false,
+        "category": "trial_before_clarification"
+      }
+    },
+    "guard_fallback_count": 2,
+    "trial_before_clarification_count": 2,
+    "new_handoff_count": 0
+  },
+  "controlled_trial_goal_progress": "Original +2; holdout unchanged; no advance in consecutive qualification (0/2). New fallback handoff was not exercised in this sample; cannot attribute improvement to patch."
+}
