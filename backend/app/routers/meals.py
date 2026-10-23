@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import delete, select
 from app.database import get_db
-from app.deps import get_current_user
+from app.deps import get_current_user, get_billed_user
 from app.models.user import User
 from app.models.meal import MealLog, MealItem
 from app.models.food import Food, CustomFood
@@ -86,7 +86,7 @@ def _meal_detail(meal: MealLog, items: list[MealItem]) -> MealLogDetail:
 @router.post("", response_model=MealLogDetail, status_code=201)
 async def log_meal(
     body: MealLogCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     hydrated = await _hydrate_items(db, items=body.items, user_id=current_user.id)
@@ -116,7 +116,7 @@ async def log_meal(
 async def update_meal(
     meal_id: str,
     body: MealLogUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     meal = await db.scalar(
@@ -143,7 +143,7 @@ async def update_meal(
 
 @router.get("/today", response_model=TodaySummary)
 async def today_summary(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     today = training_today()
@@ -166,7 +166,7 @@ async def today_summary(
 
 @router.get("/history", response_model=list[DailySummary])
 async def meal_history(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     return await list_nutrition_history(db, user_id=current_user.id, days=30)
@@ -175,7 +175,7 @@ async def meal_history(
 @router.delete("/{meal_id}", status_code=204)
 async def delete_meal(
     meal_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     meal = await db.scalar(
@@ -193,7 +193,7 @@ async def delete_meal(
 
 @router.get("/advice", response_model=NutritionAdviceResponse)
 async def nutrition_advice(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     from app.services.nutritionist import get_daily_nutrition_advice

@@ -9,6 +9,9 @@ async def get_embedding(text: str) -> list[float]:
             "RAG 尚未配置：请设置兼容 OpenAI Embeddings API 的地址和模型"
         )
 
+    from app.services.model_budget import _scope, deny
+    if _scope.get() is not None:
+        deny("检索模型尚未配置费用保护，暂不可用。", "model_budget_unavailable")
     headers = {}
     if settings.EMBEDDING_API_KEY:
         headers["Authorization"] = f"Bearer {settings.EMBEDDING_API_KEY}"

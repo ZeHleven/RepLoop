@@ -14,6 +14,7 @@ from app.routers import (
 from app.deps import get_current_user
 from app.models.user import User
 from app.services.ai_client import AIServiceError
+from app.services.model_budget import ModelBudgetError
 from app.services.agent_jobs import agent_worker_loop
 from app.startup_diagnostics import log_agent_startup_diagnostic
 
@@ -52,6 +53,12 @@ async def ai_service_error_handler(
 ) -> JSONResponse:
     return JSONResponse(status_code=503, content={"detail": str(exc)})
 
+@app.exception_handler(ModelBudgetError)
+async def model_budget_error_handler(request: Request, exc: ModelBudgetError):
+    return JSONResponse(status_code=402 if exc.code == "model_budget_exhausted" else 503,
+                        content={"detail": str(exc), "code": exc.code})
+
+
 app.include_router(auth.router, prefix="/api/v1")
 app.include_router(profile.router, prefix="/api/v1")
 app.include_router(exercises.router, prefix="/api/v1")
@@ -85,12 +92,14 @@ async def ready():
                     "p.creation_client_request_id, p.target_kind, "
                     "p.target_id, p.result_data, f.source_name, "
                     "f.source_reference, f.browse_category, f.browse_aliases, "
-                    "f.source_info, fa.normalized_alias "
+                    "f.source_info, fa.normalized_alias, mb.spent_nano, mc.reserved_nano "
                     "FROM agent_runs AS r "
                     "CROSS JOIN agent_conversations AS c "
                     "CROSS JOIN agent_proposals AS p "
                     "CROSS JOIN foods AS f "
-                    "CROSS JOIN food_aliases AS fa LIMIT 0"
+                    "CROSS JOIN food_aliases AS fa "
+                    "CROSS JOIN model_budgets AS mb "
+                    "CROSS JOIN model_charges AS mc LIMIT 0"
                 )),
                 timeout=3,
             )

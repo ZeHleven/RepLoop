@@ -15,6 +15,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import aliased
 
 from app.config import settings
+from app.services.model_budget import billing_user, model_http_client, ModelBudgetError
 from app.services.business_clock import business_today, request_day
 from app.services.agent_run_order import allocate_queue_position, precedes
 from app.database import AsyncSessionLocal
@@ -585,6 +586,7 @@ def _build_model(
         "temperature": temperature,
         "timeout": settings.AGENT_TIMEOUT_SECONDS,
         "max_retries": 1,
+        "http_async_client": model_http_client(),
         "use_responses_api": False,
     }
     if max_tokens is not None:
@@ -1492,12 +1494,36 @@ async def execute_agent_run(
     clarification_action: dict[str, Any] | None = None,
     expected_attempt_count: int | None = None,
 ) -> AgentRuntimeResult:
-    with request_day(run.queued_at):
-        return await _execute_agent_run(
-            db, run=run, conversation=conversation, user_message=user_message,
-            artifact_action=artifact_action, clarification_action=clarification_action,
-            expected_attempt_count=expected_attempt_count,
-        )
+    billing_run_id = run.id
+    with request_day(run.queued_at), billing_user(run.user_id) as billing:
+        result = None
+        error = None
+        try:
+            result = await _execute_agent_run(
+                db, run=run, conversation=conversation, user_message=user_message,
+                artifact_action=artifact_action, clarification_action=clarification_action,
+                expected_attempt_count=expected_attempt_count,
+            )
+        except Exception as exc:
+            error = exc
+        if billing.failure is not None:
+            # Internal intent/model fallbacks must not disguise a billing refusal.
+            await db.rollback()
+            conditions = [AgentRun.id == billing_run_id]
+            if expected_attempt_count is not None:
+                conditions.append(AgentRun.attempt_count == expected_attempt_count)
+            updated = await db.execute(update(AgentRun).where(*conditions).values(
+                status="failed", error_code=billing.failure.code,
+                completed_at=datetime.now(timezone.utc), lease_expires_at=None))
+            if updated.rowcount:
+                await db.execute(update(AgentMessage).where(
+                    AgentMessage.run_id == billing_run_id, AgentMessage.role == "assistant"
+                ).values(content=str(billing.failure), content_data={}))
+            await db.commit()
+            raise billing.failure
+        if error is not None:
+            raise error
+        return result
 
 
 async def _execute_agent_run(

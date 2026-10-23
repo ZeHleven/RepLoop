@@ -11,6 +11,7 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Any, Literal
 
 from langchain_openai import ChatOpenAI
+from app.services.model_budget import model_http_client
 from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 from sqlalchemy import select, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
@@ -888,6 +889,7 @@ def _model() -> ChatOpenAI:
         timeout=settings.AGENT_TIMEOUT_SECONDS,
         max_tokens=1800,
         max_retries=0,
+        http_async_client=model_http_client(),
         use_responses_api=False,
     )
 
