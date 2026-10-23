@@ -1,8 +1,8 @@
 import pytest
 
 
-async def register_and_get_token(client, email="profile@example.com"):
-    resp = await client.post("/api/v1/auth/register", json={
+async def seed_account_and_get_token(client, email="profile@example.com"):
+    resp = await client.seed_existing_account(json={
         "email": email, "password": "password123"
     })
     return resp.json()["access_token"]
@@ -10,7 +10,7 @@ async def register_and_get_token(client, email="profile@example.com"):
 
 @pytest.mark.asyncio
 async def test_get_empty_profile(client):
-    token = await register_and_get_token(client)
+    token = await seed_account_and_get_token(client)
     resp = await client.get("/api/v1/profile", headers={"Authorization": f"Bearer {token}"})
     assert resp.status_code == 200
     data = resp.json()
@@ -20,7 +20,7 @@ async def test_get_empty_profile(client):
 
 @pytest.mark.asyncio
 async def test_update_profile_calculates_bmi(client):
-    token = await register_and_get_token(client, "bmi@example.com")
+    token = await seed_account_and_get_token(client, "bmi@example.com")
     resp = await client.put("/api/v1/profile", json={
         "height_cm": 175,
         "weight_kg": 70,
@@ -35,7 +35,7 @@ async def test_update_profile_calculates_bmi(client):
 
 @pytest.mark.asyncio
 async def test_profile_accepts_privacy_preserving_gender_value(client):
-    token = await register_and_get_token(client, "private-gender@example.com")
+    token = await seed_account_and_get_token(client, "private-gender@example.com")
 
     response = await client.put(
         "/api/v1/profile",
@@ -49,7 +49,7 @@ async def test_profile_accepts_privacy_preserving_gender_value(client):
 
 @pytest.mark.asyncio
 async def test_profile_rejects_unknown_gender_value(client):
-    token = await register_and_get_token(client, "invalid-gender@example.com")
+    token = await seed_account_and_get_token(client, "invalid-gender@example.com")
 
     response = await client.put(
         "/api/v1/profile",
@@ -62,7 +62,7 @@ async def test_profile_rejects_unknown_gender_value(client):
 
 @pytest.mark.asyncio
 async def test_log_weight_updates_bmi(client):
-    token = await register_and_get_token(client, "weight@example.com")
+    token = await seed_account_and_get_token(client, "weight@example.com")
     await client.put("/api/v1/profile", json={"height_cm": 170},
                      headers={"Authorization": f"Bearer {token}"})
     resp = await client.post("/api/v1/profile/weight", json={"weight_kg": 75},
@@ -75,7 +75,7 @@ async def test_log_weight_updates_bmi(client):
 
 @pytest.mark.asyncio
 async def test_get_weight_history(client):
-    token = await register_and_get_token(client, "weight-history@example.com")
+    token = await seed_account_and_get_token(client, "weight-history@example.com")
     headers = {"Authorization": f"Bearer {token}"}
     await client.post(
         "/api/v1/profile/weight", json={"weight_kg": 72.5}, headers=headers
@@ -94,8 +94,8 @@ async def test_get_weight_history(client):
 
 @pytest.mark.asyncio
 async def test_weight_history_isolated_between_users(client):
-    first_token = await register_and_get_token(client, "weight-owner@example.com")
-    second_token = await register_and_get_token(client, "weight-other@example.com")
+    first_token = await seed_account_and_get_token(client, "weight-owner@example.com")
+    second_token = await seed_account_and_get_token(client, "weight-other@example.com")
     await client.post(
         "/api/v1/profile/weight",
         json={"weight_kg": 80},
@@ -113,7 +113,7 @@ async def test_weight_history_isolated_between_users(client):
 
 @pytest.mark.asyncio
 async def test_update_onboarding_completed(client):
-    token = await register_and_get_token(client, "onboard@example.com")
+    token = await seed_account_and_get_token(client, "onboard@example.com")
     resp = await client.put("/api/v1/profile", json={
         "age": 25, "gender": "female", "height_cm": 165, "weight_kg": 58,
         "experience_level": "1-2年", "primary_goal": "减脂",
@@ -134,7 +134,7 @@ async def test_update_onboarding_completed(client):
 
 @pytest.mark.asyncio
 async def test_cannot_complete_onboarding_with_missing_safety_profile(client):
-    token = await register_and_get_token(client, "incomplete-onboard@example.com")
+    token = await seed_account_and_get_token(client, "incomplete-onboard@example.com")
 
     response = await client.put(
         "/api/v1/profile",

@@ -95,11 +95,9 @@ _READ_TOOL_DIRECT_CASES = (
 
 
 async def _token(client, email: str) -> str:
-    response = await client.post(
-        "/api/v1/auth/register",
-        json={"email": email, "password": "password123"},
+    response = await client.seed_existing_account(json={"email": email, "password": "password123"},
     )
-    assert response.status_code == 201
+    assert response.status_code == 200
     return response.json()["access_token"]
 
 

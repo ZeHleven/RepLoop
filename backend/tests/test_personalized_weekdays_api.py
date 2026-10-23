@@ -4,7 +4,7 @@ from app.models.exercise import Exercise
 
 
 async def account(client, name):
-    response = await client.post('/api/v1/auth/register', json={
+    response = await client.seed_existing_account(json={
         'email': f'weekday-{name}@example.com', 'password': 'pass1234',
     })
     headers = {'Authorization': f"Bearer {response.json()['access_token']}"}

@@ -75,14 +75,12 @@ async def _cleanup_proposal_api_fixtures(session_factory):
 
 
 async def _token(client, suffix: str) -> str:
-    response = await client.post(
-        "/api/v1/auth/register",
-        json={
+    response = await client.seed_existing_account(json={
             "email": f"proposal-api-{suffix}@example.com",
             "password": "password123",
         },
     )
-    assert response.status_code == 201
+    assert response.status_code == 200
     return response.json()["access_token"]
 
 

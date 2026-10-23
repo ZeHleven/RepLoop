@@ -10,7 +10,7 @@ from app.models.user import User
 from app.models.profile import UserProfile
 from app.models.wechat import WeChatIdentity
 from app.schemas.auth import (
-    LoginRequest, RefreshRequest, RegisterRequest, TokenResponse,
+    LoginRequest, RefreshRequest, TokenResponse,
     WeChatLoginRequest, WeChatLoginResponse,
 )
 from app.services.auth import (
@@ -29,32 +29,13 @@ from jose import JWTError
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-@router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
-async def register(body: RegisterRequest, db: AsyncSession = Depends(get_db)):
-    if body.email:
-        existing = await db.scalar(select(User).where(User.email == body.email))
-        if existing:
-            raise HTTPException(status_code=400, detail="邮箱已注册")
-    if body.phone:
-        existing = await db.scalar(select(User).where(User.phone == body.phone))
-        if existing:
-            raise HTTPException(status_code=400, detail="手机号已注册")
-
-    user = User(
-        email=body.email,
-        phone=body.phone,
-        password_hash=hash_password(body.password),
-    )
-    db.add(user)
-    await db.flush()
-
-    profile = UserProfile(user_id=user.id)
-    db.add(profile)
-    await db.commit()
-
-    return TokenResponse(
-        access_token=create_access_token(user.id),
-        refresh_token=create_refresh_token(user.id),
+@router.post("/register", status_code=status.HTTP_403_FORBIDDEN)
+async def register():
+    # Keep a clear response for existing clients, without parsing identity data
+    # or opening a database session. New users must complete WeChat login.
+    raise HTTPException(
+        status_code=status.HTTP_403_FORBIDDEN,
+        detail="邮箱和手机号注册已关闭，请使用微信登录。已有账号仍可登录。",
     )
 
 

@@ -40,9 +40,7 @@ def deterministic_intent_for_job_lifecycle_tests():
 
 
 async def _token(client, email: str) -> str:
-    response = await client.post(
-        "/api/v1/auth/register",
-        json={"email": email, "password": "password123"},
+    response = await client.seed_existing_account(json={"email": email, "password": "password123"},
     )
     return response.json()["access_token"]
 
