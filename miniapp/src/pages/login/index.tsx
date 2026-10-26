@@ -14,7 +14,6 @@ import { profileApi } from '../../services/profile'
 import './index.scss'
 
 export default function LoginPage () {
-  const [mode, setMode] = useState<'login' | 'register'>('login')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [submitting, setSubmitting] = useState<'wechat' | 'account' | null>(null)
@@ -31,11 +30,11 @@ export default function LoginPage () {
     setSubmitting('account')
     setError('')
     try {
-      await authenticate(mode, normalizedEmail, password)
+      await authenticate(normalizedEmail, password)
       const profile = await profileApi.get()
       await Taro.reLaunch({ url: routeForProfile(profile.onboarding_completed) })
     } catch (requestError) {
-      setError(errorMessage(requestError, mode === 'login' ? '登录失败' : '注册失败'))
+      setError(errorMessage(requestError, '登录失败'))
     } finally {
       setSubmitting(null)
     }
@@ -54,11 +53,6 @@ export default function LoginPage () {
       setSubmitting(null)
       setWechatStage(null)
     }
-  }
-
-  const switchMode = () => {
-    setMode(current => current === 'login' ? 'register' : 'login')
-    setError('')
   }
 
   return (
@@ -85,11 +79,11 @@ export default function LoginPage () {
 
         <View className='account-divider'>
           <View className='divider-line' />
-          <Text>开发调试</Text>
+          <Text>已有账号登录</Text>
           <View className='divider-line' />
         </View>
         <View className='account-toggle' onClick={() => setShowAccountLogin(value => !value)}>
-          {showAccountLogin ? '收起邮箱登录' : '使用邮箱账号登录'}
+          {showAccountLogin ? '收起邮箱登录' : '使用已有邮箱账号登录'}
         </View>
 
         {showAccountLogin && (
@@ -115,11 +109,8 @@ export default function LoginPage () {
               disabled={submitting !== null}
               onClick={submit}
             >
-              {submitting === 'account' ? '请稍候…' : mode === 'login' ? '登录' : '创建账户'}
+              {submitting === 'account' ? '请稍候…' : '登录'}
             </Button>
-            <View className='mode-switch' onClick={switchMode}>
-              {mode === 'login' ? '没有账号？创建一个' : '已有账号？返回登录'}
-            </View>
           </View>
         )}
       </View>
