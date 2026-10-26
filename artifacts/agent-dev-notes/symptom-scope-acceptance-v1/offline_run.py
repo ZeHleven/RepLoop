@@ -3,7 +3,8 @@
 Branch order mirrors agent_runtime's hook. The intent layer is not simulated:
 legacy items are only checked for routing here; their answers are judged in
 the real-model run. Usage from backend/:
-  DATABASE_URL=postgresql+asyncpg://offline/none SECRET_KEY=offline python <this>
+  DATABASE_URL=postgresql+asyncpg://offline/none SECRET_KEY=offline python <this> [output.json]
+The frozen first-run score is offline-first-run.json (commit cb701f7); later runs default to offline-regression.json.
 """
 import hashlib, json, pathlib, re, sys
 HERE = pathlib.Path(__file__).resolve().parent
@@ -59,7 +60,7 @@ for case in spec["cases"]:
     results.append({"id": case["id"], "expected_path": case["path"], "path": path,
                     "pass": all(checks.values()), "checks": checks, "turns": turns})
 
-(HERE / "offline-first-run.json").write_text(json.dumps(results, ensure_ascii=False, indent=1), encoding="utf-8")
+(HERE / (sys.argv[1] if len(sys.argv) > 1 else "offline-regression.json")).write_text(json.dumps(results, ensure_ascii=False, indent=1), encoding="utf-8")
 by = lambda p: [r for r in results if r["id"].startswith(p)]
 print(f"total {sum(r['pass'] for r in results)}/{len(results)} | 疼痛 {sum(r['pass'] for r in by('H'))}/12 | 急症 {sum(r['pass'] for r in by('E'))}/2 | 非症状 {sum(r['pass'] for r in by('N'))}/10")
 for r in results:

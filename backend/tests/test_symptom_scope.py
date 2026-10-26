@@ -17,6 +17,7 @@ from app.services.agent_symptom_scope import (
     is_symptom_training_request,
     render_reply,
     seeks_training_advice,
+    doctor_instructions,
     time_cap_minutes,
 )
 
@@ -250,3 +251,67 @@ def test_probe_follow_up_without_symptom_words_continues():  # PB20
 def test_bare_statement_triggers_but_other_person_does_not():
     assert is_symptom_training_request("今天膝盖开始疼", has_plan=True)
     assert not is_symptom_training_request("今天膝盖开始疼", has_plan=False)
+
+
+# v2 (SCOPE-20261026): gaps found by acceptance set v1; wording differs from v1.
+def test_numbness_single_character_and_buttock_site():
+    reports = current_symptom_reports("左边小腿外侧有点麻，走路久了更明显，今天能练吗")
+    assert reports and reports[0].area is None
+    assert "麻" in care_now_terms("左边小腿外侧有点麻")
+    assert current_symptom_reports("这事太麻烦了，今天能练吗") == []
+    assert current_symptom_reports("中午吃了麻辣烫，今天能练吗") == []
+
+
+@pytest.mark.parametrize("message", [
+    "右肩半夜疼醒了两次，今天还练胸吗",
+    "膝盖躺着不动也痛，训练怎么调",
+    "手腕休息的时候也疼，今天怎么安排",
+])
+def test_night_or_rest_pain_prompts_care(message):
+    reply = render_reply(decide_scope(message, PLAN))
+    assert reply.startswith("你提到了")
+
+
+def test_doctor_instruction_is_acknowledged_and_rest_pauses_all():
+    message = "脚踝韧带拉伤，大夫说先制动一周，这周还能练上肢吗"
+    assert doctor_instructions(message) == ["大夫说先制动一周"]
+    decision = decide_scope(message, PLAN)
+    reply = render_reply(decision)
+    assert "以医生的嘱咐为准" in reply and "照常" not in reply
+    allowed = decide_scope("右手腕腱鞘炎，医生说下肢可以正常练，今天怎么安排", PLAN)
+    assert allowed.doctor and any(d.keep for items in allowed.days.values() for d in items)
+
+
+def test_follow_up_keeps_prior_trauma_and_doctor_signals():
+    prior = ["前天打球把手腕扭了，现在还肿"]
+    follow = "那我只练腿可以吗"
+    decision = decide_scope(follow, PLAN, prior_user_messages=prior, continuing=True)
+    assert decision.care_now and render_reply(decision).startswith("你提到了")
+    recovered = decide_scope("现在已经不疼了，那我只练腿可以吗", PLAN, prior_user_messages=prior, continuing=True)
+    assert recovered.care_now == []
+
+
+@pytest.mark.parametrize("message", [
+    "前天刚练完背，今天胳膊和背阔酸到抬不起来，正常吗",
+    "昨天跑了十公里，今天小腿酸得不行，今天还练吗",
+])
+def test_post_exercise_muscle_soreness_is_not_a_report(message):
+    assert current_symptom_reports(message) == []
+
+
+def test_joint_soreness_after_training_still_reports():
+    assert current_symptom_reports("昨天练腿后今天膝盖酸，还能练吗")
+
+
+@pytest.mark.parametrize("message", ["身上哪儿都不疼，就是没睡好，今晚练不练", "没有什么地方不舒服，只是很累"])
+def test_whole_body_negation(message):
+    assert current_symptom_reports(message) == []
+
+
+@pytest.mark.parametrize("message", [
+    "练完硬拉眼前一黑差点站不住，还能继续吗",
+    "跑步机上心跳突然很快还心慌，要不要接着跑",
+    "胸口一阵发紧，休息了还没好，今天还练吗",
+])
+def test_emergency_backstop_v2(message):
+    assert emergency_signals(message)

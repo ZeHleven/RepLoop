@@ -34,28 +34,34 @@ _AREA_WORDS: tuple[tuple[re.Pattern[str], str, str], ...] = (
 )
 # Body sites the library does not map. Any of them pauses the whole plan.
 _UNMAPPED_WORDS = re.compile(
-    r"髋|胯|臀部|颈|脖子|胸口|胸部|胸痛|胸闷|肋|腹部|肚子|大腿|小腿|脚趾|脚跟|足底|脚掌|手指|手掌"
+    r"髋|胯|臀部|臀|屁股|颈|脖子|胸口|胸部|胸痛|胸闷|肋|腹部|肚子|大腿|小腿|脚趾|脚跟|足底|脚掌|手指|手掌"
     r"|(?<!过)头(?:部|疼|痛|晕)"
 )
 _SYMPTOM = re.compile(
-    r"疼|痛|酸|不适|不舒服|肿|麻木|发麻|崴|扭伤|扭到|拉伤|受伤|抽筋"
+    r"疼|痛|酸|不适|不舒服|肿|麻(?!烦|辣|将|酱|油|婆|花|雀)|崴|扭伤|扭到|扭了|拉伤|受伤|抽筋"
     r"|炎|劳损|撕裂|骨折|脱臼|积液|突出|落枕"
 )
-_NON_SORE_SYMPTOM = re.compile(r"疼|痛|不适|不舒服|肿|麻|崴|扭|伤|抽筋|炎|劳损|撕裂|骨折|脱臼|积液|突出|落枕")
+_NON_SORE_SYMPTOM = re.compile(r"疼|痛|不适|不舒服|肿|麻(?!烦|辣|将|酱|油|婆|花|雀)|崴|扭|伤|抽筋|炎|劳损|撕裂|骨折|脱臼|积液|突出|落枕")
 # Ordinary post-exercise muscle soreness is not an injury report.
-_DOMS_CONTEXT = re.compile(r"练完|练腿后|训练后|运动后|第二天|隔天|延迟|那种酸|肌肉酸")
+_DOMS_CONTEXT = re.compile(
+    r"练完|练腿后|训练后|运动后|健身后|第二天|隔天|延迟|那种酸|肌肉酸"
+    r"|(?:昨天|前天|昨晚|刚才|刚)(?:去)?(?:练|跑|做|上了|撸铁)|练了.{0,8}之?后"
+)
+# Soreness in these places is muscle soreness; joints stay reportable.
+_MUSCLE_SITES = re.compile(r"大腿|小腿|屁股|臀|腹|胳膊|手臂|胸肌|背阔|肌肉|全身|浑身")
 # General questions ("膝盖疼的时候一般能做什么") are not a personal report.
 _GENERAL_QUESTION = re.compile(r"(?:疼|痛)的时候|一般|通常|常见|容易")
 _PERSONAL_NOW = re.compile(r"我|今天|现在|最近|还|仍|这两天|这几天|一直")
-_SYMPTOM_WORDS = r"(?:疼痛|疼|痛|酸痛|酸|不适|不舒服|肿胀|肿|麻木|发麻|受伤|外伤|淤青|变形)"
+_SYMPTOM_WORDS = r"(?:疼痛|疼|痛|酸痛|酸|不适|不舒服|肿胀|肿|麻木|发麻|麻(?!烦|辣|将|酱|油|婆|花|雀)|受伤|外伤|淤青|变形)"
 _NEGATED = re.compile(
-    r"(?:不再|没有|没|不|无|并不)(?:任何|明显|什么)?" + _SYMPTOM_WORDS
+    r"(?:不再|没有|没|不|无|并不)(?:任何|明显|什么|哪里|哪儿|什么地方|地方|部位)?(?:有|会|觉得)?" + _SYMPTOM_WORDS
     + r"(?:(?:[、/]|和|及|或)?" + _SYMPTOM_WORDS + r")*"
 )
 # Signals that must never be handled as an ordinary sore joint. They return
 # the emergency template even if the intent layer did not mark high risk.
 _EMERGENCY = re.compile(
-    r"胸口(?:痛|疼|闷|压|发紧|憋)|胸痛|胸闷|冷汗|喘不上气|呼吸困难|嘴角歪|口角歪|说话含糊|口齿不清|半边|一侧(?:手|脚|身体)"
+    r"胸口(?:有点|有些|一阵|突然)?(?:痛|疼|闷|压|发紧|紧|憋)|胸痛|胸闷|冷汗|眼前发黑|眼前一黑|突然头晕|晕厥"
+    r"|心跳(?:很|特别|非常|突然|一直)?(?:快|乱)|心跳加速|喘不上气|呼吸困难|嘴角歪|口角歪|说话含糊|口齿不清|半边|一侧(?:手|脚|身体)"
     r"|突然(?:一侧|半边)?(?:手|胳膊|腿)(?:抬不起来|没力气|无力)|晕倒|昏倒|昏迷|意识不清|失去意识|剧烈头痛|心慌|心悸"
 )
 _OTHER_PERSON = re.compile(
@@ -80,9 +86,12 @@ _ADVICE = re.compile(
 _RECORD_QUERY = re.compile(r"看看|看一下|查一下|查查|查询|统计|几次|多少|列出|记录了|记了")
 _TRAINING = re.compile(r"训练|练|计划|动作|健身|锻炼|运动|深蹲|卧推|硬拉|推举|划船|组|次数")
 _CARE_NOW = re.compile(
-    r"肿|淤青|瘀青|变形|崴|扭伤|摔|撞|踩空|外伤|骨折|不能(?:承重|走|动)|无法(?:承重|走路|活动|用力)"
-    r"|麻木|发麻|无力|夜里疼|夜间痛|静息"
+    r"肿|淤青|瘀青|变形|崴|扭伤|扭了|扭到|摔|撞|踩空|外伤|骨折|不能(?:承重|走|动)|无法(?:承重|走路|活动|用力)"
+    r"|麻(?!烦|辣|将|酱|油|婆|花|雀)|无力|静息|疼醒|痛醒|休息(?:时|的时候)?也(?:疼|痛)"
+    r"|(?:晚上|夜里|夜间|半夜|睡觉|睡着|躺着|侧睡)[^，,。；;！？!?]{0,8}(?:疼|痛)"
 )
+_DOCTOR = re.compile(r"(?:医生|大夫|医嘱|康复师|治疗师|理疗师)")
+_DOCTOR_REST = re.compile(r"休息|别练|不要练|不能练|停练|暂停|先别|制动|别动|卧床|不要运动|别运动")
 _TIME_CAP = re.compile(r"(?:每次|一次|单次)?(?:总共|最多|不超过|只有|只想|只能|大约|约)?\s*(\d{1,3})\s*分钟")
 
 SECONDS_PER_SET = 40
@@ -144,6 +153,7 @@ class ScopeDecision:
     day_minutes: dict[int, float] = field(default_factory=dict)
     day_time_insufficient: dict[int, bool] = field(default_factory=dict)
     mentioned: list[tuple[str, bool, str]] = field(default_factory=list)
+    doctor: list[str] = field(default_factory=list)
     substitution_asked: bool = False
 
     def as_data(self) -> dict:
@@ -153,6 +163,7 @@ class ScopeDecision:
             "unmapped_sites": self.unmapped_sites,
             "profile_areas": self.profile_areas,
             "profile_injuries": self.profile_injuries,
+            "doctor_instructions": self.doctor,
             "care_now": self.care_now,
             "time_cap_minutes": self.time_cap_minutes,
             "has_plan": self.has_plan,
@@ -225,7 +236,9 @@ def current_symptom_reports(message: str) -> list[SymptomReport]:
             if not _personal_clause(clause) or not _positive_symptom(clause):
                 continue
             positive = _NEGATED.sub("", clause)
-            if not _NON_SORE_SYMPTOM.search(positive) and _DOMS_CONTEXT.search(sentence):
+            if (not _NON_SORE_SYMPTOM.search(positive) and _DOMS_CONTEXT.search(sentence)
+                    and not any(area for area, _, _ in sites)
+                    and (_MUSCLE_SITES.search(clause) or not sites)):
                 continue
             if _GENERAL_QUESTION.search(clause) and not _PERSONAL_NOW.search(clause):
                 continue
@@ -285,6 +298,36 @@ def seeks_training_advice(message: str) -> bool:
 def states_recovery(message: str) -> bool:
     text = message or ""
     return bool(_RESOLVED.search(text) or re.search(r"(?:不|没)(?:再)?(?:疼|痛)了", text))
+
+
+def doctor_instructions(message: str) -> list[str]:
+    """Clauses where the user relays a clinician's instruction, verbatim."""
+    text = _QUOTED.sub("", message or "")
+    out = []
+    for sentence in _SENTENCE_SPLIT.split(text):
+        if _OTHER_PERSON.search(sentence.replace("医生", "").replace("大夫", "")):
+            continue
+        for clause in _CLAUSE_SPLIT.split(sentence):
+            clause = clause.strip()
+            if clause and _DOCTOR.search(clause) and not _HYPOTHETICAL.search(clause):
+                out.append(clause)
+    return out
+
+
+def _episode_priors(message: str, prior_user_messages: list[str]) -> list[str]:
+    """Prior turns of the same symptom episode: back to the latest one with a report.
+
+    Used only when this turn names no site of its own, so a follow-up keeps
+    earlier swelling, trauma or doctor's instructions.
+    """
+    if any(r.site_label for r in current_symptom_reports(message)) or states_recovery(message):
+        return []
+    episode = []
+    for prior in prior_user_messages:
+        episode.append(prior)
+        if current_symptom_reports(prior):
+            return episode
+    return []
 
 
 def is_symptom_training_request(message: str, *, has_plan: bool, continuing: bool = False) -> bool:
@@ -349,6 +392,9 @@ def decide_scope(
             if located:
                 reports = located
                 break
+    episode = _episode_priors(message, prior_user_messages)
+    care = list(dict.fromkeys([*care_now_terms(message), *(t for m in episode for t in care_now_terms(m))]))
+    doctor = list(dict.fromkeys([*doctor_instructions(message), *(c for m in episode for c in doctor_instructions(m))]))
     areas = list(dict.fromkeys(r.area for r in reports if r.area))
     unmapped = list(dict.fromkeys(r.site_label or "未说明部位" for r in reports if r.area is None))
     profile_areas = [
@@ -364,13 +410,15 @@ def decide_scope(
         areas=areas,
         unmapped_sites=unmapped,
         profile_areas=profile_areas,
-        care_now=care_now_terms(message),
+        care_now=care,
+        doctor=doctor,
         profile_injuries=recorded,
         time_cap_minutes=time_cap_minutes(message),
         has_plan=bool(plan_items),
         substitution_asked=bool(re.search(r"换成|替换|代替|改成|改做|换个", message or "")),
     )
-    pause_all = bool(unmapped) or bool(decision.care_now)
+    doctor_rest = any(_DOCTOR_REST.search(c) for c in doctor)
+    pause_all = bool(unmapped) or bool(decision.care_now) or doctor_rest
     by_day: dict[int, list[PlanItem]] = {}
     for item in sorted(plan_items or [], key=lambda x: (x.day_of_week, x.order_index)):
         by_day.setdefault(item.day_of_week, []).append(item)
@@ -379,7 +427,9 @@ def decide_scope(
         for item in items:
             current_conflict = [a for a in areas if a in item.contraindications]
             saved_conflict = [a for a in profile_areas if a in item.contraindications]
-            if decision.care_now:
+            if doctor_rest:
+                initial.append(ItemDecision(item, False, "按医生的休息嘱咐先停"))
+            elif decision.care_now:
                 initial.append(ItemDecision(item, False, "就医评估前整份计划先停"))
             elif pause_all:
                 initial.append(ItemDecision(item, False, f"当前不适部位（{'、'.join(unmapped)}）无法按动作库判断"))
@@ -435,6 +485,9 @@ def render_reply(decision: ScopeDecision) -> str:
         lines.append(f"你提到记录里的{site}问题，先停会用到这个部位的动作，不要带着疼痛减重“试一下”。")
     else:
         lines.append(f"{site}现在不舒服，先停会用到这个部位的动作，不要带着疼痛减重“试一下”。")
+    if decision.doctor:
+        quoted = "；".join(f"“{c}”" for c in decision.doctor)
+        lines.append(f"你提到{quoted}，以医生的嘱咐为准；下面的取舍不能代替医嘱，两者冲突时按医嘱。")
     if decision.profile_injuries is not None:
         if decision.profile_injuries:
             lines.append(f"健康档案记录的伤病：{'、'.join(decision.profile_injuries)}；今天新说的情况同样计入。")
