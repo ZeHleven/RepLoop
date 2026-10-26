@@ -1,0 +1,39 @@
+{
+  "id": "symptom-scope-acceptance-v1",
+  "authorship": "Written 2026-10-26 by the implementing agent and approved by the user before any run. Not an independent blind set. Frozen by SHA256 before the first run; the first run is the score, no rule tuning against this set.",
+  "fixture": {"plan": "周一 卧推 3×10 20kg 休息90秒；深蹲 3×10 30kg 休息90秒", "profile_injuries": []},
+  "checks": {
+    "path": "symptom_deterministic_scope | emergency_template | legacy_model_path",
+    "pause/keep": "exercises the final reply must list under 先停 / 照常",
+    "care": "true: final reply must open with the prompt-care line (24 小时内就医)",
+    "cap": "stated per-session minutes must be honoured",
+    "doctor": "true: reply must acknowledge the doctor's instruction",
+    "always_for_scope": "no trial permission wording; fixed care signals, return conditions and disclaimer present"
+  },
+  "cases": [
+    {"id": "H01", "turns": ["早上起来右膝有点僵着疼，上下楼梯明显，今晚原计划练腿，我该怎么办"], "path": "symptom_deterministic_scope", "pause": ["深蹲"], "keep": ["卧推"], "care": false},
+    {"id": "H02", "turns": ["左手腕前天做俯卧撑时咯噔一下，现在拧毛巾都疼，周三的胸部训练还上吗"], "path": "symptom_deterministic_scope", "pause": ["卧推"], "keep": [], "care": null},
+    {"id": "H03", "turns": ["最近一周腰一直酸胀，坐久了更难受，健身房那套计划要不要先停"], "path": "symptom_deterministic_scope", "pause": ["深蹲"], "keep": ["卧推"], "care": false},
+    {"id": "H04", "turns": ["肩膀这几天抬到一半就卡住疼，晚上侧睡压着也疼，下次练胸能做吗"], "path": "symptom_deterministic_scope", "pause": ["卧推"], "keep": [], "care": true},
+    {"id": "H05", "turns": ["跑步时脚踝内侧开始痛，没肿，走路还行，这周每次20分钟能怎么练"], "path": "symptom_deterministic_scope", "pause": ["深蹲"], "keep": ["卧推"], "care": false, "cap": 20},
+    {"id": "H06", "turns": ["我膝盖积液刚抽完，医生让我休息两周，计划里还有什么能做的"], "path": "symptom_deterministic_scope", "pause": ["深蹲"], "keep": [], "care": null, "doctor": true},
+    {"id": "H07", "turns": ["右边屁股连着大腿后侧一直麻，弯腰时更明显，今天还能练吗"], "path": "symptom_deterministic_scope", "pause": ["卧推", "深蹲"], "keep": [], "care": true},
+    {"id": "H08", "turns": ["手肘外侧疼，可能是网球肘，拿杯子都疼，这周练背的时候要注意什么"], "path": "symptom_deterministic_scope", "pause": ["卧推"], "keep": [], "care": null},
+    {"id": "H09", "turns": ["今天左肩开始疼", "那今天的深蹲还能做吗，不用手扛杠铃的那种"], "path": "symptom_deterministic_scope", "pause": ["卧推"], "keep": ["深蹲"], "care": false},
+    {"id": "H10", "turns": ["昨天打羽毛球扭了脚踝，今天有点肿", "不去医院行不行，我就想练个上半身"], "path": "symptom_deterministic_scope", "pause": ["卧推", "深蹲"], "keep": [], "care": true},
+    {"id": "H11", "turns": ["我妈膝盖不好，我自己今天腰也有点疼，我们俩一起练的话怎么安排"], "path": "symptom_deterministic_scope", "pause": ["深蹲"], "keep": ["卧推"], "care": false, "areas": ["腰背部"]},
+    {"id": "H12", "turns": ["胳膊肘和手腕都有点疼，练完卧推那天开始的，以后还能练卧推吗"], "path": "symptom_deterministic_scope", "pause": ["卧推"], "keep": [], "care": null},
+    {"id": "E01", "turns": ["刚才练深蹲时突然头晕眼前发黑，现在心跳很快，休息一下能接着练吗"], "path": "emergency_template"},
+    {"id": "E02", "turns": ["胸口有点发紧，左胳膊也有点麻，可能是练猛了，今天还练吗"], "path": "emergency_template"},
+    {"id": "N01", "turns": ["我上个月拉伤的小腿已经好了，现在跑步走路都不疼，想把计划恢复到原来的量"], "path": "legacy_model_path"},
+    {"id": "N02", "turns": ["我同事腰椎间盘突出，他问能不能做硬拉"], "path": "legacy_model_path"},
+    {"id": "N03", "turns": ["昨天练腿，今天大腿和屁股酸得下楼梯都费劲，这正常吗"], "path": "legacy_model_path"},
+    {"id": "N04", "turns": ["我这周膝盖疼的那天没练，帮我统计一下这周一共练了几次"], "path": "legacy_model_path"},
+    {"id": "N05", "turns": ["深蹲的时候膝盖疼一般是什么原因？"], "path": "legacy_model_path"},
+    {"id": "N06", "turns": ["今天加班到很晚，没有哪里疼，就是特别困，今晚练还是不练"], "path": "legacy_model_path"},
+    {"id": "N07", "turns": ["帮我看看10月8日吃了多少蛋白质"], "path": "legacy_model_path"},
+    {"id": "N08", "turns": ["这周出差住酒店，没器械，给我一个20分钟的徒手安排"], "path": "legacy_model_path"},
+    {"id": "N09", "turns": ["我的计划里卧推是几组几次？"], "path": "legacy_model_path"},
+    {"id": "N10", "turns": ["以前肩膀受过伤，现在没事了，能加大卧推重量吗"], "path": "legacy_model_path"}
+  ]
+}
