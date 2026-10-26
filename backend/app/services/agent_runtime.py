@@ -15,6 +15,15 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import aliased
 
 from app.config import settings
+from app.services.agent_symptom_scope import (
+    current_symptom_reports,
+    emergency_signals,
+    is_symptom_training_request,
+    load_symptom_scope,
+    previous_reply_was_symptom_scope,
+    render_reply as render_symptom_scope_reply,
+    seeks_training_advice,
+)
 from app.services.agent_model_usage import (
     observe_model_usage, model_http_options, apply_usage, usage_values,
 )
@@ -2085,6 +2094,65 @@ async def _execute_agent_run(
                 missing_slots=["要修改的训练日"],
                 clarification_context=context,
             )
+
+        symptom_scope_eligible = (
+            settings.AGENT_SYMPTOM_SCOPE_ENABLED
+            and resolution.risk_level != "high"
+            and resolution.request_kind not in {"mutation", "proposal_decision"}
+        )
+        symptom_continuing = False
+        if (
+            symptom_scope_eligible
+            and not current_symptom_reports(user_message)
+            and not emergency_signals(user_message)
+            and seeks_training_advice(user_message)
+        ):
+            # A follow-up such as "那还能练上肢吗" right after a symptom-scope
+            # answer keeps the same deterministic scope.
+            symptom_continuing = await previous_reply_was_symptom_scope(
+                db, conversation_id=conversation.id, run_id=run.id,
+            )
+        if symptom_scope_eligible and (
+            current_symptom_reports(user_message)
+            or emergency_signals(user_message)
+            or symptom_continuing
+        ):
+            # SCOPE-20261025-01: a current personal symptom with a training
+            # question is answered by the server, never by a model prescription.
+            if emergency_signals(user_message):
+                return await complete_semantic_short_circuit(
+                    HIGH_RISK_REPLY,
+                    terminal_action="safe_stop",
+                    termination_reason="health_red_flag_rules",
+                    content_data={"guardrail": "health_red_flag"},
+                )
+            prior_user_messages = [
+                item["content"] for item in reversed(history)
+                if item.get("role") == "user" and isinstance(item.get("content"), str)
+            ]
+            scope = await load_symptom_scope(
+                db,
+                user_id=run.user_id,
+                message=user_message,
+                prior_user_messages=prior_user_messages,
+                continuing=symptom_continuing,
+            )
+            if is_symptom_training_request(
+                user_message, has_plan=scope.has_plan, continuing=symptom_continuing,
+            ):
+                # The deterministic answer supersedes any model-requested
+                # clarification; do not leave a stale pending question.
+                run.clarification_required = False
+                run.clarification_question = None
+                run.missing_slots = []
+                return await complete_semantic_short_circuit(
+                    render_symptom_scope_reply(scope),
+                    termination_reason="symptom_deterministic_scope",
+                    content_data={
+                        "guardrail": "symptom_deterministic_scope",
+                        "symptom_scope": scope.as_data(),
+                    },
+                )
 
         if intent_outcome.understanding_failed:
             reply = INTENT_UNAVAILABLE_REPLY

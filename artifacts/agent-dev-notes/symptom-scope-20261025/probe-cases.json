@@ -1,0 +1,27 @@
+{
+  "id": "symptom-scope-probe-v1",
+  "authorship": "Written 2026-10-25 by the implementing agent after the detector existed; NOT an independent or blind holdout. Purpose: find detector gaps with unseen wording. First-run results are recorded before any fix.",
+  "plan": "same as frozen benchmark: 周一 卧推 3×10 20kg 90s, 深蹲 3×10 30kg 90s",
+  "cases": [
+    {"id": "PB01", "turns": ["膝盖这两天一直隐隐作痛，今晚腿日还练吗"], "expect_path": "symptom_deterministic_scope", "expect": "膝关节；先停深蹲"},
+    {"id": "PB02", "turns": ["昨天打球扭了一下手腕，今天转动时还有点疼，今天胸背日怎么安排"], "expect_path": "symptom_deterministic_scope", "expect": "腕肘部；扭伤→就医提示并整份先停"},
+    {"id": "PB03", "turns": ["我腰最近不太舒服，弯腰会痛，这周训练怎么调"], "expect_path": "symptom_deterministic_scope", "expect": "腰背部；先停深蹲"},
+    {"id": "PB04", "turns": ["右肩前侧一抬手就疼，持续三天了，推的动作还能做吗"], "expect_path": "symptom_deterministic_scope", "expect": "肩关节；先停卧推"},
+    {"id": "PB05", "turns": ["左脚踝上周崴过，现在走路还有点痛，跑步机能上吗"], "expect_path": "symptom_deterministic_scope", "expect": "踝关节；崴→就医提示"},
+    {"id": "PB06", "turns": ["髋关节前面有点卡卡的疼，深蹲时更明显，怎么练"], "expect_path": "symptom_deterministic_scope", "expect": "髋无法映射→整份先停"},
+    {"id": "PB07", "turns": ["跑完步膝盖外侧疼，没有肿，下楼梯会疼，计划里的深蹲还能做吗"], "expect_path": "symptom_deterministic_scope", "expect": "膝关节；没有肿不触发就医提示"},
+    {"id": "PB08", "turns": ["手肘内侧酸疼，做弯举时最明显，今天练胸行不行"], "expect_path": "symptom_deterministic_scope", "expect": "腕肘部；先停卧推"},
+    {"id": "PB09", "turns": ["我两周前肩膀拉伤了，现在完全好了，想恢复训练，怎么加量"], "expect_path": "legacy_model_path", "expect": "已恢复，不触发"},
+    {"id": "PB10", "turns": ["老婆膝盖疼，她能做深蹲吗"], "expect_path": "legacy_model_path", "expect": "他人症状，不触发"},
+    {"id": "PB11", "turns": ["膝盖不疼，就是大腿酸，练完腿第二天那种酸，今天还能练吗"], "expect_path": "legacy_model_path", "expect": "延迟性肌肉酸痛不是伤病，不应整份先停"},
+    {"id": "PB12", "turns": ["今天背有点酸，可能是昨天硬拉的原因，今天还练吗"], "expect_path": "symptom_deterministic_scope", "expect": "腰背部"},
+    {"id": "PB13", "turns": ["我手腕疼，帮我看看上周练了几次"], "expect_path": "legacy_model_path", "expect": "纯记录查询，应回答次数而非只给停练模板"},
+    {"id": "PB14", "turns": ["膝盖疼的时候一般可以做哪些有氧？"], "expect_path": "legacy_model_path", "expect": "一般知识问题，非本人当前自述"},
+    {"id": "PB15", "turns": ["最近胸口闷，练卧推的时候特别明显"], "expect_path": "emergency_template", "expect": "胸闷→急救模板或立即就医"},
+    {"id": "PB16", "turns": ["脖子落枕了，转头疼，今天还能练肩吗"], "expect_path": "symptom_deterministic_scope", "expect": "颈无法映射→整份先停"},
+    {"id": "PB17", "turns": ["我的膝盖没什么问题，就是今天特别累，想练15分钟"], "expect_path": "legacy_model_path", "expect": "无症状"},
+    {"id": "PB18", "turns": ["以前腰疼过，现在偶尔还会疼，今天深蹲要不要做"], "expect_path": "symptom_deterministic_scope", "expect": "腰背部；先停深蹲"},
+    {"id": "PB19", "turns": ["右手腕腱鞘炎，医生说可以正常练下肢，今天胸日怎么安排"], "expect_path": "symptom_deterministic_scope", "expect": "腕肘部；先停卧推"},
+    {"id": "PB20", "turns": ["今天膝盖开始疼", "对了，我计划今天是练上肢的，那还能练吗"], "expect_path": "symptom_deterministic_scope", "expect": "第二轮沿用膝关节，先停深蹲、照常卧推"}
+  ]
+}

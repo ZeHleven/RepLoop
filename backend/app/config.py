@@ -83,6 +83,8 @@ class Settings(BaseSettings):
     AGENT_PLAN_ADJUSTMENT_PROPOSALS_ENABLED: bool = False
     MANUAL_PLAN_PROPOSALS_ENABLED: bool = False
     AGENT_PLAN_MANAGEMENT_PROPOSALS_ENABLED: bool = False
+    # SCOPE-20261025-01: current pain/injury handled deterministically.
+    AGENT_SYMPTOM_SCOPE_ENABLED: bool = True
     AGENT_PROFILE_PROPOSALS_ENABLED: bool = False
     AGENT_WEIGHT_PROPOSALS_ENABLED: bool = False
     AGENT_NUTRITION_PROPOSALS_ENABLED: bool = False

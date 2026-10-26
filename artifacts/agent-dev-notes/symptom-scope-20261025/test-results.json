@@ -1,0 +1,446 @@
+{
+ "environment": "cloud container, Python 3.13.17, PostgreSQL 16.15 + pgvector 0.8.0 (built from source), deps from backend/requirements.txt plus langchain 1.3.15, langchain-openai 1.5.2, openai 3.3.0, scipy, numpy (frozen requirements.txt is stale)",
+ "baseline_06307d6": {
+  "command": "pytest -q (TEST_DATABASE_URL + AGENT_QUERY_EVAL_DATABASE_URL set)",
+  "total": 4804,
+  "not_passed": 145,
+  "note": "60 of the 68 setup errors were missing pgvector in the eval DB at run start (environment); rerun of those files: same failures in baseline and candidate except the flaky round38 worker-timing test"
+ },
+ "candidate_flag_off_default": {
+  "command": "pytest -q",
+  "total": 4858,
+  "not_passed": 84,
+  "items": [
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N01]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N02]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N03]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N04]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N05]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N06]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N07]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "evals.tests.test_revision_tasks::test_new_task[N08]",
+    "kind": "failure",
+    "message": "KeyError: 'REVISION_EVAL_DIR'"
+   },
+   {
+    "test": "tests.test_round42_history_evidence::test_original_route_through_real_api_worker_sql",
+    "kind": "failure",
+    "message": "assert datetime.date(2026, 10, 26) == datetime.date(2026, 10, 25)\n +  where datetime.date(2026, 10, 26) = <built-in method date of datetime.datetime object at 0x7f36e4e43f30>()\n +    where <built-in m"
+   },
+   {
+    "test": "tests.test_round53_read_obligations::test_baseline_http_query_contract_is_independent_of_prefetch[low]",
+    "kind": "failure",
+    "message": "assert 3 == 2\n +  where 3 = len([{'max_completion_tokens': 8192, 'messages': [{'content': '你是 Fitness Agent，一位中文健身对话助手。\\n\\n能力边界：\\n- 一般健身知识可以直接回答；用户自己的...evidence\": \"health.get_screening_summary\"}}}]}'"
+   },
+   {
+    "test": "tests.test_round53_read_obligations::test_baseline_http_query_contract_is_independent_of_prefetch[medium]",
+    "kind": "failure",
+    "message": "assert 3 == 2\n +  where 3 = len([{'max_completion_tokens': 8192, 'messages': [{'content': '你是 Fitness Agent，一位中文健身对话助手。\\n\\n能力边界：\\n- 一般健身知识可以直接回答；用户自己的...evidence\": \"health.get_screening_summary\"}}}]}'"
+   },
+   {
+    "test": "tests.test_round66_read_continuation::test_exact_archived_triggers_and_remaining_repair[WX30-r1]",
+    "kind": "failure",
+    "message": "AssertionError: assert True == False\n +  where True = bool([{'code': 'training_variant_unsupported', 'end': 129, 'quote': '卧推要靠手腕支撑', 'start': 121}, {'code': 'training_variant_u...靠手腕支撑杠铃', 'start': 1"
+   },
+   {
+    "test": "tests.test_round66_read_continuation::test_exact_archived_triggers_and_remaining_repair[WX34-r2]",
+    "kind": "failure",
+    "message": "AssertionError: assert ['深蹲这类需要脚踝承重', '不直接压脚踝'] == ['不直接压脚踝']\n  \n  At index 0 diff: '深蹲这类需要脚踝承重' != '不直接压脚踝'\n  Left contains one more item: '不直接压脚踝'\n  Use -v to get more diff"
+   },
+   {
+    "test": "tests.test_round66_read_continuation::test_exact_archived_triggers_and_remaining_repair[WX35-r2]",
+    "kind": "failure",
+    "message": "AssertionError: assert True == False\n +  where True = bool([{'code': 'training_variant_unsupported', 'end': 118, 'quote': '卧推这类需要手腕承重', 'start': 108}, {'code': 'training_variant...不涉及手腕支撑和抓握的轻活动，比如徒手深"
+   },
+   {
+    "test": "tests.test_round68_assertion_scope::test_archived_drafts_and_repairs_preserve_true_findings_only[WX27-r1:0]",
+    "kind": "failure",
+    "message": "AssertionError: [{'code': 'exercise_load_exemption', 'end': 63, 'quote': '不直接踩地', 'start': 58}, {'code': 'training_variant_unsupported', 'end': 336, 'quote': '深蹲这类需要踝关节承重', 'start': 325}]\nassert 2 == "
+   },
+   {
+    "test": "tests.test_round68_assertion_scope::test_archived_drafts_and_repairs_preserve_true_findings_only[WX34-r2:0]",
+    "kind": "failure",
+    "message": "AssertionError: [{'code': 'training_variant_unsupported', 'end': 351, 'quote': '深蹲这类需要脚踝承重', 'start': 341}, {'code': 'exercise_load_exemption', 'end': 378, 'quote': '不直接踩地', 'start': 373}]\nassert 2 =="
+   },
+   {
+    "test": "tests.test_round68_assertion_scope::test_archived_drafts_and_repairs_preserve_true_findings_only[WX35-r2:0]",
+    "kind": "failure",
+    "message": "AssertionError: [{'code': 'training_variant_unsupported', 'end': 22, 'quote': '卧推这类需要手腕支撑', 'start': 12}, {'code': 'training_action_co...te': '卧推这类需要手腕支撑、发力的动作先停', 'start': 12}, {'code': 'training_act"
+   },
+   {
+    "test": "tests.test_round68_assertion_scope::test_archived_drafts_and_repairs_preserve_true_findings_only[WX35-r2:1]",
+    "kind": "failure",
+    "message": "AssertionError: [{'code': 'training_variant_unsupported', 'end': 243, 'quote': '卧推同时涉及手腕承重', 'start': 233}, {'code': 'training_variant_unsupported', 'end': 246, 'quote': '卧推同时涉及手腕承重和握杠', 'start': 233}"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_actual_category_false_positives_removed[WX30-r1]",
+    "kind": "failure",
+    "message": "assert not [{'code': 'training_variant_unsupported', 'end': 71, 'quote': '卧推需要手腕承重', 'start': 63}]\n +  where [{'code': 'training_variant_unsupported', 'end': 71, 'quote': '卧推需要手腕承重', 'start': 63}] = a"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_actual_category_false_positives_removed[WX35-r2]",
+    "kind": "failure",
+    "message": "assert not [{'code': 'training_variant_unsupported', 'end': 32, 'quote': '卧推需要手腕承重', 'start': 24}, {'code': 'training_action_conflict', 'end': 379, 'quote': '做 2 组', 'start': 374}]\n +  where [{'code':"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_nonconflicting_scopes[\\u9519\\u8bef\\u793a\\u4f8b\\uff1a\\u201c\\u6df1\\u8e72\\u5148\\u505c\\u201d\\u3002\\u672c\\u5468\\u6df1\\u8e722\\u7ec4\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 18, 'quote': '深蹲2组', 'start': 14}]\n +  where [{'code': 'training_action_conflict', 'end': 18, 'quote': '深蹲2组', 'start': 14}] = c"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_nonconflicting_scopes[\\u6df1\\u8e72\\u4e0d\\u7528\\u5148\\u505c\\u3002\\u5f53\\u524d\\u4e34\\u65f6\\u5b89\\u6392\\u6df1\\u8e722\\u7ec4\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 17, 'quote': '深蹲2组', 'start': 13}]\n +  where [{'code': 'training_action_conflict', 'end': 17, 'quote': '深蹲2组', 'start': 13}] = c"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_nonconflicting_scopes[\\u6df1\\u8e72\\u5148\\u505c\\u3002\\u5f53\\u524d\\u5367\\u63a82\\u7ec4\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 11, 'quote': '卧推2组', 'start': 7}]\n +  where [{'code': 'training_action_conflict', 'end': 11, 'quote': '卧推2组', 'start': 7}] = con"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_nonconflicting_scopes[\\u5f53\\u524d\\u6df1\\u8e722\\u7ec4\\u3002\\u6df1\\u8e72\\u5148\\u505c\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 6, 'quote': '深蹲2组', 'start': 2}]\n +  where [{'code': 'training_action_conflict', 'end': 6, 'quote': '深蹲2组', 'start': 2}] = confl"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_no_inferred_current_symptom[\\u4ee5\\u524d\\u819d\\u76d6\\u75bc\\uff0c\\u4f46\\u4eca\\u5929\\u5df2\\u7ecf\\u5b8c\\u5168\\u4e0d\\u75bc\\uff0c\\u7ed9\\u4e34\\u65f6\\u5efa\\u8bae\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 4, 'quote': '深蹲先停', 'start': 0}, {'code': 'training_action_conflict', 'end': 11, 'quote': '深蹲2组', 'start': 7}]\n +  where [{'code"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_no_inferred_current_symptom[\\u5982\\u679c\\u4eca\\u5929\\u819d\\u76d6\\u75bc\\u8be5\\u600e\\u4e48\\u529e\\uff1f]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 4, 'quote': '深蹲先停', 'start': 0}, {'code': 'training_action_conflict', 'end': 11, 'quote': '深蹲2组', 'start': 7}]\n +  where [{'code"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_no_inferred_current_symptom[\\u670b\\u53cb\\u4eca\\u5929\\u819d\\u76d6\\u75bc\\uff0c\\u7ed9\\u5efa\\u8bae\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 4, 'quote': '深蹲先停', 'start': 0}, {'code': 'training_action_conflict', 'end': 11, 'quote': '深蹲2组', 'start': 7}]\n +  where [{'code"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_no_inferred_current_symptom[\\u4ed6\\u8bf4\\u201c\\u4eca\\u5929\\u819d\\u76d6\\u75bc\\u201d\\uff0c\\u6211\\u60f3\\u77e5\\u9053\\u542b\\u4e49\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 4, 'quote': '深蹲先停', 'start': 0}, {'code': 'training_action_conflict', 'end': 11, 'quote': '深蹲2组', 'start': 7}]\n +  where [{'code"
+   },
+   {
+    "test": "tests.test_round74_action_consistency::test_no_inferred_current_symptom[\\u5de5\\u4f5c\\u7d2f\\uff0c\\u7ed9\\u4e00\\u5468\\u51cf\\u91cf\\u5efa\\u8bae\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 4, 'quote': '深蹲先停', 'start': 0}, {'code': 'training_action_conflict', 'end': 11, 'quote': '深蹲2组', 'start': 7}]\n +  where [{'code"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_actual_false_pause_removed_with_true_current_contradiction_kept",
+    "kind": "failure",
+    "message": "assert not [{'code': 'training_action_conflict', 'end': 337, 'quote': '深蹲 2 组', 'start': 331}, {'code': 'training_action_conflict... 383, 'quote': '只做 1 组', 'start': 377}, {'code': 'daily_function_sco"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u5367\\u63a8\\u6682\\u505c\\uff0c\\u6df1\\u8e72\\u4fdd\\u7559\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}]\n +  where [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u6682\\u505c\\u5367\\u63a8\\uff0c\\u6df1\\u8e72\\u4fdd\\u7559\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}]\n +  where [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u6682\\u505c\\u5367\\u63a8\\u800c\\u6df1\\u8e72\\u4fdd\\u7559\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}]\n +  where [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u6df1\\u8e72\\u4fdd\\u7559\\u800c\\u5367\\u63a8\\u6682\\u505c\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}]\n +  where [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u5367\\u63a8\\u6682\\u505c\\uff1b\\u6df1\\u8e72\\u4fdd\\u7559\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}]\n +  where [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u5367\\u63a8\\u6682\\u505c,\\u6df1\\u8e72\\u4fdd\\u7559\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}]\n +  where [{'code': 'training_action_conflict', 'end': 21, 'quote': '深蹲2组', 'start': 17}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u5367\\u63a8\\u5148\\u505c\\u3002\\u6df1\\u8e72\\u4e0d\\u7528\\u6682\\u505c\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 23, 'quote': '深蹲2组', 'start': 19}]\n +  where [{'code': 'training_action_conflict', 'end': 23, 'quote': '深蹲2组', 'start': 19}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_pause_cannot_bind_another_retained_subject[\\u201c\\u6682\\u505c\\u6df1\\u8e72\\u201d\\u662f\\u9519\\u8bef\\u793a\\u4f8b\\uff0c\\u5367\\u63a8\\u6682\\u505c\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 28, 'quote': '深蹲2组', 'start': 24}]\n +  where [{'code': 'training_action_conflict', 'end': 28, 'quote': '深蹲2组', 'start': 24}] = f"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence::test_false_positive_does_not_spend_repair_budget",
+    "kind": "failure",
+    "message": "TypeError: AsyncMock.keys() returned a non-iterable (type coroutine)"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence_sql::test_symptom_qualifiers_and_facts_survive_continuation_worker_and_repair[continuation]",
+    "kind": "failure",
+    "message": "AssertionError: assert 'exercise-library/362/goblet-squat/' in '你是 Fitness Agent，一位中文健身对话助手。\\n\\n能力边界：\\n- 一般健身知识可以直接回答；用户自己的资料、计划、训练和进度必须以工具结果为准。\\n- 训练计划、档案、健康、体重和饮食的写入只能通过服务端生成待确认提案...其他人、假设、引述、旧说法不能充"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence_sql::test_symptom_qualifiers_and_facts_survive_continuation_worker_and_repair[false_pause]",
+    "kind": "failure",
+    "message": "AssertionError: {'attempt_count': 1, 'cards': [], 'change_requests': [], 'clarification_question': None, ...}\nassert 'ai_service_error' is None"
+   },
+   {
+    "test": "tests.test_round75_symptom_evidence_sql::test_symptom_qualifiers_and_facts_survive_continuation_worker_and_repair[effect_repair]",
+    "kind": "failure",
+    "message": "AssertionError: assert 'exercise-library/362/goblet-squat/' in '你是 Fitness Agent，一位中文健身对话助手。\\n\\n能力边界：\\n- 一般健身知识可以直接回答；用户自己的资料、计划、训练和进度必须以工具结果为准。\\n- 训练计划、档案、健康、体重和饮食的写入只能通过服务端生成待确认提案...其他人、假设、引述、旧说法不能充"
+   },
+   {
+    "test": "tests.test_round76_live_evidence::test_transient_system_is_not_accumulated_or_persisted[False]",
+    "kind": "failure",
+    "message": "AttributeError: 'Request' object has no attribute 'tools'"
+   },
+   {
+    "test": "tests.test_round76_live_evidence::test_transient_system_is_not_accumulated_or_persisted[True]",
+    "kind": "failure",
+    "message": "AttributeError: 'Request' object has no attribute 'tools'"
+   },
+   {
+    "test": "tests.test_round76_source_scope::test_heading_does_not_waive_a_new_or_explicit_instruction[\\u5efa\\u8bae\\u505a\\u5367\\u63a83\\u7ec4\\u3002]",
+    "kind": "failure",
+    "message": "AssertionError: [{'code': 'training_action_conflict', 'end': 4, 'quote': '卧推先停', 'start': 0}, {'code': 'training_action_conflict', 'end': 33, 'quote': '建议做卧推', 'start': 28}, {'code': 'training_action_"
+   },
+   {
+    "test": "tests.test_round76_source_scope::test_history_pause_does_not_become_current_pause_and_conditional_return_is_distinct",
+    "kind": "failure",
+    "message": "AssertionError: assert not [{'code': 'training_action_conflict', 'end': 38, 'quote': '卧推1组', 'start': 34}]\n +  where [{'code': 'training_action_conflict', 'end': 38, 'quote': '卧推1组', 'start': 34}] = f"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-http_pending]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-later_http_pending]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-http_headers]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-model_done]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-tool_started]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-tool_uncheckpointed]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-tool_done]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[1-before_commit]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-http_pending]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-later_http_pending]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-http_headers]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-model_done]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-tool_started]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-tool_uncheckpointed]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-tool_done]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[2-before_commit]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-http_pending]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-later_http_pending]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-http_headers]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-model_done]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-tool_started]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-tool_uncheckpointed]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-tool_done]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round83_durable_journal_sql::test_kill_and_fresh_worker_preserve_old_attempt[3-before_commit]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_actual_worker_api_sql_and_new_process_recovery[1-False]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_actual_worker_api_sql_and_new_process_recovery[1-True]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_actual_worker_api_sql_and_new_process_recovery[2-False]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_actual_worker_api_sql_and_new_process_recovery[2-True]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_actual_worker_api_sql_and_new_process_recovery[3-False]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_actual_worker_api_sql_and_new_process_recovery[3-True]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_collection_race_is_reported_instead_of_mixing_attempts",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round83_process_driver.py\", line 9, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round84_attempt_metrics_sql::test_actual_frozen_runner_copy_collects_and_scores_attempts",
+    "kind": "failure",
+    "message": "KeyError: 'R84_EVIDENCE_DIR'"
+   },
+   {
+    "test": "tests.test_round85_task_continuity_sql::test_latest_sourced_requirement_survives_failed_run[M4-15]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round85_process_driver.py\", line 8, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round85_task_continuity_sql::test_latest_sourced_requirement_survives_failed_run[M4-16]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round85_process_driver.py\", line 8, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round85_task_continuity_sql::test_latest_sourced_requirement_survives_failed_run[M4-17]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round85_process_driver.py\", line 8, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round85_task_continuity_sql::test_latest_sourced_requirement_survives_failed_run[M4-18]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round85_process_driver.py\", line 8, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round85_task_continuity_sql::test_latest_sourced_requirement_survives_failed_run[M4-19]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round85_process_driver.py\", line 8, in <module>\n      from app.config import settings\n  M"
+   },
+   {
+    "test": "tests.test_round85_task_continuity_sql::test_latest_sourced_requirement_survives_failed_run[M4-20]",
+    "kind": "failure",
+    "message": "AssertionError: Traceback (most recent call last):\n    File \"/home/claude/zehleven/fitness-agent/backend/tests/round85_process_driver.py\", line 8, in <module>\n      from app.config import settings\n  M"
+   }
+  ],
+  "all_failures_also_fail_in_baseline": true
+ },
+ "candidate_flag_on_all": {
+  "command": "AGENT_SYMPTOM_SCOPE_TEST_DEFAULT=1 pytest -q -p scope_probe",
+  "total": 4858,
+  "not_passed": 159,
+  "new_failures_vs_flag_off": 75,
+  "new_failures_where_new_path_entered": 75,
+  "meaning": "legacy tests that assert model-written symptom answers; the deterministic path now intercepts them by design"
+ },
+ "flaky_round38": "tests/test_round38_read_recovery.py::test_worker_persists_visible_reply_and_all_attempts — 5 alternating runs: baseline failed 5/5 (1–3 cases), candidate failed 2/5"
+}
