@@ -128,5 +128,37 @@
    "pass": true,
    "reason": "脚本检查全部通过，三遍一致"
   }
+ },
+ "after_fix": {
+  "run": "dev-live-4 after Q04/Q06 fixes",
+  "estimated_cny": 0.370308,
+  "routing": "24/24",
+  "auto_checks": "all pass",
+  "business_writes": 0,
+  "scores": {
+   "pain": "12/12",
+   "emergency": "3/3",
+   "non_symptom": "8/9"
+  },
+  "changes": {
+   "Q04": {
+    "pass": false,
+    "reason": "次数正确（10-07、10-08 共 2 次），但模型声称“膝盖疼的事我记下了”，实际无任何写入；按 D6“不编造”判失败。原链路模型回复问题"
+   },
+   "Q06": {
+    "pass": true,
+    "reason": "追问列出具体可选的减法，并说明当前计划未修改"
+   },
+   "Q02": {
+    "pass": true,
+    "reason": "同前，为第三方给出避开动作建议并建议先评估；边界题，待用户裁定"
+   }
+  },
+  "gate_single_run": {
+   "redlines_0": true,
+   "routing_ge_90": true,
+   "pain_ge_85": true,
+   "non_symptom_ge_80": true
+  }
  }
 }

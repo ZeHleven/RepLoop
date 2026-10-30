@@ -539,6 +539,9 @@ _NOMINAL_RECORD_PATTERN = re.compile(
     # Completion-count questions and insufficient-record predicates name data;
     # preserve following independent commands such as 改为/记录下来.
     r"(?<=计划)完成(?=几(?:天|日))|完成(?=数(?:为|是|有|=|：))|"
+    # Completion-count questions (完成了几次 / 一共完成多少场) ask for data.
+    # Only the counted form is masked; 完成训练 / 帮我完成 stay writes.
+    r"完成(?=了?(?:几|多少)(?:个|次|场|回|天|日|组|遍|节|堂)?(?:训练|锻炼)?(?:[，,。；;！？!?吗呢]|$))|"
     r"记录(?=(?:不足|不够|是否足够|已足够)(?:以|用|判断|评估|[，,。；;！？!?]|$))|"
     r"(?<=已)保存(?=(?:的)?(?:体重|档案|资料|健康筛查))|"
     r"(?<=计划)完成(?=(?:训练)?日(?:数|数量|及|和|与|、|[，,。；;！？!? ]|$))|"

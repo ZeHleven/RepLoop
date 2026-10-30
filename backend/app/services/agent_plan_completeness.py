@@ -7,6 +7,7 @@ from app.schemas.agent_task import PlanInputGap
 _LABELS = {'schedule.duration_weeks':'计划周期（周）', 'schedule.days_per_week':'每周训练天数',
            'exercise.sets':'组数', 'exercise.reps':'次数', 'exercise.rest_seconds':'休息秒数',
            'exercise.recommended_weight_kg':'重量'}
+_UNSPECIFIED_SLOT = '调整方式（减组数、减次数、减天数或缩短时长）'
 _PENDING = re.compile(r'待(?:我)?补|待定|未定|没(?:有)?定|还没(?:确定|决定|定|给|提供|填|补|告诉)|(?:稍后|下一句|之后|以后)(?:我)?(?:再)?(?:补|给|提供|决定|定|告诉)|接着补|具体几|再告诉')
 _WAIT = re.compile(r'(?:信息|要求|参数).{0,8}(?:补齐|齐全).{0,5}(?:再|后).{0,5}(?:出|生成)|先(?:别|不要)(?:出|生成).{0,5}提案')
 _RELEASE = re.compile(r'信息(?:已|都)?齐|补充完毕|就这些|没有其他要求|现在(?:可以)?(?:出|生成).{0,5}提案')
@@ -158,7 +159,14 @@ def enforce_plan_completeness(resolution, state, message):
         task.plan_input_gaps=remaining
     values={'plan_input_gaps':remaining}
     if remaining:
-        slots=list(dict.fromkeys((g.target_reference or '')+_LABELS.get(g.field_path,'待补的计划要求') for g in remaining))[:8]
+        slots=list(dict.fromkeys((g.target_reference or '')+_LABELS.get(g.field_path,_UNSPECIFIED_SLOT) for g in remaining))[:8]
+        question='已保留明确的调整目标。请补充'+ '、'.join(slots)+'，信息齐全后再生成完整提案。'
+        if any(g.field_path is None for g in remaining):
+            # An unspecified change ("帮我把训练减一点") must say what can be
+            # supplied, not echo an internal placeholder.
+            question=('想怎么调整？可以告诉我其中一种：每个动作减几组、每组减几次、'
+                      '每周少练几天，或者把每次时长控制在多少分钟以内。'
+                      '说清楚后我再生成待确认的调整提案，当前计划没有修改。')
         values.update(clarification_required=True,missing_slots=slots,
-                      clarification_question='已保留明确的调整目标。请补充'+ '、'.join(slots)+'，信息齐全后再生成完整提案。')
+                      clarification_question=question)
     return resolution.model_copy(update=values)
