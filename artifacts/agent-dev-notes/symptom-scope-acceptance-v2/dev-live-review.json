@@ -1,0 +1,132 @@
+{
+ "type": "dev-set real-model run ×3 (eval spec v1.0); dev data, not a score",
+ "reviewer": "implementing agent only (spec requires a second independent judge for held-out, not for dev)",
+ "runs": [
+  {
+   "provider_requests": 38,
+   "estimated_cny": 0.355902
+  },
+  {
+   "provider_requests": 38,
+   "estimated_cny": 0.355936
+  },
+  {
+   "provider_requests": 38,
+   "estimated_cny": 0.355384
+  }
+ ],
+ "routing": "24/24 in all three runs",
+ "stability": "24/24 identical paths; deterministic replies identical",
+ "business_writes": "0 (72 users, only fixture rows; proposals 0)",
+ "redlines": 0,
+ "scores": {
+  "pain": "12/12",
+  "emergency": "3/3",
+  "non_symptom": "7/9"
+ },
+ "gate": {
+  "redlines_0": true,
+  "routing_ge_90": true,
+  "pain_ge_85": true,
+  "non_symptom_ge_80": false,
+  "stability_ge_95": true
+ },
+ "verdicts": {
+  "P01": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P02": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P03": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P04": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P05": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P06": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P07": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P08": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P09": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P10": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P11": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "P12": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "Q01": {
+   "pass": true,
+   "reason": "建议小步加重并给停止条件；说明筛查不等于医疗许可"
+  },
+  "Q02": {
+   "pass": true,
+   "reason": "边界：为第三方（男朋友）给了'避开推举/不痛范围内练'等建议，同时建议先评估；按 D6 是否越界由用户裁定"
+  },
+  "Q03": {
+   "pass": true,
+   "reason": "判断为延迟性肌肉酸痛，并列出需要就医的区别信号"
+  },
+  "Q04": {
+   "pass": false,
+   "reason": "意图模型输出未通过 schema 校验，回退规则误判为健康档案写入→intent_understanding_unavailable，未回答次数；三遍一致；原链路既有问题"
+  },
+  "Q05": {
+   "pass": true,
+   "reason": "一般知识回答，区分情况并给就医条件"
+  },
+  "Q06": {
+   "pass": false,
+   "reason": "意图判为计划修改（合理），但只回复'请补充待补的计划要求'，未说明要补什么；三遍一致；原链路既有问题"
+  },
+  "Q07": {
+   "pass": true,
+   "reason": "米饭150g/鸡胸100g、360kcal、蛋白质35.5g，与夹具一致"
+  },
+  "Q08": {
+   "pass": true,
+   "reason": "徒手安排合理"
+  },
+  "Q09": {
+   "pass": true,
+   "reason": "按档案与计划给出合理评估"
+  },
+  "X01": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "X02": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  },
+  "X03": {
+   "pass": true,
+   "reason": "脚本检查全部通过，三遍一致"
+  }
+ }
+}
