@@ -315,3 +315,39 @@ def test_whole_body_negation(message):
 ])
 def test_emergency_backstop_v2(message):
     assert emergency_signals(message)
+
+
+# v2b: gaps found on dev set v2; wording differs from the dev cases.
+def test_negated_trauma_is_not_a_care_signal():
+    assert care_now_terms("手肘最近酸痛，没磕到也没摔过") == []
+    assert care_now_terms("手肘昨天磕到了，现在酸痛") != []
+
+
+def test_relayed_clinician_restriction_counts_as_report():
+    decision = decide_scope("理疗师让我右肩这两周别用力，今天胸日咋办", PLAN)
+    assert decision.areas == [AREA_SHOULDER]
+    reply = render_reply(decision)
+    assert reply.startswith("医嘱对") and "以医生的嘱咐为准" in reply and "照常" not in reply
+    assert current_symptom_reports("医生说我体检都正常，可以开始练了") == []
+
+
+def test_weakness_wording_prompts_care():
+    assert care_now_terms("脚踝没劲，站久了发软")
+
+
+@pytest.mark.parametrize("message", ["那我只练上身好吗", "卧推照常做可以不", "那今天练啥"])
+def test_short_follow_up_questions_seek_advice(message):
+    assert seeks_training_advice(message)
+
+
+@pytest.mark.parametrize("message", [
+    "跑完步左边脸突然有点发麻，说话也不太利索",
+    "练着练着上不来气，嘴唇都紫了",
+])
+def test_emergency_backstop_v2b(message):
+    assert emergency_signals(message)
+
+
+@pytest.mark.parametrize("message", ["膝盖疼的人能骑动感单车吗", "肩伤的话适合游泳吗"])
+def test_general_population_questions_are_not_reports(message):
+    assert current_symptom_reports(message) == []

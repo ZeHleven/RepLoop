@@ -50,7 +50,7 @@ _DOMS_CONTEXT = re.compile(
 # Soreness in these places is muscle soreness; joints stay reportable.
 _MUSCLE_SITES = re.compile(r"大腿|小腿|屁股|臀|腹|胳膊|手臂|胸肌|背阔|肌肉|全身|浑身")
 # General questions ("膝盖疼的时候一般能做什么") are not a personal report.
-_GENERAL_QUESTION = re.compile(r"(?:疼|痛)的时候|一般|通常|常见|容易")
+_GENERAL_QUESTION = re.compile(r"(?:疼|痛|伤|酸|麻)的(?:时候|人|话)|一般|通常|常见|容易|这种情况的人|这类人")
 _PERSONAL_NOW = re.compile(r"我|今天|现在|最近|还|仍|这两天|这几天|一直")
 _SYMPTOM_WORDS = r"(?:疼痛|疼|痛|酸痛|酸|不适|不舒服|肿胀|肿|麻木|发麻|麻(?!烦|辣|将|酱|油|婆|花|雀)|受伤|外伤|淤青|变形)"
 _NEGATED = re.compile(
@@ -63,7 +63,10 @@ _EMERGENCY = re.compile(
     r"胸口(?:有点|有些|一阵|突然)?(?:痛|疼|闷|压|发紧|紧|憋)|胸痛|胸闷|冷汗|眼前发黑|眼前一黑|突然头晕|晕厥"
     r"|心跳(?:很|特别|非常|突然|一直)?(?:快|乱)|心跳加速|喘不上气|呼吸困难|嘴角歪|口角歪|说话含糊|口齿不清|半边|一侧(?:手|脚|身体)"
     r"|突然(?:一侧|半边)?(?:手|胳膊|腿)(?:抬不起来|没力气|无力)|晕倒|昏倒|昏迷|意识不清|失去意识|剧烈头痛|心慌|心悸"
-)
+
+    r"|脸[^，,。；;！？!?]{0,6}麻|面部[^，,。；;！？!?]{0,6}麻|嘴唇[^，,。；;！？!?]{0,4}紫|口唇[^，,。；;！？!?]{0,4}紫|发绀"
+    r"|说话[^，,。；;！？!?]{0,4}(?:不利索|不清楚|含糊|大舌头)|口齿不清|舌头发硬"
+    r"|喘(?:得)?(?:很|特别|非常)厉害|喘不过气|上不来气|透不过气")
 _OTHER_PERSON = re.compile(
     r"朋友|同事|别人|他人|家人|我妈|我爸|孩子|老婆|老公|媳妇|妻子|丈夫|爱人|对象|女朋友|男朋友"
     r"|儿子|女儿|爸爸|妈妈|父亲|母亲|学员|客户|(?<!其)他|她"
@@ -82,16 +85,20 @@ _SENTENCE_SPLIT = re.compile(r"[。；;！？!?\n]")
 _ADVICE = re.compile(
     r"建议|怎么(?:练|调|安排|处理|办|做)|如何|安排|调整|取舍|还能|能不能|能否|可以(?:做|练|上)?吗|可不可以"
     r"|要不要|行不行|还练|能练|能做|能上|暂停|保留|先不做|回归|恢复|替换|换成|减量|计划给"
-)
+
+    r"|(?:行|可以|能|好)(?:吗|么|不)|照做|照常|练啥|练什么|做什么")
 _RECORD_QUERY = re.compile(r"看看|看一下|查一下|查查|查询|统计|几次|多少|列出|记录了|记了")
 _TRAINING = re.compile(r"训练|练|计划|动作|健身|锻炼|运动|深蹲|卧推|硬拉|推举|划船|组|次数")
 _CARE_NOW = re.compile(
     r"肿|淤青|瘀青|变形|崴|扭伤|扭了|扭到|摔|撞|踩空|外伤|骨折|不能(?:承重|走|动)|无法(?:承重|走路|活动|用力)"
     r"|麻(?!烦|辣|将|酱|油|婆|花|雀)|无力|静息|疼醒|痛醒|休息(?:时|的时候)?也(?:疼|痛)"
     r"|(?:晚上|夜里|夜间|半夜|睡觉|睡着|躺着|侧睡)[^，,。；;！？!?]{0,8}(?:疼|痛)"
-)
+
+    r"|使不上劲|没劲|发软|拿不稳|握不住|磕到|磕了|磕伤|碰伤|撞到|撞了|摔了|摔到")
 _DOCTOR = re.compile(r"(?:医生|大夫|医嘱|康复师|治疗师|理疗师)")
-_DOCTOR_REST = re.compile(r"休息|别练|不要练|不能练|停练|暂停|先别|制动|别动|卧床|不要运动|别运动")
+_DOCTOR_REST = re.compile(r"休息|别练|不要练|不能练|停练|暂停|先别|制动|别动|卧床|不要运动|别运动|(?:不能|别|不要|避免|少)(?:负重|受力|用力|吃力)")
+# Negated trauma/swelling mentions ("没扭到也没撞到") are not care signals.
+_NEGATED_CARE = re.compile(r"(?:没有?|无|未|不)(?:被|有)?(?:扭|撞|摔|崴|磕|碰|肿)(?:到|伤|了|过)?")
 _TIME_CAP = re.compile(r"(?:每次|一次|单次)?(?:总共|最多|不超过|只有|只想|只能|大约|约)?\s*(\d{1,3})\s*分钟")
 
 SECONDS_PER_SET = 40
@@ -116,7 +123,7 @@ class SymptomReport:
     area: str | None  # None means a body site the library cannot map
     site_label: str
     side: str
-    source: str = "current"  # "record": the user cites a saved record, not a new report
+    source: str = "current"  # "record": cites a saved record; "doctor": relays a clinician restriction
 
 
 @dataclass(frozen=True)
@@ -233,6 +240,13 @@ def current_symptom_reports(message: str) -> list[SymptomReport]:
             sites = _sites(clause)
             if sites:
                 last_site = sites[0]
+            if (sites and _DOCTOR.search(clause) and _DOCTOR_REST.search(clause)
+                    and not _HYPOTHETICAL.search(clause)):
+                # "康复师说我膝盖这周不能负重": a relayed restriction is a report
+                # even without a symptom word.
+                for area, label, side in sites:
+                    reports.append(SymptomReport(quote=clause, area=area, site_label=label, side=side, source="doctor"))
+                continue
             if not _personal_clause(clause) or not _positive_symptom(clause):
                 continue
             positive = _NEGATED.sub("", clause)
@@ -276,7 +290,7 @@ def time_cap_minutes(message: str) -> int | None:
 
 
 def care_now_terms(message: str) -> list[str]:
-    text = _NEGATED.sub("", _QUOTED.sub("", message or ""))
+    text = _NEGATED_CARE.sub("", _NEGATED.sub("", _QUOTED.sub("", message or "")))
     return list(dict.fromkeys(m.group() for m in _CARE_NOW.finditer(text)))
 
 
@@ -481,6 +495,8 @@ def render_reply(decision: ScopeDecision) -> str:
             f"你提到了{'、'.join(decision.care_now)}，建议尽快（24 小时内）就医评估；"
             "在评估之前，整份训练计划都先停，不要带着疼痛减重“试一下”。"
         )
+    elif decision.reports and all(r.source == "doctor" for r in decision.reports):
+        lines.append(f"医嘱对{site}有限制，先停会用到这个部位的动作，不要自行减重“试一下”。")
     elif decision.reports and all(r.source == "record" for r in decision.reports):
         lines.append(f"你提到记录里的{site}问题，先停会用到这个部位的动作，不要带着疼痛减重“试一下”。")
     else:
