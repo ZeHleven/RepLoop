@@ -10,6 +10,9 @@ from app.services.agent_intent import resolve_intent
     "上周膝盖疼请假了两次，帮我查一下这个月一共完成了几次训练",
     "这周完成了多少次？",
     "十月一共完成几场训练呢",
+    "把本周完成训练的日期列给我",
+    "看看上个月完成过的训练记录",
+    "手腕疼着呢，你直接把本周完成训练的日期列给我看就行，没让你改训练单。",
 ])
 def test_completion_count_questions_are_reads(message):
     resolution = resolve_intent(message)
@@ -20,6 +23,8 @@ def test_completion_count_questions_are_reads(message):
     "帮我完成训练并保存",
     "今天的训练帮我完成",
     "把这次训练标记为已完成",
+    "完成训练",
+    "今天的训练帮我完成并保存",
 ])
 def test_real_completion_commands_stay_writes(message):
     assert resolve_intent(message).request_kind == "mutation"
