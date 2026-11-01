@@ -78,3 +78,10 @@ def _symptom_scope_test_default(monkeypatch):
         "AGENT_SYMPTOM_SCOPE_ENABLED",
         _os.getenv("AGENT_SYMPTOM_SCOPE_TEST_DEFAULT", "0") == "1",
     )
+    # docs/agent/16: model-extracted facts are opt-in per test so offline
+    # providers are never called unexpectedly.
+    monkeypatch.setattr(
+        settings,
+        "AGENT_SYMPTOM_FACTS_MODEL_ENABLED",
+        _os.getenv("AGENT_SYMPTOM_FACTS_TEST_DEFAULT", "0") == "1",
+    )

@@ -161,6 +161,8 @@ class ScopeDecision:
     day_time_insufficient: dict[int, bool] = field(default_factory=dict)
     mentioned: list[tuple[str, bool, str]] = field(default_factory=list)
     doctor: list[str] = field(default_factory=list)
+    doctor_rest: bool = False
+    detector: dict | None = None
     substitution_asked: bool = False
 
     def as_data(self) -> dict:
@@ -171,6 +173,8 @@ class ScopeDecision:
             "profile_areas": self.profile_areas,
             "profile_injuries": self.profile_injuries,
             "doctor_instructions": self.doctor,
+            "doctor_rest": self.doctor_rest,
+            "detector": self.detector,
             "care_now": self.care_now,
             "time_cap_minutes": self.time_cap_minutes,
             "has_plan": self.has_plan,
@@ -294,12 +298,25 @@ def care_now_terms(message: str) -> list[str]:
     return list(dict.fromkeys(m.group() for m in _CARE_NOW.finditer(text)))
 
 
+_EMERGENCY_TERM = (
+    r"(?:胸口[^，,。；;！？!?]{0,4}(?:痛|疼|闷|压|发紧|紧|憋)|胸闷|胸痛|冷汗|喘不(?:上|过)来?气|呼吸困难"
+    r"|上不来气|透不过气|心慌|心悸|头晕|眼前发黑|眼前一黑|嘴唇[^，,。；;！？!?]{0,4}紫)"
+)
+# "也没胸口发紧或喘不过气" denies the signals. Only a negator immediately
+# before the term counts, so "没一会儿就胸口疼" is still an emergency.
+_NEGATED_EMERGENCY = re.compile(
+    r"(?:没有?|无|未|并没有?)(?:有|出现|觉得|感到|什么)?" + _EMERGENCY_TERM
+    + r"(?:(?:或|和|、|/|也没有?|也无|或者)" + _EMERGENCY_TERM + r")*"
+)
+
+
 def emergency_signals(message: str) -> list[str]:
     text = _QUOTED.sub("", message or "")
     text = "。".join(
         part for part in _SENTENCE_SPLIT.split(text)
         if not _OTHER_PERSON.search(part) and not _HYPOTHETICAL.search(part)
     )
+    text = _NEGATED_EMERGENCY.sub("", text)
     text = _NEGATED.sub("", text)
     text = re.sub(r"(?:没有|没|无|不)(?:任何)?(?:胸闷|冷汗|心慌|心悸|呼吸困难)", "", text)
     return list(dict.fromkeys(m.group() for m in _EMERGENCY.finditer(text)))
@@ -396,19 +413,50 @@ def decide_scope(
     prior_user_messages: Iterable[str] = (),
     catalog: dict[str, tuple[str, ...]] | None = None,
     continuing: bool = False,
+    facts=None,
+    previous_scope: dict | None = None,
 ) -> ScopeDecision:
     recorded = None if profile_injuries is None else [str(x).strip() for x in profile_injuries if str(x).strip() and x != "none"]
     prior_user_messages = list(prior_user_messages)
-    reports = inherit_sites(current_symptom_reports(message), prior_user_messages)
-    if not reports and continuing:
-        for prior in prior_user_messages:
-            located = current_symptom_reports(prior)
-            if located:
-                reports = located
-                break
-    episode = _episode_priors(message, prior_user_messages)
-    care = list(dict.fromkeys([*care_now_terms(message), *(t for m in episode for t in care_now_terms(m))]))
-    doctor = list(dict.fromkeys([*doctor_instructions(message), *(c for m in episode for c in doctor_instructions(m))]))
+    cap = time_cap_minutes(message)
+    if facts is not None:
+        # docs/agent/16: understanding comes from validated model facts; the
+        # pause/keep mapping and reply below stay deterministic.
+        from app.services.agent_symptom_facts import CARE_LABEL, REGION_AREA, REGION_LABEL, SIDE_LABEL
+        reports = [SymptomReport(
+            quote=r["quote"], area=REGION_AREA.get(r["region"]),
+            site_label=r.get("site_text") or REGION_LABEL.get(r["region"], ""),
+            side=SIDE_LABEL.get(r.get("side", "none"), ""), source="current",
+        ) for r in facts.reports]
+        care = [CARE_LABEL[c] for c in facts.care]
+        doctor = [facts.clinician_quote] if facts.clinician_quote else []
+        doctor_rest = facts.clinician_restricts_load
+        cap = facts.time_cap_minutes or cap
+        carry = continuing and previous_scope and not facts.resolved_now
+        if carry:
+            if not reports:
+                reports = [SymptomReport(**r) for r in previous_scope.get("reports", [])]
+            care = list(dict.fromkeys([*care, *previous_scope.get("care_now", [])]))
+            doctor = list(dict.fromkeys([*doctor, *previous_scope.get("doctor_instructions", [])]))
+            doctor_rest = doctor_rest or bool(previous_scope.get("doctor_rest"))
+            cap = cap or previous_scope.get("time_cap_minutes")
+        if not reports:
+            # A symptom without a located report is treated as an unclear site.
+            reports = [SymptomReport(quote=(message or "")[:80], area=None, site_label="", side="")]
+    else:
+        reports = inherit_sites(current_symptom_reports(message), prior_user_messages)
+        if not reports and continuing:
+            for prior in prior_user_messages:
+                located = current_symptom_reports(prior)
+                if located:
+                    reports = located
+                    break
+        episode = _episode_priors(message, prior_user_messages)
+        care = list(dict.fromkeys([*care_now_terms(message), *(t for m in episode for t in care_now_terms(m))]))
+        doctor = list(dict.fromkeys([*doctor_instructions(message), *(c for m in episode for c in doctor_instructions(m))]))
+        doctor_rest = any(_DOCTOR_REST.search(c) for c in doctor)
+        if continuing and previous_scope and not cap:
+            cap = previous_scope.get("time_cap_minutes")
     areas = list(dict.fromkeys(r.area for r in reports if r.area))
     unmapped = list(dict.fromkeys(r.site_label or "未说明部位" for r in reports if r.area is None))
     profile_areas = [
@@ -427,11 +475,11 @@ def decide_scope(
         care_now=care,
         doctor=doctor,
         profile_injuries=recorded,
-        time_cap_minutes=time_cap_minutes(message),
+        time_cap_minutes=cap,
         has_plan=bool(plan_items),
         substitution_asked=bool(re.search(r"换成|替换|代替|改成|改做|换个", message or "")),
     )
-    doctor_rest = any(_DOCTOR_REST.search(c) for c in doctor)
+    decision.doctor_rest = bool(doctor_rest)
     pause_all = bool(unmapped) or bool(decision.care_now) or doctor_rest
     by_day: dict[int, list[PlanItem]] = {}
     for item in sorted(plan_items or [], key=lambda x: (x.day_of_week, x.order_index)):
@@ -559,6 +607,8 @@ async def load_symptom_scope(
     message: str,
     prior_user_messages: Iterable[str] = (),
     continuing: bool = False,
+    facts=None,
+    previous_scope: dict | None = None,
 ) -> ScopeDecision:
     """Read the active plan, profile injuries and library areas, then decide."""
     from sqlalchemy import or_, select
@@ -612,6 +662,8 @@ async def load_symptom_scope(
         prior_user_messages=prior_user_messages,
         catalog=catalog,
         continuing=continuing,
+        facts=facts,
+        previous_scope=previous_scope,
     )
 
 
@@ -632,3 +684,25 @@ async def previous_reply_was_symptom_scope(db, *, conversation_id: str, run_id: 
         .limit(1)
     )
     return isinstance(data, dict) and data.get("guardrail") == "symptom_deterministic_scope"
+
+
+async def previous_scope_data(db, *, conversation_id: str, run_id: str) -> dict | None:
+    """The symptom-scope decision of the latest assistant reply, if it was ours."""
+    from sqlalchemy import select
+
+    from app.models.agent import AgentMessage
+
+    data = await db.scalar(
+        select(AgentMessage.content_data)
+        .where(
+            AgentMessage.conversation_id == conversation_id,
+            AgentMessage.role == "assistant",
+            AgentMessage.run_id != run_id,
+        )
+        .order_by(AgentMessage.created_at.desc())
+        .limit(1)
+    )
+    if isinstance(data, dict) and data.get("guardrail") == "symptom_deterministic_scope":
+        scope = data.get("symptom_scope")
+        return scope if isinstance(scope, dict) else {}
+    return None

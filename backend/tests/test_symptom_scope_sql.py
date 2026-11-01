@@ -220,3 +220,90 @@ async def test_flag_off_restores_legacy_model_path(db_session, session_factory, 
     assert len(offline) >= 1
     async with session_factory() as db:
         assert (await db.get(AgentRun, run_id)).status == "failed"
+
+
+# docs/agent/16: model-extracted facts through the real runtime.
+from app.services.agent_symptom_facts import SymptomFactsOutput, validate_facts
+
+
+def _facts(message, prior=(), **kw):
+    base = dict(purpose="own_symptom_training", reports=[], care_signals=[], clinician_quote="",
+                clinician_restricts_load=False, time_cap_minutes=0, emergency_signals=[],
+                continues_previous=False, resolved_now=False)
+    base.update(kw)
+    return validate_facts(SymptomFactsOutput.model_validate(base), user_texts=[message, *prior])
+
+
+async def _scoped_run(db_session, session_factory, monkeypatch, message, facts_value, *, conversation=None, user=None):
+    if user is None:
+        user, conversation = await seed(db_session)
+    monkeypatch.setattr(settings, "AGENT_SYMPTOM_FACTS_MODEL_ENABLED", True)
+    monkeypatch.setattr(runtime, "extract_symptom_facts", AsyncMock(return_value=facts_value))
+    monkeypatch.setattr(runtime, "resolve_intent_with_fallback", AsyncMock(return_value=IntentResolverOutcome(
+        resolution=resolution(message), source="model", attempt_count=1)))
+    headers = {"Authorization": "Bearer " + create_access_token(user.id)}
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test", headers=headers) as client:
+        res = await client.post("/api/v1/agent/runs", json={
+            "conversation_id": conversation.id, "message": message, "client_request_id": uuid4().hex})
+        run_id = res.json()["run_id"]
+        async with session_factory() as db:
+            assert await claim_next_agent_run(db) == run_id
+        await asyncio.wait_for(process_agent_run(session_factory, run_id), 15)
+        body = (await client.get("/api/v1/agent/runs/" + run_id)).json()
+    return user, conversation, run_id, body
+
+
+@pytest.mark.asyncio
+async def test_model_facts_route_dialect_site_without_rules(db_session, session_factory, monkeypatch, offline):
+    message = "俺脚脖子今天迈步就疼，没崴着也没肿，单子上的推和蹲你给说说哪个该停"
+    f = _facts(message, reports=[{"region": "ankle", "side": "none", "site_text": "脚脖子", "quote": "脚脖子今天迈步就疼"}])
+    _, _, run_id, body = await _scoped_run(db_session, session_factory, monkeypatch, message, f)
+    assert offline == []
+    assert "先停：深蹲" in body["reply"] and "照常：卧推" in body["reply"]
+    async with session_factory() as db:
+        msg = (await db.scalars(select(AgentMessage).where(AgentMessage.run_id == run_id, AgentMessage.role == "assistant"))).one()
+    detector = msg.content_data["symptom_scope"]["detector"]
+    assert detector["source"] == "model" and detector["purpose"] == "own_symptom_training"
+
+
+@pytest.mark.asyncio
+async def test_model_says_third_party_so_rules_do_not_hijack(db_session, session_factory, monkeypatch, offline):
+    message = "总听人说‘手腕疼就把卧推换成俯卧撑’，这说法有普遍道理吗？我没受伤。"
+    _, _, run_id, body = await _scoped_run(db_session, session_factory, monkeypatch, message, _facts(message, purpose="general_knowledge"))
+    assert len(offline) >= 1  # legacy model path was reached, not the symptom template
+    async with session_factory() as db:
+        assert (await db.get(AgentRun, run_id)).status == "failed"
+
+
+@pytest.mark.asyncio
+async def test_model_emergency_returns_emergency_template(db_session, session_factory, monkeypatch, offline):
+    message = "练着练着上不来气，嘴唇都紫了"
+    f = _facts(message, purpose="no_symptom", emergency_signals=[{"kind": "cyanosis", "quote": "嘴唇都紫了"}])
+    monkeypatch.setattr(runtime, "emergency_signals", lambda m: [])  # isolate the model signal
+    _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, f)
+    assert body["reply"] == runtime.HIGH_RISK_REPLY
+    assert body["execution_trace"]["termination_reason"] == "health_red_flag_model"
+
+
+@pytest.mark.asyncio
+async def test_extraction_failure_falls_back_to_rules(db_session, session_factory, monkeypatch, offline):
+    message = "今天右手腕开始疼，按已存计划给取舍，不保存。"
+    _, _, run_id, body = await _scoped_run(db_session, session_factory, monkeypatch, message, None)
+    assert offline == [] and "先停：卧推" in body["reply"]
+    async with session_factory() as db:
+        msg = (await db.scalars(select(AgentMessage).where(AgentMessage.run_id == run_id, AgentMessage.role == "assistant"))).one()
+    assert msg.content_data["symptom_scope"]["detector"] == {"source": "rules"}
+
+
+@pytest.mark.asyncio
+async def test_model_continuation_carries_swelling_from_previous_scope(db_session, session_factory, monkeypatch, offline):
+    first = "早上起来膝盖鼓了一圈，肿得裤腿都紧"
+    f1 = _facts(first, reports=[{"region": "knee", "side": "none", "site_text": "膝盖", "quote": "膝盖鼓了一圈"}],
+                care_signals=[{"kind": "swelling", "quote": "肿得裤腿都紧"}])
+    user, conversation, _, body1 = await _scoped_run(db_session, session_factory, monkeypatch, first, f1)
+    assert body1["reply"].startswith("你提到了")
+    second = "腿那项算了，推的那项总能留下吧？"
+    f2 = _facts(second, prior=[first], purpose="no_symptom", continues_previous=True)
+    _, _, _, body2 = await _scoped_run(db_session, session_factory, monkeypatch, second, f2, conversation=conversation, user=user)
+    assert offline == []
+    assert body2["reply"].startswith("你提到了肿胀") and "照常" not in body2["reply"]

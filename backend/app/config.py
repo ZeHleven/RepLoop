@@ -85,6 +85,10 @@ class Settings(BaseSettings):
     AGENT_PLAN_MANAGEMENT_PROPOSALS_ENABLED: bool = False
     # SCOPE-20261025-01: current pain/injury handled deterministically.
     AGENT_SYMPTOM_SCOPE_ENABLED: bool = True
+    # docs/agent/16: model-extracted symptom facts; rules remain the fallback.
+    AGENT_SYMPTOM_FACTS_MODEL_ENABLED: bool = True
+    AGENT_SYMPTOM_FACTS_TIMEOUT_SECONDS: float = 10.0
+    AGENT_SYMPTOM_FACTS_MAX_TOKENS: int = 700
     AGENT_PROFILE_PROPOSALS_ENABLED: bool = False
     AGENT_WEIGHT_PROPOSALS_ENABLED: bool = False
     AGENT_NUTRITION_PROPOSALS_ENABLED: bool = False
