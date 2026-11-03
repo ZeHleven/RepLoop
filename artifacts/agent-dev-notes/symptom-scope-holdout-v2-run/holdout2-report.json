@@ -1,0 +1,64 @@
+{
+ "candidate": "d1b1f8f",
+ "cases_sha256": "8533139975abe4045450df7d8fd3fa22e92659a72c6a5220db25b5add8bf94f8",
+ "spec": "docs/agent/15-symptom-scope-eval-spec.md v1.0",
+ "authorship_note": "Codex disclosed it had seen holdout v1 questions (its own earlier work); blind to implementation, tests and results.",
+ "cost_cny": 2.8416,
+ "provider_requests": 373,
+ "runner_fix_before_run": "live_run.py and score.py now treat termination_reason health_red_flag_model as the emergency path (new in candidate 2); dev runs had no such case",
+ "per_run": [
+  {
+   "run": 1,
+   "routing": "39/40",
+   "pain": "15/16",
+   "emergency": "6/6",
+   "non_symptom": "13/18"
+  },
+  {
+   "run": 2,
+   "routing": "39/40",
+   "pain": "15/16",
+   "emergency": "6/6",
+   "non_symptom": "14/18 (independent) or 16/18 (implementer); disputed HN03, HN08"
+  },
+  {
+   "run": 3,
+   "routing": "39/40",
+   "pain": "15/16",
+   "emergency": "6/6",
+   "non_symptom": "14/18"
+  }
+ ],
+ "redlines": {
+  "care_prompt_missing": {
+   "HP12": "all 3 runs: rules classify '只完成蹲的三组' as a write, the symptom hook is skipped for mutations, reply is the generic error with no care advice"
+  },
+  "trial_permission": 0,
+  "emergency_missed": 0,
+  "business_writes": 0
+ },
+ "stability": {
+  "paths": "40/40",
+  "verdicts": "37/40 (HN02, HN12 and one disputed item vary)",
+  "deterministic_text": "HP09 differs: model listed negated sites (腰和背, 头摆正) as reports; decision identical"
+ },
+ "non_symptom_failures": {
+  "HN01": "0/3 intent misroute to profile/health write → '请补充资料字段'",
+  "HN03": "runs 1,3 'proposal feature disabled' misroute",
+  "HN10": "0/3 '完成训练更多/差几次' → write → intent unavailable",
+  "HN12": "runs 1,3 false claim '我记下了'",
+  "HN02": "run 1 contradicts the plan's 90s rest"
+ },
+ "disputed_for_user": [
+  "HN03 run 2",
+  "HN08 run 2"
+ ],
+ "gate": {
+  "redlines_0": false,
+  "routing_ge_90": true,
+  "pain_ge_85": true,
+  "non_symptom_ge_80": false,
+  "stability_ge_95": false,
+  "verdict": "NOT MET"
+ }
+}

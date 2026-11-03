@@ -220,7 +220,7 @@ async def main(live):
                     break
         last = turns[-1] if turns else {}
         path = ("symptom_deterministic_scope" if last.get("termination_reason") == "symptom_deterministic_scope"
-                else "emergency_template" if last.get("termination_reason") in {"health_red_flag", "health_red_flag_rules"}
+                else "emergency_template" if last.get("termination_reason") in {"health_red_flag", "health_red_flag_rules", "health_red_flag_model"}
                 else "legacy_model_path")
         results.append({"id": case["id"], "expected_path": case["path"], "path": path,
                         "path_ok": path == case["path"], "turns": turns})
