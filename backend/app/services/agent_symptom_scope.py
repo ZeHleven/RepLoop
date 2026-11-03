@@ -326,14 +326,22 @@ _RECORD_VERB = (
     r"(?:记下|记一下|记上|记到|记进|记入|记录(?:一下|下来|到|进|上)|保存|存档|存一下|录入|写进|写到|登记|打卡"
     r"|更新(?:到|进)?(?:档案|记录))"
 )
-_EXPLICIT_RECORD = re.compile(_RECORD_VERB)
-_NEGATED_RECORD = re.compile(r"(?:不|别|不要|不用|无需|不必|先别|没|没有|暂不)(?:帮我|给我|要|用)?" + _RECORD_VERB)
+_COMMAND = (
+    r"(?:(?:帮我|给我|替我|麻烦你?)[^，,。；;？?！!\n]{0,12}?"
+    r"(?:改|删|换|调|加|减|去掉|取消|挪|移|安排|生成|新建|创建)"
+    r"|把[^，,。；;？?！!\n]{0,12}?"
+    r"(?:改成|改为|改到|删掉|删除|删了|换成|替换成|调到|调成|调整为|加到|挪到|移到|去掉|取消))"
+)
+_EXPLICIT_WRITE = re.compile(_RECORD_VERB + "|" + _COMMAND)
+_NEGATED_WRITE = re.compile(
+    r"(?:不|别|不要|不用|无需|不必|先别|没|没有|暂不)(?:用|要)?(?:" + _RECORD_VERB + "|" + _COMMAND + ")"
+)
 
 
-def explicit_record_request(message: str) -> bool:
-    """The user explicitly asks to save or log something (not just ask)."""
-    text = _NEGATED_RECORD.sub("", _QUOTED.sub("", message or ""))
-    return bool(_EXPLICIT_RECORD.search(text))
+def explicit_write_request(message: str) -> bool:
+    """The user explicitly asks to save, log or change data (not just ask)."""
+    text = _NEGATED_WRITE.sub("", _QUOTED.sub("", message or ""))
+    return bool(_EXPLICIT_WRITE.search(text))
 
 
 def seeks_training_advice(message: str) -> bool:

@@ -173,10 +173,25 @@ def test_only_negated_reports_leave_nothing_to_act_on():
     assert validate_facts(output(reports=[report("knee", "膝盖不疼"), report("shoulder", "肩也没事")]), user_texts=[msg]) is None
 
 
-def test_explicit_record_request():
-    from app.services.agent_symptom_scope import explicit_record_request
-    assert explicit_record_request("帮我把今天只完成蹲的三组记下来")
-    assert explicit_record_request("膝盖疼，把这个保存到健康档案")
-    assert not explicit_record_request("我把推的省掉，只完成蹲的三组可不可以？")
-    assert not explicit_record_request("膝盖疼，只要建议，不保存。")
-    assert not explicit_record_request("别记下来，先说说怎么练")
+def test_explicit_write_request():
+    from app.services.agent_symptom_scope import explicit_write_request as w
+    assert w("帮我把今天只完成蹲的三组记下来")
+    assert w("膝盖疼，把这个保存到健康档案")
+    assert w("膝盖疼，帮我把深蹲换成腿举")
+    assert w("膝盖疼，把深蹲删掉可以吗")
+    assert not w("我把推的省掉，只完成蹲的三组可不可以？")
+    assert not w("膝盖疼，只要建议，不保存。")
+    assert not w("别记下来，先说说怎么练")
+    assert not w("右膝疼，不用帮我改计划，就说哪个该停")
+
+
+def test_out_of_enum_side_no_longer_voids_the_extraction():
+    from app.services.agent_symptom_facts import normalize_payload
+    payload = output(reports=[report("wrist_elbow", "眼下痛")]).model_dump()
+    payload["reports"][0]["side"] = "unclear"
+    payload["reports"].append({"region": "elbow", "side": "left", "site_text": "x" * 30, "quote": "眼下痛"})
+    payload["care_signals"] = [{"kind": "bruise", "quote": "青紫"}, {"kind": "made_up", "quote": "青紫"}]
+    payload["time_cap_minutes"] = 999
+    fixed = SymptomFactsOutput.model_validate(normalize_payload(payload))
+    assert [(r.region, r.side, r.site_text) for r in fixed.reports] == [("wrist_elbow", "none", ""), ("unclear", "left", "")]
+    assert [c.kind for c in fixed.care_signals] == ["bruise"] and fixed.time_cap_minutes == 0

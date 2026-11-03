@@ -19,7 +19,7 @@ from app.config import settings
 from app.services.agent_symptom_facts import extract_symptom_facts
 from app.services.agent_symptom_scope import (
     current_symptom_reports,
-    explicit_record_request,
+    explicit_write_request,
     emergency_signals,
     is_symptom_training_request,
     load_symptom_scope,
@@ -2119,17 +2119,26 @@ async def _execute_agent_run(
                 clarification_context=context,
             )
 
-        # A "mutation" label from the intent layer does not outrank validated
-        # facts that the user is reporting their own current symptom, unless
-        # the user explicitly asks to save or log something (HP12: "只完成蹲
-        # 的三组可不可以" is a question about training, not a write).
+        # A "mutation" label from the intent layer does not outrank the user
+        # reporting their own current symptom, unless the user explicitly asks
+        # to save, log or change data (HP12: "只完成蹲的三组可不可以" is a
+        # question about training, not a write). Validated facts decide; the
+        # rule detector is the fallback when extraction is unavailable.
+        if symptom_facts is not None:
+            own_symptom_now = bool(
+                symptom_facts.purpose == "own_symptom_training"
+                and not symptom_facts.resolved_now
+                and symptom_facts.reports
+            )
+        else:
+            own_symptom_now = bool(
+                current_symptom_reports(user_message)
+                and is_symptom_training_request(user_message, has_plan=True)
+            )
         symptom_overrides_mutation = bool(
             resolution.request_kind == "mutation"
-            and symptom_facts is not None
-            and symptom_facts.purpose == "own_symptom_training"
-            and not symptom_facts.resolved_now
-            and symptom_facts.reports
-            and not explicit_record_request(user_message)
+            and own_symptom_now
+            and not explicit_write_request(user_message)
         )
         symptom_scope_eligible = (
             settings.AGENT_SYMPTOM_SCOPE_ENABLED

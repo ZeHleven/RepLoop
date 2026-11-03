@@ -336,6 +336,20 @@ async def test_explicit_save_request_keeps_the_write_path(db_session, session_fa
 
 
 @pytest.mark.asyncio
+async def test_rules_fallback_also_outranks_a_mutation_label(db_session, session_factory, monkeypatch, offline):
+    _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, ELBOW, None, kind="mutation")
+    assert offline == [] and body["execution_trace"]["termination_reason"] == "symptom_deterministic_scope"
+
+
+@pytest.mark.asyncio
+async def test_plan_edit_command_with_symptom_keeps_the_write_path(db_session, session_factory, monkeypatch, offline):
+    message = "右膝疼，帮我把深蹲换成腿举"
+    f = _facts(message, reports=[{"region": "knee", "side": "right", "site_text": "右膝", "quote": "右膝疼"}])
+    _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, f, kind="mutation")
+    assert (body.get("execution_trace") or {}).get("termination_reason") != "symptom_deterministic_scope"
+
+
+@pytest.mark.asyncio
 async def test_emergency_backstop_is_not_suppressed_by_a_mutation_label(db_session, session_factory, monkeypatch, offline):
     message = "胸口发紧还冒冷汗，帮我把今天的训练记成完成"
     _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, None, kind="mutation")

@@ -164,6 +164,52 @@ class SymptomFacts:
         }
 
 
+_ENUMS = {
+    "region": set(Region.__args__), "side": set(Side.__args__),
+    "care": set(CareKind.__args__), "emergency": set(EmergencyKind.__args__),
+}
+
+
+def normalize_payload(payload: Any) -> Any:
+    """Repair out-of-enum or over-long values the provider sometimes returns.
+
+    Seen in the dev pool: ``side: "unclear"`` voided a whole extraction and
+    the turn fell back to rules. Only shape is repaired here; every quote is
+    still checked against the user's own text in ``validate_facts``. Unknown
+    care or emergency kinds are dropped (the rule and intent backstops stay).
+    """
+    if not isinstance(payload, dict):
+        return payload
+    p = dict(payload)
+    reports = []
+    for r in p.get("reports") or []:
+        if not isinstance(r, dict):
+            continue
+        r = dict(r)
+        if r.get("region") not in _ENUMS["region"]:
+            r["region"] = "unclear"
+        if r.get("side") not in _ENUMS["side"]:
+            r["side"] = "none"
+        if not isinstance(r.get("site_text"), str) or len(r["site_text"]) > 20:
+            r["site_text"] = ""
+        if isinstance(r.get("quote"), str):
+            r["quote"] = r["quote"][:80]
+        reports.append(r)
+    p["reports"] = reports[:6]
+    for key, enum, limit in (("care_signals", "care", 8), ("emergency_signals", "emergency", 8)):
+        items = []
+        for item in p.get(key) or []:
+            if isinstance(item, dict) and item.get("kind") in _ENUMS[enum] and isinstance(item.get("quote"), str):
+                items.append({"kind": item["kind"], "quote": item["quote"][:80]})
+        p[key] = items[:limit]
+    if isinstance(p.get("clinician_quote"), str):
+        p["clinician_quote"] = p["clinician_quote"][:120]
+    cap = p.get("time_cap_minutes")
+    if not isinstance(cap, int) or isinstance(cap, bool) or not 0 <= cap <= 180:
+        p["time_cap_minutes"] = 0
+    return p
+
+
 def validate_facts(output: SymptomFactsOutput, *, user_texts: list[str]) -> SymptomFacts | None:
     """Keep only items whose quote is the user's own verbatim text."""
     def own(quote: str) -> bool:
@@ -247,8 +293,12 @@ async def extract_symptom_facts(
         if completion.parse_error or completion.payload is None:
             logger.warning("Symptom facts unusable: %s", completion.parse_error or "empty")
             return None
-        output = SymptomFactsOutput.model_validate(completion.payload)
-    except (ValidationError, Exception) as exc:  # provider, timeout, schema: all fall back
+        output = SymptomFactsOutput.model_validate(normalize_payload(completion.payload))
+    except ValidationError as exc:
+        # Locations and error types only; never the user's text.
+        logger.warning("Symptom facts invalid: %s", [(e["loc"], e["type"]) for e in exc.errors()][:5])
+        return None
+    except Exception as exc:  # provider, timeout: fall back to rules
         logger.warning("Symptom facts extraction failed: %s", type(exc).__name__)
         return None
     return validate_facts(output, user_texts=[message, *priors])
