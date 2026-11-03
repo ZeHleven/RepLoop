@@ -1,0 +1,20 @@
+{
+ "flag_off": {
+  "total": 4924,
+  "failed": 86,
+  "new_vs_candidate2": [
+   "tests.test_round38_read_recovery::test_worker_persists_visible_reply_and_all_attempts[worker-timeout_once-None-2]",
+   "tests.test_round38_read_recovery::test_worker_persists_visible_reply_and_all_attempts[worker-sql_timeout_once-None-2]",
+   "tests.test_round42_history_evidence::test_original_route_through_real_api_worker_sql"
+  ]
+ },
+ "flag_on_probe": {
+  "total": 4924,
+  "failed": 160,
+  "new_vs_candidate2": [
+   "tests.test_round38_read_recovery::test_worker_persists_visible_reply_and_all_attempts[worker-delayed_once-None-2]",
+   "tests.test_round42_history_evidence::test_original_route_through_real_api_worker_sql"
+  ]
+ },
+ "note": "flag off: 86 failed = 83 pre-existing + round38 flaky x2 + round42 date-of-day test (fails when the Shanghai date differs from local date; also fails on baseline); flag on: 76 more failures than flag off, 75 confirmed by scope_probe to enter the new path, 1 = known round38 flaky"
+}

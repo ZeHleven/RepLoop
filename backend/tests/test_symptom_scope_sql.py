@@ -234,13 +234,13 @@ def _facts(message, prior=(), **kw):
     return validate_facts(SymptomFactsOutput.model_validate(base), user_texts=[message, *prior])
 
 
-async def _scoped_run(db_session, session_factory, monkeypatch, message, facts_value, *, conversation=None, user=None):
+async def _scoped_run(db_session, session_factory, monkeypatch, message, facts_value, *, conversation=None, user=None, kind="assessment"):
     if user is None:
         user, conversation = await seed(db_session)
     monkeypatch.setattr(settings, "AGENT_SYMPTOM_FACTS_MODEL_ENABLED", True)
     monkeypatch.setattr(runtime, "extract_symptom_facts", AsyncMock(return_value=facts_value))
     monkeypatch.setattr(runtime, "resolve_intent_with_fallback", AsyncMock(return_value=IntentResolverOutcome(
-        resolution=resolution(message), source="model", attempt_count=1)))
+        resolution=resolution(message, kind=kind), source="rules", attempt_count=1)))
     headers = {"Authorization": "Bearer " + create_access_token(user.id)}
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test", headers=headers) as client:
         res = await client.post("/api/v1/agent/runs", json={
@@ -307,3 +307,37 @@ async def test_model_continuation_carries_swelling_from_previous_scope(db_sessio
     _, _, _, body2 = await _scoped_run(db_session, session_factory, monkeypatch, second, f2, conversation=conversation, user=user)
     assert offline == []
     assert body2["reply"].startswith("你提到了肿胀") and "照常" not in body2["reply"]
+
+
+ELBOW = "搬凳子胳膊肘磕门框上了，眼下痛，没肿但有一块青紫。我把推的省掉，只完成蹲的三组可不可以？"
+
+
+def _elbow_facts(message):
+    return _facts(message, reports=[{"region": "wrist_elbow", "side": "none", "site_text": "胳膊肘", "quote": "眼下痛"}],
+                  care_signals=[{"kind": "trauma", "quote": "胳膊肘磕门框上了"}, {"kind": "bruise", "quote": "有一块青紫"}])
+
+
+@pytest.mark.asyncio
+async def test_own_symptom_facts_outrank_a_mutation_label(db_session, session_factory, monkeypatch, offline):
+    user, _, run_id, body = await _scoped_run(db_session, session_factory, monkeypatch, ELBOW, _elbow_facts(ELBOW), kind="mutation")
+    assert offline == []
+    assert body["execution_trace"]["termination_reason"] == "symptom_deterministic_scope"
+    assert body["reply"].startswith("你提到了") and "照常" not in body["reply"]
+    async with session_factory() as db:
+        assert await db.scalar(select(func.count()).select_from(AgentProposal).where(AgentProposal.user_id == user.id)) == 0
+
+
+@pytest.mark.asyncio
+async def test_explicit_save_request_keeps_the_write_path(db_session, session_factory, monkeypatch, offline):
+    message = "胳膊肘磕了眼下痛，帮我把今天只完成蹲的三组记下来"
+    f = _facts(message, reports=[{"region": "wrist_elbow", "side": "none", "site_text": "胳膊肘", "quote": "眼下痛"}])
+    _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, f, kind="mutation")
+    assert (body.get("execution_trace") or {}).get("termination_reason") != "symptom_deterministic_scope"
+
+
+@pytest.mark.asyncio
+async def test_emergency_backstop_is_not_suppressed_by_a_mutation_label(db_session, session_factory, monkeypatch, offline):
+    message = "胸口发紧还冒冷汗，帮我把今天的训练记成完成"
+    _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, None, kind="mutation")
+    assert offline == [] and body["reply"] == runtime.HIGH_RISK_REPLY
+    assert body["execution_trace"]["termination_reason"] == "health_red_flag_rules"

@@ -146,3 +146,37 @@ def test_rule_backstop_ignores_directly_negated_emergency_terms():
     assert emergency_signals("肩肘都不疼，也没胸口发紧或喘不过气，蛋白质怎么分") == []
     assert emergency_signals("没一会儿就胸口疼得厉害")
     assert emergency_signals("没有胸闷，但是冒冷汗")
+
+
+NECK = "低头系鞋带后颈就痛，腰和背都不疼，头摆正没事。我每次能留给训练的时间不超过22分钟，你看那张单该咋处理。"
+
+
+def test_reports_whose_quote_only_denies_the_site_are_dropped():
+    f = validate_facts(output(reports=[
+        report("other", "低头系鞋带后颈就痛", site_text="后颈"),
+        report("back", "腰和背都不疼", site_text="腰和背"),
+        report("other", "头摆正没事", site_text="头摆正"),
+    ], time_cap_minutes=22), user_texts=[NECK])
+    assert [r["site_text"] for r in f.reports] == ["后颈"] and f.dropped_quotes == 2
+    d = decide_scope(NECK, PLAN, facts=f)
+    assert render_reply(d).startswith("后颈现在不舒服")
+
+
+@pytest.mark.parametrize("quote", ["膝盖发软", "没事的时候也疼", "肩不怎么疼但一抬就卡", "右膝屈膝就疼"])
+def test_positive_reports_survive_the_negation_filter(quote):
+    f = validate_facts(output(reports=[report("knee", quote)]), user_texts=[quote])
+    assert f is not None and len(f.reports) == 1
+
+
+def test_only_negated_reports_leave_nothing_to_act_on():
+    msg = "膝盖不疼，肩也没事"
+    assert validate_facts(output(reports=[report("knee", "膝盖不疼"), report("shoulder", "肩也没事")]), user_texts=[msg]) is None
+
+
+def test_explicit_record_request():
+    from app.services.agent_symptom_scope import explicit_record_request
+    assert explicit_record_request("帮我把今天只完成蹲的三组记下来")
+    assert explicit_record_request("膝盖疼，把这个保存到健康档案")
+    assert not explicit_record_request("我把推的省掉，只完成蹲的三组可不可以？")
+    assert not explicit_record_request("膝盖疼，只要建议，不保存。")
+    assert not explicit_record_request("别记下来，先说说怎么练")

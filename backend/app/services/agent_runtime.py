@@ -19,6 +19,7 @@ from app.config import settings
 from app.services.agent_symptom_facts import extract_symptom_facts
 from app.services.agent_symptom_scope import (
     current_symptom_reports,
+    explicit_record_request,
     emergency_signals,
     is_symptom_training_request,
     load_symptom_scope,
@@ -2118,27 +2119,48 @@ async def _execute_agent_run(
                 clarification_context=context,
             )
 
+        # A "mutation" label from the intent layer does not outrank validated
+        # facts that the user is reporting their own current symptom, unless
+        # the user explicitly asks to save or log something (HP12: "只完成蹲
+        # 的三组可不可以" is a question about training, not a write).
+        symptom_overrides_mutation = bool(
+            resolution.request_kind == "mutation"
+            and symptom_facts is not None
+            and symptom_facts.purpose == "own_symptom_training"
+            and not symptom_facts.resolved_now
+            and symptom_facts.reports
+            and not explicit_record_request(user_message)
+        )
         symptom_scope_eligible = (
             settings.AGENT_SYMPTOM_SCOPE_ENABLED
             and resolution.risk_level != "high"
-            and resolution.request_kind not in {"mutation", "proposal_decision"}
+            and (
+                resolution.request_kind not in {"mutation", "proposal_decision"}
+                or symptom_overrides_mutation
+            )
         )
-        if symptom_scope_eligible:
-            prior_user_messages = [
-                item["content"] for item in reversed(history)
-                if item.get("role") == "user" and isinstance(item.get("content"), str)
-            ]
+        if (
+            settings.AGENT_SYMPTOM_SCOPE_ENABLED
+            and resolution.risk_level != "high"
+            and resolution.request_kind != "proposal_decision"
+        ):
+            # Emergency is a union of model facts, intent risk (handled
+            # earlier) and the rule backstop: it only ever adds, and a write
+            # label does not suppress it.
             rule_emergency = emergency_signals(user_message)
             model_emergency = bool(symptom_facts is not None and symptom_facts.emergency)
             if rule_emergency or model_emergency:
-                # Emergency is a union of model facts, intent risk (handled
-                # earlier) and the rule backstop: it only ever adds.
                 return await complete_semantic_short_circuit(
                     HIGH_RISK_REPLY,
                     terminal_action="safe_stop",
                     termination_reason="health_red_flag_rules" if rule_emergency else "health_red_flag_model",
                     content_data={"guardrail": "health_red_flag"},
                 )
+        if symptom_scope_eligible:
+            prior_user_messages = [
+                item["content"] for item in reversed(history)
+                if item.get("role") == "user" and isinstance(item.get("content"), str)
+            ]
             route_scope = False
             symptom_continuing = False
             if symptom_facts is not None:

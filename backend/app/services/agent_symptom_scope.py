@@ -322,6 +322,20 @@ def emergency_signals(message: str) -> list[str]:
     return list(dict.fromkeys(m.group() for m in _EMERGENCY.finditer(text)))
 
 
+_RECORD_VERB = (
+    r"(?:记下|记一下|记上|记到|记进|记入|记录(?:一下|下来|到|进|上)|保存|存档|存一下|录入|写进|写到|登记|打卡"
+    r"|更新(?:到|进)?(?:档案|记录))"
+)
+_EXPLICIT_RECORD = re.compile(_RECORD_VERB)
+_NEGATED_RECORD = re.compile(r"(?:不|别|不要|不用|无需|不必|先别|没|没有|暂不)(?:帮我|给我|要|用)?" + _RECORD_VERB)
+
+
+def explicit_record_request(message: str) -> bool:
+    """The user explicitly asks to save or log something (not just ask)."""
+    text = _NEGATED_RECORD.sub("", _QUOTED.sub("", message or ""))
+    return bool(_EXPLICIT_RECORD.search(text))
+
+
 def seeks_training_advice(message: str) -> bool:
     return bool(_ADVICE.search(message or ""))
 

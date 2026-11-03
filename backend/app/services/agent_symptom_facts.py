@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
@@ -122,6 +123,22 @@ EXAMPLE = {
 SCHEMA = strict_tool_schema(SymptomFactsOutput)
 
 
+# A report whose own quote only denies the site ("腰和背都不疼", "头摆正没事")
+# is not a current symptom. Only quotes that contain a negation are checked,
+# so a positive report without any symptom word ("膝盖发软") is kept.
+_NEGATED_SITE = re.compile(
+    r"(?:都|也|倒|还)?(?:不|没有?|无)(?:怎么|太|啥|什么|再)?"
+    r"(?:疼|痛|酸|麻|肿|事|问题|感觉|不舒服|难受|毛病)"
+)
+_SYMPTOM_WORD = re.compile(r"疼|痛|酸|麻|肿|胀|扭|崴|伤|炎|不舒服|难受|僵|卡|响|软|无力|没劲|使不上")
+
+
+def _negated_report(quote: str) -> bool:
+    if not _NEGATED_SITE.search(quote):
+        return False
+    return not _SYMPTOM_WORD.search(_NEGATED_SITE.sub("", quote))
+
+
 @dataclass
 class SymptomFacts:
     purpose: str
@@ -156,7 +173,9 @@ def validate_facts(output: SymptomFactsOutput, *, user_texts: list[str]) -> Symp
     dropped = 0
     reports = []
     for r in output.reports:
-        if own(r.quote):
+        if own(r.quote) and _negated_report(r.quote):
+            dropped += 1
+        elif own(r.quote):
             reports.append({
                 "region": r.region, "side": r.side,
                 "site_text": r.site_text if own(r.site_text) else "", "quote": r.quote,
