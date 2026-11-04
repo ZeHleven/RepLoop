@@ -2153,11 +2153,14 @@ async def _execute_agent_run(
             and resolution.risk_level != "high"
             and resolution.request_kind != "proposal_decision"
         ):
-            # Emergency is a union of model facts, intent risk (handled
-            # earlier) and the rule backstop: it only ever adds, and a write
-            # label does not suppress it.
-            rule_emergency = emergency_signals(user_message)
-            model_emergency = bool(symptom_facts is not None and symptom_facts.emergency)
+            # Intent risk=high was handled earlier and always wins; a write
+            # label does not suppress the emergency check.
+            # Spec v1.2 decision 9: when validated model facts exist they
+            # decide; the rule backstop applies only if extraction failed.
+            if symptom_facts is not None:
+                rule_emergency, model_emergency = [], bool(symptom_facts.emergency)
+            else:
+                rule_emergency, model_emergency = emergency_signals(user_message), False
             if rule_emergency or model_emergency:
                 return await complete_semantic_short_circuit(
                     HIGH_RISK_REPLY,

@@ -85,7 +85,7 @@ def test_model_region_drives_deterministic_pause_keep():
     d = decide_scope(MSG, PLAN, facts=facts(MSG, reports=[report("ankle", "脚脖子今天迈步就疼", site_text="脚脖子")]))
     day = {x.item.exercise_name: x for x in d.days[1]}
     assert not day["深蹲"].keep and day["卧推"].keep
-    assert render_reply(d).startswith("脚脖子现在不舒服")
+    assert render_reply(d).startswith("脚踝现在不舒服")
 
 
 @pytest.mark.parametrize("region", ["other", "unclear"])
@@ -159,7 +159,7 @@ def test_reports_whose_quote_only_denies_the_site_are_dropped():
     ], time_cap_minutes=22), user_texts=[NECK])
     assert [r["site_text"] for r in f.reports] == ["后颈"] and f.dropped_quotes == 2
     d = decide_scope(NECK, PLAN, facts=f)
-    assert render_reply(d).startswith("后颈现在不舒服")
+    assert render_reply(d).startswith("颈部现在不舒服")
 
 
 @pytest.mark.parametrize("quote", ["膝盖发软", "没事的时候也疼", "肩不怎么疼但一抬就卡", "右膝屈膝就疼"])
@@ -195,3 +195,53 @@ def test_out_of_enum_side_no_longer_voids_the_extraction():
     fixed = SymptomFactsOutput.model_validate(normalize_payload(payload))
     assert [(r.region, r.side, r.site_text) for r in fixed.reports] == [("wrist_elbow", "none", ""), ("unclear", "left", "")]
     assert [c.kind for c in fixed.care_signals] == ["bruise"] and fixed.time_cap_minutes == 0
+
+
+# Spec v1.2: fixed wording, clinician-named exercises, model-first emergency.
+HIP = "右边髋关节附近这两天走动时疼，停下来就不疼，没摔没肿"
+
+
+@pytest.mark.parametrize("quote,side,site", [("右边髋关节附近这两天走动时疼", "right", "右边髋关节附近"),
+                                             ("这两天走动时疼", "none", "右边髋关节")])
+def test_reply_wording_does_not_depend_on_model_chosen_text(quote, side, site):
+    f = facts(HIP, reports=[report("other", quote, side=side, site_text=site)])
+    reply = render_reply(decide_scope(HIP, PLAN, facts=f))
+    assert reply.startswith("髋部现在不舒服") and "右右" not in reply
+
+
+def test_same_region_reported_twice_reads_once_and_care_order_is_fixed():
+    msg = "膝盖磕了一下，青了一块，膝盖还肿"
+    a = facts(msg, reports=[report("knee", "膝盖磕了一下"), report("knee", "膝盖还肿")],
+              care_signals=[{"kind": "bruise", "quote": "青了一块"}, {"kind": "trauma", "quote": "磕了一下"}])
+    b = facts(msg, reports=[report("knee", "膝盖还肿")],
+              care_signals=[{"kind": "trauma", "quote": "磕了一下"}, {"kind": "bruise", "quote": "青了一块"}])
+    ra, rb = render_reply(decide_scope(msg, PLAN, facts=a)), render_reply(decide_scope(msg, PLAN, facts=b))
+    assert ra == rb and ra.startswith("你提到了淤青、外伤")
+
+
+def test_clinician_quote_is_not_echoed():
+    msg = "手肘还疼，大夫说这几天歇着别拿重东西"
+    f = facts(msg, reports=[report("wrist_elbow", "手肘还疼")], clinician_quote="大夫说这几天歇着别拿重东西",
+              clinician_restricts_load=True)
+    reply = render_reply(decide_scope(msg, PLAN, facts=f))
+    assert "歇着别拿重东西" not in reply and "以医生的嘱咐为准" in reply and "照常" not in reply
+
+
+def test_doctor_naming_one_exercise_pauses_only_that_exercise():
+    msg = "腰最近一弯就疼。刚看过医生，他说这阵子先别做深蹲，其他没交代。"
+    f = facts(msg, reports=[report("back", "腰最近一弯就疼")], clinician_quote="他说这阵子先别做深蹲，其他没交代。",
+              clinician_restricts_load=True)
+    d = decide_scope(msg, PLAN, facts=f)
+    day = {x.item.exercise_name: x for x in d.days[1]}
+    assert not day["深蹲"].keep and day["卧推"].keep and not d.doctor_rest and d.doctor_named == ["深蹲"]
+    # the same instruction through the rule detector
+    r = decide_scope(msg, PLAN)
+    assert {x.item.exercise_name: x.keep for x in r.days[1]} == {"深蹲": False, "卧推": True}
+
+
+@pytest.mark.parametrize("instruction", ["医生让我先休息一周别做深蹲", "医生说先别练了，深蹲也别做", "康复师说深蹲不能负重"])
+def test_general_rest_still_pauses_everything(instruction):
+    msg = "膝盖疼，" + instruction
+    d = decide_scope(msg, PLAN)
+    assert all(not x.keep for x in d.days[1])
+

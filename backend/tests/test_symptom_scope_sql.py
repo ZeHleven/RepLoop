@@ -355,3 +355,13 @@ async def test_emergency_backstop_is_not_suppressed_by_a_mutation_label(db_sessi
     _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, None, kind="mutation")
     assert offline == [] and body["reply"] == runtime.HIGH_RISK_REPLY
     assert body["execution_trace"]["termination_reason"] == "health_red_flag_rules"
+
+
+@pytest.mark.asyncio
+async def test_model_facts_without_emergency_override_rule_hits(db_session, session_factory, monkeypatch, offline):
+    message = "昨天练完胸，今儿两边胸肌按着酸，关节不痛，没有胸口压着或喘不过气。周一那份能帮我看下顺序么？"
+    assert runtime.emergency_signals(message)  # the rule backstop alone would fire
+    _, _, run_id, body = await _scoped_run(db_session, session_factory, monkeypatch, message, _facts(message, purpose="no_symptom"))
+    assert (body.get("execution_trace") or {}).get("termination_reason") not in {"health_red_flag_rules", "health_red_flag_model"}
+    assert len(offline) >= 1  # reached the legacy model path
+

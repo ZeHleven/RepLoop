@@ -162,6 +162,7 @@ class ScopeDecision:
     mentioned: list[tuple[str, bool, str]] = field(default_factory=list)
     doctor: list[str] = field(default_factory=list)
     doctor_rest: bool = False
+    doctor_named: list[str] = field(default_factory=list)
     detector: dict | None = None
     substitution_asked: bool = False
 
@@ -174,6 +175,7 @@ class ScopeDecision:
             "profile_injuries": self.profile_injuries,
             "doctor_instructions": self.doctor,
             "doctor_rest": self.doctor_rest,
+            "doctor_named": self.doctor_named,
             "detector": self.detector,
             "care_now": self.care_now,
             "time_cap_minutes": self.time_cap_minutes,
@@ -427,6 +429,42 @@ def _fit_to_cap(kept: list[ItemDecision], cap: int | None) -> tuple[list[ItemDec
     return items, total(items), insufficient
 
 
+# Fixed wording for model-extracted regions (spec v1.2): the reply never
+# echoes model-chosen text, so the same decision always reads the same.
+FACTS_REGION_LABEL = {
+    "shoulder": "肩", "wrist_elbow": "手腕或手肘", "knee": "膝盖", "back": "腰背", "ankle": "脚踝",
+}
+_CARE_ORDER = ("肿胀", "淤青", "变形", "外伤", "无法承重", "麻木", "无力", "休息或夜间疼痛")
+# A clinician instruction that asks for general rest, immobilisation or no
+# load pauses the whole plan; one that only names exercises does not.
+_GENERAL_REST = re.compile(
+    r"休息|歇着|歇一?歇|制动|固定|卧床|停练|"
+    r"(?:别|不要|不能|先别|暂停|停止?)(?:练|训练|运动|锻炼|动)|"
+    r"(?:不能|别|不要|避免|少)(?:负重|受力|用力|吃力|承重)"
+)
+
+
+_UNMAPPED_LABEL = {"颈": "颈部", "髋": "髋部", "胯": "胯部", "臀": "臀部", "肋": "肋部"}
+
+
+def _unmapped_label(quote: str, message: str) -> str:
+    """Library-unmapped site word, taken from the user's own text by rule."""
+    for text in (quote, _QUOTED.sub("", message or "")):
+        match = _UNMAPPED_WORDS.search(text or "")
+        if match:
+            word = match.group()
+            return _UNMAPPED_LABEL.get(word, word)
+    return ""
+
+
+def doctor_named_exercises(instructions: Iterable[str], exercise_names: Iterable[str]) -> list[str]:
+    """Plan exercises a clinician named, when the instruction is not general rest."""
+    instructions = [i for i in instructions if i]
+    if not instructions or any(_GENERAL_REST.search(i) for i in instructions):
+        return []
+    return [n for n in dict.fromkeys(exercise_names) if n and any(n in i for i in instructions)]
+
+
 def decide_scope(
     message: str,
     plan_items: list[PlanItem] | None,
@@ -444,13 +482,17 @@ def decide_scope(
     if facts is not None:
         # docs/agent/16: understanding comes from validated model facts; the
         # pause/keep mapping and reply below stay deterministic.
-        from app.services.agent_symptom_facts import CARE_LABEL, REGION_AREA, REGION_LABEL, SIDE_LABEL
-        reports = [SymptomReport(
-            quote=r["quote"], area=REGION_AREA.get(r["region"]),
-            site_label=r.get("site_text") or REGION_LABEL.get(r["region"], ""),
-            side=SIDE_LABEL.get(r.get("side", "none"), ""), source="current",
-        ) for r in facts.reports]
-        care = [CARE_LABEL[c] for c in facts.care]
+        from app.services.agent_symptom_facts import CARE_LABEL, REGION_AREA
+        reports = []
+        seen_labels = set()
+        for r in facts.reports:
+            label = FACTS_REGION_LABEL.get(r["region"]) or _unmapped_label(r["quote"], message)
+            key = (REGION_AREA.get(r["region"]), label)
+            if key in seen_labels:
+                continue
+            seen_labels.add(key)
+            reports.append(SymptomReport(quote=r["quote"], area=key[0], site_label=label, side="", source="current"))
+        care = sorted({CARE_LABEL[c] for c in facts.care}, key=_CARE_ORDER.index)
         doctor = [facts.clinician_quote] if facts.clinician_quote else []
         doctor_rest = facts.clinician_restricts_load
         cap = facts.time_cap_minutes or cap
@@ -458,7 +500,8 @@ def decide_scope(
         if carry:
             if not reports:
                 reports = [SymptomReport(**r) for r in previous_scope.get("reports", [])]
-            care = list(dict.fromkeys([*care, *previous_scope.get("care_now", [])]))
+            care = sorted(set(care) | set(previous_scope.get("care_now", [])),
+                          key=lambda c: _CARE_ORDER.index(c) if c in _CARE_ORDER else len(_CARE_ORDER))
             doctor = list(dict.fromkeys([*doctor, *previous_scope.get("doctor_instructions", [])]))
             doctor_rest = doctor_rest or bool(previous_scope.get("doctor_rest"))
             cap = cap or previous_scope.get("time_cap_minutes")
@@ -501,7 +544,12 @@ def decide_scope(
         has_plan=bool(plan_items),
         substitution_asked=bool(re.search(r"换成|替换|代替|改成|改做|换个", message or "")),
     )
+    named_by_doctor = doctor_named_exercises(decision.doctor, (i.exercise_name for i in plan_items or []))
+    if named_by_doctor:
+        # Spec v1.2 decision 11: "医生说先别做深蹲" pauses only 深蹲.
+        doctor_rest = False
     decision.doctor_rest = bool(doctor_rest)
+    decision.doctor_named = named_by_doctor
     pause_all = bool(unmapped) or bool(decision.care_now) or doctor_rest
     by_day: dict[int, list[PlanItem]] = {}
     for item in sorted(plan_items or [], key=lambda x: (x.day_of_week, x.order_index)):
@@ -517,6 +565,8 @@ def decide_scope(
                 initial.append(ItemDecision(item, False, "就医评估前整份计划先停"))
             elif pause_all:
                 initial.append(ItemDecision(item, False, f"当前不适部位（{'、'.join(unmapped)}）无法按动作库判断"))
+            elif item.exercise_name in named_by_doctor:
+                initial.append(ItemDecision(item, False, "医生嘱咐先不做这个动作"))
             elif current_conflict:
                 initial.append(ItemDecision(item, False, f"会用到当前不适的{'、'.join(current_conflict)}"))
             elif saved_conflict:
@@ -572,8 +622,7 @@ def render_reply(decision: ScopeDecision) -> str:
     else:
         lines.append(f"{site}现在不舒服，先停会用到这个部位的动作，不要带着疼痛减重“试一下”。")
     if decision.doctor:
-        quoted = "；".join(f"“{c}”" for c in decision.doctor)
-        lines.append(f"你提到{quoted}，以医生的嘱咐为准；下面的取舍不能代替医嘱，两者冲突时按医嘱。")
+        lines.append("你提到了医生或康复师的嘱咐，以医生的嘱咐为准；下面的取舍不能代替医嘱，两者冲突时按医嘱。")
     if decision.profile_injuries is not None:
         if decision.profile_injuries:
             lines.append(f"健康档案记录的伤病：{'、'.join(decision.profile_injuries)}；今天新说的情况同样计入。")
