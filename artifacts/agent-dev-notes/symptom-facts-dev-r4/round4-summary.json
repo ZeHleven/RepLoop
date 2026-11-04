@@ -1,0 +1,17 @@
+{
+ "type": "symptom-facts round 4 dev runs (spec v1.2 class-level fixes); dev data, not a score",
+ "candidate": "bfd8047 (candidate 4)",
+ "cost_cny": {"v3_x3": 2.8447, "v2_symptom_subset_x1": 0.4646, "total_est": 3.31},
+ "v3_x3_under_spec_v1_2": {
+  "routing": ["38/40", "39/40", "38/40"],
+  "redlines": 0, "non_conservative": 0,
+  "conservative": ["HP12, HP14", "HP14", "HP12, HP14"],
+  "note": "HP12/HP14 = intent layer risk=high -> emergency template (user decision 10: keep)",
+  "HN07": "legacy path 3/3 (was emergency template 3/3 on candidate 3)",
+  "HP05": "only 深蹲 paused, 卧推 kept 3/3",
+  "stability": "21/22 decisions (HP12 varies between pain path and emergency template); same-decision items verbatim identical"
+ },
+ "v2_symptom_subset_x1": {"routing": "22/22", "redlines": 0, "non_conservative": 0, "conservative": 0},
+ "regression": "flag off 84/4936 failed, no new; flag on 75 extra, all enter the new path (scope_probe)",
+ "not_done": "flags-off baseline and D6 judging of legacy replies (done at held-out acceptance)"
+}
