@@ -1,0 +1,890 @@
+{
+ "mode": "live",
+ "baseline_flags_off": true,
+ "cases_sha256": "1abdede419d51cdf743c7f6ea9f056ef9f9913fd1667d8879c4940cfaf0b8484",
+ "business_date": "2026-10-09",
+ "settings": {
+  "AGENT_ENABLED": true,
+  "AGENT_MODEL": "deepseek-v4-flash",
+  "AGENT_INTENT_MODEL_ENABLED": true,
+  "AGENT_INTENT_MODEL": "deepseek-v4-flash",
+  "AGENT_RULES_FIRST_ENABLED": false,
+  "AGENT_PLANNED_EXECUTION_ENABLED": true,
+  "AGENT_ASYNC_WORKER_ENABLED": false,
+  "AGENT_PLAN_MANAGEMENT_PROPOSALS_ENABLED": true,
+  "AGENT_NUTRITION_PROPOSALS_ENABLED": true,
+  "AGENT_SYMPTOM_SCOPE_ENABLED": false,
+  "AGENT_SYMPTOM_FACTS_MODEL_ENABLED": false,
+  "DEEPSEEK_BASE_URL": "https://api.deepseek.com"
+ },
+ "provider_requests": 47,
+ "estimated_cny": 0.408156,
+ "price_basis": "input ¥2/M (all as cache miss), output ¥8/M",
+ "stopped": null,
+ "seconds": 108.9,
+ "results": [
+  {
+   "id": "HN01",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "刚走到门口左膝有点酸，周一那张计划还怎么弄？",
+     "submit_status": 202,
+     "run_id": "0f0c7291-dde9-42f3-a542-aa072685f2b7",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "先说结论：周一那张计划里只有卧推和深蹲，深蹲是唯一明显压到膝盖的动作。左膝只是“有点酸”、没有明确疼痛，可以先不取消训练，但深蹲要降级处理。\n\n计划本身：每周 1 天，周一，卧推 3×10（建议 20kg）、深蹲 3×10（建议 30kg），组间休息 90 秒。这是计划处方，不代表你实际练过或实际能承受的重量。\n\n周一可以这样调整（建议，不写入计划）：\n- 卧推照常做，3×10，重量按当天状态选，最后 2 次还能保持动作稳定就行。\n- 深蹲先别上 30kg。用空杆或很轻的重量做 2 组、每组 8–10 次，只到“蹲下起身全程膝盖不加重酸感”的幅度；酸感出现或加深就停。\n- 如果空杆蹲下去也酸，就换成坐到椅子上再站起的箱式蹲或臀桥，同样 2 组，观察反应。\n- 练完当天和第二天留意：酸感是否加重、上下楼和走路是否受影响。没加重，下次可以小幅加回；加重或出现疼痛，就先停深蹲类动作。\n\n另外想确认一点：这个酸是只在走路时出现，还是蹲下、上下楼也会？有没有肿、卡住或打软腿？这决定周一能不能保留深蹲。如果出现明显疼痛、肿胀或膝盖打软，建议先找专业医疗评估，别硬练。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "medium",
+      "primary_intent": "health_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3437,
+       "cache_hit": 3200,
+       "completion": 335,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3086,
+       "cache_hit": 2688,
+       "completion": 47,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 4833,
+       "cache_hit": 2560,
+       "completion": 339,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 9.1
+    },
+    {
+     "message": "现在已经完全不酸不疼了，走动也没不适；我想问回原计划，两组之间要歇多少秒？",
+     "submit_status": 202,
+     "run_id": "f198de86-0ba5-47b2-86da-91d8a94f5d27",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "原计划里，卧推和深蹲的组间休息都是 **90 秒**。\n\n既然酸感已经消失、走动也没不适，周一可以按原计划来：卧推 3×10（建议 20kg）、深蹲 3×10（建议 30kg），组间各歇 90 秒。这是计划里的处方重量，实际用多少还是按当天状态来定。\n\n深蹲第一组先留意膝盖反应，如果酸感又出现，就当场减重或减幅度，别硬顶完三组。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "plan_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 4178,
+       "cache_hit": 3328,
+       "completion": 371,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3377,
+       "cache_hit": 2560,
+       "completion": 22,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 4986,
+       "cache_hit": 2432,
+       "completion": 116,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 6.1
+    }
+   ]
+  },
+  {
+   "id": "HN02",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "四年前我崴过脚，早就恢复了，后来一直没再疼；现在只想确认计划上深蹲到底是多重、几组，记岔了。",
+     "submit_status": 202,
+     "run_id": "7ba50237-8c30-40ec-8721-0f6aa8d8b698",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "当前生效的“第31轮合成计划”里，深蹲安排是 **3组 × 10次，建议重量30公斤，组间休息90秒**，排在每周第1个训练日。\n\n这是计划里写的处方重量，不代表你实际完成过这个重量。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "medium",
+      "primary_intent": "plan_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3456,
+       "cache_hit": 3200,
+       "completion": 338,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 2969,
+       "cache_hit": 2688,
+       "completion": 22,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 4554,
+       "cache_hit": 2560,
+       "completion": 59,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.5
+    }
+   ]
+  },
+  {
+   "id": "HN03",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "高中背疼过那阵子早翻篇了，我现在啥不适都没有；给我念一遍现有周一安排就行，不改。",
+     "submit_status": 202,
+     "run_id": "d2f1aa5f-a64c-4976-8e3d-b574a684dbb8",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "你现在的生效计划是「第31轮合成计划」，目标是保持体重，每周练1天，周期4周。周一安排如下：\n\n- 卧推：3组 × 10次，组间休息90秒，建议重量20公斤\n- 深蹲：3组 × 10次，组间休息90秒，建议重量30公斤\n\n以上是计划里保存的内容，不代表实际完成情况。按你说的，不做任何修改。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "plan_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3449,
+       "cache_hit": 3200,
+       "completion": 318,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3004,
+       "cache_hit": 2560,
+       "completion": 22,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 7567,
+       "cache_hit": 3584,
+       "completion": 94,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.3
+    }
+   ]
+  },
+  {
+   "id": "HN04",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "我媳妇手肘这两天疼，还惦记去撸铁，我本人没事；跟她怎么说比较妥当？不用帮她排动作。",
+     "submit_status": 202,
+     "run_id": "bef52177-3dfe-470b-9e7f-d491c193d543",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "先别急着劝她“别练了”，那样容易变成对立。可以这样说：我知道你想练，但手肘已经疼了两天，这时候硬上力量训练，风险比收益大。我们先弄清楚疼在什么位置、什么动作会加重，再决定怎么练。\n\n沟通上可以把握几点：把“我担心你”放在前面，而不是替她做决定；问她愿不愿意先暂停会加重手肘的动作，其他不疼的部位可以照常练；如果她坚持要练，就约定“疼就立刻停”，不硬撑、不追求重量和次数。\n\n安全上，近两天疼痛还在，不建议盲目加量或忍痛训练。若疼痛明显、持续加重，或出现肿胀、活动受限、麻木无力，建议先找专业医疗人员评估。具体怎么练、能不能练，需要结合她的实际情况判断，我这边不替她排动作。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "general_qa",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3449,
+       "cache_hit": 3200,
+       "completion": 390,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1740,
+       "cache_hit": 1152,
+       "completion": 186,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 6.0
+    }
+   ]
+  },
+  {
+   "id": "HN05",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "跑友发消息说他膝盖肿了还想硬练，我怎么劝他先找人看看？是他不是我，我好好的。",
+     "submit_status": 202,
+     "run_id": "ea7aa67f-5c6c-4321-8519-0c9365bb508c",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "膝盖肿胀时还硬练，风险不小。劝的时候别一上来就否定他，先顺着他的目标说：“我知道你不想断训练，但膝盖肿着继续跑，可能把小问题拖成长期停训。”然后给他一个明确动作：先找运动医学或骨科评估，弄清肿胀原因，再决定能不能练、练什么。\n\n沟通上可以少讲道理、多给替代方案：比如先暂停跑跳和负重，问医生是否可以做上肢或核心训练。别替他下诊断，也别承诺“休息几天就好”。如果出现明显疼痛加重、不能负重、关节发热红肿或活动受限，更应尽快就医。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "general_qa",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3447,
+       "cache_hit": 3200,
+       "completion": 344,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1617,
+       "cache_hit": 1152,
+       "completion": 135,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.5
+    }
+   ]
+  },
+  {
+   "id": "HN06",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "弟弟肩疼，医生已经让他休息了，他不服气。我想给他解释两句为啥得听医生的；我自己没伤，别动我的计划哈。",
+     "submit_status": 202,
+     "run_id": "5a8d384e-8748-4523-9227-ae1e3b6cd886",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "可以这样跟他说：肩痛时继续练，问题往往不只是“忍一忍”。疼痛会让肩部肌肉发力方式改变，动作容易变形，负担可能转到肩袖、肩峰周围或颈部；如果本来就有炎症或组织损伤，继续刺激可能加重，恢复期也会拖长。医生让休息，通常是为了先让组织缓下来、看清疼痛来源，而不是否定训练。\n\n也可以补一句：休息不等于一直不动，之后怎么恢复训练、哪些动作能练，最好按医生的复查意见来。你这边没伤，我不会动你的计划。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "general_qa",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3455,
+       "cache_hit": 3200,
+       "completion": 351,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1618,
+       "cache_hit": 1152,
+       "completion": 119,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.1
+    }
+   ]
+  },
+  {
+   "id": "HN07",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "昨天练完胸，今儿两边胸肌按着酸，就是肌肉练后的那种，关节不痛，没有胸口压着或喘不过气。周一那份能帮我看下顺序么？",
+     "submit_status": 202,
+     "run_id": "75f043b9-883d-423a-966c-d9e442a5db24",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "当前生效的计划是“第31轮合成计划”，每周1天，安排在周一，动作顺序如下：\n\n1. 卧推：3组 × 10次，组间休息90秒，计划建议重量20kg\n2. 深蹲：3组 × 10次，组间休息90秒，计划建议重量30kg\n\n这是计划里的安排，不代表你实际完成的重量和组数。\n\n你描述的酸痛是按压时两侧胸肌酸痛、关节不痛、没有胸闷气短，听起来更像训练后的肌肉酸痛。接下来几天可以正常活动，但先别急着加重量；如果酸痛明显加重，或者出现关节痛、胸闷、呼吸困难，就停下来并找专业人士看看。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "medium",
+      "primary_intent": "plan_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3464,
+       "cache_hit": 3328,
+       "completion": 335,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3038,
+       "cache_hit": 2560,
+       "completion": 22,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 4644,
+       "cache_hit": 2432,
+       "completion": 147,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 6.2
+    }
+   ]
+  },
+  {
+   "id": "HN08",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "昨儿练腿练瓷实了，今天大腿和屁股的肌肉酸，膝盖脚踝都好好的，是平常第二天那种酸；这一般会持续多久呀？",
+     "submit_status": 202,
+     "run_id": "282429e9-7e0f-4609-a824-c305c666363a",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "这种平常的延迟性肌肉酸痛，一般在练后 24～72 小时最明显，多数人 3～5 天基本消退，偶尔会拖到一周左右。你膝盖和脚踝都没事，说明关节负担不大，先不用紧张。\n\n这几天可以照常做轻活动、散步或低强度有氧，酸痛明显的部位别急着再上大重量。如果酸痛超过一周不退，或者出现明显肿胀、关节痛、尿色变深，就别硬练，及时找专业医生看看。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "general_qa",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3458,
+       "cache_hit": 3324,
+       "completion": 327,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1546,
+       "cache_hit": 1152,
+       "completion": 109,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 4.5
+    }
+   ]
+  },
+  {
+   "id": "HN09",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "昨天练了上臂，今天前面那块肌肉酸胀，两边差不多，肘关节和肩关节一点不疼，跟以前练完一样；饭里蛋白质怎么搭合适？",
+     "submit_status": 202,
+     "run_id": "b84dca59-2a2b-4a3a-ba94-d6f21fcd29b3",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "这种对称的酸胀、关节不疼，听起来更像正常的训练后肌肉酸痛，先不用紧张。这两天可以照常活动，别急着加量；如果出现明显肿胀、无力或疼痛加重，再停下来评估。\n\n蛋白质搭配上，给你一个通用思路：每餐都放一份优质蛋白，别把一天的蛋白质都堆到晚饭。\n\n- 早餐：鸡蛋、牛奶或无糖酸奶，配主食\n- 午晚餐：鱼、虾、鸡胸、瘦牛肉、豆腐或豆制品，选一到两种，份量大约一个手掌大小\n- 加餐：酸奶、豆浆或一小把坚果，按饿不饿来定\n\n总量上，规律训练的人一般可以按每公斤体重每天约 1.2–1.6 克蛋白质来安排，具体还要看你的体重和训练量。另外，蛋白质最好和主食一起吃，训练后那餐正常吃就行，不需要额外猛补。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "nutrition_today_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3460,
+       "cache_hit": 3326,
+       "completion": 328,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1851,
+       "cache_hit": 1408,
+       "completion": 196,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.5
+    }
+   ]
+  },
+  {
+   "id": "HN10",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "膝盖今早有点酸，我这条只想查账：本周到底完成过几次训练？先别聊今天怎么练。",
+     "submit_status": 202,
+     "run_id": "ce80c3cd-1959-4099-86da-b8bcaf19cfa5",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "本周 10 月 5 日到 10 月 9 日，状态为“已完成”的训练记录是 **2 次**。\n\n这次只统计了“已完成”状态；其他状态（如提前结束、进行中）没有纳入，所以这 2 次不代表本周全部训练活动。膝盖的事我记下了，这次不展开。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "medium",
+      "primary_intent": "workout_progress_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3448,
+       "cache_hit": 3200,
+       "completion": 384,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3371,
+       "cache_hit": 2816,
+       "completion": 87,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3872,
+       "cache_hit": 2688,
+       "completion": 77,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 6.0
+    }
+   ]
+  },
+  {
+   "id": "HN11",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "10月8号肩膀不舒服那天，我晚饭记了啥来着？菜和克数都给我看下，只查旧记录。",
+     "submit_status": 202,
+     "run_id": "57a19977-dd01-470e-b74d-18e6e5266dc4",
+     "claimed": true,
+     "status": "completed",
+     "error_code": "intent_understanding_unavailable",
+     "reply": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。",
+     "termination_reason": "intent_understanding_unavailable",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "mutation",
+      "risk_level": "medium",
+      "primary_intent": "health_query",
+      "intent_source": "rules",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3451,
+       "cache_hit": 3200,
+       "completion": 377,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3478,
+       "cache_hit": 3328,
+       "completion": 383,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.2
+    }
+   ]
+  },
+  {
+   "id": "HN12",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "这两天腰有点疼，先不研究它；帮我核对10月7号和8号是不是都练了，各完成几次，我怕自己把同一天记重了。",
+     "submit_status": 202,
+     "run_id": "abbe2ced-bd9d-4293-8595-3b17e2a48df8",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "我查了 10 月 7 日和 8 日这两天的记录，所有状态都查了：\n\n- 10 月 7 日：1 条已完成训练\n- 10 月 8 日：1 条已完成训练\n\n两天各 1 次，没有同一天重复记录，你不用担心记重了。不过这两条记录里组数、次数和总容量都是 0，也没有动作明细，所以只能确认“有这两次训练记录”，没法判断实际练了什么、练了多少。\n\n腰疼的事按你说的先放着，需要时再聊。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "medium",
+      "primary_intent": "workout_history_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3458,
+       "cache_hit": 3324,
+       "completion": 362,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 5995,
+       "cache_hit": 5632,
+       "completion": 121,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 7303,
+       "cache_hit": 5504,
+       "completion": 128,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 6.1
+    }
+   ]
+  },
+  {
+   "id": "HN13",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "听一个医生讲科普时提到肌肉酸和关节酸，我本人好好的，纯想弄懂这俩通常怎么区分？",
+     "submit_status": 202,
+     "run_id": "b6237f47-7169-4fed-9833-490204bb4771",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "一般可以从“位置、感觉、动作影响”来分：\n\n- **位置**：肌肉酸痛多在肌肉肚子上，范围偏大、偏散；关节酸痛集中在关节缝或关节周围，位置更明确。\n- **感觉**：肌肉酸常是酸胀、发紧、按压会酸；关节酸常伴僵硬、卡顿感，有时活动时有摩擦感或轻微肿胀。\n- **动作影响**：肌肉酸痛多在发力或拉伸那块肌肉时明显；关节酸痛常在弯曲、伸直、承重或上下楼时更明显。\n- **时间规律**：运动后延迟出现的肌肉酸痛常在一两天后达峰、几天内缓解；关节不适若持续、反复肿胀或活动受限，就不太像普通肌肉酸。\n\n这只是常识层面的区分，不能替代检查。若出现关节红肿发热、明显肿胀、卡住或打软腿，或疼痛持续加重，建议找专业医生评估。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "general_qa",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3449,
+       "cache_hit": 3200,
+       "completion": 349,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1633,
+       "cache_hit": 1152,
+       "completion": 193,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.1
+    }
+   ]
+  },
+  {
+   "id": "HN14",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "看书看到‘静息痛’三个字，不是我在疼啊，就是这个词到底指啥，跟一动才疼有啥区别？",
+     "submit_status": 202,
+     "run_id": "4ae2ebc0-17cb-4257-a306-c04c161d785a",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "“静息痛”指在不活动、休息状态下仍然出现的疼痛，典型情况是夜间躺着也疼，甚至会被疼醒。它常提示局部供血或神经等方面的问题，具体原因要看部位和伴随表现。\n\n“活动时才疼”则是疼痛由动作诱发，休息后减轻，比如关节或肌肉在负重、发力时不适。两者的关键区别在于：静息痛不依赖动作出现，往往更需要重视；活动痛则要先看动作、负荷和恢复情况。\n\n这只是术语解释，不针对你的身体情况。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "general_qa",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3450,
+       "cache_hit": 3200,
+       "completion": 363,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1661,
+       "cache_hit": 1152,
+       "completion": 112,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.3
+    }
+   ]
+  },
+  {
+   "id": "HN15",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "有人说练完酸是乳酸一直没排出去，这说法靠谱么？我没啥不舒服，只是刷到争论想听个明白。",
+     "submit_status": 202,
+     "run_id": "56bf6b16-019e-456a-b4c3-08e8ab781b9b",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "这个说法不太靠谱，把两件事混在一起了。\n\n练后那种酸胀、按压会痛、第二天更明显的感觉，通常叫延迟性肌肉酸痛（DOMS），主要和训练造成的肌肉微损伤、炎症反应及神经敏感有关，不是乳酸堆积。\n\n乳酸在运动时确实会升高，但运动结束后几十分钟到几小时内就会被身体代谢掉，不会“一直留在肌肉里”造成第二天的酸痛。所以“排酸”这个说法更多是习惯用语，不是准确的生理描述。\n\n想缓解的话，轻度活动、拉伸、睡眠和循序渐进加量都比“排乳酸”更实际。你没有不舒服就不用担心，了解原理就够了。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "general_qa",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3451,
+       "cache_hit": 3200,
+       "completion": 327,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1550,
+       "cache_hit": 1152,
+       "completion": 137,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 4.8
+    }
+   ]
+  },
+  {
+   "id": "HN16",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "晚上和同事吃麻辣烫，今天身体没啥毛病；想吃得蛋白质够一点，选菜怎么搭？不要替我记饮食。",
+     "submit_status": 202,
+     "run_id": "fb36b893-fa83-4b72-bc42-a8d18208d146",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "晚上吃麻辣烫想多补点蛋白质，可以这样搭：\n\n- **蛋白质主力选 2–3 样**：牛肉片、鸡胸/鸡肉片、虾、鱼片、鹌鹑蛋、豆腐或豆皮。尽量选原切肉和整只虾，少选丸子、蟹棒这类加工品。\n- **蔬菜占一半左右**：绿叶菜、菌菇、海带、冬瓜、番茄都行，量可以大一些。\n- **主食按饭量来**：玉米、土豆、红薯、粉丝、面条选一两样，别全点。\n- **汤底和蘸料**：清汤或番茄汤更稳；麻酱、辣油热量高，想控制的话少放或换成醋加蒜。\n\n这样一顿的蛋白质基本能到位，也不用刻意少吃。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "nutrition_today_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 2,
+     "usage": [
+      {
+       "prompt": 3450,
+       "cache_hit": 3200,
+       "completion": 361,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 1891,
+       "cache_hit": 1408,
+       "completion": 174,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.0
+    }
+   ]
+  },
+  {
+   "id": "HN17",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "我把周一的数字忘干净了，卧推和深蹲各几组几下、多少公斤？人挺精神，也没有哪儿难受，就翻一下现有计划。",
+     "submit_status": 202,
+     "run_id": "06b6ab88-ba88-4af8-a9c9-1e1a8bc6dc03",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "当前生效计划是「第31轮合成计划」，周一训练日安排如下：\n\n- **卧推**：3 组 × 10 次，建议重量 20 kg，组间休息 90 秒\n- **深蹲**：3 组 × 10 次，建议重量 30 kg，组间休息 90 秒\n\n这是计划里写的建议重量，不代表你实际完成时用的重量。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "plan_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3457,
+       "cache_hit": 3323,
+       "completion": 361,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3070,
+       "cache_hit": 2560,
+       "completion": 22,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 4666,
+       "cache_hit": 2432,
+       "completion": 90,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 5.1
+    }
+   ]
+  },
+  {
+   "id": "HN18",
+   "expected_path": "legacy_model_path",
+   "path": "legacy_model_path",
+   "path_ok": true,
+   "turns": [
+    {
+     "message": "今天状态挺好，就是下班晚，每次只能挤18分钟。按现有周一那两项，时间怎么分比较实际？先聊建议，不保存新方案。",
+     "submit_status": 202,
+     "run_id": "ef1cc82f-62fd-4974-bbee-34e8f26fd4b4",
+     "claimed": true,
+     "status": "completed",
+     "error_code": null,
+     "reply": "你现在的计划里，周一安排的是卧推和深蹲，各 3 组 × 10 次，组间休息 90 秒。按原样做，光休息就要 6 分钟，加上动作本身和换器械，18 分钟会很紧。下面是一个临时压缩版建议，不保存、不改计划：\n\n**18 分钟分配**\n- 0–2 分钟：热身，活动肩、髋、膝，做几组空杆或轻重量动作\n- 2–9 分钟：深蹲 3 组 × 10 次，组间休息约 60 秒\n- 9–10 分钟：换到卧推，简单活动肩部\n- 10–17 分钟：卧推 3 组 × 10 次，组间休息约 60 秒\n- 17–18 分钟：收尾，做几次轻松拉伸\n\n**几个实际取舍**\n- 组间休息从 90 秒缩到 60 秒，是这次省时间的主要来源。如果 60 秒后呼吸还没缓过来，就多歇 15–30 秒，宁可少做一组，也别硬赶。\n- 重量按计划里的 20 kg 卧推、30 kg 深蹲起步，但今天下班晚、状态好不代表一定扛得住，第一组做完感觉偏重就降一点。\n- 如果时间还是超，优先把两个动作都保成 2 组，而不是砍掉其中一个动作。\n\n这只是今天的临时安排。之后时间宽裕了，再回到原来的 90 秒休息和 3 组。",
+     "termination_reason": "agent_completed",
+     "terminal_action": "answer",
+     "intent": {
+      "request_kind": "query",
+      "risk_level": "low",
+      "primary_intent": "plan_query",
+      "intent_source": "model",
+      "clarification_required": false
+     },
+     "guardrail": null,
+     "provider_requests": 3,
+     "usage": [
+      {
+       "prompt": 3457,
+       "cache_hit": 3323,
+       "completion": 396,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 3124,
+       "cache_hit": 2688,
+       "completion": 22,
+       "model": "deepseek-flash"
+      },
+      {
+       "prompt": 4726,
+       "cache_hit": 2560,
+       "completion": 348,
+       "model": "deepseek-flash"
+      }
+     ],
+     "seconds": 7.1
+    }
+   ]
+  }
+ ]
+}
