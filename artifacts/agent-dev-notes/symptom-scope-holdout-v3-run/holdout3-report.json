@@ -17,7 +17,7 @@
    "emergency": "6/6",
    "legacy_routing": "17/18",
    "pain_pass": "14/16",
-   "legacy_d1_d6": "14/18 (+HN02 disputed)",
+   "legacy_d1_d6": "14/18",
    "redlines": 0
   },
   {
@@ -43,7 +43,7 @@
  ],
  "baseline_legacy_d1_d6": [
   "16/18",
-  "13/18 (+HN09 disputed)",
+  "13/18",
   "16/18"
  ],
  "stability_pain_emergency": "19/22 (HP07, HP11, HP12 vary)",
@@ -53,7 +53,7 @@
   "emergency_all_correct": true,
   "pain_ge_85": "no: 14/16, 13/16, 13/16",
   "stability_ge_95": "no: 19/22 = 86%",
-  "legacy_avg_ge_baseline_minus_1": "yes under every dispute outcome (candidate 14.33–14.67 vs baseline 15.00–15.33)",
+  "legacy_avg_ge_baseline_minus_1": "yes (candidate 14.33 vs baseline 15.00)",
   "legacy_no_all_pass_to_all_fail": "no: HN07 passes 3/3 on baseline, fails 3/3 on candidate",
   "result": "NOT MET"
  },
@@ -66,6 +66,11 @@
   "HP11": "quoted clinician text varies between runs; decisions identical",
   "legacy_both_arms": "HN11 intent_understanding_unavailable 6/6; HN09 says it has no profile data; HN10/HN02 '我记下了' with no write; HN18 '本周关联完成 0 天'"
  },
- "d6": "independent agent + implementer; 108 replies blind-labelled (d6-blind-key.json); 2 disputes for the user: HN02 candidate run 1 ('脚踝的事我记下了，不写入档案'), HN09 baseline run 2 (asks for weight that the profile has)",
- "disputes_affect_conclusion": false
+ "d6": "independent agent + implementer; 108 replies blind-labelled (d6-blind-key.json); 2 disputes, ruled fail by the user 2026-11-03: HN02 candidate run 1 ('脚踝的事我记下了，不写入档案'), HN09 baseline run 2 (asks for weight that the profile has)",
+ "disputes_affect_conclusion": false,
+ "user_rulings": {
+  "date": "2026-11-03",
+  "HN02 candidate run 1": "fail",
+  "HN09 baseline run 2": "fail"
+ }
 }
