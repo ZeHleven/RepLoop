@@ -1659,14 +1659,20 @@ async def _execute_agent_run(
                 facts_task = None
                 if settings.AGENT_SYMPTOM_SCOPE_ENABLED and settings.AGENT_SYMPTOM_FACTS_MODEL_ENABLED:
                     # docs/agent/16: understanding runs beside intent routing.
-                    facts_task = asyncio.create_task(extract_symptom_facts(
-                        user_message,
-                        prior_user_messages=[
-                            item["content"] for item in reversed(history)
-                            if item.get("role") == "user" and isinstance(item.get("content"), str)
-                        ],
-                        previous_reply_was_scope=previous_scope is not None,
-                    ))
+                    # It is billed to the same account but in its own billing
+                    # scope: an uncertain charge on this optional call (timeout,
+                    # provider error) must not stop the turn's own model calls.
+                    async def _extract_facts_isolated():
+                        with billing_user(run.user_id):
+                            return await extract_symptom_facts(
+                                user_message,
+                                prior_user_messages=[
+                                    item["content"] for item in reversed(history)
+                                    if item.get("role") == "user" and isinstance(item.get("content"), str)
+                                ],
+                                previous_reply_was_scope=previous_scope is not None,
+                            )
+                    facts_task = asyncio.create_task(_extract_facts_isolated())
                 try:
                     intent_outcome = await resolve_intent_with_fallback(
                         user_message,

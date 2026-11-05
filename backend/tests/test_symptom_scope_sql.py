@@ -399,3 +399,37 @@ async def test_unverified_own_symptom_still_takes_the_deterministic_path(db_sess
     _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, f)
     assert offline == [] and body["execution_trace"]["termination_reason"] == "symptom_deterministic_scope"
     assert "照常" not in body["reply"]
+
+
+@pytest.mark.asyncio
+async def test_failed_facts_call_does_not_poison_the_turn_billing_scope(db_session, session_factory, monkeypatch, offline):
+    """A budget/timeout failure inside the optional facts call stays in its own scope."""
+    from app.services import model_budget
+    seen = {}
+
+    async def failing_extract(*args, **kwargs):
+        scope = model_budget._scope.get()
+        seen["scope"] = scope
+        scope.failure = model_budget.ModelBudgetError(model_budget.UNCERTAIN, "model_budget_unavailable")
+        return None
+
+    monkeypatch.setattr(settings, "AGENT_SYMPTOM_FACTS_MODEL_ENABLED", True)
+    monkeypatch.setattr(runtime, "extract_symptom_facts", failing_extract)
+    turn_scopes = []
+    original = runtime.resolve_intent_with_fallback
+
+    message = "今天右手腕开始疼，按已存计划给取舍，不保存。"
+
+    async def intent(*args, **kwargs):
+        turn_scopes.append(model_budget._scope.get())
+        return IntentResolverOutcome(resolution=resolution(message), source="model", attempt_count=1)
+
+    monkeypatch.setattr(runtime, "resolve_intent_with_fallback", intent)
+    user, conversation = await seed(db_session)
+    headers = {"Authorization": "Bearer " + create_access_token(user.id)}
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test", headers=headers) as client:
+        run_id, body = await run_once(client, session_factory, conversation.id, message)
+    assert seen["scope"] is not None and seen["scope"].failure is not None
+    assert turn_scopes and turn_scopes[0] is not seen["scope"] and turn_scopes[0].failure is None
+    assert body["execution_trace"]["termination_reason"] == "symptom_deterministic_scope"
+
