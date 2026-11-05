@@ -365,3 +365,12 @@ async def test_model_facts_without_emergency_override_rule_hits(db_session, sess
     assert (body.get("execution_trace") or {}).get("termination_reason") not in {"health_red_flag_rules", "health_red_flag_model"}
     assert len(offline) >= 1  # reached the legacy model path
 
+
+@pytest.mark.asyncio
+async def test_unverified_own_symptom_still_takes_the_deterministic_path(db_session, session_factory, monkeypatch, offline):
+    message = "今儿穿套头衫，右肩只要往高处抬就刺刺的，放下不疼，外头看着也没鼓包，没磕着过。"
+    f = _facts(message, reports=[{"region": "shoulder", "side": "right", "site_text": "右肩", "quote": "右肩往高处抬就刺"}])
+    assert f.unverified
+    _, _, _, body = await _scoped_run(db_session, session_factory, monkeypatch, message, f)
+    assert offline == [] and body["execution_trace"]["termination_reason"] == "symptom_deterministic_scope"
+    assert "照常" not in body["reply"]

@@ -4,14 +4,14 @@ Design: docs/agent/16-symptom-facts-extraction-design.md. One strict-schema
 call returns enums, booleans, a number and verbatim user quotes. Nothing
 here writes a reply. Every quote must be a contiguous substring of the
 user's own text in this symptom episode, otherwise the item is dropped; a
-structurally invalid or unusable result is discarded so the caller falls
-back to the rule detector.
+structurally invalid result is discarded so the caller falls back to the
+rule detector. An own-symptom purpose whose quotes all fail the check is kept
+as "unverified": the turn still pauses the whole plan (unclear site).
 """
 from __future__ import annotations
 
 import json
 import logging
-import re
 from dataclasses import dataclass, field
 from typing import Any, Literal
 
@@ -123,20 +123,9 @@ EXAMPLE = {
 SCHEMA = strict_tool_schema(SymptomFactsOutput)
 
 
-# A report whose own quote only denies the site ("腰和背都不疼", "头摆正没事")
-# is not a current symptom. Only quotes that contain a negation are checked,
-# so a positive report without any symptom word ("膝盖发软") is kept.
-_NEGATED_SITE = re.compile(
-    r"(?:都|也|倒|还)?(?:不|没有?|无)(?:怎么|太|啥|什么|再)?"
-    r"(?:疼|痛|酸|麻|肿|事|问题|感觉|不舒服|难受|毛病)"
-)
-_SYMPTOM_WORD = re.compile(r"疼|痛|酸|麻|肿|胀|扭|崴|伤|炎|不舒服|难受|僵|卡|响|软|无力|没劲|使不上")
-
-
-def _negated_report(quote: str) -> bool:
-    if not _NEGATED_SITE.search(quote):
-        return False
-    return not _SYMPTOM_WORD.search(_NEGATED_SITE.sub("", quote))
+# No word-list filtering of reports here (held-out v4 HP01: a negation filter
+# dropped "右肩只要往高处抬就刺刺的，放下不疼"). If the model over-reports a
+# denied site, the plan only pauses more, never less.
 
 
 @dataclass
@@ -151,6 +140,7 @@ class SymptomFacts:
     continues_previous: bool
     resolved_now: bool
     dropped_quotes: int = 0
+    unverified: bool = False
     raw: dict[str, Any] = field(default_factory=dict)
 
     def as_data(self) -> dict[str, Any]:
@@ -160,7 +150,7 @@ class SymptomFacts:
             "clinician_restricts_load": self.clinician_restricts_load,
             "time_cap_minutes": self.time_cap_minutes, "emergency": self.emergency,
             "continues_previous": self.continues_previous, "resolved_now": self.resolved_now,
-            "dropped_quotes": self.dropped_quotes,
+            "dropped_quotes": self.dropped_quotes, "unverified": self.unverified,
         }
 
 
@@ -219,9 +209,7 @@ def validate_facts(output: SymptomFactsOutput, *, user_texts: list[str]) -> Symp
     dropped = 0
     reports = []
     for r in output.reports:
-        if own(r.quote) and _negated_report(r.quote):
-            dropped += 1
-        elif own(r.quote):
+        if own(r.quote):
             reports.append({
                 "region": r.region, "side": r.side,
                 "site_text": r.site_text if own(r.site_text) else "", "quote": r.quote,
@@ -243,11 +231,11 @@ def validate_facts(output: SymptomFactsOutput, *, user_texts: list[str]) -> Symp
     clinician = output.clinician_quote if own(output.clinician_quote) else ""
     if output.clinician_quote and not clinician:
         dropped += 1
-    # A symptom purpose with no surviving evidence is unusable; the caller
-    # falls back to the rule detector rather than acting on an unsupported claim.
-    if (output.purpose == "own_symptom_training" and not reports and not clinician
-            and not output.continues_previous and not emergency):
-        return None
+    # The model says the user has a current symptom but no quote survived:
+    # keep the purpose so the turn still takes the deterministic path with an
+    # unclear site (whole plan paused) instead of falling to the model path.
+    unverified = bool(output.purpose == "own_symptom_training" and not reports and not clinician
+                      and not output.continues_previous and not emergency)
     return SymptomFacts(
         purpose=output.purpose,
         reports=reports,
@@ -259,6 +247,7 @@ def validate_facts(output: SymptomFactsOutput, *, user_texts: list[str]) -> Symp
         continues_previous=output.continues_previous,
         resolved_now=output.resolved_now,
         dropped_quotes=dropped,
+        unverified=unverified,
         raw=output.model_dump(),
     )
 

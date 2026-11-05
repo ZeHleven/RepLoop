@@ -40,8 +40,11 @@ def test_verbatim_quotes_survive_and_invented_ones_are_dropped():
     assert f.care == [] and f.dropped_quotes == 2
 
 
-def test_symptom_purpose_without_any_surviving_evidence_is_unusable():
-    assert validate_facts(output(reports=[report("knee", "编造的原文")]), user_texts=[MSG]) is None
+def test_symptom_purpose_without_surviving_evidence_is_kept_as_unverified():
+    f = validate_facts(output(reports=[report("knee", "编造的原文")]), user_texts=[MSG])
+    assert f.unverified and f.reports == [] and f.purpose == "own_symptom_training"
+    d = decide_scope(MSG, PLAN, facts=f)
+    assert all(not x.keep for x in d.days[1])  # unclear site: whole plan paused
     assert validate_facts(output(purpose="third_party"), user_texts=[MSG]).purpose == "third_party"
 
 
@@ -151,26 +154,32 @@ def test_rule_backstop_ignores_directly_negated_emergency_terms():
 NECK = "低头系鞋带后颈就痛，腰和背都不疼，头摆正没事。我每次能留给训练的时间不超过22分钟，你看那张单该咋处理。"
 
 
-def test_reports_whose_quote_only_denies_the_site_are_dropped():
+def test_over_reported_denied_site_only_pauses_more():
     f = validate_facts(output(reports=[
         report("other", "低头系鞋带后颈就痛", site_text="后颈"),
         report("back", "腰和背都不疼", site_text="腰和背"),
-        report("other", "头摆正没事", site_text="头摆正"),
     ], time_cap_minutes=22), user_texts=[NECK])
-    assert [r["site_text"] for r in f.reports] == ["后颈"] and f.dropped_quotes == 2
     d = decide_scope(NECK, PLAN, facts=f)
-    assert render_reply(d).startswith("颈部现在不舒服")
+    assert all(not x.keep for x in d.days[1])
+    assert render_reply(d).startswith("颈部、腰背现在不舒服")
 
 
 @pytest.mark.parametrize("quote", ["膝盖发软", "没事的时候也疼", "肩不怎么疼但一抬就卡", "右膝屈膝就疼"])
-def test_positive_reports_survive_the_negation_filter(quote):
+def test_positive_reports_are_kept(quote):
     f = validate_facts(output(reports=[report("knee", quote)]), user_texts=[quote])
     assert f is not None and len(f.reports) == 1
 
 
-def test_only_negated_reports_leave_nothing_to_act_on():
-    msg = "膝盖不疼，肩也没事"
-    assert validate_facts(output(reports=[report("knee", "膝盖不疼"), report("shoulder", "肩也没事")]), user_texts=[msg]) is None
+SHOULDER = "今儿穿套头衫，右肩只要往高处抬就刺刺的，放下不疼，外头看着也没鼓包，没磕着过。"
+
+
+@pytest.mark.parametrize("quote", ["右肩只要往高处抬就刺刺的，放下不疼", "右肩只要往高处抬就刺刺的"])
+def test_report_with_a_negated_clause_is_not_dropped(quote):
+    # held-out v4 HP01: the round-3 word filter dropped the first quote
+    f = validate_facts(output(reports=[report("shoulder", quote, side="right", site_text="右肩")]), user_texts=[SHOULDER])
+    assert len(f.reports) == 1 and not f.unverified
+    d = decide_scope(SHOULDER, PLAN, facts=f)
+    assert {x.item.exercise_name: x.keep for x in d.days[1]} == {"卧推": False, "深蹲": True}
 
 
 def test_explicit_write_request():
