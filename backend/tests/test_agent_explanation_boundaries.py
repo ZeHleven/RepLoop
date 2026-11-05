@@ -197,10 +197,10 @@ async def test_explanation_survives_real_handlers_and_history_without_writes(
 ):
     from uuid import uuid4
     email = f"explanation-{uuid4().hex}@example.com"
-    registration = await client.post("/api/v1/auth/register", json={
+    registration = await client.seed_existing_account(json={
         "email": email, "password": "synthetic-explanation-password",
     })
-    assert registration.status_code == 201
+    assert registration.status_code == 200
     headers = {"Authorization": f"Bearer {registration.json()['access_token']}"}
     user = await db_session.scalar(select(User).where(User.email == email))
     model = FakeMessagesListChatModel(responses=[AIMessage(content=answer)])

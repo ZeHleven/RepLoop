@@ -63,7 +63,9 @@ jobs:
       - name: Verify database migration upgrade and downgrade
         working-directory: backend
         run: |
-          python -m alembic upgrade head
+          # 0033 (model budget ledger) refuses downgrade by design: the ledger
+          # must survive an application rollback. Keep checking 0024-0032.
+          python -m alembic upgrade 0032
           python -m alembic downgrade 0023
           python -m alembic upgrade head
 

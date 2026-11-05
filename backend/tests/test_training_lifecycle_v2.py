@@ -12,7 +12,7 @@ from app.services.training_lifecycle import training_week, display_plan_name
 
 
 async def setup_training(client, db):
-    auth = await client.post('/api/v1/auth/register', json={
+    auth = await client.seed_existing_account(json={
         'email': f'training-{uuid.uuid4()}@example.com', 'password': 'pass1234',
     })
     headers = {'Authorization': f'Bearer {auth.json()["access_token"]}'}

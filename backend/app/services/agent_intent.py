@@ -456,6 +456,11 @@ _PROPOSAL_DECISION_PATTERN = re.compile(
     r"[。.!！]*"
 )
 _NOMINAL_RECORD_PATTERN = re.compile(
+    # Completion-count questions (完成了几次 / 一共完成多少场) ask for data.
+    # Only the counted form is masked; 完成训练 / 帮我完成 stay writes.
+    r"完成(?=了?(?:几|多少)(?:个|次|场|回|天|日|组|遍|节|堂)?(?:训练|锻炼)?(?:[，,。；;！？!?吗呢]|$))|"
+    # 完成训练的日期 / 完成过的训练记录 name existing data; 帮我完成训练 stays a write.
+    r"完成(?=(?:了|过)?的?(?:训练|锻炼)?的?(?:日期|日子|哪几天|哪天|时间|记录|次数|场次|情况|明细))|"
     # Completed-set counts and saved attributes describe existing facts.
     # Mask only these occurrences, preserving any independent write verb.
     r"(?<=[已未])完成|完成(?=(?:状态|组数|次数|的(?:训练|组|场次)))|保存(?=的)|"

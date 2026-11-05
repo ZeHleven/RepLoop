@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import delete, select
 from app.database import get_db
-from app.deps import get_current_user
+from app.deps import get_current_user, get_billed_user
 from app.models.user import User
 from app.models.profile import UserProfile
 from app.models.exercise import Exercise
@@ -70,7 +70,7 @@ async def _validate_owned_exercises(db, user_id, exercise_ids):
 @router.post("/plans", response_model=WorkoutPlanDetail, status_code=201)
 async def create_plan(
     body: WorkoutPlanCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -104,7 +104,7 @@ async def create_plan(
 
 @router.get("/plans", response_model=list[WorkoutPlanDetail])
 async def list_plans(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     rows = await list_user_plans(db, user_id=current_user.id)
@@ -129,7 +129,7 @@ async def list_plans(
 @router.post("/plans/personalized/preview", response_model=PersonalizedPlanPreview)
 async def preview_personalized_workout_plan(
     body: PersonalizedPlanPreviewRequest = Body(default_factory=PersonalizedPlanPreviewRequest),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     from app.services.personalized_planner import (
@@ -154,7 +154,7 @@ async def preview_personalized_workout_plan(
 )
 async def confirm_personalized_workout_plan(
     body: PersonalizedPlanConfirmRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -250,7 +250,7 @@ def _plan_proposal_error(exc) -> JSONResponse:
 )
 async def get_plan_edit_context(
     plan_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     from app.config import settings
@@ -278,7 +278,7 @@ async def get_plan_edit_context(
 async def create_plan_adjustment_proposal(
     plan_id: str,
     body: CreatePlanAdjustmentProposalRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     from app.config import settings
@@ -307,7 +307,7 @@ async def create_plan_adjustment_proposal(
 async def create_plan_deletion_proposal(
     plan_id: str,
     body: CreatePlanDeletionProposalRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     from app.config import settings
@@ -331,7 +331,7 @@ async def create_plan_deletion_proposal(
 @router.get("/plans/{plan_id}", response_model=WorkoutPlanDetail)
 async def get_plan(
     plan_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     plan = await get_user_plan(db, user_id=current_user.id, plan_id=plan_id)
@@ -344,7 +344,7 @@ async def get_plan(
 @router.delete("/plans/{plan_id}", status_code=204)
 async def delete_plan(
     plan_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -372,7 +372,7 @@ async def delete_plan(
 @router.post("/plans/generate", response_model=WorkoutPlanDetail, status_code=201)
 async def generate_plan(
     body: GeneratePlanRequest = Body(default_factory=GeneratePlanRequest),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -400,7 +400,7 @@ async def generate_plan(
 @router.post("/sessions/start", response_model=WorkoutSessionDetail, status_code=201)
 async def start_session(
     body: WorkoutSessionStart,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -500,7 +500,7 @@ async def start_session(
 
 @router.get("/sessions/active", response_model=WorkoutSessionDetail | None)
 async def get_active_session(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     session = await get_active_user_session(db, user_id=current_user.id)
@@ -511,7 +511,7 @@ async def get_active_session(
 async def get_workout_progress(
     weeks: int = Query(default=8, ge=1, le=52),
     week_start: date | None = Query(default=None),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     return await get_workout_progress_summary(
@@ -525,7 +525,7 @@ async def get_workout_progress(
 @router.post("/sessions", response_model=WorkoutSessionDetail, status_code=201)
 async def log_session(
     body: WorkoutSessionCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -572,14 +572,14 @@ async def log_session(
 
 @router.put('/sessions/{session_id}/energy-classifications', response_model=WorkoutSessionDetail)
 async def set_session_energy_categories(session_id: str, body: SessionEnergyUpdate,
-                                         current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+                                         current_user: User = Depends(get_billed_user), db: AsyncSession = Depends(get_db)):
     session = await update_session_categories(db, current_user.id, session_id, body)
     return await build_session_detail(db, session)
 
 
 @router.get("/sessions", response_model=list[WorkoutSessionDetail])
 async def list_sessions(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     rows = await list_user_workout_sessions(db, user_id=current_user.id)
@@ -589,7 +589,7 @@ async def list_sessions(
 @router.get("/sessions/{session_id}", response_model=WorkoutSessionDetail)
 async def get_session(
     session_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     session = await get_user_workout_session(
@@ -611,7 +611,7 @@ async def record_workout_set(
     session_exercise_id: str,
     set_number: int,
     body: WorkoutSetRecord,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -683,7 +683,7 @@ async def record_workout_set(
 async def complete_session(
     session_id: str,
     body: WorkoutSessionComplete = Body(default_factory=WorkoutSessionComplete),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)
@@ -773,7 +773,7 @@ async def complete_session(
 
 @router.put('/sessions/{session_id}/exercises/{session_exercise_id}/sets/{set_number}/rest', response_model=WorkoutSessionDetail)
 async def record_rest(session_id: str, session_exercise_id: str, set_number: int,
-                      body: WorkoutRestRecord, current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+                      body: WorkoutRestRecord, current_user: User = Depends(get_billed_user), db: AsyncSession = Depends(get_db)):
     await lock_training_user(db, current_user.id)
     session = await get_user_workout_session(db, user_id=current_user.id, session_id=session_id)
     if session is None:
@@ -802,7 +802,7 @@ async def record_rest(session_id: str, session_exercise_id: str, set_number: int
 
 
 @router.post('/sessions/{session_id}/finish-early', response_model=WorkoutSessionDetail)
-async def finish_early(session_id: str, current_user: User = Depends(get_current_user), db: AsyncSession = Depends(get_db)):
+async def finish_early(session_id: str, current_user: User = Depends(get_billed_user), db: AsyncSession = Depends(get_db)):
     await lock_training_user(db, current_user.id)
     session = await get_user_workout_session(db, user_id=current_user.id, session_id=session_id)
     if session is None:
@@ -823,7 +823,7 @@ async def finish_early(session_id: str, current_user: User = Depends(get_current
 @router.delete("/sessions/{session_id}", status_code=204)
 async def abandon_session(
     session_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     await lock_training_user(db, current_user.id)

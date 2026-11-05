@@ -7,7 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.config import settings
 from app.database import get_db
-from app.deps import get_current_user
+from app.deps import get_current_user, get_billed_user
 from app.models.agent import AgentConversation, AgentMessage, AgentRun
 from app.models.user import User
 from app.schemas.agent import (
@@ -45,6 +45,8 @@ router = APIRouter(prefix="/agent", tags=["agent"])
 
 
 RUN_ERROR_MESSAGES = {
+    "model_budget_exhausted": "你的5元体验额度已用完，或剩余额度不足以完成本次请求。",
+    "model_budget_unavailable": "模型费用暂时无法核实，已暂停调用以保护你的体验额度。请联系管理员。",
     "ai_service_error": "训练搭子暂时无法连接 AI 服务，请稍后重试。",
     "agent_runtime_error": "训练搭子暂时无法完成请求，请稍后重试。",
     "worker_runtime_error": "后台处理暂时失败，请稍后重新发送。",
@@ -96,7 +98,7 @@ async def _owned_conversation(
 @router.post("/chat", response_model=AgentChatResponse)
 async def agent_chat(
     body: AgentChatRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     if body.conversation_id:
@@ -149,7 +151,7 @@ async def agent_chat(
 )
 async def create_agent_run(
     body: AgentRunCreateRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     conversation: AgentConversation | None = None
@@ -198,7 +200,7 @@ async def create_agent_run(
 )
 async def list_agent_conversations(
     limit: int = Query(default=50, ge=1, le=100),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     return list((await db.execute(
@@ -216,7 +218,7 @@ async def list_agent_conversations(
 async def get_agent_messages(
     conversation_id: str,
     limit: int = Query(default=50, ge=1, le=100),
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     conversation = await _owned_conversation(
@@ -239,7 +241,7 @@ async def get_agent_messages(
 @router.get("/runs/{run_id}", response_model=AgentRunResponse)
 async def get_agent_run(
     run_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     run = await db.scalar(
@@ -300,7 +302,7 @@ async def get_agent_run(
 )
 async def get_plan_adjustment_proposal(
     proposal_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     response = await read_owned_plan_adjustment_proposal(
@@ -323,7 +325,7 @@ async def get_plan_adjustment_proposal(
 async def confirm_plan_adjustment_proposal(
     proposal_id: str,
     body: PlanAdjustmentProposalDecisionRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     result = await apply_confirmed_plan_adjustment_atomically(
@@ -344,7 +346,7 @@ async def confirm_plan_adjustment_proposal(
 async def reject_plan_adjustment_proposal(
     proposal_id: str,
     body: PlanAdjustmentProposalDecisionRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     result = await decide_plan_adjustment_proposal(
@@ -357,3 +359,9 @@ async def reject_plan_adjustment_proposal(
         now=datetime.now(timezone.utc),
     )
     return await _finish_proposal_decision(db, result)
+
+
+@router.get("/budget")
+async def get_model_budget(current_user: User = Depends(get_current_user)):
+    from app.services.model_budget import budget_status
+    return await budget_status(current_user.id)

@@ -163,10 +163,10 @@ class _ReadPlanModel(FakeMessagesListChatModel):
 async def test_negated_read_reaches_owned_plan_without_business_writes(
     client, db_session, session_factory, mode,
 ):
-    registration = await client.post("/api/v1/auth/register", json={
+    registration = await client.seed_existing_account(json={
         "email": f"read-negation-{mode}@example.com", "password": "test-password",
     })
-    assert registration.status_code == 201
+    assert registration.status_code == 200
     headers = {"Authorization": f"Bearer {registration.json()['access_token']}"}
     user = await db_session.scalar(select(User).where(
         User.email == f"read-negation-{mode}@example.com",

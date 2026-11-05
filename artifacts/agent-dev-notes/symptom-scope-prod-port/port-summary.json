@@ -1,0 +1,48 @@
+{
+ "type": "port of the symptom scope onto the deployed line; dev data (v3 and v4 were seen before), not a blind score",
+ "base": "e871b4d (codex/miniapp-login-only, behind the current trial build) = main 59f2cf7 + 3 commits",
+ "candidate": "codex/agent-symptom-scope-prod (this branch)",
+ "regression": {
+  "base_e871b4d": "10 failed / 1876",
+  "candidate_flags_off": "10 failed / 2010 (identical set)",
+  "candidate_flags_on_probe": "10 failed / 2010 (identical set)"
+ },
+ "cost_cny": {
+  "first_attempt_contaminated": 1.52,
+  "probes": 0.045,
+  "valid_runs": 2.37,
+  "total_est": 3.94
+ },
+ "contaminated_attempt": "first attempt reused the shared eval DB; queued runs left by a killed attempt were claimed instead of new ones (claimed=False). Moved to contaminated/, not scored. Re-run on a fresh database with a claim-mismatch guard in the runner.",
+ "eval_env_note": "the deployed line's model budget transport ignores HTTPS_PROXY; the runner gives it the container proxy (eval only, product code unchanged)",
+ "symptom_items_under_spec_v1_2": {
+  "v3_x1": {
+   "routing": "38/40",
+   "redlines": 0,
+   "non_conservative": 0,
+   "conservative": [
+    "HP12",
+    "HP14 (intent layer risk=high -> emergency template)"
+   ]
+  },
+  "v4_x1": {
+   "routing": "40/40",
+   "redlines": 0,
+   "non_conservative": 0,
+   "conservative": []
+  }
+ },
+ "legacy_d6_vs_flags_off": {
+  "v3": "candidate 15/18, baseline 13/18",
+  "v4": "candidate 11/18, baseline 11/18",
+  "judges": "independent agent and implementer agree on all 72 replies"
+ },
+ "legacy_issues_on_deployed_line_both_arms": [
+  "HN11/HN18 (v3), HN10/HN12 (v4): intent_understanding_unavailable",
+  "V4 HN01/HN16/HN18: looks up session records instead of the plan, says no data",
+  "V4 HN07: evidence_budget_exceeded / agent_runtime_error",
+  "V3 HN09: asks for weight the profile holds",
+  "V4 HN05: specific trial for a trainee",
+  "agent_runtime_error x3 across runs: concurrent tool calls on one DB session (workout_list_history: 'This session is provisioning a new connection; concurrent operations are not permitted')"
+ ]
+}

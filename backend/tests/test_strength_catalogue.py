@@ -111,8 +111,8 @@ async def test_public_search_metadata_and_alias_cannot_bypass_health(client, db_
     entry = next(e for e in new_entries() if e['key'] == 'reverse-pec-deck')
     public_id, hidden_id, private_id = [str(uuid4()) for _ in range(3)]
     email = f'catalogue-{uuid4()}@example.com'
-    response = await client.post('/api/v1/auth/register', json={'email':email, 'password':'pass1234'})
-    assert response.status_code == 201
+    response = await client.seed_existing_account(json={'email':email, 'password':'pass1234'})
+    assert response.status_code == 200
     headers = {'Authorization':'Bearer ' + response.json()['access_token']}
     user = await db_session.scalar(sa.select(User).where(User.email == email))
     profile = await db_session.scalar(sa.select(UserProfile).where(UserProfile.user_id == user.id))

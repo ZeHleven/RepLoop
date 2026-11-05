@@ -58,9 +58,7 @@ async def test_advice_with_meals(db_session):
 
 @pytest.mark.asyncio
 async def test_advice_endpoint(client):
-    resp = await client.post(
-        "/api/v1/auth/register",
-        json={"email": "nut3@example.com", "password": "pass1234"},
+    resp = await client.seed_existing_account(json={"email": "nut3@example.com", "password": "pass1234"},
     )
     token = resp.json()["access_token"]
 

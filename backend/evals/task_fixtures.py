@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import time
 
+import pytest
 import pytest_asyncio
 from httpx import ASGITransport, AsyncClient
 from sqlalchemy import select
@@ -68,6 +69,19 @@ class TaskRecord:
             Path(directory, self.case.id + ".json").write_text(
                 json.dumps(self.data, ensure_ascii=False, indent=2, default=str), encoding="utf-8")
         return score
+
+
+@pytest.fixture(autouse=True)
+def _symptom_scope_scripted_default(monkeypatch):
+    """Scripted task evals replay fixed model outputs (loaded with --noconftest).
+
+    Keep the symptom scope and its extra facts call off unless explicitly
+    requested, as the application test conftest does.
+    """
+    monkeypatch.setattr(settings, "AGENT_SYMPTOM_SCOPE_ENABLED",
+                        os.getenv("AGENT_SYMPTOM_SCOPE_TEST_DEFAULT", "0") == "1")
+    monkeypatch.setattr(settings, "AGENT_SYMPTOM_FACTS_MODEL_ENABLED",
+                        os.getenv("AGENT_SYMPTOM_FACTS_TEST_DEFAULT", "0") == "1")
 
 
 @pytest_asyncio.fixture

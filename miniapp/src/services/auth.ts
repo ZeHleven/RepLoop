@@ -23,11 +23,10 @@ function withTimeout<T>(promise: Promise<T>, timeoutMs: number, message: string)
 }
 
 export async function authenticate(
-  mode: 'login' | 'register',
   email: string,
   password: string
 ): Promise<void> {
-  const tokens = await apiRequest<TokenResponse>(`/auth/${mode}`, {
+  const tokens = await apiRequest<TokenResponse>('/auth/login', {
     method: 'POST',
     authenticated: false,
     data: { email, password }

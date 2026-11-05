@@ -4,7 +4,7 @@ from app.services.training_lifecycle import training_today
 
 
 async def get_token(client, email):
-    resp = await client.post("/api/v1/auth/register", json={"email": email, "password": "pass1234"})
+    resp = await client.seed_existing_account(json={"email": email, "password": "pass1234"})
     return resp.json()["access_token"]
 
 

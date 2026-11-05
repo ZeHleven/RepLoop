@@ -87,8 +87,8 @@ def test_custom_long_rest_uses_existing_net_estimate_formula():
 
 
 async def auth(client):
-    r = await client.post('/api/v1/auth/register', json={'email': f'energy-{uuid4()}@example.com', 'password': 'pass1234'})
-    assert r.status_code == 201, r.text
+    r = await client.seed_existing_account(json={'email': f'energy-{uuid4()}@example.com', 'password': 'pass1234'})
+    assert r.status_code == 200, r.text
     return {'Authorization': 'Bearer ' + r.json()['access_token']}
 
 

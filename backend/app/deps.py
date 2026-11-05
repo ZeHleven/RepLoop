@@ -26,3 +26,9 @@ async def get_current_user(
     if not user:
         raise HTTPException(status_code=404, detail="用户不存在")
     return user
+
+
+async def get_billed_user(current_user: User = Depends(get_current_user)):
+    from app.services.model_budget import billing_user
+    with billing_user(current_user.id) as scope:
+        yield current_user

@@ -203,7 +203,8 @@ async def structured_chat_completion(
             )
         return response, body
 
-    async with httpx.AsyncClient() as client:
+    from app.services.model_budget import model_http_client
+    async with model_http_client() as client:
         if strict_url is not None:
             strict_payload = {
                 "model": model,
@@ -389,7 +390,8 @@ async def chat_completion(
 
     url = f"{settings.DEEPSEEK_BASE_URL.rstrip('/')}/chat/completions"
     try:
-        async with httpx.AsyncClient() as client:
+        from app.services.model_budget import model_http_client
+        async with model_http_client() as client:
             response = await client.post(
                 url,
                 headers={"Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"},

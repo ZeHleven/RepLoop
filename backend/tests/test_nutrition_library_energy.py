@@ -8,10 +8,10 @@ from app.services.training_lifecycle import training_today
 
 
 async def auth(client):
-    response = await client.post('/api/v1/auth/register', json={
+    response = await client.seed_existing_account(json={
         'email': f'nutrition-{uuid4()}@example.com', 'password': 'pass1234',
     })
-    assert response.status_code == 201, response.text
+    assert response.status_code == 200, response.text
     return {'Authorization': f'Bearer {response.json()["access_token"]}'}
 
 

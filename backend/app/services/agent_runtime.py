@@ -1,4 +1,5 @@
 from __future__ import annotations
+import asyncio
 
 import json
 import logging
@@ -15,6 +16,19 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import aliased
 
 from app.config import settings
+from app.services.agent_symptom_facts import extract_symptom_facts
+from app.services.agent_symptom_scope import (
+    current_symptom_reports,
+    explicit_write_request,
+    emergency_signals,
+    is_symptom_training_request,
+    load_symptom_scope,
+    previous_reply_was_symptom_scope,
+    previous_scope_data,
+    render_reply as render_symptom_scope_reply,
+    seeks_training_advice,
+)
+from app.services.model_budget import billing_user, model_http_client, ModelBudgetError
 from app.services.business_clock import business_today, request_day
 from app.services.agent_run_order import allocate_queue_position, precedes
 from app.database import AsyncSessionLocal
@@ -585,6 +599,7 @@ def _build_model(
         "temperature": temperature,
         "timeout": settings.AGENT_TIMEOUT_SECONDS,
         "max_retries": 1,
+        "http_async_client": model_http_client(),
         "use_responses_api": False,
     }
     if max_tokens is not None:
@@ -1492,12 +1507,36 @@ async def execute_agent_run(
     clarification_action: dict[str, Any] | None = None,
     expected_attempt_count: int | None = None,
 ) -> AgentRuntimeResult:
-    with request_day(run.queued_at):
-        return await _execute_agent_run(
-            db, run=run, conversation=conversation, user_message=user_message,
-            artifact_action=artifact_action, clarification_action=clarification_action,
-            expected_attempt_count=expected_attempt_count,
-        )
+    billing_run_id = run.id
+    with request_day(run.queued_at), billing_user(run.user_id) as billing:
+        result = None
+        error = None
+        try:
+            result = await _execute_agent_run(
+                db, run=run, conversation=conversation, user_message=user_message,
+                artifact_action=artifact_action, clarification_action=clarification_action,
+                expected_attempt_count=expected_attempt_count,
+            )
+        except Exception as exc:
+            error = exc
+        if billing.failure is not None:
+            # Internal intent/model fallbacks must not disguise a billing refusal.
+            await db.rollback()
+            conditions = [AgentRun.id == billing_run_id]
+            if expected_attempt_count is not None:
+                conditions.append(AgentRun.attempt_count == expected_attempt_count)
+            updated = await db.execute(update(AgentRun).where(*conditions).values(
+                status="failed", error_code=billing.failure.code,
+                completed_at=datetime.now(timezone.utc), lease_expires_at=None))
+            if updated.rowcount:
+                await db.execute(update(AgentMessage).where(
+                    AgentMessage.run_id == billing_run_id, AgentMessage.role == "assistant"
+                ).values(content=str(billing.failure), content_data={}))
+            await db.commit()
+            raise billing.failure
+        if error is not None:
+            raise error
+        return result
 
 
 async def _execute_agent_run(
@@ -1570,6 +1609,11 @@ async def _execute_agent_run(
             if conversation.pending_clarification
             else None
         )
+        symptom_facts = None
+        previous_scope = (
+            await previous_scope_data(db, conversation_id=conversation.id, run_id=run.id)
+            if settings.AGENT_SYMPTOM_SCOPE_ENABLED else None
+        )
         conversation_action_state = await _conversation_action_state(
             db,
             user_id=run.user_id,
@@ -1612,12 +1656,33 @@ async def _execute_agent_run(
                 pending_clarification_state,
             )
             if intent_outcome is None:
-                intent_outcome = await resolve_intent_with_fallback(
-                    user_message,
-                    context_messages=intent_history,
-                    pending_clarification=pending_clarification_state,
-                    conversation_action_state=conversation_action_state,
-                )
+                facts_task = None
+                if settings.AGENT_SYMPTOM_SCOPE_ENABLED and settings.AGENT_SYMPTOM_FACTS_MODEL_ENABLED:
+                    # docs/agent/16: understanding runs beside intent routing.
+                    # It is billed to the same account but in its own billing
+                    # scope: an uncertain charge on this optional call (timeout,
+                    # provider error) must not stop the turn's own model calls.
+                    async def _extract_facts_isolated():
+                        with billing_user(run.user_id):
+                            return await extract_symptom_facts(
+                                user_message,
+                                prior_user_messages=[
+                                    item["content"] for item in reversed(history)
+                                    if item.get("role") == "user" and isinstance(item.get("content"), str)
+                                ],
+                                previous_reply_was_scope=previous_scope is not None,
+                            )
+                    facts_task = asyncio.create_task(_extract_facts_isolated())
+                try:
+                    intent_outcome = await resolve_intent_with_fallback(
+                        user_message,
+                        context_messages=intent_history,
+                        pending_clarification=pending_clarification_state,
+                        conversation_action_state=conversation_action_state,
+                    )
+                finally:
+                    if facts_task is not None:
+                        symptom_facts = await facts_task
         resolution = intent_outcome.resolution
         task_state = advance_task_state(
             previous_task_state, resolution.task_update, message=user_message,
@@ -1866,6 +1931,115 @@ async def _execute_agent_run(
                 missing_slots=["要修改的训练日"],
                 clarification_context=context,
             )
+
+        # A "mutation" label from the intent layer does not outrank the user
+        # reporting their own current symptom, unless the user explicitly asks
+        # to save, log or change data (HP12: "只完成蹲的三组可不可以" is a
+        # question about training, not a write). Validated facts decide; the
+        # rule detector is the fallback when extraction is unavailable.
+        if symptom_facts is not None:
+            own_symptom_now = bool(
+                symptom_facts.purpose == "own_symptom_training"
+                and not symptom_facts.resolved_now
+                and symptom_facts.reports
+            )
+        else:
+            own_symptom_now = bool(
+                current_symptom_reports(user_message)
+                and is_symptom_training_request(user_message, has_plan=True)
+            )
+        symptom_overrides_mutation = bool(
+            resolution.request_kind == "mutation"
+            and own_symptom_now
+            and not explicit_write_request(user_message)
+        )
+        symptom_scope_eligible = (
+            settings.AGENT_SYMPTOM_SCOPE_ENABLED
+            and resolution.risk_level != "high"
+            and (
+                resolution.request_kind not in {"mutation", "proposal_decision"}
+                or symptom_overrides_mutation
+            )
+        )
+        if (
+            settings.AGENT_SYMPTOM_SCOPE_ENABLED
+            and resolution.risk_level != "high"
+            and resolution.request_kind != "proposal_decision"
+        ):
+            # Intent risk=high was handled earlier and always wins; a write
+            # label does not suppress the emergency check.
+            # Spec v1.2 decision 9: when validated model facts exist they
+            # decide; the rule backstop applies only if extraction failed.
+            if symptom_facts is not None:
+                rule_emergency, model_emergency = [], bool(symptom_facts.emergency)
+            else:
+                rule_emergency, model_emergency = emergency_signals(user_message), False
+            if rule_emergency or model_emergency:
+                return await complete_semantic_short_circuit(
+                    HIGH_RISK_REPLY,
+                    terminal_action="safe_stop",
+                    termination_reason="health_red_flag_rules" if rule_emergency else "health_red_flag_model",
+                    content_data={"guardrail": "health_red_flag"},
+                )
+        if symptom_scope_eligible:
+            prior_user_messages = [
+                item["content"] for item in reversed(history)
+                if item.get("role") == "user" and isinstance(item.get("content"), str)
+            ]
+            route_scope = False
+            symptom_continuing = False
+            if symptom_facts is not None:
+                # docs/agent/16: validated model facts decide whether the
+                # deterministic path applies; rules are only the fallback.
+                carry = previous_scope is not None and not symptom_facts.resolved_now
+                if symptom_facts.purpose == "own_symptom_training" and not symptom_facts.resolved_now:
+                    route_scope = True
+                    symptom_continuing = carry and not symptom_facts.reports
+                elif symptom_facts.continues_previous and carry:
+                    route_scope = True
+                    symptom_continuing = True
+                detector = {**symptom_facts.as_data(), "rules_would_route": bool(
+                    current_symptom_reports(user_message)
+                    and is_symptom_training_request(user_message, has_plan=True)
+                )}
+            else:
+                if (
+                    not current_symptom_reports(user_message)
+                    and seeks_training_advice(user_message)
+                    and previous_scope is not None
+                ):
+                    # A follow-up such as "那还能练上肢吗" right after a
+                    # symptom-scope answer keeps the same deterministic scope.
+                    symptom_continuing = True
+                route_scope = bool(current_symptom_reports(user_message) or symptom_continuing)
+                detector = {"source": "rules"}
+            if route_scope:
+                scope = await load_symptom_scope(
+                    db,
+                    user_id=run.user_id,
+                    message=user_message,
+                    prior_user_messages=prior_user_messages,
+                    continuing=symptom_continuing,
+                    facts=symptom_facts,
+                    previous_scope=previous_scope,
+                )
+                scope.detector = detector
+                if symptom_facts is not None or is_symptom_training_request(
+                    user_message, has_plan=scope.has_plan, continuing=symptom_continuing,
+                ):
+                    # The deterministic answer supersedes any model-requested
+                    # clarification; do not leave a stale pending question.
+                    run.clarification_required = False
+                    run.clarification_question = None
+                    run.missing_slots = []
+                    return await complete_semantic_short_circuit(
+                        render_symptom_scope_reply(scope),
+                        termination_reason="symptom_deterministic_scope",
+                        content_data={
+                            "guardrail": "symptom_deterministic_scope",
+                            "symptom_scope": scope.as_data(),
+                        },
+                    )
 
         if intent_outcome.understanding_failed:
             reply = INTENT_UNAVAILABLE_REPLY
