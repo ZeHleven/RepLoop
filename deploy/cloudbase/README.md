@@ -1,16 +1,16 @@
 # 云托管部署包
 
-当前整合候选版本为 `0.5.46`，数据库目标为 Alembic `0032`。本地交付与手机验收完成的范围不等于生产发布通过；正式产物必须来自已提交的干净检出，并与发布门禁使用同一个完整 candidate SHA。
+当前整合候选版本为 `0.5.47`，数据库目标为 Alembic `0033`（每账号模型额度账本，设计上不可降级，应用回退时保留该表）。0.5.47 起 Agent 对本人当前疼痛/受伤按动作库确定性取舍，开关 `AGENT_SYMPTOM_SCOPE_ENABLED`、`AGENT_SYMPTOM_FACTS_MODEL_ENABLED` 默认开启，部署时核对没有被环境变量关闭；关闭即回到原行为。本地交付与手机验收完成的范围不等于生产发布通过；正式产物必须来自已提交的干净检出，并与发布门禁使用同一个完整 candidate SHA。
 
 ## 构建与发布门禁
 
 Release ZIP 是可重复生成的部署产物，不提交到 Git。在候选版本的干净检出中运行：
 
 ```powershell
-.\scripts\package_cloudbase_backend.ps1 -Version 0.5.46
+.\scripts\package_cloudbase_backend.ps1 -Version 0.5.47
 ```
 
-输出为 `deploy/cloudbase/fitness-agent-backend-0.5.46.zip`。核对包内 `app/build_metadata.json` 的 `build_version`、`build_commit` 和 `source_dirty=false`；小程序构建也必须对应 `0.5.46` 与相同完整 SHA。打包脚本检查敏感文件、测试目录、缓存、Python 字节码、必需文件和 ZIP 边界；成功打包本身不证明发布门禁已通过。
+输出为 `deploy/cloudbase/fitness-agent-backend-0.5.47.zip`。核对包内 `app/build_metadata.json` 的 `build_version`、`build_commit` 和 `source_dirty=false`；小程序构建也必须对应 `0.5.47` 与相同完整 SHA。打包脚本检查敏感文件、测试目录、缓存、Python 字节码、必需文件和 ZIP 边界；成功打包本身不证明发布门禁已通过。
 
 正式发布前，在 GitHub `main` 分支手动运行 `Daily Meal Live Model Release Gate`，将已提交候选的完整 SHA 填入 `candidate_sha`。该工作流检出指定 SHA，先验证全领域真实模型语义路由，再对同一 SHA 顺序执行两轮全天饮食端到端评测；每轮都要求原句 10/10、20 条同义表达至少 19/20、优化器不可用次数为零，并验证未确认写入和意外 Proposal 均为零。评测报告只包含脱敏状态和统计，不记录个人资料、食品候选或模型原文。迁移、部署和回退仍需在与生产配置对应的隔离环境演练。
 

@@ -44,7 +44,7 @@ async def lifespan(_app: FastAPI):
                 await asyncio.gather(worker_task, return_exceptions=True)
 
 
-app = FastAPI(title="Fitness Agent API", version="0.5.46", lifespan=lifespan)
+app = FastAPI(title="Fitness Agent API", version="0.5.47", lifespan=lifespan)
 
 
 @app.exception_handler(AIServiceError)

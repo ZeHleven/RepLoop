@@ -185,6 +185,14 @@ async def test_real_async_worker_reports_budget_denial(account, client, session_
         json={"message": "我最近的训练进度怎么样", "client_request_id": str(uuid.uuid4())})
     assert response.status_code == 202
     run_id = response.json()["run_id"]
+    # The suite truncates tables once per session; queued runs left by earlier
+    # tests would otherwise be claimed first (the queue is global).
+    from sqlalchemy import func, update
+    from app.models.agent import AgentRun
+    async with session_factory() as db:
+        await db.execute(update(AgentRun).where(AgentRun.status == "queued", AgentRun.id != run_id)
+                         .values(status="failed", error_code="test_stale_queue", completed_at=func.now()))
+        await db.commit()
     async with session_factory() as db:
         assert await claim_next_agent_run(db) == run_id
     await process_agent_run(session_factory, run_id)
