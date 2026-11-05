@@ -80,3 +80,32 @@ async def client(session_factory):
                                 transport=ASGITransport(app=app), base_url="http://test") as c:
         yield c
     app.dependency_overrides.clear()
+
+
+import os as _os
+
+import pytest as _pytest
+
+
+@_pytest.fixture(autouse=True)
+def _symptom_scope_test_default(monkeypatch):
+    """SCOPE-20261025-01 keeps the legacy symptom path testable.
+
+    Production default is enabled. Legacy tests exercise the model-written
+    symptom path, so the suite default is off unless
+    AGENT_SYMPTOM_SCOPE_TEST_DEFAULT=1; tests of the new path enable it.
+    """
+    from app.config import settings
+
+    monkeypatch.setattr(
+        settings,
+        "AGENT_SYMPTOM_SCOPE_ENABLED",
+        _os.getenv("AGENT_SYMPTOM_SCOPE_TEST_DEFAULT", "0") == "1",
+    )
+    # docs/agent/16: model-extracted facts are opt-in per test so offline
+    # providers are never called unexpectedly.
+    monkeypatch.setattr(
+        settings,
+        "AGENT_SYMPTOM_FACTS_MODEL_ENABLED",
+        _os.getenv("AGENT_SYMPTOM_FACTS_TEST_DEFAULT", "0") == "1",
+    )
