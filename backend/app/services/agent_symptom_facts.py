@@ -19,6 +19,7 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from app.config import settings
 from app.services.ai_client import structured_chat_completion
+from app.services.model_budget import ModelBudgetError
 from app.services.structured_schema import strict_tool_schema
 
 logger = logging.getLogger(__name__)
@@ -258,7 +259,7 @@ async def extract_symptom_facts(
     prior_user_messages: list[str] | None = None,
     previous_reply_was_scope: bool = False,
 ) -> SymptomFacts | None:
-    """Return validated facts, or None on any failure (caller uses rules)."""
+    """Return facts or a semantic fallback; account-level budget refusals propagate."""
     if not settings.AGENT_SYMPTOM_FACTS_MODEL_ENABLED or not settings.DEEPSEEK_API_KEY:
         return None
     priors = [m for m in (prior_user_messages or []) if isinstance(m, str)][:3]
@@ -283,6 +284,10 @@ async def extract_symptom_facts(
             logger.warning("Symptom facts unusable: %s", completion.parse_error or "empty")
             return None
         output = SymptomFactsOutput.model_validate(normalize_payload(completion.payload))
+    except ModelBudgetError:
+        # Unknown costs/denied budgets must fail the run, not look like a
+        # successful optional fallback while the account ledger is blocked.
+        raise
     except ValidationError as exc:
         # Locations and error types only; never the user's text.
         logger.warning("Symptom facts invalid: %s", [(e["loc"], e["type"]) for e in exc.errors()][:5])

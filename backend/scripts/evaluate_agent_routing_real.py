@@ -7,11 +7,17 @@ import sys
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
+from uuid import uuid4
+
+from sqlalchemy.engine import make_url
 
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app.config import settings  # noqa: E402
+from app.database import AsyncSessionLocal  # noqa: E402
+from app.models.user import User  # noqa: E402
+from app.services.model_budget import billing_user  # noqa: E402
 from app.services.agent_intent import (  # noqa: E402
     IntentDomain,
     IntentResolverOutcome,
@@ -121,10 +127,38 @@ def _case_result(case: RouteCase, outcome: IntentResolverOutcome) -> dict:
     }
 
 
+def _validate_evaluation_database() -> None:
+    """Never create the synthetic billing identity in an application database."""
+    try:
+        url = make_url(settings.DATABASE_URL)
+    except Exception:
+        raise ValueError("Route evaluation requires an isolated local PostgreSQL database.") from None
+    if (
+        url.drivername != "postgresql+asyncpg"
+        or url.host not in {"localhost", "127.0.0.1", "::1"}
+        or not (url.database or "").endswith(("_test", "_live_eval"))
+        or url.query
+    ):
+        raise ValueError("Route evaluation requires an isolated local *_test or *_live_eval database.")
+
+
+async def _seed_billing_account() -> str:
+    _validate_evaluation_database()
+    user_id = str(uuid4())
+    async with AsyncSessionLocal() as db:
+        # No login identity or reusable credential; this account exists only
+        # inside the isolated evaluation database and shares one lifetime budget.
+        db.add(User(id=user_id, password_hash=""))
+        await db.commit()
+    return user_id
+
+
 async def evaluate() -> dict:
+    user_id = await _seed_billing_account()
     results: list[dict] = []
     for case in CASES:
-        outcome = await resolve_intent_with_fallback(case.prompt, use_model=True)
+        with billing_user(user_id):
+            outcome = await resolve_intent_with_fallback(case.prompt, use_model=True)
         results.append(_case_result(case, outcome))
 
     passed_count = sum(bool(item["passed"]) for item in results)

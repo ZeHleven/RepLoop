@@ -402,8 +402,8 @@ async def test_unverified_own_symptom_still_takes_the_deterministic_path(db_sess
 
 
 @pytest.mark.asyncio
-async def test_failed_facts_call_does_not_poison_the_turn_billing_scope(db_session, session_factory, monkeypatch, offline):
-    """A budget/timeout failure inside the optional facts call stays in its own scope."""
+async def test_optional_facts_share_the_turn_billing_failure(db_session, session_factory, monkeypatch, offline):
+    """Account-level billing refusal cannot be hidden by optional extraction."""
     from app.services import model_budget
     seen = {}
 
@@ -428,8 +428,18 @@ async def test_failed_facts_call_does_not_poison_the_turn_billing_scope(db_sessi
     user, conversation = await seed(db_session)
     headers = {"Authorization": "Bearer " + create_access_token(user.id)}
     async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test", headers=headers) as client:
-        run_id, body = await run_once(client, session_factory, conversation.id, message)
+        response = await client.post("/api/v1/agent/runs", json={
+            "conversation_id": conversation.id, "message": message,
+            "client_request_id": uuid4().hex,
+        })
+        assert response.status_code == 202
+        run_id = response.json()["run_id"]
+        async with session_factory() as db:
+            assert await claim_next_agent_run(db) == run_id
+        await process_agent_run(session_factory, run_id)
+        body = (await client.get("/api/v1/agent/runs/" + run_id)).json()
     assert seen["scope"] is not None and seen["scope"].failure is not None
-    assert turn_scopes and turn_scopes[0] is not seen["scope"] and turn_scopes[0].failure is None
-    assert body["execution_trace"]["termination_reason"] == "symptom_deterministic_scope"
+    assert turn_scopes and turn_scopes[0] is seen["scope"]
+    assert body["status"] == "failed"
+    assert body["error_code"] == "model_budget_unavailable"
 

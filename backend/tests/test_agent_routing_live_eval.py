@@ -126,3 +126,93 @@ def test_route_report_marks_understanding_failure_even_when_enums_match():
     assert result["mismatch_fields"] == []
     assert result["passed"] is False
     assert result["ordinary_rules_fallback"] is True
+
+
+# R157: exercise the evaluation entry point with a real isolated SQL account.
+import pytest
+from sqlalchemy import select
+from app.config import settings
+from app.models.user import User
+from app.models.model_budget import ModelBudget, ModelCharge
+from app.services import model_budget as budget
+
+
+async def test_route_eval_binds_one_persisted_account_for_all_cases(
+    monkeypatch, session_factory,
+):
+    monkeypatch.setattr(route_eval, "AsyncSessionLocal", session_factory, raising=False)
+    monkeypatch.setattr(budget, "AsyncSessionLocal", session_factory)
+    monkeypatch.setattr(route_eval, "CASES", (
+        route_eval.CASES[0],
+        route_eval.RouteCase("profile.read.again", "synthetic repeat", "profile", "query", "read"),
+    ))
+    seen = []
+
+    async def resolve(message, *, use_model):
+        scope = budget._scope.get()
+        assert scope is not None, "live route evaluation omitted billing identity"
+        async with session_factory() as db:
+            assert await db.get(User, scope.user_id) is not None
+        seen.append(scope.user_id)
+        await budget.reserve(scope.user_id, "deepseek-v4-flash", 100_000)
+        return IntentResolverOutcome(
+            resolution=IntentResolution(
+                primary_intent="profile_query", intent_domain="profile",
+                request_kind="query", requested_effect="read", requested_output="answer",
+                risk_level="low", confidence=1,
+            ), source="model", attempt_count=1,
+        )
+
+    monkeypatch.setattr(route_eval, "resolve_intent_with_fallback", resolve)
+    report = await route_eval.evaluate()
+    assert report["passed"] and report["total"] == 2
+    assert len(set(seen)) == 1 and budget._scope.get() is None
+    async with session_factory() as db:
+        row = await db.get(ModelBudget, seen[0])
+        charges = list((await db.scalars(select(ModelCharge).where(
+            ModelCharge.user_id == seen[0],
+        ))).all())
+    assert row.reserved_nano == 200_000 and len(charges) == 2
+    print("R157_ROUTE_ACCOUNT=" + json.dumps({
+        "case_count": 2, "unique_accounts": 1,
+        "reserved_nano": row.reserved_nano, "charges": len(charges),
+    }))
+
+
+@pytest.mark.parametrize("url", [
+    "postgresql+asyncpg://synthetic@db.example.invalid/fitness_live_eval",
+    "postgresql+asyncpg://synthetic@127.0.0.1/fitness",
+    "postgresql+asyncpg://synthetic@127.0.0.1/fitness_test?host=remote",
+    "sqlite+aiosqlite:///fitness_test",
+])
+async def test_route_eval_rejects_nonisolated_database_before_work(monkeypatch, url):
+    monkeypatch.setattr(settings, "DATABASE_URL", url)
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("unsafe evaluation reached database or model")
+
+    monkeypatch.setattr(route_eval, "AsyncSessionLocal", forbidden, raising=False)
+    monkeypatch.setattr(route_eval, "resolve_intent_with_fallback", forbidden)
+    with pytest.raises(ValueError, match="isolated"):
+        await route_eval.evaluate()
+
+
+def test_route_eval_missing_key_preserves_candidate_and_never_seeds(
+    monkeypatch, tmp_path,
+):
+    import sys
+    candidate = "51feceb570b8d0d374948c5bf0558201958d1d4f"
+    output = tmp_path / "report.json"
+    monkeypatch.setattr(settings, "DEEPSEEK_API_KEY", "")
+    monkeypatch.setattr(sys, "argv", [
+        "route-eval", "--strict", "--candidate-sha", candidate, "--output", str(output),
+    ])
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError("missing-key preflight created an account")
+
+    monkeypatch.setattr(route_eval, "AsyncSessionLocal", forbidden, raising=False)
+    assert route_eval.main() == 2
+    report = json.loads(output.read_text(encoding="utf-8"))
+    assert report["candidate_sha"] == candidate and report["passed"] is False
+    assert report["fatal_error"]["type"] == "missing_deepseek_api_key"

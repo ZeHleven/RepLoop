@@ -254,3 +254,19 @@ def test_general_rest_still_pauses_everything(instruction):
     d = decide_scope(msg, PLAN)
     assert all(not x.keep for x in d.days[1])
 
+
+
+async def test_budget_refusal_is_not_swallowed_as_optional_facts(monkeypatch):
+    from unittest.mock import AsyncMock
+    from app.config import settings
+    from app.services import agent_symptom_facts
+    from app.services.model_budget import ModelBudgetError
+
+    monkeypatch.setattr(settings, "AGENT_SYMPTOM_FACTS_MODEL_ENABLED", True)
+    monkeypatch.setattr(settings, "DEEPSEEK_API_KEY", "synthetic-unused")
+    refusal = ModelBudgetError("synthetic refusal", "model_budget_unavailable")
+    monkeypatch.setattr(agent_symptom_facts, "structured_chat_completion",
+                        AsyncMock(side_effect=refusal))
+    with pytest.raises(ModelBudgetError) as observed:
+        await agent_symptom_facts.extract_symptom_facts("synthetic symptom")
+    assert observed.value is refusal
