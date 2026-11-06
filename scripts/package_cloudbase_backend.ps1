@@ -184,6 +184,7 @@ $excludedDirectoryNames = @(
     ".venv",
     "venv",
     "tests",
+    "evals",
     ".uv-cache",
     ".cache",
     ".pytest_cache",
@@ -213,7 +214,9 @@ $excludedFilePatterns = @(
     ".DS_Store",
     "Thumbs.db"
 )
+$excludedPathPatterns = @("scripts/evaluate_*.py")
 $tarExcludePatterns = @($excludedDirectoryNames) + @($excludedFilePatterns) + @("*.egg-info")
+$tarExcludePatterns += @($excludedPathPatterns | ForEach-Object { "./$_" })
 
 New-Item -ItemType Directory -Force -Path $outputDirectory | Out-Null
 if (Test-Path -LiteralPath $outputPath) {
@@ -319,7 +322,11 @@ $forbidden = $entries | Where-Object {
         $excludedFilePatterns | Where-Object { $leafName -like $_ }
     ).Count -gt 0
 
-    $containsExcludedDirectory -or $containsEggInfo -or $matchesExcludedFile
+    $matchesExcludedPath = @(
+        $excludedPathPatterns | Where-Object { $normalizedEntry -like $_ }
+    ).Count -gt 0
+
+    $containsExcludedDirectory -or $containsEggInfo -or $matchesExcludedFile -or $matchesExcludedPath
 }
 if ($forbidden) {
     Remove-Item -LiteralPath $outputPath -Force
