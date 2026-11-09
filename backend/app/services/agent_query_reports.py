@@ -2,14 +2,14 @@
 import json
 import re
 from dataclasses import dataclass
-from datetime import date
+from datetime import date, timedelta
 from typing import Any
 from uuid import uuid4
 
 from langchain_core.messages import AIMessage, ToolMessage
 
 from app.services.workout_history_reporting import history_limit, render_history, render_calendar_history
-from app.services.workout_reporting import progress_request, render_progress, report_today, scope_progress
+from app.services.workout_reporting import number, progress_request, render_progress, report_today, scope_progress
 from app.services.history_status_scope import parse_history_status_scope
 
 
@@ -142,6 +142,30 @@ def report_for_resolution(resolution, allowlist, *, allow_redundant=False):
     if report and report.kind == 'progress' and not allow_redundant and allowlist != ['workout.get_progress']:
         return None
     return report
+
+
+def calendar_revision_date_conflict(resolution, context, message: str) -> bool:
+    """Check a verified whole-range edit; this never grants read authority.
+
+    Relative days use this request's business date. End-point edits and
+    unsupported scopes need their existing context, so do not guess them.
+    """
+    from app.services.agent_task_state import is_calendar_query_revision
+    if not is_calendar_query_revision(context, resolution, message):
+        return False
+    if re.match(r'\s*(?:开始日期|起始日期|结束日期|截止日期)', message):
+        return False
+    expected = explicit_history_range(message)
+    if expected is None:
+        today = report_today()
+        day = re.search(r'今天|昨天|前天', message)
+        recent = re.search(r'(?:最近|近|过去)\s*([\d一二三四五六七八九十两]+)\s*(?:天|日)', message)
+        if day:
+            value = today - timedelta(days={'今天': 0, '昨天': 1, '前天': 2}[day[0]])
+            expected = (value, value)
+        elif recent and 1 <= (days := number(recent[1])) <= 366:
+            expected = (today - timedelta(days=days - 1), today)
+    return expected is not None and explicit_history_range(resolution.resolved_query) != expected
 
 
 def narrow_report_evidence(resolution, message: str):

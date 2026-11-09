@@ -554,6 +554,8 @@ def _intent_user_content(
     chunks.append(f"最后一条用户消息：{message}")
     chunks.append("请输出 JSON。")
     if repair_error:
+        if repair_error == 'history_query_date_scope_mismatch':
+            chunks.append('本轮日期范围修订与normalized_request中的绝对日期不一致；请按最后一条用户原文和本次业务日期重新计算，不能沿用上一轮范围。')
         chunks.append(
             "上一次输出未通过校验。请修复结构，不要改变用户动作；"
             f"错误类别：{repair_error}。"
@@ -1139,7 +1141,9 @@ async def resolve_intent_with_fallback(
                 resolution,
                 context_messages=context_messages,
             )
-            from app.services.agent_query_reports import narrow_report_evidence
+            from app.services.agent_query_reports import narrow_report_evidence, calendar_revision_date_conflict
+            if calendar_revision_date_conflict(normalized_resolution, context_messages, message):
+                raise IntentStructuredOutputError('history_query_date_scope_mismatch')
             normalized_resolution = narrow_report_evidence(normalized_resolution, message)
             if (
                 direct_rules_resolution.request_kind == "mutation"
