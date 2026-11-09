@@ -1,0 +1,81 @@
+{
+  "kind": "metrics_illustration_not_product_screenshot",
+  "data_source": "local_synthetic_tasks_real_model",
+  "fixed_tasks": [
+    {
+      "label": "原主线",
+      "commit": "51feceb",
+      "completed": 14,
+      "total": 16,
+      "partial": 2
+    },
+    {
+      "label": "第一候选",
+      "commit": "da1b95c",
+      "completed": 15,
+      "total": 16,
+      "partial": 1
+    },
+    {
+      "label": "最终候选",
+      "commit": "b440578",
+      "completed": 16,
+      "total": 16,
+      "partial": 0
+    }
+  ],
+  "extra": {
+    "completed": 2,
+    "total": 3,
+    "partial": 1
+  },
+  "total_http": 150,
+  "estimated_cny": 0.971392,
+  "backend_tests": 2032,
+  "question_verbatim": "改成最近3天，仍只要已完成的日期和每场时长。",
+  "reply_verbatim": "统计范围：2026-11-07至2026-11-09；截至2026-11-09（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-11-07（已完成）：0组、0次重复、0kg负重容量，时长30分钟。\n\n- 2026-11-08（已完成）：0组、0次重复、0kg负重容量，时长12分钟。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+  "reply_rows_verbatim": [
+    "- 2026-11-07（已完成）：0组、0次重复、0kg负重容量，时长30分钟。",
+    "- 2026-11-08（已完成）：0组、0次重复、0kg负重容量，时长12分钟。"
+  ],
+  "quote_locator": "live-c2-core/result.json: tasks[id=serial-Q03].turns[1]",
+  "limitations": [
+    "Same implementer authored and reviewed the tasks; not a blind evaluation.",
+    "No phone or live-user feedback.",
+    "Additional sets/reps/volume remain in the report; minimal-column formatting was not scored separately."
+  ],
+  "sources": [
+    {
+      "path": "artifacts/agent-dev-notes/current-experience-metrics-20261108/live-02/result.json",
+      "sha256": "bf686caad6cae28cc6960f81bd0823e47b78491280c269b9e1a5a36f5c844c71"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/query-history-fix-20261108/audit-for-figure.json",
+      "sha256": "ffb41f73ba6015cfebf0a6c459861c3f9b904c4e91b261c4c11476606880b7bf"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/query-history-fix-20261108/live-core/result.json",
+      "sha256": "a16bbdb3e8d4b6bff4c61b52f8c6ec2a5c6c1aa98827019ae825c6bce5c4a0c9"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/query-history-fix-20261108/live-c2-core/result.json",
+      "sha256": "4ebd37eca2165c94932c1359296ad89a2bd3d2584411bc863c2c23d3680991b4"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/query-history-fix-20261108/live-c2-extra/result.json",
+      "sha256": "96b1a9e101ab707cc9a75f973b549800221c17933c0afe8809fa563f5c36e25e"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/query-history-fix-20261108/extra-replay-baseline.json",
+      "sha256": "7c5f7f8949027318c542fd77ebc72e02d409df89f78ccf74dd585a2f59f807df"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/query-history-fix-20261108/checks-c2/backend-tests.xml",
+      "sha256": "25009b28a7bcdee2860f5c9f112ed409f141e01d63b1909c34e8962f9fe0765f"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/current-experience-metrics-20261108/reviews.json",
+      "sha256": "9b165437512d6c8489935cf801b0004b07c72866fdd9919f3ef911cbade8fb31"
+    }
+  ]
+}
