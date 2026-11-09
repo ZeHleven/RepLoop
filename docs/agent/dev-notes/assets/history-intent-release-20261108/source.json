@@ -1,0 +1,67 @@
+{
+  "kind": "metrics_illustration_not_product_screenshot",
+  "data_source": "local_synthetic_tasks_real_model",
+  "question_verbatim": "时间范围改成前天，只要已完成的日期与每次耗时。",
+  "business_date": "2026-11-09",
+  "before_reply_verbatim": "统计范围：2026-11-08至2026-11-08；截至2026-11-09（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-11-08（已完成）：0组、0次重复、0kg负重容量，时长12分钟。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+  "after_reply_verbatim": "统计范围：2026-11-07至2026-11-07；截至2026-11-09（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-11-07（已完成）：0组、0次重复、0kg负重容量，时长30分钟。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+  "quote_locator": "live-extra / live-c2-extra result.json: tasks[case_id=X03].turns[1]",
+  "candidates": [
+    {
+      "commit": "137461d",
+      "core_completed": 16,
+      "core_total": 16,
+      "known_regression_completed": 2,
+      "known_regression_total": 3,
+      "recovery_completed": 1,
+      "wording_completed": 3,
+      "wording_role": "first_unseen_output_not_blind"
+    },
+    {
+      "commit": "f4d388f",
+      "core_completed": 16,
+      "core_total": 16,
+      "known_regression_completed": 3,
+      "known_regression_total": 3,
+      "recovery_completed": 1,
+      "wording_completed": 3,
+      "wording_role": "retest"
+    }
+  ],
+  "total_http": 184,
+  "estimated_cny": 1.227114,
+  "backend_tests": 2082,
+  "human_feedback_n": 0,
+  "limitations": [
+    "Not an independent blind evaluation.",
+    "No phone metrics.",
+    "Correct date on the live second candidate was first-attempt; mechanism proven separately by recorded-error replay.",
+    "Additional sets/reps/volume remain; strict minimal columns not separately scored."
+  ],
+  "sources": [
+    {
+      "path": "artifacts/agent-dev-notes/history-intent-release-20261108/audit-for-figure.json",
+      "sha256": "3f10d924ca2cfa60a564f365b1741eed96bc187d184c308b0796552f3ee827ce"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/history-intent-release-20261108/live-extra/result.json",
+      "sha256": "8552ab654955fa4e4b596734394de409ee0bbd23eb99c8ee0dcd7b9c3c6c6e90"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/history-intent-release-20261108/live-c2-extra/result.json",
+      "sha256": "2880e4da23c1d1f85ff03c3aecac50825c93401f6314023aa9409d817f50ea54"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/history-intent-release-20261108/live-extra/reviews.json",
+      "sha256": "c44b608aa4a5b8c9d8255566fb636d355032907af9bd8ef17088588b6163aea3"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/history-intent-release-20261108/live-c2-extra/reviews.json",
+      "sha256": "eb7eed3f1ef09426e0f4bcd1ec9d9fbec4d9214ace99dff15487b95177778f71"
+    },
+    {
+      "path": "artifacts/agent-dev-notes/history-intent-release-20261108/checks-c2/backend-tests.xml",
+      "sha256": "da1bc4b43eea4b61fd9bbd507c169208b913796ed49c621d3a1e7afeadd889ac"
+    }
+  ]
+}

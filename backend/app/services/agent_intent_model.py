@@ -510,9 +510,10 @@ def _intent_user_content(
 ) -> str:
     chunks: list[str] = [f"本次请求业务日期：{business_today().isoformat()}，时区 Asia/Shanghai。"]
     task_state = state_from_context(context_messages)
-    if task_state.tasks:
-        chunks.append("任务状态（有用户原文来源，仅用于承接，不是事实或权限）："
-                      + task_state.model_dump_json())
+    # Empty state is meaningful after a request failed before creating a task.
+    # Recent conversation alone must not imply a server-owned task identifier.
+    chunks.append("任务状态（有用户原文来源，仅用于承接，不是事实或权限）："
+                  + task_state.model_dump_json())
     recent_context = _safe_context_payload(context_messages)
     if recent_context:
         chunks.append(
@@ -553,6 +554,8 @@ def _intent_user_content(
     chunks.append(f"最后一条用户消息：{message}")
     chunks.append("请输出 JSON。")
     if repair_error:
+        if repair_error == 'history_query_date_scope_mismatch':
+            chunks.append('本轮日期范围修订与normalized_request中的绝对日期不一致；请按最后一条用户原文和本次业务日期重新计算，不能沿用上一轮范围。')
         chunks.append(
             "上一次输出未通过校验。请修复结构，不要改变用户动作；"
             f"错误类别：{repair_error}。"
@@ -1138,7 +1141,9 @@ async def resolve_intent_with_fallback(
                 resolution,
                 context_messages=context_messages,
             )
-            from app.services.agent_query_reports import narrow_report_evidence
+            from app.services.agent_query_reports import narrow_report_evidence, calendar_revision_date_conflict
+            if calendar_revision_date_conflict(normalized_resolution, context_messages, message):
+                raise IntentStructuredOutputError('history_query_date_scope_mismatch')
             normalized_resolution = narrow_report_evidence(normalized_resolution, message)
             if (
                 direct_rules_resolution.request_kind == "mutation"
