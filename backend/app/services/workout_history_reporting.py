@@ -7,6 +7,12 @@ from app.services.workout_reporting import number, _n
 from app.services.history_status_scope import STATUS_LABELS, DEFAULT_STATUSES
 
 
+def _duration_text(row: dict) -> str:
+    """Use the stored session duration, never infer it from sets or timestamps."""
+    minutes = row.get('duration_min')
+    return f'时长{minutes}分钟' if type(minutes) is int and minutes >= 0 else '时长未记录'
+
+
 def render_calendar_history(data: dict) -> str:
     """Describe a server-selected calendar range without inventing trends."""
     lines = [f"统计范围：{data['range_start']}至{data['range_end']}；截至{data['as_of']}（Asia/Shanghai）。"]
@@ -29,7 +35,7 @@ def render_calendar_history(data: dict) -> str:
                      f"{_n(sum(row['total_volume_kg'] for row in rows))}kg负重容量。")
     for row in sorted(data['sessions'], key=lambda item: item['trained_at']):
         state = STATUS_LABELS.get(row['status'], row['status'])
-        lines.append(f"- {row['trained_at']}（{state}）：{row['total_sets']}组、{row['total_reps']}次重复、{_n(row['total_volume_kg'])}kg负重容量。")
+        lines.append(f"- {row['trained_at']}（{state}）：{row['total_sets']}组、{row['total_reps']}次重复、{_n(row['total_volume_kg'])}kg负重容量，{_duration_text(row)}。")
         for exercise in row.get('exercises', []):
             completed = normalized_sets(exercise.get('sets_data'))
             groups = Counter((item.get('weight_kg'), item['reps']) for item in completed
@@ -63,7 +69,7 @@ def render_history(data: dict, query: str) -> str | None:
         lines = ['最近训练记录（按日期倒序）：']
         for row in sorted(rows, key=lambda item: item['trained_at'], reverse=True):
             state = '' if row.get('status') == 'completed' else f"（状态：{row.get('status', '未知')}）"
-            lines.append(f"- {row['trained_at']}：{row['total_sets']}组，{_n(row['total_volume_kg'])}kg总负重容量{state}。")
+            lines.append(f"- {row['trained_at']}：{row['total_sets']}组，{_n(row['total_volume_kg'])}kg总负重容量{state}，{_duration_text(row)}。")
         return '\n'.join(lines)
     sections = []
     for name in names:

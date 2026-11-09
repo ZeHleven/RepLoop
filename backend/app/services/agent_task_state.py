@@ -128,7 +128,8 @@ def is_calendar_query_revision(context, resolution, message):
         return False
     day = r"(?:\d{4}-\d{2}-\d{2}|(?:\d{4}年)?\d{1,2}月\d{1,2}日)"
     end = rf"(?:{day}|\d{{1,2}}日)"
-    scope = rf"{day}(?:(?:至|到|~|～){end})?"
+    relative = r"(?:(?:最近|近|过去)\s*[\d一二三四五六七八九十两]+\s*(?:天|日|周)|今天|昨天|前天|本周|这周|上周|上上周)"
+    scope = rf"(?:{day}(?:(?:至|到|~|～){end})?|{relative})"
     # Editing a named range endpoint still only changes the query filter.
     # This branch follows the verified prior-query checks above and matches
     # the whole message, so an appended write/negation cannot borrow access.
@@ -141,10 +142,16 @@ def is_calendar_query_revision(context, resolution, message):
         return True
     # Entire utterance must be a date/filter edit. Any extra write clause fails
     # this grammar, even if the model incorrectly labels the request a read.
+    field = r"(?:日期|(?:每场|每次)?(?:训练)?(?:时长|耗时|用时))"
+    fields = rf"{field}(?:\s*(?:和|及|与|、)\s*{field})*"
+    completed = rf"已完成(?:(?:的)?(?:训练(?:记录)?|记录|场次))?(?:的)?(?:{fields})?"
+    output = rf"(?:仍然|仍|还是|同样|继续)?(?:只要|只列|仅列|仅|只查|只显示)(?:{completed}|{fields})"
+    unchanged = r"其他(?:筛选)?条件(?:不变|保持|照旧)"
     return re.fullmatch(
-        rf"\s*(?:(?:查询)?(?:日期|时间)(?:范围)?|范围)?(?:改为|改成|更正为|调整为)"
+        rf"\s*(?:(?:查询)?(?:日期|时间)(?:范围|区间)?|(?:查询)?(?:范围|区间))?"
+        rf"(?:改为|改成|更正为|调整为|收窄到|缩小到)\s*"
         rf"{scope}(?:[，,]\s*年份(?:仍是|还是|是)\d{{4}}年)?"
-        r"(?:[，,]\s*(?:仍然|仍|还是|同样)?(?:只要|只列|仅|只查)已完成(?:的训练|的记录|场次)?)?[。.!！\s]*",
+        rf"(?:[，,；;]\s*(?:{output}|{unchanged}))?[。.!！\s]*",
         message,
     ) is not None
 
