@@ -4,6 +4,8 @@ import argparse
 import asyncio
 import json
 import sys
+import uuid
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
@@ -12,6 +14,12 @@ from typing import Literal
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from app.config import settings  # noqa: E402
+from app.database import AsyncSessionLocal  # noqa: E402
+from app.models.user import User  # noqa: E402
+from app.models.model_budget import ModelCharge  # noqa: E402
+from app.services.model_budget import billing_user, budget_status  # noqa: E402
+from sqlalchemy import select  # noqa: E402
+from sqlalchemy.engine import make_url  # noqa: E402
 from app.services.agent_intent import (  # noqa: E402
     IntentDomain,
     IntentResolverOutcome,
@@ -121,10 +129,47 @@ def _case_result(case: RouteCase, outcome: IntentResolverOutcome) -> dict:
     }
 
 
+async def _seed_billing_subject() -> str:
+    # The live gate owns a fresh local PostgreSQL service. Never seed an
+    # evaluation identity into a production or remotely hosted database.
+    url = make_url(settings.DATABASE_URL)
+    if (url.drivername != "postgresql+asyncpg"
+            or url.host not in {"localhost", "127.0.0.1", "::1"}
+            or not (url.database == "fitness_live_eval" or (url.database or "").endswith("_test"))):
+        raise RuntimeError("Route live evaluation requires an isolated local evaluation database")
+    user_id = f"route-live-eval-{uuid.uuid4().hex}"
+    async with AsyncSessionLocal() as db:
+        db.add(User(id=user_id, email=f"{user_id}@example.com", password_hash="synthetic-live-eval-only"))
+        # Budget reservations use their own session and a user foreign key.
+        await db.commit()
+    return user_id
+
+
+async def _billing_summary(user_id: str) -> dict:
+    async with AsyncSessionLocal() as db:
+        charges = list((await db.execute(select(ModelCharge.status, ModelCharge.actual_nano).where(
+            ModelCharge.user_id == user_id))).all())
+    state = await budget_status(user_id)
+    complete = not state["blocked"] and all(status == "settled" and type(cost) is int for status, cost in charges)
+    return {
+        "request_reservations": len(charges),
+        "status_counts": dict(Counter(status for status, _ in charges)),
+        "complete": complete,
+        "estimated_cny": float(state["spent_yuan"]) if complete else None,
+        "known_settled_cny": sum(cost for status, cost in charges if status == "settled" and type(cost) is int) / 1e9,
+        "reserved_cny": float(state["reserved_yuan"]),
+        "blocked": state["blocked"],
+        "cost_basis": "Application conservative ledger tariff, not provider invoice; no account identifiers.",
+    }
+
+
 async def evaluate() -> dict:
+    user_id = await _seed_billing_subject()
     results: list[dict] = []
     for case in CASES:
-        outcome = await resolve_intent_with_fallback(case.prompt, use_model=True)
+        # One durable account for the complete suite: no per-case budget reset.
+        with billing_user(user_id):
+            outcome = await resolve_intent_with_fallback(case.prompt, use_model=True)
         results.append(_case_result(case, outcome))
 
     passed_count = sum(bool(item["passed"]) for item in results)
@@ -163,6 +208,7 @@ async def evaluate() -> dict:
             and ordinary_rules_fallbacks == 0
         ),
         "results": results,
+        "billing": await _billing_summary(user_id),
     }
 
 
