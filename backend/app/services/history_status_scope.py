@@ -25,7 +25,7 @@ class StatusOperation:
     operand: str = 'states'
 
 
-_EXCLUSION_VERB = r'(?:不(?:再)?(?:包含|包括|含|看|查(?:询|看)?|是|列(?:出)?|显示|统计|算|计入)|排除|剔除|去掉|不要(?:再)?(?:看|查(?:询|看)?|统计|列出|显示|列)?|除去)'
+_EXCLUSION_VERB = r'(?:不(?:再)?(?:包含|包括|含|看|查(?:询|看)?|是|列(?:出)?|显示|统计|算|计入|纳入)|未(?:纳入|计入)|排除|剔除|去掉|不要(?:再)?(?:看|查(?:询|看)?|统计|列出|显示|列)?|除去)'
 _PREFIX_EXCLUSION = re.compile(_EXCLUSION_VERB + r'\s*(?:状态(?:为|是)?\s*)?$')
 _POSTFIX_EXCLUSION = re.compile(r'^\s*(?:的)?(?:场次|训练|记录)?(?:都|也|先|暂时|暂|全部|一律)?\s*' + _EXCLUSION_VERB)
 _UNCERTAIN_OPERATOR = re.compile(r'不|未|没|别|勿|可能|也许|如果|并非')

@@ -12,6 +12,7 @@ from app.services import agent_intent_model as model
 from app.services.agent_intent import IntentResolution, route_tools
 from app.services.agent_task_state import is_calendar_query_revision
 from app.services.workout_history_reporting import render_calendar_history, render_history
+from app.services.history_status_scope import history_status_problem, parse_history_status_scope
 
 
 FIXTURE = json.loads((Path(__file__).parent / 'fixtures/query_history_20261108.json').read_text(encoding='utf-8'))
@@ -124,3 +125,39 @@ def test_new_relative_scope_exception_still_requires_verified_active_query(inval
     else:
         resolution.task_update.trigger = 'not from this user message'
     assert not is_calendar_query_revision(context, resolution, message)
+
+
+def test_live_normalized_exclusions_keep_the_requested_completed_filter():
+    sample = json.loads((Path(__file__).parent / 'fixtures/query_history_status_20261108.json').read_text(encoding='utf-8'))
+    resolution = resolution_for(sample['user_message']).model_copy(update={'resolved_query': sample['resolved_query']})
+    assert not history_status_problem(resolution, sample['user_message'])
+    from app.services.agent_query_reports import select_query_report
+    report = select_query_report(resolution.resolved_query, ['workout.list_history'])
+    assert report.arguments == {'limit': 20, 'start_date': '2026-11-07', 'end_date': '2026-11-09', 'completed_only': True}
+
+
+@pytest.mark.parametrize('phrase', ['不纳入', '未纳入', '不再纳入', '未计入'])
+@pytest.mark.parametrize('position', ['before', 'after'])
+def test_explicit_non_inclusion_is_the_same_status_set_in_either_order(phrase, position):
+    exclusion = phrase + '进行中、跳过和提前结束记录' if position == 'before' else '进行中、跳过和提前结束记录都' + phrase
+    scope = parse_history_status_scope('仅列已完成场次；' + exclusion + '。')
+    assert scope.complete and scope.statuses == ('completed',)
+
+
+def test_report_status_sentence_remains_a_valid_read_filter():
+    # The model can echo the report's own exclusion sentence on the next turn.
+    reply = render_calendar_history(deepcopy(FIXTURE['cases'][0]['first_tool_result']))
+    sentence = next(line for line in reply.splitlines() if line.startswith('仅列已完成'))
+    assert parse_history_status_scope(sentence).statuses == ('completed',)
+
+
+def test_exclusion_without_inclusion_selects_the_remaining_statuses():
+    assert parse_history_status_scope('不纳入跳过和放弃').statuses == ('completed', 'in_progress', 'ended_early')
+
+
+@pytest.mark.parametrize('query', [
+    '不是不纳入跳过', '不要不纳入进行中', '只列已完成，不纳入已完成',
+    '只查未完成的场次', '已完成和进行中，进行中也未计入',
+])
+def test_non_inclusion_does_not_relax_ambiguous_or_conflicting_filters(query):
+    assert not parse_history_status_scope(query).complete
