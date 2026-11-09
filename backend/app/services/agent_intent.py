@@ -463,7 +463,9 @@ _NOMINAL_RECORD_PATTERN = re.compile(
     r"完成(?=(?:了|过)?的?(?:训练|锻炼)?的?(?:日期|日子|哪几天|哪天|时间|记录|次数|场次|情况|明细))|"
     # Completed-set counts and saved attributes describe existing facts.
     # Mask only these occurrences, preserving any independent write verb.
-    r"(?<=[已未])完成|完成(?=(?:状态|组数|次数|的(?:训练|组|场次)))|保存(?=的)|"
+    # An aspect-marked modifier remains descriptive when its training noun
+    # ends the clause: 完成过的训练，每场... . Independent writes stay visible.
+    r"(?<=[已未])完成|完成(?=(?:状态|组数|次数|(?:了|过)?的(?:训练|锻炼|组|场次)))|保存(?=的)|"
     r"(?<=列出)记录(?!下|到|为|成|一(?:条|次|笔))|"
     # A locative/attributive suffix makes 记录 a noun, not a write command.
     # Keep bare 记录 and verbal objects such as 记录中午... / 记录里程... .

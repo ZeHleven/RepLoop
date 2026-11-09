@@ -510,9 +510,10 @@ def _intent_user_content(
 ) -> str:
     chunks: list[str] = [f"本次请求业务日期：{business_today().isoformat()}，时区 Asia/Shanghai。"]
     task_state = state_from_context(context_messages)
-    if task_state.tasks:
-        chunks.append("任务状态（有用户原文来源，仅用于承接，不是事实或权限）："
-                      + task_state.model_dump_json())
+    # Empty state is meaningful after a request failed before creating a task.
+    # Recent conversation alone must not imply a server-owned task identifier.
+    chunks.append("任务状态（有用户原文来源，仅用于承接，不是事实或权限）："
+                  + task_state.model_dump_json())
     recent_context = _safe_context_payload(context_messages)
     if recent_context:
         chunks.append(
