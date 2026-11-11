@@ -10,6 +10,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.services.business_clock import business_today, day_end
+from app.services.agent_training_advice import planned_rest_semantics
 from app.services.history_status_scope import HistoryStatus, effective_history_statuses
 
 from app.models.food import Food
@@ -257,6 +258,7 @@ def build_read_tools(
             "读取当前登录用户完整的活动训练计划及各训练日动作。仅用于查看整个当前计划；"
             "如果只问下一次练什么，应使用 workout_get_next。不要查询已经完成的训练记录。"
             "周完成数仅统计当前计划连续对应的安排训练日，不代表用户的全部训练历史。"
+            "各动作rest_seconds是该动作的组间休息秒数。"
             "示例：‘把我现在的一周训练计划列出来。’"
         ),
     )
@@ -268,6 +270,7 @@ def build_read_tools(
         return {
             "found": True,
             "plan": detail.model_dump(mode="json"),
+            "rest_seconds_semantics": planned_rest_semantics(),
             "weekly_completion_scope": {
                 "kind": "active_plan_continuous_arrangement_current_week",
                 "plan_id": detail.id,
@@ -285,6 +288,7 @@ def build_read_tools(
         description=(
             "根据当前活动计划和今天的星期，读取下一次计划训练日及动作。仅用于‘下一练’或"
             "‘今天练什么’；不要用它展示整份计划、历史或正在执行的训练。"
+            "各动作rest_seconds是该动作的组间休息秒数。"
             "示例：‘我下一练要做哪些动作？’"
         ),
     )
@@ -306,6 +310,7 @@ def build_read_tools(
             "plan_name": detail.name,
             "day_of_week": next_day,
             "days_until": days_until,
+            "rest_seconds_semantics": planned_rest_semantics(),
             "exercises": [
                 item.model_dump(mode="json")
                 for item in detail.exercises

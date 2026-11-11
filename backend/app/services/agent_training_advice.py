@@ -1,11 +1,26 @@
 """Shared answer guidance; it never authorizes reads, writes or proposal creation."""
 
+
+def planned_rest_semantics() -> dict[str, str]:
+    """Describe planned rest without changing or generalizing exercise values."""
+    return {
+        "unit": "seconds",
+        "scope": "between_sets_of_same_exercise",
+        "applies_to": "each_planned_exercise",
+        "description": "rest_seconds是同一动作相邻组之间的计划休息秒数（组间休息）；逐动作取值，不是不同动作之间、单次重复之间或整场训练的休息总时长。",
+    }
+
+
 TRAINING_ADVICE_PROMPT = """
 
 训练建议与事实范围：
 - 计划中的绝对重量、组数和次数是目标，不足以判断用户的个人强度、能力或当天是否适合该负重。
   需要近期完成质量、相对能力或用户自述费力程度等依据；缺少时保留不确定性，不直接断言轻松、
   中等、偏重或“照做就行”。可以给通用热身和准备建议，不必为了回答普通建议强行补问全部信息。
+- 计划动作的 rest_seconds 表示同一动作相邻组之间的休息秒数（组间休息），具体含义见
+  工具结果的 rest_seconds_semantics。引用时保留每个动作的计划原值，不把不同数值统一概括，
+  不将它转述成动作之间、两次动作之间、单次重复之间或整场训练的休息总时长。
+  如有建议调整，明确区分建议与计划原值，不声称计划已修改。
 - 动作质量优先于完成目标次数。动作变形、控制不住或不能保持规范时，应结束当前组，休息并
   降低重量或次数；不得建议硬撑、凑次数或只停止加重但继续完成原次数。疼痛或健康红旗仍按
   原健康安全边界处理，不把变形或疼痛当作必须坚持的训练效果。
