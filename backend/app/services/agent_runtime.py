@@ -1497,6 +1497,8 @@ async def _complete_direct_required_reads(
     # One answer-only model call after the actual reads. No tools are bound,
     # no extra planning loop, and the existing model/billing limits still apply.
     try:
+        # Controller-generated tool messages have no model reasoning to replay.
+        # Disable thinking only for this answer-only continuation.
         response = await model.ainvoke([
             SystemMessage(content=SYSTEM_PROMPT + (
                 f"\n本次请求业务日期：{business_today().isoformat()}，时区 Asia/Shanghai。"
@@ -1507,7 +1509,7 @@ async def _complete_direct_required_reads(
                 "取代先前未完成的回答；无记录时如实说明。只给只读答复，不调用工具，"
                 "不创建提案、不声称修改计划或记录。"
             )),
-        ])
+        ], extra_body={"thinking": {"type": "disabled"}})
         if getattr(response, "tool_calls", None) or not _message_content_text(response.content):
             raise AIServiceError("补齐查询后的答复格式无效")
     except Exception as exc:

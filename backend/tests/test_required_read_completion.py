@@ -301,3 +301,84 @@ async def test_api_persists_both_reads_without_mutating_either_users_plan(client
     assert '其他用户' not in json.dumps(body,ensure_ascii=False)
     assert before == await business_snapshot()
     assert len(model._inputs)==3
+
+
+@pytest.mark.asyncio
+@pytest.mark.parametrize('provider_failure', [False, True], ids=['thinking-contract', 'provider-400'])
+async def test_rewrite_http_contract_and_billing(db_session, session_factory, monkeypatch, provider_failure):
+    """Real SDK serialization and budget transport; synthetic HTTP, never a live model."""
+    import httpx
+    from uuid import uuid4
+    from sqlalchemy import select
+    from langchain_core.messages import HumanMessage
+    from app.models.user import User
+    from app.models.model_budget import ModelCharge
+    from app.services import model_budget as budget
+
+    monkeypatch.setattr(budget, 'AsyncSessionLocal', session_factory)
+    monkeypatch.setattr(runtime.settings, 'DEEPSEEK_API_KEY', 'synthetic-wire-test')
+    monkeypatch.setattr(runtime.settings, 'DEEPSEEK_BASE_URL', 'https://api.deepseek.com')
+    monkeypatch.setattr(runtime.settings, 'AGENT_ENABLED', True)
+    user = User(email=f'prep-wire-{uuid4()}@example.com', password_hash='synthetic')
+    db_session.add(user)
+    await db_session.commit()
+    requests = []
+    statuses = []
+
+    def provider(request):
+        payload = json.loads(request.content)
+        requests.append(payload)
+        # The controller's synthetic assistant envelope has no model reasoning
+        # to replay. Reproduce the actual provider rejection at the wire edge.
+        if provider_failure or payload.get('thinking', {}).get('type') != 'disabled':
+            statuses.append(400)
+            return httpx.Response(400, json={'error': {
+                'type': 'invalid_request_error',
+                'message': 'The `reasoning_content` in the thinking mode must be passed back to the API.'}})
+        statuses.append(200)
+        return httpx.Response(200, json={
+            'id': 'synthetic-rewrite', 'object': 'chat.completion', 'created': 1,
+            'model': 'deepseek-flash', 'choices': [{'index': 0,
+                'message': {'role': 'assistant', 'content': '依据完整计划准备器械。'},
+                'finish_reason': 'stop'}],
+            'usage': {'prompt_tokens': 100, 'completion_tokens': 20, 'total_tokens': 120}})
+
+    calls = []
+    original = partial_result()
+    original['messages'].insert(0, HumanMessage(content=MESSAGES[1]))
+    transport = budget.BudgetTransport(httpx.MockTransport(provider))
+    async with httpx.AsyncClient(transport=transport) as client:
+        monkeypatch.setattr(runtime, 'model_http_client', lambda: client)
+        with budget.billing_user(user.id):
+            result = await runtime._complete_direct_required_reads(original,
+                db=None, model=runtime._build_model(max_tokens=128), tools=read_tools(calls),
+                resolution=resolution(MESSAGES[1]), tool_allowlist=ALLOWLIST)
+    trace = complete_execution_trace(trace_for(MESSAGES[1]), result,
+        summarize_observation=runtime._audit_result_summary)
+    _, trace = guard_read_completion(result['messages'][-1].content, trace)
+    state = await budget.budget_status(user.id)
+    async with session_factory() as db:
+        charges = (await db.scalars(select(ModelCharge).where(ModelCharge.user_id == user.id))).all()
+    assert len(charges) == 1
+    retain('rewrite-wire-' + str(provider_failure), {'requests': requests, 'statuses': statuses,
+        'reply': result['messages'][-1].content, 'trace': trace.model_dump(mode='json'),
+        'budget': state})
+    assert calls == ['plan.get_active'] and len(requests) == 1
+    assert 'tools' not in requests[0] and 'tool_choice' not in requests[0]
+    assert trace.evidence_contract.status == 'complete'
+    assert trace.budget_usage.model_calls == 3 and trace.budget_usage.tool_calls == 2
+    assert len(runtime._tool_call_records(result, 'synthetic')) == 2
+    observations = [json.loads(m['content']) for m in requests[0]['messages'] if m['role'] == 'tool']
+    assert observations == [NEXT, PLAN]
+    assert result['messages'][:len(original['messages'])] == original['messages']
+    if provider_failure:
+        assert statuses == [400]
+        assert trace.termination_reason == 'required_read_answer_unavailable'
+        assert '未能完成回答' in result['messages'][-1].content
+        assert charges[0].status == 'http_error_estimate' and charges[0].actual_nano is None
+        assert float(state['spent_yuan']) == charges[0].reserved_nano / 1e9
+    else:
+        assert statuses == [200]
+        assert requests[0]['thinking'] == {'type': 'disabled'}
+        assert result['messages'][-1].content == '依据完整计划准备器械。'
+        assert state['spent_yuan'] == '0.000360000' and not state['blocked']
