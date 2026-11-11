@@ -1,5 +1,6 @@
 """Replay the 2026-11-08 live failures; keep query revisions read-only."""
 from copy import deepcopy
+from datetime import date
 import json
 from pathlib import Path
 from unittest.mock import AsyncMock
@@ -11,6 +12,7 @@ from app.schemas.agent_task import TaskSnapshot, TaskUpdate
 from app.services import agent_intent_model as model
 from app.services.agent_intent import IntentResolution, route_tools
 from app.services.agent_task_state import is_calendar_query_revision
+from app.services.business_clock import BUSINESS_DATE
 from app.services.workout_history_reporting import render_calendar_history, render_history
 from app.services.history_status_scope import history_status_problem, parse_history_status_scope
 
@@ -55,7 +57,13 @@ async def test_original_model_read_route_is_not_rejected_or_retried(monkeypatch,
     route = model.IntentRouteDecision.model_validate({**payload, 'decision_action': None, 'artifact_action': None})
     invoke = AsyncMock(return_value=route)
     monkeypatch.setattr(model, '_invoke_model_route', invoke)
-    result = await model.resolve_intent_with_fallback(case['follow_message'], context_messages=deepcopy(case['context']), use_model=True)
+    # Replay the original relative-date expansion against its recorded day,
+    # rather than treating a historical fixture as today's model response.
+    token = BUSINESS_DATE.set(date.fromisoformat(case['first_tool_result']['as_of']))
+    try:
+        result = await model.resolve_intent_with_fallback(case['follow_message'], context_messages=deepcopy(case['context']), use_model=True)
+    finally:
+        BUSINESS_DATE.reset(token)
     assert result.understanding_failed is False
     assert result.attempt_count == 1 and invoke.await_count == 1
     assert result.resolution.request_kind == 'query' and result.resolution.requested_effect == 'read'
