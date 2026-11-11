@@ -10,6 +10,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from langchain.agents import create_agent
+from langchain_core.messages import AIMessage, SystemMessage, ToolMessage
 from langchain_openai import ChatOpenAI
 from sqlalchemy import and_, func, or_, select, update, case
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -56,6 +57,7 @@ from app.services.agent_evidence_contract import (
 )
 from app.services.agent_controller import (
     ToolAuditEvent,
+    complete_required_reads,
     execute_planned_agent,
 )
 from app.services.agent_intent import (
@@ -735,6 +737,8 @@ def _extract_agent_output(result: dict[str, Any]) -> tuple[str, list[dict[str, A
     for message in messages:
         if getattr(message, "type", None) != "tool":
             continue
+        if getattr(message, "status", None) == "error":
+            continue
         tool_name = getattr(message, "name", None)
         canonical_id = TOOL_ID_BY_LANGCHAIN_NAME.get(tool_name)
         if canonical_id:
@@ -754,11 +758,13 @@ def _tool_call_records(result: dict[str, Any], run_id: str) -> list[AgentToolCal
     if not isinstance(messages, list):
         return []
     outputs: dict[str, Any] = {}
+    output_statuses: dict[str, str] = {}
     for message in messages:
         if getattr(message, "type", None) == "tool":
             call_id = getattr(message, "tool_call_id", None)
             if isinstance(call_id, str):
                 outputs[call_id] = getattr(message, "content", "")
+                output_statuses[call_id] = getattr(message, "status", "success")
 
     records: list[AgentToolCall] = []
     for message in messages:
@@ -787,7 +793,8 @@ def _tool_call_records(result: dict[str, Any], run_id: str) -> list[AgentToolCal
                     canonical_id,
                     outputs.get(call_id, ""),
                 ),
-                status="completed",
+                status="failed" if output_statuses.get(call_id) == "error" else "completed",
+                error_code=("tool_error" if output_statuses.get(call_id) == "error" else None),
             ))
     return records
 
@@ -1443,6 +1450,74 @@ async def _load_history(
     return history
 
 
+async def _complete_direct_required_reads(
+    result: dict[str, Any], *, db: AsyncSession, model: Any,
+    tools: list[Any], resolution: IntentResolution | None, tool_allowlist: list[str],
+) -> dict[str, Any]:
+    if resolution is None:
+        return result
+    initial = build_initial_execution_trace(resolution, tool_allowlist).model_copy(update={
+        "evidence_contract": build_evidence_contract(
+            resolution, tool_allowlist, budget=settings.AGENT_MAX_TOOL_CALLS,
+        ),
+    })
+    trace = complete_execution_trace(initial, result, summarize_observation=_audit_result_summary)
+    tools_by_id = {TOOL_ID_BY_LANGCHAIN_NAME[tool.name]: tool for tool in tools
+                   if tool.name in TOOL_ID_BY_LANGCHAIN_NAME}
+
+    async def invoke_read(tool_id: str, arguments: dict[str, Any]) -> Any:
+        # A failing SELECT must not poison the caller's transaction and erase
+        # the failure audit. The session remains owned by this serial caller.
+        if isinstance(db, AsyncSession):
+            async with db.begin_nested():
+                return await tools_by_id[tool_id].ainvoke(arguments)
+        return await tools_by_id[tool_id].ainvoke(arguments)
+
+    completed = await complete_required_reads(
+        trace, tool_allowlist=tool_allowlist, tools_by_id=tools_by_id,
+        summarize_observation=_audit_result_summary, tool_invoker=invoke_read,
+    )
+    if not completed.raw_observations:
+        return result
+    messages = list(result["messages"])
+    for observation in completed.raw_observations:
+        tool_name = tools_by_id[observation["tool_id"]].name
+        messages.extend([
+            AIMessage(content="", additional_kwargs={"controller_required_read": True},
+                tool_calls=[{"name":tool_name,"args":{},"id":observation["call_id"]}]),
+            ToolMessage(name=tool_name, tool_call_id=observation["call_id"],
+                status="error" if observation["status"] == "error" else "success",
+                content=json.dumps(observation["result"], ensure_ascii=False, default=str)),
+        ])
+    _, guarded = guard_read_completion("", completed.trace)
+    if guarded.evidence_contract.status != "complete":
+        messages.append(AIMessage(content=missing_evidence_reply(guarded.evidence_contract.missing_tools),
+            additional_kwargs={"controller_required_read": True}))
+        return {**result, "messages": messages}
+    # One answer-only model call after the actual reads. No tools are bound,
+    # no extra planning loop, and the existing model/billing limits still apply.
+    try:
+        response = await model.ainvoke([
+            SystemMessage(content=SYSTEM_PROMPT + (
+                f"\n本次请求业务日期：{business_today().isoformat()}，时区 Asia/Shanghai。"
+                "今天及相对日期均以此为准；记录日期范围以工具返回的 scope 为准。"
+            )), *messages,
+            SystemMessage(content=(
+                "服务端已补齐本轮遗漏的必需查询。请根据上述真实工具结果重新回答原请求，"
+                "取代先前未完成的回答；无记录时如实说明。只给只读答复，不调用工具，"
+                "不创建提案、不声称修改计划或记录。"
+            )),
+        ])
+        if getattr(response, "tool_calls", None) or not _message_content_text(response.content):
+            raise AIServiceError("补齐查询后的答复格式无效")
+    except Exception as exc:
+        response = AIMessage(content="所需资料已读取，但这次未能完成回答。请稍后重试。",
+            additional_kwargs={"controller_required_read": True})
+        result = {**result, "required_read_answer_error": safe_error_category(exc),
+                  "required_read_answer_failed_calls": 1}
+    return {**result, "messages": [*messages, response]}
+
+
 async def invoke_langchain_agent(
     db: AsyncSession,
     *,
@@ -1491,9 +1566,13 @@ async def invoke_langchain_agent(
                 f"{'；'.join(normalized_subtasks)}\n"
             )
         execution_message += "请围绕消解后的请求完成回答，不要扩展到无关目标。"
-    return await agent.ainvoke(
+    result = await agent.ainvoke(
         {"messages": [*[{"role": item["role"], "content": item["content"]} for item in history], {"role": "user", "content": execution_message}]},
         config={"recursion_limit": settings.AGENT_RECURSION_LIMIT},
+    )
+    return await _complete_direct_required_reads(
+        result, db=db, model=model, tools=tools,
+        resolution=resolution, tool_allowlist=tool_allowlist,
     )
 
 
