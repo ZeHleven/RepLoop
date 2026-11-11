@@ -256,6 +256,7 @@ def build_read_tools(
         description=(
             "读取当前登录用户完整的活动训练计划及各训练日动作。仅用于查看整个当前计划；"
             "如果只问下一次练什么，应使用 workout_get_next。不要查询已经完成的训练记录。"
+            "周完成数仅统计当前计划连续对应的安排训练日，不代表用户的全部训练历史。"
             "示例：‘把我现在的一周训练计划列出来。’"
         ),
     )
@@ -264,7 +265,19 @@ def build_read_tools(
         if plan is None:
             return {"found": False}
         detail = await build_plan_detail(db, plan)
-        return {"found": True, "plan": detail.model_dump(mode="json")}
+        return {
+            "found": True,
+            "plan": detail.model_dump(mode="json"),
+            "weekly_completion_scope": {
+                "kind": "active_plan_continuous_arrangement_current_week",
+                "plan_id": detail.id,
+                "week_start": detail.week_start.isoformat(),
+                "unit": "distinct_scheduled_training_days",
+                "includes_unlinked_sessions": False,
+                "includes_other_plan_families": False,
+                "description": "仅统计本周与当前计划连续对应的安排训练日，相同训练日最多计一次；不是全部训练历史。",
+            },
+        }
 
     @tool(
         LANGCHAIN_TOOL_NAMES["workout.get_next"],

@@ -31,6 +31,7 @@ from app.services.agent_symptom_scope import (
 )
 from app.services.model_budget import billing_user, model_http_client, ModelBudgetError
 from app.services.business_clock import business_today, request_day
+from app.services.agent_training_advice import TRAINING_ADVICE_PROMPT
 from app.services.agent_run_order import allocate_queue_position, precedes
 from app.database import AsyncSessionLocal
 from app.models.agent import (
@@ -162,7 +163,7 @@ SYSTEM_PROMPT = """你是 Fitness Agent，一位中文健身对话助手。
 - 不进行医疗诊断、处方或治疗承诺。
 - 出现胸痛、呼吸困难、晕厥、严重或急性疼痛等红旗信息时，优先建议停止训练并及时寻求专业医疗帮助。
 - 有疼痛或伤病时，不建议盲目加量；先说明训练边界和不确定性。
-""" + RESPONSE_STYLE_PROMPT
+""" + RESPONSE_STYLE_PROMPT + TRAINING_ADVICE_PROMPT
 
 
 _PROPOSAL_NOT_CREATED_REPLY = (
