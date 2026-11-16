@@ -14,6 +14,9 @@ export function projectRuntimeDefineConstants (
     'TARO_APP_BUILD_SOURCE_DIRTY'
   )
   return {
+    __FITNESS_DEMO_MODE__: JSON.stringify(
+      environment.TARO_ENV === 'h5' && readRuntimeEnvironment(environment, 'TARO_APP_DEMO_MODE') === 'true'
+    ),
     __FITNESS_API_BASE_URL__: JSON.stringify(
       readRuntimeEnvironment(environment, 'TARO_APP_API_BASE_URL')
     ),

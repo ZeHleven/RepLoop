@@ -12,6 +12,8 @@ import {
 } from '../../services/auth'
 import { profileApi } from '../../services/profile'
 import './index.scss'
+import { DEMO_MODE } from '../../services/demo'
+import DemoWelcome from '../../components/DemoWelcome'
 
 export default function LoginPage () {
   const [email, setEmail] = useState('')
@@ -54,6 +56,8 @@ export default function LoginPage () {
       setWechatStage(null)
     }
   }
+
+  if (DEMO_MODE) return <DemoWelcome />
 
   return (
     <View className='login-page page'>

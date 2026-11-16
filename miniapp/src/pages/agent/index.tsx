@@ -5,6 +5,8 @@ import Taro, { useDidHide, useDidShow, useLoad } from '@tarojs/taro'
 
 import { miniappBuildLabel } from '../../core/build-info'
 import AgentMessageContent from '../../components/AgentMessageContent'
+import DemoGuide from '../../components/DemoGuide'
+import { DEMO_MODE } from '../../services/demo'
 import {
   proposalReferenceFromRead,
   proposalReferenceFromUnknown,
@@ -394,7 +396,7 @@ export default function AgentPage () {
     <View className='agent-page'>
       <View className='agent-header'>
         <View>
-          <Text className='agent-eyebrow'>查询与提案能力已开启</Text>
+          <Text className='agent-eyebrow'>{DEMO_MODE ? '从训练记录开始体验' : '查询与提案能力已开启'}</Text>
           <Text className='agent-title'>和训练搭子聊聊</Text>
           <Text className='agent-build'>{miniappBuildLabel()}</Text>
         </View>
@@ -429,6 +431,7 @@ export default function AgentPage () {
         scrollWithAnimation
         scrollIntoView={scrollTarget}
       >
+        {DEMO_MODE && <DemoGuide busy={sending || loading} onPrompt={prompt => { void send(prompt) }} />}
         {loading && <View className='loading-state'>正在加载对话…</View>}
         {!loading && messages.map(message => (
           <View
@@ -462,7 +465,7 @@ export default function AgentPage () {
             <View className='message-bubble typing'>{sendingLabel}</View>
           </View>
         )}
-        {!loading && messages.length === 1 && (
+        {!DEMO_MODE && !loading && messages.length === 1 && (
           <View className='quick-prompts'>
             {quickPrompts.map(prompt => (
               <View className='quick-prompt' key={prompt} onClick={() => send(prompt)}>

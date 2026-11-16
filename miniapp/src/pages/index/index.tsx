@@ -5,6 +5,7 @@ import { isAuthenticated } from '../../core/storage'
 import { routeForProfile } from '../../services/auth'
 import { profileApi } from '../../services/profile'
 import './index.scss'
+import { DEMO_MODE, demoApi } from '../../services/demo'
 
 export default function Index () {
   useLoad(() => {
@@ -14,6 +15,11 @@ export default function Index () {
         return
       }
       try {
+        if (DEMO_MODE) {
+          await demoApi.current()
+          await Taro.reLaunch({ url: '/pages/agent/index' })
+          return
+        }
         const profile = await profileApi.get()
         await Taro.reLaunch({ url: routeForProfile(profile.onboarding_completed) })
       } catch (_) {

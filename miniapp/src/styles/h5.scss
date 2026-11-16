@@ -1,0 +1,22 @@
+// Uppercase PX preserves physical desktop dimensions in Taro's px transform.
+html, body { margin: 0; background: #f5f7f2; color: #173226; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+// Taro H5 serializes the false value as an attribute on its custom button.
+.primary-button[disabled='false'], .secondary-button[disabled='false'], .danger-button[disabled='false'] { opacity: 1; }
+.demo-welcome .primary-button[disabled='false'] { color: white; }
+@media (min-width: 900PX) {
+  html { font-size: 24PX !important; }
+  .page, .agent-page { max-width: 1080PX; margin-left: auto; margin-right: auto; }
+  .page.demo-welcome {
+    max-width: 1040PX; display: grid; grid-template-columns: 1.1fr 1fr;
+    gap: 28PX 44PX; padding: 42PX 32PX;
+  }
+  .demo-brand { grid-column: 1 / -1; }
+  .demo-welcome .demo-intro { grid-column: 1; margin: 24PX 0 0; }
+  .demo-persona { grid-column: 2; grid-row: 2 / span 2; align-self: center; }
+  .demo-welcome .demo-steps { grid-column: 1; margin: 0; }
+  .demo-start { grid-column: 1; }
+  .demo-welcome .demo-footnote { grid-column: 2; align-self: center; margin: 0; }
+  .demo-build, .demo-welcome .error-banner { grid-column: 1 / -1; }
+  .agent-page .composer { left: 50%; right: auto; width: calc(100% - 40PX); max-width: 1040PX; transform: translateX(-50%); }
+  .capsule-host { left: 50%; right: auto; width: calc(100% - 32PX); max-width: 760PX; transform: translateX(-50%); }
+}

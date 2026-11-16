@@ -5,6 +5,7 @@ import { capsuleNavigation } from './core/capsule-platform'
 import { logMiniappBuildDiagnostic } from './core/build-info'
 import { initializeCloudTransport } from './core/request'
 import './app.scss'
+if (process.env.TARO_ENV === 'h5') require('./styles/h5.scss')
 
 // Keep the native custom-tab-bar entry OUT of the WeChat App dependency graph.
 // A static H5 import registers Component during App startup and consumes its

@@ -63,6 +63,7 @@ function artifact (overrides = {}) {
 
 test('missing optional transport variables become string literals', () => {
   assert.deepEqual(runtimeEnvironment.projectRuntimeDefineConstants({}), {
+    __FITNESS_DEMO_MODE__: 'false',
     __FITNESS_API_BASE_URL__: '""',
     __FITNESS_CLOUD_ENV__: '""',
     __FITNESS_CLOUD_SERVICE__: '""',
@@ -81,6 +82,7 @@ test('runtime transport values are trimmed and safely quoted', () => {
     TARO_APP_BUILD_COMMIT: ` ${'b'.repeat(40)} `,
     TARO_APP_BUILD_SOURCE_DIRTY: 'false'
   }), {
+    __FITNESS_DEMO_MODE__: 'false',
     __FITNESS_API_BASE_URL__: '"https://api.example.test/api/v1/"',
     __FITNESS_CLOUD_ENV__: '"env-test"',
     __FITNESS_CLOUD_SERVICE__: '"service-\\"quoted\\""',
@@ -88,6 +90,13 @@ test('runtime transport values are trimmed and safely quoted', () => {
     __FITNESS_BUILD_COMMIT__: `"${'b'.repeat(40)}"`,
     __FITNESS_BUILD_SOURCE_DIRTY__: 'false'
   })
+})
+
+test('demo is opt-in and cannot be enabled in a WeChat build', () => {
+  const project = runtimeEnvironment.projectRuntimeDefineConstants
+  assert.equal(project({ TARO_ENV: 'h5', TARO_APP_DEMO_MODE: 'true' }).__FITNESS_DEMO_MODE__, 'true')
+  assert.equal(project({ TARO_ENV: 'h5' }).__FITNESS_DEMO_MODE__, 'false')
+  assert.equal(project({ TARO_ENV: 'weapp', TARO_APP_DEMO_MODE: 'true' }).__FITNESS_DEMO_MODE__, 'false')
 })
 
 test('build metadata is strict and projects one canonical build environment', () => {

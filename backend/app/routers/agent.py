@@ -45,6 +45,8 @@ router = APIRouter(prefix="/agent", tags=["agent"])
 
 
 RUN_ERROR_MESSAGES = {
+    "demo_budget_exhausted": "演示可用额度不足，请联系项目作者。",
+    "demo_session_expired": "演示体验已到期或已重新开始，请返回当前体验。",
     "model_budget_exhausted": "你的5元体验额度已用完，或剩余额度不足以完成本次请求。",
     "model_budget_unavailable": "模型费用暂时无法核实，已暂停调用以保护你的体验额度。请联系管理员。",
     "ai_service_error": "训练搭子暂时无法连接 AI 服务，请稍后重试。",

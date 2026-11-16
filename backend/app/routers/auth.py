@@ -25,6 +25,7 @@ from app.services.wechat import (
     exchange_code,
 )
 from jose import JWTError
+from app.config import settings
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -41,6 +42,8 @@ async def register():
 
 @router.post("/login", response_model=TokenResponse)
 async def login(body: LoginRequest, db: AsyncSession = Depends(get_db)):
+    if settings.DEMO_ENABLED:
+        raise HTTPException(403, "请使用演示入口开始体验")
     user = None
     if body.email:
         user = await db.scalar(select(User).where(User.email == body.email))
@@ -78,6 +81,8 @@ async def _find_wechat_identity(
 async def wechat_login(
     body: WeChatLoginRequest, db: AsyncSession = Depends(get_db)
 ):
+    if settings.DEMO_ENABLED:
+        raise HTTPException(403, "请使用演示入口开始体验")
     try:
         wechat_session = await exchange_code(body.code)
     except WeChatInvalidCodeError as exc:
@@ -162,11 +167,15 @@ async def wechat_login(
 
 
 @router.post("/refresh", response_model=TokenResponse)
-async def refresh(body: RefreshRequest):
+async def refresh(body: RefreshRequest, db: AsyncSession = Depends(get_db)):
     try:
         user_id = decode_token(body.refresh_token, expected_type="refresh")
     except JWTError:
         raise HTTPException(status_code=401, detail="无效的 refresh token")
+
+    if settings.DEMO_ENABLED:
+        from app.services.demo import visit_for_user
+        await visit_for_user(db, user_id)
 
     return TokenResponse(
         access_token=create_access_token(user_id),

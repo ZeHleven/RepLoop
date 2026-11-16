@@ -15,12 +15,13 @@ from dataclasses import dataclass
 from typing import Any
 
 import httpx
-from sqlalchemy import select
+from sqlalchemy import select, func, text
 from sqlalchemy.dialects.postgresql import insert
 
 from app.database import AsyncSessionLocal
 from app.models.model_budget import ModelBudget, ModelCharge
 from app.services.ai_client import AIServiceError
+from app.config import settings
 
 LIMIT_NANO = 5_000_000_000
 PRICING_VERSION = "deepseek-2026-10-22-peak-cache-miss"
@@ -70,12 +71,17 @@ def deny(message=EXHAUSTED, code="model_budget_exhausted"):
 
 async def budget_status(user_id: str) -> dict:
     async with AsyncSessionLocal() as db:
+        limit = LIMIT_NANO
+        if settings.DEMO_ENABLED:
+            from app.services.demo import visit_for_user
+            user_id = (await visit_for_user(db, user_id)).budget_user_id
+            limit = settings.DEMO_USER_BUDGET_NANO
         row = await db.get(ModelBudget, user_id)
         spent = row.spent_nano if row else 0
         reserved = row.reserved_nano if row else 0
-        return {"limit_yuan": "5.00", "spent_yuan": f"{spent / 1e9:.9f}",
+        return {"limit_yuan": f"{limit / 1e9:.2f}", "spent_yuan": f"{spent / 1e9:.9f}",
                 "reserved_yuan": f"{reserved / 1e9:.9f}",
-                "remaining_yuan": f"{max(0, LIMIT_NANO - spent - reserved) / 1e9:.9f}",
+                "remaining_yuan": f"{max(0, limit - spent - reserved) / 1e9:.9f}",
                 "blocked": row.blocked if row else False,
                 "period": "lifetime", "pricing_version": PRICING_VERSION}
 
@@ -84,12 +90,31 @@ async def reserve(user_id: str, model: str, amount: int) -> str:
     if type(amount) is not int or amount <= 0:
         deny(UNCERTAIN, "model_budget_unavailable")
     async with AsyncSessionLocal() as db, db.begin():
+        limit = LIMIT_NANO
+        if settings.DEMO_ENABLED:
+            from fastapi import HTTPException
+            from app.models.demo import DemoVisit
+            from app.services.demo import BUDGET_LOCK, visit_for_user
+            try:
+                user_id = (await visit_for_user(db, user_id)).budget_user_id
+            except HTTPException:
+                deny("演示体验已到期或已重置，请返回当前体验。", "demo_session_expired")
+            limit = settings.DEMO_USER_BUDGET_NANO
+            # Every replica reserves against the same cap before calling a provider.
+            await db.execute(text("SELECT pg_advisory_xact_lock(:key)"), {"key": BUDGET_LOCK})
+            used = await db.scalar(select(func.coalesce(func.sum(
+                ModelBudget.spent_nano + ModelBudget.reserved_nano), 0)).join(
+                    DemoVisit, DemoVisit.budget_user_id == ModelBudget.user_id))
+            if used + amount > settings.DEMO_TOTAL_BUDGET_NANO:
+                deny("演示服务的可用额度不足，请联系项目作者。", "demo_budget_exhausted")
         await db.execute(insert(ModelBudget).values(user_id=user_id).on_conflict_do_nothing())
         row = await db.scalar(select(ModelBudget).where(
             ModelBudget.user_id == user_id).with_for_update())
         if row.blocked:
             deny(UNCERTAIN, "model_budget_unavailable")
-        if row.spent_nano + row.reserved_nano + amount > LIMIT_NANO:
+        if row.spent_nano + row.reserved_nano + amount > limit:
+            if settings.DEMO_ENABLED:
+                deny("本次演示的可用额度不足。", "demo_budget_exhausted")
             deny()
         row.reserved_nano += amount
         charge = ModelCharge(user_id=user_id, model=model, reserved_nano=amount,

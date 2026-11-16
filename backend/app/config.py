@@ -15,6 +15,16 @@ class Settings(BaseSettings):
     WECHAT_APP_SECRET: str = ""
     WECHAT_LOGIN_TIMEOUT_SECONDS: float = 5.0
 
+    # Opt-in, separate deployment for anonymous hackathon visitors.
+    DEMO_ENABLED: bool = False
+    DEMO_STATIC_DIR: str = ""
+    DEMO_SESSION_HOURS: int = Field(default=24, ge=1, le=168)
+    DEMO_MAX_VISITS: int = Field(default=200, ge=1, le=10000)
+    DEMO_VISITS_PER_HOUR: int = Field(default=30, ge=1, le=1000)
+    DEMO_MAX_RESETS: int = Field(default=5, ge=0, le=20)
+    DEMO_USER_BUDGET_NANO: int = Field(default=5_000_000_000, ge=0)
+    DEMO_TOTAL_BUDGET_NANO: int = Field(default=50_000_000_000, ge=0)
+
     RAG_ENABLED: bool = False
     EMBEDDING_API_KEY: str = ""
     EMBEDDING_BASE_URL: str = ""

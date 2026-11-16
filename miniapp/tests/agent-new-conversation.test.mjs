@@ -63,6 +63,8 @@ function createPage ({ savedId = 'old-conversation', pending = null, api = {}, c
     }
   }
   const imports = {
+    '../../components/DemoGuide': { __esModule: true, default: () => null },
+    '../../services/demo': { DEMO_MODE: false },
     react: {
       useState: initial => {
         const index = cursor++

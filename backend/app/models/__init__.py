@@ -1,4 +1,5 @@
 from app.models.model_budget import ModelBudget, ModelCharge
+from app.models.demo import DemoVisit, DemoIdentity
 from app.models.user import User
 from app.models.profile import UserProfile, WeightLog
 from app.models.exercise import Exercise

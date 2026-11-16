@@ -8,6 +8,7 @@
 | 主工作区、本地启动、依赖和版本核对 | [运行指南](getting-started.md) |
 | Agent 架构、工具契约与评测规范 | [Agent 文档](agent/README.md) |
 | 小程序开发 | [小程序说明](../miniapp/README.md) |
+| 网页演示启动、额度配置与打包 | [试玩版说明](../deploy/demo/README.md) |
 | 后端打包与部署配置 | [部署包说明](../deploy/cloudbase/README.md) |
 | 旧体验版部署架构参考 | [体验版发布参考](experience-release.md) |
 | 最新一次客户端构建核验记录 | [071 同步构建](miniapp-sync-071-20261109.md) |

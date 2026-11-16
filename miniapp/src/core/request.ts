@@ -10,11 +10,11 @@ import {
 import type { TokenResponse } from '../types/api'
 
 const API_BASE_URL = (
-  __FITNESS_API_BASE_URL__ || 'http://127.0.0.1:8000/api/v1'
+  __FITNESS_API_BASE_URL__ || (process.env.TARO_ENV === 'h5' ? '/api/v1' : 'http://127.0.0.1:8000/api/v1')
 ).replace(/\/$/, '')
 const CLOUD_ENV = __FITNESS_CLOUD_ENV__
 const CLOUD_SERVICE = __FITNESS_CLOUD_SERVICE__
-const USE_CLOUD_TRANSPORT = Boolean(CLOUD_ENV && CLOUD_SERVICE)
+const USE_CLOUD_TRANSPORT = process.env.TARO_ENV !== 'h5' && Boolean(CLOUD_ENV && CLOUD_SERVICE)
 const CLOUD_API_PREFIX = '/api/v1'
 const REQUEST_TIMEOUT_MS = 15000
 

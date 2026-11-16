@@ -4,12 +4,13 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, Depends, Request
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy import text
 
 from app.config import settings
 from app.database import AsyncSessionLocal
 from app.routers import (
-    agent, auth, chat, exercises, foods, meals, profile, proposals, workouts,
+    agent, auth, chat, demo, exercises, foods, meals, profile, proposals, workouts,
 )
 from app.deps import get_current_user
 from app.models.user import User
@@ -25,6 +26,8 @@ logging.getLogger("app").setLevel(logging.INFO)
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
+    from app.services.demo import validate_demo_database
+    validate_demo_database()
     log_agent_startup_diagnostic()
     stop_event = asyncio.Event()
     worker_task: asyncio.Task | None = None
@@ -56,7 +59,7 @@ async def ai_service_error_handler(
 
 @app.exception_handler(ModelBudgetError)
 async def model_budget_error_handler(request: Request, exc: ModelBudgetError):
-    return JSONResponse(status_code=402 if exc.code == "model_budget_exhausted" else 503,
+    return JSONResponse(status_code=402 if exc.code in {"model_budget_exhausted", "demo_budget_exhausted"} else 503,
                         content={"detail": str(exc), "code": exc.code})
 
 
@@ -69,6 +72,7 @@ app.include_router(workouts.router, prefix="/api/v1")
 app.include_router(meals.router, prefix="/api/v1")
 app.include_router(agent.router, prefix="/api/v1")
 app.include_router(proposals.router, prefix="/api/v1")
+app.include_router(demo.router, prefix="/api/v1")
 
 
 @app.get("/health")
@@ -104,6 +108,11 @@ async def ready():
                 )),
                 timeout=3,
             )
+            if settings.DEMO_ENABLED:
+                await asyncio.wait_for(db.execute(text(
+                    "SELECT v.key_hash, v.current_user_id, v.expires_at, i.visit_id "
+                    "FROM demo_visits v CROSS JOIN demo_identities i LIMIT 0"
+                )), timeout=3)
     except Exception:
         return JSONResponse(
             status_code=503,
@@ -118,3 +127,7 @@ async def ready():
 @app.get("/api/v1/me")
 async def me(current_user: User = Depends(get_current_user)):
     return {"id": current_user.id, "email": current_user.email}
+
+
+if settings.DEMO_ENABLED and settings.DEMO_STATIC_DIR:
+    app.mount("/", StaticFiles(directory=settings.DEMO_STATIC_DIR, html=True), name="demo-web")

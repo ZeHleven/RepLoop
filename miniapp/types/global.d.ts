@@ -13,6 +13,7 @@ declare module '*.styl';
 
 /** Build-time transport constants projected by config/runtime-env.ts. */
 declare const __FITNESS_API_BASE_URL__: string
+declare const __FITNESS_DEMO_MODE__: boolean
 declare const __FITNESS_CLOUD_ENV__: string
 declare const __FITNESS_CLOUD_SERVICE__: string
 declare const __FITNESS_BUILD_VERSION__: string
