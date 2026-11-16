@@ -252,32 +252,60 @@ $tempRootPrefix = $tempRoot.TrimEnd(
     [System.IO.Path]::DirectorySeparatorChar,
     [System.IO.Path]::AltDirectorySeparatorChar
 ) + [System.IO.Path]::DirectorySeparatorChar
-$metadataStagingRoot = Join-Path $tempRoot (
+$packageStagingRoot = Join-Path $tempRoot (
     "fitness-agent-cloudbase-" + [Guid]::NewGuid().ToString("N")
 )
-$metadataStagingRoot = [System.IO.Path]::GetFullPath($metadataStagingRoot)
-if (-not $metadataStagingRoot.StartsWith(
+$packageStagingRoot = [System.IO.Path]::GetFullPath($packageStagingRoot)
+if (-not $packageStagingRoot.StartsWith(
     $tempRootPrefix,
     [System.StringComparison]::OrdinalIgnoreCase
 )) {
     throw "Refusing to create build metadata outside the temporary directory."
 }
-$metadataStagingApp = Join-Path $metadataStagingRoot "app"
-New-Item -ItemType Directory -Force -Path $metadataStagingApp | Out-Null
+$packageStagingApp = Join-Path $packageStagingRoot "app"
+New-Item -ItemType Directory -Force -Path $packageStagingApp | Out-Null
 
 $tarArguments = @("-a", "-c", "-f", $outputPath)
 foreach ($pattern in $tarExcludePatterns) {
     $tarArguments += "--exclude=$pattern"
 }
-$tarArguments += @("-C", $backendPath, ".")
-$tarArguments += @(
-    "-C",
-    $metadataStagingRoot,
-    "./app/build_metadata.json"
-)
+$tarArguments += @("-C", $packageStagingRoot, ".")
 try {
+    # Do not ask tar to stat excluded cache directories: old Windows caches may
+    # deny access even when tar has an --exclude rule for their names.
+    $pendingDirectories = [System.Collections.Generic.Stack[string]]::new()
+    $pendingDirectories.Push($backendPath)
+    $packageSources = [System.Collections.Generic.List[string]]::new()
+    while ($pendingDirectories.Count -gt 0) {
+        foreach ($entry in Get-ChildItem -LiteralPath $pendingDirectories.Pop() -Force) {
+            if ($entry.PSIsContainer) {
+                if ($excludedDirectoryNames -contains $entry.Name -or $entry.Name -like "*.egg-info") {
+                    continue
+                }
+            } elseif (@($excludedFilePatterns | Where-Object { $entry.Name -like $_ }).Count -gt 0) {
+                continue
+            }
+            if ($entry.Attributes -band [System.IO.FileAttributes]::ReparsePoint) {
+                throw "Refusing to package a linked source path: $($entry.Name)"
+            }
+            if ($entry.PSIsContainer) {
+                $pendingDirectories.Push($entry.FullName)
+            } else {
+                $relative = $entry.FullName.Substring($backendPath.Length).TrimStart('\', '/') -replace '\\', '/'
+                $packageSources.Add("./$relative")
+            }
+        }
+    }
+    # Stage only approved files. Windows bsdtar cannot reliably combine -T
+    # input with multiple -C directories; one clean staging tree also avoids
+    # traversing excluded or inaccessible source directories.
+    foreach ($relative in $packageSources) {
+        $destination = Join-Path $packageStagingRoot $relative.Substring(2)
+        New-Item -ItemType Directory -Force -Path (Split-Path -Parent $destination) | Out-Null
+        Copy-Item -LiteralPath (Join-Path $backendPath $relative.Substring(2)) -Destination $destination
+    }
     [System.IO.File]::WriteAllText(
-        (Join-Path $metadataStagingApp "build_metadata.json"),
+        (Join-Path $packageStagingApp "build_metadata.json"),
         $buildMetadata,
         [System.Text.UTF8Encoding]::new($false)
     )
@@ -293,8 +321,8 @@ catch {
     throw
 }
 finally {
-    if (Test-Path -LiteralPath $metadataStagingRoot) {
-        Remove-Item -LiteralPath $metadataStagingRoot -Recurse -Force
+    if (Test-Path -LiteralPath $packageStagingRoot) {
+        Remove-Item -LiteralPath $packageStagingRoot -Recurse -Force
     }
 }
 
