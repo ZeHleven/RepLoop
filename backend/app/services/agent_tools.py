@@ -278,7 +278,9 @@ def build_read_tools(
                 "unit": "distinct_scheduled_training_days",
                 "includes_unlinked_sessions": False,
                 "includes_other_plan_families": False,
-                "description": "仅统计本周与当前计划连续对应的安排训练日，相同训练日最多计一次；不是全部训练历史。",
+                "includes_prior_weeks": False,
+                "establishes_first_training": False,
+                "description": "仅统计本周与当前计划连续对应的安排训练日，相同训练日最多计一次；不含以前周或未关联安排日期的记录，即使后者属于同一计划。零完成数不证明首次训练或缺乏经验。",
             },
         }
 

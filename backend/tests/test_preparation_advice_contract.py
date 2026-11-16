@@ -20,11 +20,13 @@ from app.services.agent_intent import IntentResolution
 from app.services.agent_planner import ModelPlanningPolicy
 from app.services.agent_tools import NoArguments, build_read_tools
 from app.services.business_clock import BUSINESS_DATE
+from app.services import training_lifecycle
 
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('linked', [False, True], ids=['unrelated-history-only', 'two-sessions-one-day'])
-async def test_active_plan_weekly_scope_is_not_all_workout_history(db_session, linked):
+async def test_active_plan_weekly_scope_is_not_all_workout_history(db_session, linked, monkeypatch):
+    monkeypatch.setattr(training_lifecycle, 'training_today', lambda: date(2026, 11, 11))
     tag = uuid4().hex
     owner = User(id=tag, email=tag + '@example.invalid', password_hash='synthetic')
     other = User(id=tag + '-other', email=tag + '-other@example.invalid', password_hash='synthetic')
