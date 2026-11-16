@@ -1,4 +1,6 @@
 """Task evidence obligations survive routing, budgets, and model completion."""
+from langchain_core.tools import BaseTool
+
 from app.schemas.agent_trace import AgentEvidenceContractTrace, AgentExecutionTrace
 from app.services.agent_intent import IntentResolution, MAX_ROUTED_TOOLS, required_read_tools
 
@@ -44,6 +46,32 @@ def check_evidence(trace: AgentExecutionTrace) -> AgentExecutionTrace:
         "missing_tools": missing, "status": "partial" if missing else "complete",
         "reason": "observations_missing" if missing else None,
     })})
+
+
+def completable_required_reads(
+    trace: AgentExecutionTrace, *, allowlist: list[str],
+    tools: dict[str, BaseTool], tool_budget: int, model_budget: int,
+) -> list[str]:
+    """Recover omissions only: never guess parameters, retry failures or widen authority."""
+    contract = check_evidence(trace).evidence_contract
+    if (contract is None or contract.status != "partial"
+            or trace.terminal_action in {"clarify", "safe_stop", "failed"}
+            or trace.budget_usage.model_calls >= model_budget):
+        return []
+    missing = contract.missing_tools
+    attempted = {action.tool_id for action in trace.actions}
+    if (max(len(trace.actions), trace.budget_usage.tool_calls) + len(missing) > tool_budget
+            or len(contract.required_tools) > min(MAX_ROUTED_TOOLS, tool_budget)
+            or any(tool_id not in allowlist for tool_id in contract.required_tools)):
+        return []
+    for tool_id in missing:
+        tool = tools.get(tool_id)
+        # Even optional parameters can change the date/scope. Only a schema
+        # with no input properties proves that {} is the user's intended read.
+        if (tool_id in attempted or tool is None
+                or tool.get_input_schema().model_json_schema().get("properties")):
+            return []
+    return missing
 
 
 def guard_read_completion(reply: str, trace: AgentExecutionTrace):

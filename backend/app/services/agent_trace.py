@@ -244,11 +244,12 @@ def complete_execution_trace(
     action_by_call_id: dict[str, dict[str, Any]] = {}
     observations: list[AgentObservationTrace] = []
     sequence = 0
-    model_calls = 0
+    model_calls = result.get("required_read_answer_failed_calls", 0)
     deterministic = result.get("response_mode", "").startswith("verified_")
 
     for message in messages:
-        if getattr(message, "type", None) == "ai" and not deterministic:
+        if (getattr(message, "type", None) == "ai" and not deterministic
+                and not getattr(message, "additional_kwargs", {}).get("controller_required_read")):
             model_calls += 1
         calls = getattr(message, "tool_calls", None)
         if isinstance(calls, list):
@@ -327,7 +328,9 @@ def complete_execution_trace(
         "actions": [AgentActionTrace.model_validate(item) for item in actions],
         "observations": observations,
         "terminal_action": terminal_action,
-        "termination_reason": result.get("response_mode", termination_reason),
+        "termination_reason": ("required_read_answer_unavailable"
+                               if result.get("required_read_answer_error")
+                               else result.get("response_mode", termination_reason)),
         "budget_usage": trace.budget_usage.model_copy(update={
             "model_calls": model_calls,
             "tool_calls": len(actions),

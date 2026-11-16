@@ -33,6 +33,7 @@ from app.services.agent_planner import (
     build_tool_catalog,
 )
 from app.services.agent_intent import parse_explicit_plan_adjustment_command
+from app.services.agent_evidence_contract import completable_required_reads
 from app.services.agent_structured_errors import safe_error_category
 from app.services.agent_tool_registry_shadow_trace import (
     ToolRegistryShadowSession,
@@ -963,6 +964,46 @@ def _record_tool_batch(
         raw_observations=raw_observations,
         cards=cards,
         audits=audits,
+    )
+
+
+async def complete_required_reads(
+    trace: AgentExecutionTrace, *, tool_allowlist: list[str],
+    tools_by_id: dict[str, BaseTool], summarize_observation: ObservationSummarizer,
+    event_sink: TraceEventSink | None = None,
+    tool_invoker: ParallelToolInvoker | None = None,
+) -> _RecordedToolBatch:
+    """One bounded completion pass, using the same tools, trace and audit as a plan."""
+    pending = completable_required_reads(
+        trace, allowlist=tool_allowlist, tools=tools_by_id,
+        tool_budget=settings.AGENT_MAX_TOOL_CALLS,
+        model_budget=settings.AGENT_MAX_MODEL_CALLS,
+    )
+    sink = event_sink or _noop_event_sink
+    collected = _RecordedToolBatch(trace, [], [], [])
+    for tool_id in pending:
+        action = AgentActionTrace(
+            sequence=_next_sequence(trace), call_id=f"required-{uuid.uuid4()}",
+            plan_version=trace.plan.version, tool_id=tool_id, arguments={},
+        )
+        trace = trace.model_copy(update={"actions": [*trace.actions, action]})
+        await sink(trace, None)
+        result = await _invoke_tool(
+            tool_id=tool_id, arguments={}, tool_map=tools_by_id,
+            summarize_observation=summarize_observation,
+            parallel_tool_invoker=tool_invoker,
+        )
+        recorded = _record_tool_batch(trace, actions=[action], results=[result])
+        trace = recorded.trace
+        collected.raw_observations.extend(recorded.raw_observations)
+        collected.cards.extend(recorded.cards)
+        collected.audits.extend(recorded.audits)
+        for audit in recorded.audits:
+            await sink(trace, audit)
+        if result.status != "success":
+            break
+    return _RecordedToolBatch(
+        trace, collected.raw_observations, collected.cards, collected.audits,
     )
 
 
@@ -1910,6 +1951,16 @@ async def execute_planned_agent(
             step_summaries[step.id] = guard_error or "步骤决策预算已用尽"
             await sink(trace, None)
         step_index += 1
+
+    if not executor_deadline_hit and not replanner_deadline_hit:
+        completed_reads = await complete_required_reads(
+            trace, tool_allowlist=tool_allowlist, tools_by_id=tools_by_id,
+            summarize_observation=summarize_observation, event_sink=sink,
+            tool_invoker=parallel_tool_invoker,
+        )
+        trace = completed_reads.trace
+        raw_observations.extend(completed_reads.raw_observations)
+        cards.extend(completed_reads.cards)
 
     safe_fallback_required = (
         executor_deadline_hit
