@@ -1,3 +1,5 @@
+import os
+
 import pytest_asyncio
 from httpx import AsyncClient, ASGITransport
 from sqlalchemy import text
@@ -5,11 +7,18 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlalchemy.pool import NullPool
 from app.main import app
 from app.database import Base, get_db
+from app.models.user import User
+from app.models.profile import UserProfile
+from app.schemas.auth import RegisterRequest
+from app.services.auth import hash_password
 
-TEST_DATABASE_URL = "postgresql+asyncpg://fitness:fitness_pass@localhost:5432/fitness_test"
+TEST_DATABASE_URL = os.getenv(
+    "TEST_DATABASE_URL",
+    "postgresql+asyncpg://fitness:fitness_pass@localhost:5432/fitness_test",
+)
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
 async def engine():
     # NullPool prevents connections from being tied to a specific event loop
     _engine = create_async_engine(TEST_DATABASE_URL, echo=False, poolclass=NullPool)
@@ -17,12 +26,12 @@ async def engine():
     await _engine.dispose()
 
 
-@pytest_asyncio.fixture(scope="session")
+@pytest_asyncio.fixture(scope="session", loop_scope="session")
 async def session_factory(engine):
     return async_sessionmaker(engine, expire_on_commit=False)
 
 
-@pytest_asyncio.fixture(scope="session", autouse=True)
+@pytest_asyncio.fixture(scope="session", loop_scope="session", autouse=True)
 async def setup_db(engine):
     async with engine.begin() as conn:
         await conn.execute(text("CREATE EXTENSION IF NOT EXISTS vector"))
@@ -37,11 +46,27 @@ async def setup_db(engine):
 
 @pytest_asyncio.fixture
 async def db_session(session_factory):
-    # Don't use async with — __aexit__ does async close/rollback which fails
-    # when event loop is closed at teardown (pytest-asyncio 0.24 bug).
-    # NullPool means no pooled connections are leaked.
-    session = session_factory()
-    yield session
+    async with session_factory() as session:
+        yield session
+
+
+class AccountSeedClient(AsyncClient):
+    """Explicitly seed pre-existing identities; all HTTP calls stay real."""
+
+    def __init__(self, *, session_factory, **kwargs):
+        super().__init__(**kwargs)
+        self.session_factory = session_factory
+
+    async def seed_existing_account(self, *, json):
+        account = RegisterRequest.model_validate(json)
+        async with self.session_factory() as session:
+            user = User(email=account.email, phone=account.phone,
+                        password_hash=hash_password(account.password))
+            session.add(user)
+            await session.flush()
+            session.add(UserProfile(user_id=user.id))
+            await session.commit()
+        return await self.post("/api/v1/auth/login", json=json)
 
 
 @pytest_asyncio.fixture
@@ -51,6 +76,36 @@ async def client(session_factory):
             yield session
 
     app.dependency_overrides[get_db] = override_get_db
-    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
+    async with AccountSeedClient(session_factory=session_factory,
+                                transport=ASGITransport(app=app), base_url="http://test") as c:
         yield c
     app.dependency_overrides.clear()
+
+
+import os as _os
+
+import pytest as _pytest
+
+
+@_pytest.fixture(autouse=True)
+def _symptom_scope_test_default(monkeypatch):
+    """SCOPE-20261025-01 keeps the legacy symptom path testable.
+
+    Production default is enabled. Legacy tests exercise the model-written
+    symptom path, so the suite default is off unless
+    AGENT_SYMPTOM_SCOPE_TEST_DEFAULT=1; tests of the new path enable it.
+    """
+    from app.config import settings
+
+    monkeypatch.setattr(
+        settings,
+        "AGENT_SYMPTOM_SCOPE_ENABLED",
+        _os.getenv("AGENT_SYMPTOM_SCOPE_TEST_DEFAULT", "0") == "1",
+    )
+    # docs/agent/16: model-extracted facts are opt-in per test so offline
+    # providers are never called unexpectedly.
+    monkeypatch.setattr(
+        settings,
+        "AGENT_SYMPTOM_FACTS_MODEL_ENABLED",
+        _os.getenv("AGENT_SYMPTOM_FACTS_TEST_DEFAULT", "0") == "1",
+    )

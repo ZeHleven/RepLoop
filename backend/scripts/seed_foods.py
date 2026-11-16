@@ -8,6 +8,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from app.config import settings
+from app.database_url import normalize_async_database_url
 from app.models.food import Food
 
 FOODS = [
@@ -35,7 +36,9 @@ FOODS = [
 
 
 async def main():
-    engine = create_async_engine(settings.DATABASE_URL, echo=False)
+    engine = create_async_engine(
+        normalize_async_database_url(settings.DATABASE_URL), echo=False
+    )
     session_factory = async_sessionmaker(engine, expire_on_commit=False)
 
     async with session_factory() as session:
@@ -48,6 +51,12 @@ async def main():
                 continue
             session.add(Food(**data))
             inserted += 1
+        await session.commit()
+        # Migrations create the catalogue ledger. This also classifies legacy seeds
+        # on fresh databases without changing their nutrient values or identities.
+        from app.services.food_catalog_v1 import sync_catalog
+        connection = await session.connection()
+        await connection.run_sync(sync_catalog)
         await session.commit()
         print(f"Inserted {inserted} foods ({len(FOODS) - inserted} already existed).")
 

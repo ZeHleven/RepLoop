@@ -11,7 +11,9 @@ async def test_get_embedding_returns_vector():
     mock_resp.raise_for_status = MagicMock()
     mock_resp.json.return_value = {"data": [{"embedding": fake_embedding}]}
 
-    with patch("app.services.embedding.httpx.AsyncClient") as mock_client_cls:
+    with patch.object(settings, "EMBEDDING_BASE_URL", "https://embedding.example/v1"), \
+         patch.object(settings, "EMBEDDING_MODEL", "embed-model"), \
+         patch("app.services.embedding.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
         mock_client.__aexit__ = AsyncMock(return_value=False)
@@ -31,7 +33,9 @@ async def test_get_embedding_sends_correct_payload():
     mock_resp.raise_for_status = MagicMock()
     mock_resp.json.return_value = {"data": [{"embedding": fake_embedding}]}
 
-    with patch("app.services.embedding.httpx.AsyncClient") as mock_client_cls:
+    with patch.object(settings, "EMBEDDING_BASE_URL", "https://embedding.example/v1"), \
+         patch.object(settings, "EMBEDDING_MODEL", "embed-model"), \
+         patch("app.services.embedding.httpx.AsyncClient") as mock_client_cls:
         mock_client = AsyncMock()
         mock_client.__aenter__ = AsyncMock(return_value=mock_client)
         mock_client.__aexit__ = AsyncMock(return_value=False)
@@ -43,3 +47,13 @@ async def test_get_embedding_sends_correct_payload():
         call_kwargs = mock_client.post.call_args
         assert call_kwargs.kwargs["json"]["input"] == "hello world"
         assert call_kwargs.kwargs["json"]["model"] == settings.EMBEDDING_MODEL
+
+
+@pytest.mark.asyncio
+async def test_get_embedding_requires_configuration():
+    from app.services.ai_client import AIServiceError
+
+    with patch.object(settings, "EMBEDDING_BASE_URL", ""), \
+         patch.object(settings, "EMBEDDING_MODEL", ""):
+        with pytest.raises(AIServiceError, match="RAG 尚未配置"):
+            await get_embedding("hello")

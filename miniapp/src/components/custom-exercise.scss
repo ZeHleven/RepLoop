@@ -1,0 +1,93 @@
+@use '../styles/theme' as theme;
+
+.custom-exercise-entry { margin-top: 20px; }
+.custom-exercise-form { display: flex; flex-direction: column; gap: 16px; padding: 22px; border: 1px solid #dce6dc; border-radius: 16px; background: #f5f7f2; }
+.custom-title { font-weight: 600; color: #163d2b; }
+.custom-help, .custom-safety-notice { display: block; font-size: 24px; line-height: 1.65; color: #637168; }
+.custom-safety-notice { margin-top: 12px; }
+.custom-exercise-input, .custom-exercise-description, .custom-select { background: #fff; border: 1px solid #dce6dc; padding: 16px; border-radius: 10px; box-sizing: border-box; }
+// Native single-line inputs need an explicit height. Vertical padding would
+// otherwise consume their default content box and clip both text and cursor.
+.custom-exercise-input {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 88px;
+  min-height: 88px;
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0 16px;
+  color: #173226;
+  font-size: 30px;
+  line-height: 1.5;
+}
+.custom-exercise-description { width: 100%; min-height: 140px; }
+.custom-select { color: #1d6b49; }
+.custom-actions { display: flex; gap: 16px; }
+.custom-actions button { flex: 1; }
+
+.exercise-sheet-layer { position: fixed; inset: 0; z-index: 1100; }
+.exercise-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(theme.$text, 0.24);
+  opacity: 0;
+  transition: opacity 240ms ease;
+}
+.exercise-sheet-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
+  border: 1px solid theme.$border;
+  border-bottom: 0;
+  border-radius: 28px 28px 0 0;
+  background: theme.$canvas;
+  color: theme.$text;
+  box-shadow: 0 -8px 30px rgba(theme.$shadow, 0.12);
+  transform: translateY(100%);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.exercise-sheet-open .exercise-sheet-panel { transform: translateY(0); }
+.exercise-sheet-open .exercise-sheet-backdrop { opacity: 1; }
+.exercise-sheet-closing .exercise-sheet-panel { transition-duration: 220ms; }
+.exercise-sheet-closing .exercise-sheet-backdrop { transition-duration: 220ms; }
+.exercise-sheet-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+  padding: 24px 28px 20px;
+  border-bottom: 1px solid theme.$border;
+}
+.exercise-sheet-heading { flex: 1; min-width: 0; }
+.exercise-sheet-heading .custom-title { display: block; color: theme.$text; font-size: 32px; line-height: 1.4; }
+.exercise-sheet-heading .custom-help { margin-top: 6px; color: theme.$muted; }
+.exercise-sheet-header .close-custom-exercise {
+  flex: 0 0 auto;
+  min-width: 100px;
+  min-height: 88px;
+  margin: 0;
+  padding: 0 20px;
+  font-size: 26px;
+}
+.exercise-sheet-scroll { flex: 1; min-height: 0; height: 0; width: 100%; }
+.exercise-sheet-panel .custom-exercise-form { border: 0; border-radius: 0; padding: 24px 28px 32px; background: theme.$canvas; }
+.custom-sheet-field { display: flex; flex-direction: column; gap: 12px; }
+.exercise-sheet-panel .custom-exercise-input,
+.exercise-sheet-panel .custom-exercise-description,
+.exercise-sheet-panel .custom-select { background: theme.$surface; color: theme.$text; border-color: theme.$field-border; }
+.exercise-sheet-panel .custom-help,
+.exercise-sheet-panel .custom-safety-notice { color: theme.$muted; }
+.exercise-sheet-footer {
+  flex-shrink: 0;
+  padding: 20px 28px calc(20px + env(safe-area-inset-bottom));
+  border-top: 1px solid theme.$border;
+  background: theme.$canvas;
+}
+.exercise-sheet-keyboard .exercise-sheet-footer { padding-bottom: 20px; }
+.exercise-sheet-footer .create-custom-exercise { width: 100%; margin: 0; }
+.custom-sheet-error { margin-bottom: 16px; padding: 12px 18px; font-size: 24px; line-height: 1.5; }

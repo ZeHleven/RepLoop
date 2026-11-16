@@ -1,0 +1,15 @@
+@use '../styles/theme' as theme;
+
+.workout-disclosure { margin-bottom: 24px; padding: 28px; border: 1px solid theme.$border; border-radius: 28px; background: theme.$surface; box-shadow: 0 8px 30px rgba(theme.$shadow, .06); }
+.workout-disclosure-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 12px 24px; }
+.workout-disclosure-title { min-width: 0; font-size: 32px; font-weight: 400; overflow-wrap: anywhere; }
+.workout-disclosure-summary { margin-left: auto; color: theme.$muted; font-size: 28px; overflow-wrap: anywhere; }
+.workout-disclosure-body { overflow: hidden; transition-property: height, opacity; transition-timing-function: cubic-bezier(.42, 0, .58, 1); }
+.workout-disclosure-inner { padding-top: 1px; }
+.workout-disclosure.untrained-region { background: #eef4ed; border-radius: 24px; box-shadow: none; }
+.untrained-region .workout-disclosure-title { font-size: 28px; font-weight: 600; }
+.untrained-region .workout-disclosure-summary { font-size: 24px; }
+.untrained-item { padding: 24px 0; margin-top: 20px; border-top: 1px solid theme.$border; }
+.untrained-item:last-child { padding-bottom: 0; }
+.untrained-name { display: block; font-size: 28px; font-weight: 600; }
+.untrained-item .detail-plan { font-size: 24px; font-weight: 600; }

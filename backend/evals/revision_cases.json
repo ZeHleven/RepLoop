@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "source": "New synthetic acceptance tasks, authored before first model run; same author as implementation, not independent human study.",
+  "cases": [
+    {"id":"N01","kind":"plan","title":"修改休息时长保留组数次数","turns":["把当前计划里的卧推改成4组、每组6次、组间休息75秒，先给我待确认提案。","休息时间再改为105秒，组数和次数按刚才的提案保留。"],"gold":{"卧推":{"sets":4,"reps":"6","rest_seconds":105,"recommended_weight_kg":20},"深蹲":{"sets":3,"reps":"10","rest_seconds":90,"recommended_weight_kg":30}}},
+    {"id":"N02","kind":"plan","title":"跨动作修订保留未改动作","turns":["当前计划卧推改4组每组7次，深蹲改2组每组9次，其他不变，先生成提案。","刚才提案里只把卧推组数改成5组，深蹲和所有次数都不变。"],"gold":{"卧推":{"sets":5,"reps":"7","rest_seconds":90,"recommended_weight_kg":20},"深蹲":{"sets":2,"reps":"9","rest_seconds":90,"recommended_weight_kg":30}}},
+    {"id":"N03","kind":"plan","title":"查饮食后返回未确认计划","turns":["当前计划卧推改成每组12次，其他先不变，生成待确认提案。","另外查一下我今天已记录的饮食，只列记录。","回到刚才未确认的卧推提案，改成4组，每组次数保留。"],"gold":{"卧推":{"sets":4,"reps":"12","rest_seconds":90,"recommended_weight_kg":20},"深蹲":{"sets":3,"reps":"10","rest_seconds":90,"recommended_weight_kg":30}}},
+    {"id":"N04","kind":"meal","title":"餐食修订只改一种食物数量","turns":["帮我记录2026年9月20日的晚餐：米饭150克、鸡胸90克，先生成待确认提案。","这餐鸡胸改成110克，米饭份量、日期和餐次不变。"],"gold":{"date":"2026-09-20","meal_type":"晚餐","items":{"米饭":150,"鸡胸":110},"calories":376.5}},
+    {"id":"N05","kind":"meal","title":"更正餐次保留历史日期","turns":["记录2026年9月18日晚餐米饭160克，先给提案。","餐次说错了，改成午餐，日期和食物份量不变。"],"gold":{"date":"2026-09-18","meal_type":"午餐","items":{"米饭":160},"calories":208}},
+    {"id":"N06","kind":"meal","title":"从未确认餐食删除一种食物","turns":["记录2026年9月19日午餐米饭170克和鸡胸80克，先生成提案。","刚才那餐去掉鸡胸，只保留米饭，日期、餐次和米饭克数不变。"],"gold":{"date":"2026-09-19","meal_type":"午餐","items":{"米饭":170},"calories":221}},
+    {"id":"N07","kind":"query","title":"更正日期范围保留完成状态筛选","turns":["列出2026年9月10日至9月12日的训练记录，只要已完成的。","日期更正为2026年9月14日至9月16日，仍只列已完成的。"],"gold":[{"start":"2026-09-10","end":"2026-09-12","dates":["2026-09-12","2026-09-10"]},{"start":"2026-09-14","end":"2026-09-16","dates":["2026-09-16","2026-09-14"]}]},
+    {"id":"N08","kind":"query","title":"有记录范围改为空范围不沿用旧结果","turns":["查2026年9月14日至9月16日的训练记录，只列已完成。","改查2026年9月21日至9月23日，同样只列已完成。"],"gold":[{"start":"2026-09-14","end":"2026-09-16","dates":["2026-09-16","2026-09-14"]},{"start":"2026-09-21","end":"2026-09-23","dates":[]}]}
+  ]
+}

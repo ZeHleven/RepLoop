@@ -1,0 +1,5290 @@
+{
+  "version": 3,
+  "reviewed": "2026-09-13",
+  "scope": "reference audit only, no runtime changes",
+  "counts": {
+    "newPublic": 59,
+    "existingUnchanged": 21,
+    "targetPublic": 80,
+    "excluded": 7
+  },
+  "excluded": {
+    "N07": "移出：保留干小米",
+    "N63": "移出：不增加芝麻",
+    "N28": "并入既有豆腐",
+    "N29": "并入既有豆腐",
+    "N30": "并入既有豆腐",
+    "N35": "转私人包装标签录入",
+    "N36": "转私人包装标签录入"
+  },
+  "records": [
+    {
+      "candidate": "N01",
+      "candidateName": "白米饭（熟）",
+      "status": "matched",
+      "proposedName": "白米饭（中粒米，熟）",
+      "note": "熟的可食米饭；未强化；与 N02 同为中粒白米，但不能据两个每100g值推算烹调出品率。",
+      "provider": "USDA",
+      "sourceId": 168930,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 130,
+        "protein_g": 2.38,
+        "carbs_g": 28.6,
+        "fat_g": 0.21,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "Rice, white, medium-grain, cooked, unenriched",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 130,
+            "raw": 130,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 2.38,
+            "raw": 2.38,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 28.6,
+            "raw": 28.6,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 0.21,
+            "raw": 0.21,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "derivation": null
+          }
+        ],
+        "ndbNumber": 20451,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/168930/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 125.81,
+        "difference": -4.189999999999998,
+        "relativeDifference": -3.2230769230769174
+      }
+    },
+    {
+      "candidate": "N02",
+      "candidateName": "白米（生）",
+      "status": "matched",
+      "proposedName": "白米（中粒米，生）",
+      "note": "未强化的中粒白米，未煮干米；不是饭的重量。",
+      "provider": "USDA",
+      "sourceId": 169760,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 360,
+        "protein_g": 6.61,
+        "carbs_g": 79.3,
+        "fat_g": 0.58,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "Rice, white, medium-grain, raw, unenriched",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 360,
+            "raw": 360,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 6.61,
+            "raw": 6.61,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 79.3,
+            "raw": 79.3,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 0.58,
+            "raw": 0.58,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "derivation": null
+          }
+        ],
+        "ndbNumber": 20450,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/169760/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 348.86,
+        "difference": -11.139999999999986,
+        "relativeDifference": -3.094444444444444
+      }
+    },
+    {
+      "candidate": "N03",
+      "candidateName": "小麦面条（水煮熟）",
+      "status": "reference_verified",
+      "proposedName": "小麦面条（水煮熟）",
+      "note": "熟小麦面条采用煮熟碱水小麦面作为同类代表，不含汤、油、浇头；不是全国平均，不与干面或乌冬任意求平均。纤维2.8为源表估计值。",
+      "provider": "MEXT",
+      "sourceId": "01048",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 133,
+        "protein_g": 4.9,
+        "carbs_g": 29.2,
+        "fat_g": 0.6,
+        "fiber_g": 2.8
+      },
+      "source": {
+        "name": "Common wheat / yellow alkaline noodles, boiled",
+        "url": "https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=1_01048_7",
+        "snapshot": "日本食品標準成分表（八訂）増補2023年",
+        "license": "MEXT food-composition reuse with source attribution",
+        "extraction": "Official HTML readback 2026-09-13; numeric transcription; parentheses preserved for estimates",
+        "fields": [
+          {
+            "key": "kcal",
+            "value": 133,
+            "raw": "133",
+            "unit": "kcal",
+            "sourceField": "エネルギー"
+          },
+          {
+            "key": "protein_g",
+            "value": 4.9,
+            "raw": "4.9",
+            "unit": "g",
+            "sourceField": "たんぱく質"
+          },
+          {
+            "key": "carbs_g",
+            "value": 29.2,
+            "raw": "29.2",
+            "unit": "g",
+            "sourceField": "炭水化物"
+          },
+          {
+            "key": "fat_g",
+            "value": 0.6,
+            "raw": "0.6",
+            "unit": "g",
+            "sourceField": "脂質"
+          },
+          {
+            "key": "fiber_g",
+            "value": 2.8,
+            "raw": "(2.8)",
+            "unit": "g",
+            "sourceField": "食物繊維総量"
+          }
+        ]
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 141.8,
+        "difference": 8.800000000000011,
+        "relativeDifference": 6.616541353383476
+      }
+    },
+    {
+      "candidate": "N04",
+      "candidateName": "小麦面条（干）",
+      "status": "matched",
+      "proposedName": "小麦面条（干）",
+      "note": "干面条，来源配方为面粉、盐、水、食用淀粉等；非鲜面、非熟面。",
+      "provider": "TFDA",
+      "sourceId": "R2000101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 350,
+        "protein_g": 11.6,
+        "carbs_g": 72.5,
+        "fat_g": 1.5,
+        "fiber_g": 1.6
+      },
+      "source": {
+        "name": "乾麵條",
+        "english": "Noodle: dried",
+        "description": "樣品狀態:乾麵條(麵粉,鹽,水,食用澱粉等); 前處理描述:混合均勻打碎",
+        "discardPercentRaw": null,
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 350,
+            "raw": "               350",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 11.6,
+            "raw": "              11.6",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.9000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 72.5,
+            "raw": "              72.5",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 1.5,
+            "raw": "               1.5",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.2000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.6,
+            "raw": "               1.6",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "1.3000"
+          }
+        ],
+        "correctedEnergyRaw": "               347",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 349.9,
+        "difference": -0.10000000000002274,
+        "relativeDifference": -0.028571428571433355
+      }
+    },
+    {
+      "candidate": "N05",
+      "candidateName": "馒头（原味）",
+      "status": "reference_verified",
+      "proposedName": "馒头（原味）",
+      "note": "按用户决定采用白馒头同类参考；不要求品牌配方，不宣称全国均值或无糖。",
+      "provider": "TFDA",
+      "sourceId": "R2400201",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 248,
+        "protein_g": 8.1,
+        "carbs_g": 51.3,
+        "fat_g": 1.2,
+        "fiber_g": 1.1
+      },
+      "source": {
+        "name": "白饅頭",
+        "english": null,
+        "description": "前處理描述:混合均勻打碎",
+        "discardPercentRaw": null,
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 248,
+            "raw": "               248",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 8.1,
+            "raw": "               8.1",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 51.3,
+            "raw": "              51.3",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 1.2,
+            "raw": "               1.2",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.1,
+            "raw": "               1.1",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "               246",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 248.4,
+        "difference": 0.4000000000000057,
+        "relativeDifference": 0.1612903225806539
+      }
+    },
+    {
+      "candidate": "N06",
+      "candidateName": "小米（干）",
+      "status": "matched",
+      "proposedName": "小米（去壳，干）",
+      "note": "来源生、去壳；谷子小米，不采用糯小米或粥。",
+      "provider": "TFDA",
+      "sourceId": "A0200101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 370,
+        "protein_g": 11.3,
+        "carbs_g": 71.7,
+        "fat_g": 3.7,
+        "fiber_g": 2.2
+      },
+      "source": {
+        "name": "小米",
+        "english": "Foxtail-millet; Millet",
+        "description": "樣品狀態:生,已去殼; 前處理描述:混合均勻磨碎",
+        "discardPercentRaw": null,
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 370,
+            "raw": "               370",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 11.3,
+            "raw": "              11.3",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.3000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 71.7,
+            "raw": "              71.7",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 3.7,
+            "raw": "               3.7",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "1.3000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 2.2,
+            "raw": "               2.2",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.5000"
+          }
+        ],
+        "correctedEnergyRaw": "               365",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 365.3,
+        "difference": -4.699999999999989,
+        "relativeDifference": -1.2702702702702684
+      }
+    },
+    {
+      "candidate": "N08",
+      "candidateName": "甜玉米（水煮熟）",
+      "status": "matched",
+      "proposedName": "甜玉米粒（黄色，水煮熟）",
+      "note": "水煮、沥水、不加盐，可食玉米粒；不含玉米芯，不含奶油。",
+      "provider": "USDA",
+      "sourceId": 169999,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 96,
+        "protein_g": 3.41,
+        "carbs_g": 21,
+        "fat_g": 1.5,
+        "fiber_g": 2.4
+      },
+      "source": {
+        "name": "Corn, sweet, yellow, cooked, boiled, drained, without salt",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 96,
+            "raw": 96,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 3.41,
+            "raw": 3.41,
+            "unit": "g",
+            "derivation": {
+              "code": "JA",
+              "description": "Aggregated data involving combinations of data with only source codes 1 and 12 and/or 13",
+              "foodNutrientSource": {
+                "id": 4,
+                "code": "6",
+                "description": "Aggregated data involving combinations of source codes 1, 6, 12 and/or 13"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 21,
+            "raw": 21,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 1.5,
+            "raw": 1.5,
+            "unit": "g",
+            "derivation": {
+              "code": "JA",
+              "description": "Aggregated data involving combinations of data with only source codes 1 and 12 and/or 13",
+              "foodNutrientSource": {
+                "id": 4,
+                "code": "6",
+                "description": "Aggregated data involving combinations of source codes 1, 6, 12 and/or 13"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 2.4,
+            "raw": 2.4,
+            "unit": "g",
+            "derivation": {
+              "code": "JA",
+              "description": "Aggregated data involving combinations of data with only source codes 1 and 12 and/or 13",
+              "foodNutrientSource": {
+                "id": 4,
+                "code": "6",
+                "description": "Aggregated data involving combinations of source codes 1, 6, 12 and/or 13"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 11168,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/169999/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 111.14,
+        "difference": 15.14,
+        "relativeDifference": 15.770833333333334
+      }
+    },
+    {
+      "candidate": "N09",
+      "candidateName": "土豆（蒸熟）",
+      "status": "matched",
+      "proposedName": "土豆（去皮，蒸熟）",
+      "note": "薯块蒸熟、去皮；不是水煮或叶片；按蒸熟后的可食部称重。",
+      "provider": "MEXT",
+      "sourceId": "02018",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 76,
+        "protein_g": 1.9,
+        "carbs_g": 18.1,
+        "fat_g": 0.3,
+        "fiber_g": 3.5
+      },
+      "source": {
+        "name": "じゃがいも／塊茎／皮なし／蒸し",
+        "english": "Potatoes, without skin, steamed",
+        "fields": [
+          {
+            "key": "kcal",
+            "value": 76,
+            "raw": "76",
+            "unit": "kcal",
+            "sourceField": "エネルギー"
+          },
+          {
+            "key": "protein_g",
+            "value": 1.9,
+            "raw": "1.9",
+            "unit": "g",
+            "sourceField": "たんぱく質"
+          },
+          {
+            "key": "carbs_g",
+            "value": 18.1,
+            "raw": "18.1",
+            "unit": "g",
+            "sourceField": "炭水化物"
+          },
+          {
+            "key": "fat_g",
+            "value": 0.3,
+            "raw": "0.3",
+            "unit": "g",
+            "sourceField": "脂質"
+          },
+          {
+            "key": "fiber_g",
+            "value": 3.5,
+            "raw": "3.5",
+            "unit": "g",
+            "sourceField": "食物繊維総量"
+          }
+        ],
+        "url": "https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=2_02018_7",
+        "snapshot": "日本食品標準成分表（八訂）増補2023年",
+        "license": "MEXT food-composition reuse with source attribution",
+        "extraction": "manual transcription of official HTML, independently readback; no local HTML archive (TLS download failed)"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 82.7,
+        "difference": 6.700000000000003,
+        "relativeDifference": 8.815789473684221
+      }
+    },
+    {
+      "candidate": "N10",
+      "candidateName": "紫薯（蒸熟）",
+      "status": "matched",
+      "proposedName": "紫薯（去皮，蒸熟）",
+      "note": "紫肉甘薯的块根蒸熟、去皮；与 N66 分别采源，不替换成普通红薯。",
+      "provider": "MEXT",
+      "sourceId": "02049",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 122,
+        "protein_g": 1.2,
+        "carbs_g": 31.4,
+        "fat_g": 0.3,
+        "fiber_g": 3
+      },
+      "source": {
+        "name": "むらさきいも／塊根／皮なし／蒸し",
+        "english": "Sweet potato, purple flesh type, without skin, steamed",
+        "fields": [
+          {
+            "key": "kcal",
+            "value": 122,
+            "raw": "122",
+            "unit": "kcal",
+            "sourceField": "エネルギー"
+          },
+          {
+            "key": "protein_g",
+            "value": 1.2,
+            "raw": "1.2",
+            "unit": "g",
+            "sourceField": "たんぱく質"
+          },
+          {
+            "key": "carbs_g",
+            "value": 31.4,
+            "raw": "31.4",
+            "unit": "g",
+            "sourceField": "炭水化物"
+          },
+          {
+            "key": "fat_g",
+            "value": 0.3,
+            "raw": "0.3",
+            "unit": "g",
+            "sourceField": "脂質"
+          },
+          {
+            "key": "fiber_g",
+            "value": 3,
+            "raw": "3.0",
+            "unit": "g",
+            "sourceField": "食物繊維総量"
+          }
+        ],
+        "url": "https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=2_02049_7",
+        "snapshot": "日本食品標準成分表（八訂）増補2023年",
+        "license": "MEXT food-composition reuse with source attribution",
+        "extraction": "manual transcription of official HTML, independently readback; no local HTML archive (TLS download failed)"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 133.1,
+        "difference": 11.099999999999994,
+        "relativeDifference": 9.098360655737704
+      }
+    },
+    {
+      "candidate": "N11",
+      "candidateName": "猪里脊（生）",
+      "status": "matched",
+      "proposedName": "猪里脊（瘦肉，生）",
+      "note": "里脊的可分离瘦肉，去可分离脂肪；不能套用于肥瘦混合里脊。",
+      "provider": "USDA",
+      "sourceId": 168249,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 109,
+        "protein_g": 21,
+        "carbs_g": 0,
+        "fat_g": 2.17,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Pork, fresh, loin, tenderloin, separable lean only, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 109,
+            "raw": 109,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 21,
+            "raw": 21,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 2.17,
+            "raw": 2.17,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 10060,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/168249/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 103.53,
+        "difference": -5.469999999999999,
+        "relativeDifference": -5.018348623853209
+      }
+    },
+    {
+      "candidate": "N12",
+      "candidateName": "猪后腿瘦肉（生）",
+      "status": "matched",
+      "proposedName": "猪后腿瘦肉（生）",
+      "note": "新鲜猪后腿，separable lean only；不是腌制火腿，称可食瘦肉。",
+      "provider": "USDA",
+      "sourceId": 168224,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 136,
+        "protein_g": 20.5,
+        "carbs_g": 0,
+        "fat_g": 5.41,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Pork, fresh, leg (ham), whole, separable lean only, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 136,
+            "raw": 136,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 20.5,
+            "raw": 20.5,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 5.41,
+            "raw": 5.41,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 10010,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/168224/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 130.69,
+        "difference": -5.310000000000002,
+        "relativeDifference": -3.904411764705884
+      }
+    },
+    {
+      "candidate": "N13",
+      "candidateName": "鸡腿肉（去皮，生）",
+      "status": "matched",
+      "proposedName": "鸡腿肉（去皮去骨，生）",
+      "note": "肉鸡腿，来源明确去皮去骨；生重。",
+      "provider": "TFDA",
+      "sourceId": "I0404501",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 165,
+        "protein_g": 19.8,
+        "carbs_g": 0,
+        "fat_g": 8.9,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "去皮去骨雞腿(肉雞)",
+        "english": null,
+        "description": "樣品狀態:生,雞腿部位; 前處理描述:去骨,去皮,混合均勻打碎",
+        "discardPercentRaw": "0.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 165,
+            "raw": "               165",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 19.8,
+            "raw": "              19.8",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 0,
+            "raw": "               0.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 8.9,
+            "raw": "               8.9",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 0,
+            "raw": "               0.0",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "               165",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 159.3,
+        "difference": -5.699999999999989,
+        "relativeDifference": -3.4545454545454435
+      }
+    },
+    {
+      "candidate": "N14",
+      "candidateName": "鸡腿肉（带皮，生）",
+      "status": "matched",
+      "proposedName": "鸡腿肉（带皮去骨，生）",
+      "note": "肉鸡腿的肉和皮，非骨重；与去皮样品独立，不做脂肪差量拼接。",
+      "provider": "USDA",
+      "sourceId": 172378,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 214,
+        "protein_g": 16.4,
+        "carbs_g": 0.17,
+        "fat_g": 16,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Chicken, broilers or fryers, leg, meat and skin, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 214,
+            "raw": 214,
+            "unit": "kcal",
+            "derivation": {
+              "code": "PIK",
+              "description": "Based on physical composition; Derived from imputed data; Known physical composition",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 16.4,
+            "raw": 16.4,
+            "unit": "g",
+            "derivation": {
+              "code": "PAK",
+              "description": "Based on physical composition; Derived from analytical data; Known physical composition",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 0.17,
+            "raw": 0.17,
+            "unit": "g",
+            "derivation": {
+              "code": "PIK",
+              "description": "Based on physical composition; Derived from imputed data; Known physical composition",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 16,
+            "raw": 16,
+            "unit": "g",
+            "derivation": {
+              "code": "PAK",
+              "description": "Based on physical composition; Derived from analytical data; Known physical composition",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "PIK",
+              "description": "Based on physical composition; Derived from imputed data; Known physical composition",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 5075,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/172378/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 210.28,
+        "difference": -3.719999999999999,
+        "relativeDifference": -1.7383177570093444
+      }
+    },
+    {
+      "candidate": "N15",
+      "candidateName": "鸭胸肉（去皮，生）",
+      "status": "reference_verified_license_conditions",
+      "proposedName": "鸭胸肉（去皮去可见脂肪，生）",
+      "note": "2019年澳大利亚5州8份样品混合分析，去皮、去筋、去可见脂肪生胸肉。碳水为可利用碳水口径、纤维为0；源表的零包括估算零，不伪称全部实测。能量383kJ/4.184换算，保留未舍入结果。",
+      "provider": "FSANZ AFCD Release 3",
+      "sourceId": "F009805",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 91.53919694072657,
+        "protein_g": 21.2,
+        "carbs_g": 0,
+        "fat_g": 0.6,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Duck, breast, lean flesh, raw",
+        "url": "https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd/data-files",
+        "detailUrl": "https://www.foodstandards.gov.au/science-data/food-nutrient-databases/afcd/search/food/F009805",
+        "evidence": {
+          "sourceId": "F009805",
+          "retrieved": "2026-09-13",
+          "sources": [
+            {
+              "file": "afcd-food-details.xlsx",
+              "sha256": "69aa096c45cb0699db60a9c544442312e9ff09af587b99c42dc78bc26f689629",
+              "sheet": "Food details",
+              "row": 1067,
+              "fields": [
+                {
+                  "cell": "A1067",
+                  "label": "Public Food Key",
+                  "raw": "F009805"
+                },
+                {
+                  "cell": "B1067",
+                  "label": "Classification",
+                  "raw": "18302"
+                },
+                {
+                  "cell": "C1067",
+                  "label": "Derivation",
+                  "raw": "Analysed"
+                },
+                {
+                  "cell": "D1067",
+                  "label": "Food Name",
+                  "raw": "Duck, breast, lean flesh, raw"
+                },
+                {
+                  "cell": "E1067",
+                  "label": "Food Description",
+                  "raw": "Uncooked duck breast meat with tendons, skin and fat removed"
+                },
+                {
+                  "cell": "F1067",
+                  "label": "Sampling Details",
+                  "raw": "The majority of nutrient data were derived from a composite of 8 samples of duck breast purchased in five states across Australia in 2019. Vitamin D was imputed from chicken breast. Proximates (fibre, sugars, starch, alcohol), vitamin C, beta-carotene and caffeine were imputed zero. "
+                },
+                {
+                  "cell": "G1067",
+                  "label": "Nitrogen Factor",
+                  "raw": 6.25
+                },
+                {
+                  "cell": "H1067",
+                  "label": "Fat Factor",
+                  "raw": 0.945
+                },
+                {
+                  "cell": "I1067",
+                  "label": "Specific Gravity",
+                  "raw": 0
+                },
+                {
+                  "cell": "J1067",
+                  "label": "Analysed Portion",
+                  "raw": "71.9% (lean meat)"
+                },
+                {
+                  "cell": "K1067",
+                  "label": "Unanalysed Portion",
+                  "raw": "28.1% (fat, skin, tendon material)"
+                }
+              ]
+            },
+            {
+              "file": "afcd-nutrient-profiles.xlsx",
+              "sha256": "14cb3e73dbf58987b440e6299624c0fefd7a4e61591fc1f753995d9534e0efc9",
+              "sheet": "All solids & liquids per 100 g",
+              "row": 1067,
+              "fields": [
+                {
+                  "cell": "A1067",
+                  "label": "Public Food Key",
+                  "raw": "F009805"
+                },
+                {
+                  "cell": "C1067",
+                  "label": "Derivation",
+                  "raw": "Analysed"
+                },
+                {
+                  "cell": "D1067",
+                  "label": "Food Name",
+                  "raw": "Duck, breast, lean flesh, raw"
+                },
+                {
+                  "cell": "E1067",
+                  "label": "Energy with dietary fibre, equated \n(kJ)",
+                  "raw": 383
+                },
+                {
+                  "cell": "F1067",
+                  "label": "Energy, without dietary fibre, equated \n(kJ)",
+                  "raw": 383
+                },
+                {
+                  "cell": "H1067",
+                  "label": "Protein \n(g)",
+                  "raw": 21.2
+                },
+                {
+                  "cell": "J1067",
+                  "label": "Fat, total \n(g)",
+                  "raw": 0.6
+                },
+                {
+                  "cell": "L1067",
+                  "label": "Total dietary fibre \n(g)",
+                  "raw": 0
+                },
+                {
+                  "cell": "AM1067",
+                  "label": "Available carbohydrate, without sugar alcohols \n(g)",
+                  "raw": 0
+                },
+                {
+                  "cell": "AN1067",
+                  "label": "Available carbohydrate, with sugar alcohols \n(g)",
+                  "raw": 0
+                }
+              ]
+            }
+          ]
+        },
+        "license": "AFCD specific Data User Licence Agreement (based on CC BY-SA 3.0 AU); do not substitute generic website CC BY 4.0",
+        "licenseUrl": "https://www.foodstandards.gov.au/science-data/monitoringnutrients/afcd/datauserlicenceagreement",
+        "releaseGate": "Before distribution, attach AFCD attribution, licence link, required limitation/Australian-data notices and change notice; review data-layer licence compatibility. This audit does not authorise runtime import."
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 90.2,
+        "difference": -1.3391969407265663,
+        "relativeDifference": -1.4629765013054685
+      }
+    },
+    {
+      "candidate": "N16",
+      "candidateName": "牛腱（生）",
+      "status": "matched",
+      "proposedName": "牛后腿腱子心（生）",
+      "note": "2022年取样，生的冷冻牛后腿腱子心，不是板腱。来源总碳水为4g，保留原值，不按“肉应零碳水”改成零。",
+      "provider": "TFDA",
+      "sourceId": "I0108302",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 151,
+        "protein_g": 23.7,
+        "carbs_g": 4,
+        "fat_g": 5.5,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "牛後腿腱子心(2022年取樣)",
+        "english": "Hind shank; Heel muscle; Beef shank",
+        "description": "樣品狀態:生,牛後腿部位,冷凍產品; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": "0.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 151,
+            "raw": "               151",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 23.7,
+            "raw": "              23.7",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 4,
+            "raw": "               4.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 5.5,
+            "raw": "               5.5",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 0,
+            "raw": "               0.0",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "               151",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 160.3,
+        "difference": 9.300000000000011,
+        "relativeDifference": 6.158940397351009
+      }
+    },
+    {
+      "candidate": "N17",
+      "candidateName": "鸡蛋清（生）",
+      "status": "matched",
+      "proposedName": "鸡蛋清（生）",
+      "note": "去壳、去蛋黄的蛋白平均值；纤维缺失保留空。",
+      "provider": "TFDA",
+      "sourceId": "K01061",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 50,
+        "protein_g": 11.2,
+        "carbs_g": 0.5,
+        "fat_g": 0.1,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "雞蛋白平均值",
+        "english": "Hen's egg white",
+        "description": "樣品狀態:生; 前處理描述:去殼及蛋黃,混合均質",
+        "discardPercentRaw": "32.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 50,
+            "raw": "                50",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 11.2,
+            "raw": "              11.2",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.7000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 0.5,
+            "raw": "               0.5",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "samples": "0",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                50",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 47.699999999999996,
+        "difference": -2.3000000000000043,
+        "relativeDifference": -4.600000000000004
+      }
+    },
+    {
+      "candidate": "N18",
+      "candidateName": "鸡蛋黄（生）",
+      "status": "matched",
+      "proposedName": "鸡蛋黄（生）",
+      "note": "去壳、去蛋白的蛋黄平均值；纤维缺失保留空。",
+      "provider": "TFDA",
+      "sourceId": "K01081",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 308,
+        "protein_g": 15.2,
+        "carbs_g": 3.6,
+        "fat_g": 26.8,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "雞蛋黃平均值",
+        "english": "Hen's egg yolk",
+        "description": "樣品狀態:生; 前處理描述:去殼及蛋白,混合均質",
+        "discardPercentRaw": "68.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 308,
+            "raw": "               308",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 15.2,
+            "raw": "              15.2",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "1.1000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 3.6,
+            "raw": "               3.6",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 26.8,
+            "raw": "              26.8",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "2.9000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "samples": "0",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "               308",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 316.40000000000003,
+        "difference": 8.400000000000034,
+        "relativeDifference": 2.7272727272727337
+      }
+    },
+    {
+      "candidate": "N19",
+      "candidateName": "虾仁（生）",
+      "status": "matched",
+      "proposedName": "草虾仁（生）",
+      "note": "仅采用明确的草虾仁样品；44kcal、9.7g蛋白为该样品原值，不推广为所有虾种或干虾。",
+      "provider": "TFDA",
+      "sourceId": "J2200501",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 44,
+        "protein_g": 9.7,
+        "carbs_g": 0.9,
+        "fat_g": 0.3,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "草蝦仁",
+        "english": "Grass shelled shrimp",
+        "description": "樣品狀態:生; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": null,
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 44,
+            "raw": "                44",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 9.7,
+            "raw": "               9.7",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.2000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 0.9,
+            "raw": "               0.9",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.3,
+            "raw": "               0.3",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.3000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "samples": "0",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                44",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 45.1,
+        "difference": 1.1000000000000014,
+        "relativeDifference": 2.5000000000000133
+      }
+    },
+    {
+      "candidate": "N20",
+      "candidateName": "鲈鱼（生）",
+      "status": "matched",
+      "proposedName": "日本花鲈鱼肉（去皮，生）",
+      "note": "来源明确去鳞、皮、头尾、内脏和骨刺；不能泛指全部淡水鲈鱼。",
+      "provider": "TFDA",
+      "sourceId": "J04044",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 98,
+        "protein_g": 19.9,
+        "carbs_g": 0.9,
+        "fat_g": 1.5,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "日本花鱸平均值",
+        "english": "Perch; Sea bass; Japanese seaperch; Japanese sea bass; Japan sea bass ",
+        "description": "樣品狀態:生; 前處理描述:去鱗,去皮,去頭尾,去內臟及骨刺,混合均勻打碎",
+        "discardPercentRaw": "60.2",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 98,
+            "raw": "                98",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 19.9,
+            "raw": "              19.9",
+            "unit": "g",
+            "samples": "5",
+            "standardDeviation": "0.6000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 0.9,
+            "raw": "               0.9",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 1.5,
+            "raw": "               1.5",
+            "unit": "g",
+            "samples": "5",
+            "standardDeviation": "0.3000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "samples": "0",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                98",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 96.69999999999999,
+        "difference": -1.3000000000000114,
+        "relativeDifference": -1.3265306122449139
+      }
+    },
+    {
+      "candidate": "N21",
+      "candidateName": "带鱼（生）",
+      "status": "matched",
+      "proposedName": "白带鱼（带皮去骨，生）",
+      "note": "含皮，去鳞、头尾、内脏及骨刺；非整鱼毛重。",
+      "provider": "TFDA",
+      "sourceId": "J0413801",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 102,
+        "protein_g": 19.6,
+        "carbs_g": 0,
+        "fat_g": 2,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "白帶魚",
+        "english": "Silverfish; Ribbon fish; Common hairtail; Cutlassfish; Atlantic cutlassfish; Cutlass fish; Australian hairtail; Hairtail; Largehead hairtail; Largeheaded ribbonfish; Hair tail ",
+        "description": "樣品狀態:生; 前處理描述:去鱗,含皮,去頭尾,去內臟及骨刺,混合均勻打碎",
+        "discardPercentRaw": "40.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 102,
+            "raw": "               102",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 19.6,
+            "raw": "              19.6",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 0,
+            "raw": "               0.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 2,
+            "raw": "               2.0",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "samples": "0",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "               102",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 96.4,
+        "difference": -5.599999999999994,
+        "relativeDifference": -5.490196078431364
+      }
+    },
+    {
+      "candidate": "N22",
+      "candidateName": "鲫鱼（生）",
+      "status": "matched",
+      "proposedName": "鲫鱼（生，可食部）",
+      "note": "Carassius auratus；来源按可食部计、废弃率50%，不是罗非鱼。不得按整鱼重量直接记入；不把废弃率自动当用户的出肉率。",
+      "provider": "MEXT",
+      "sourceId": "10238",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 93,
+        "protein_g": 18.2,
+        "carbs_g": 0.1,
+        "fat_g": 2.5,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "ふな／生",
+        "english": "Crucian carp, Carassius auratus, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "value": 93,
+            "raw": "93",
+            "unit": "kcal",
+            "sourceField": "エネルギー"
+          },
+          {
+            "key": "protein_g",
+            "value": 18.2,
+            "raw": "18.2",
+            "unit": "g",
+            "sourceField": "たんぱく質"
+          },
+          {
+            "key": "carbs_g",
+            "value": 0.1,
+            "raw": "0.1",
+            "unit": "g",
+            "sourceField": "炭水化物"
+          },
+          {
+            "key": "fat_g",
+            "value": 2.5,
+            "raw": "2.5",
+            "unit": "g",
+            "sourceField": "脂質"
+          },
+          {
+            "key": "fiber_g",
+            "value": 0,
+            "raw": "(0)",
+            "unit": "g",
+            "sourceField": "食物繊維総量"
+          }
+        ],
+        "url": "https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=10_10238_7",
+        "snapshot": "日本食品標準成分表（八訂）増補2023年",
+        "license": "MEXT food-composition reuse with source attribution",
+        "extraction": "manual transcription of official HTML, independently readback; no local HTML archive (TLS download failed)"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 95.7,
+        "difference": 2.700000000000003,
+        "relativeDifference": 2.9032258064516148
+      }
+    },
+    {
+      "candidate": "N23",
+      "candidateName": "金枪鱼（生）",
+      "status": "matched",
+      "proposedName": "黄鳍金枪鱼（生）",
+      "note": "来源 fresh yellowfin raw，可食鱼肉；不代表蓝鳍鱼腩或罐头。",
+      "provider": "USDA",
+      "sourceId": 175159,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 109,
+        "protein_g": 24.4,
+        "carbs_g": 0,
+        "fat_g": 0.49,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Fish, tuna, fresh, yellowfin, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 109,
+            "raw": 109,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 24.4,
+            "raw": 24.4,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 0.49,
+            "raw": 0.49,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 15127,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/175159/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 102.00999999999999,
+        "difference": -6.990000000000009,
+        "relativeDifference": -6.412844036697251
+      }
+    },
+    {
+      "candidate": "N24",
+      "candidateName": "鱿鱼（生）",
+      "status": "matched",
+      "proposedName": "阿根廷鱿鱼（生）",
+      "note": "去外皮及骨刺；不采用水发鱿鱼或调味制品。",
+      "provider": "TFDA",
+      "sourceId": "J3500301",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 71,
+        "protein_g": 12.4,
+        "carbs_g": 0.4,
+        "fat_g": 2,
+        "fiber_g": null
+      },
+      "source": {
+        "name": "阿根廷魷",
+        "english": "Argentine shortfin squid ",
+        "description": "樣品狀態:生; 前處理描述:去外皮及骨刺,混合均勻打碎",
+        "discardPercentRaw": "27.3",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 71,
+            "raw": "                71",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 12.4,
+            "raw": "              12.4",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 0.4,
+            "raw": "               0.4",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 2,
+            "raw": "               2.0",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": null,
+            "raw": null,
+            "unit": "g",
+            "samples": "0",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                71",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [
+        "纤维缺失；必须保留null，不补零"
+      ],
+      "energy449": {
+        "calculated": 69.2,
+        "difference": -1.7999999999999972,
+        "relativeDifference": -2.5352112676056304
+      }
+    },
+    {
+      "candidate": "N25",
+      "candidateName": "鲭鱼（生）",
+      "status": "matched",
+      "proposedName": "大西洋鲭鱼（生）",
+      "note": "Atlantic mackerel，可食部，非盐渍或烟熏；不采用未明确鱼种的高脂鲭鱼样品作全部鲭鱼通用值。",
+      "provider": "USDA",
+      "sourceId": 175119,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 205,
+        "protein_g": 18.6,
+        "carbs_g": 0,
+        "fat_g": 13.9,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Fish, mackerel, Atlantic, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 205,
+            "raw": 205,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 18.6,
+            "raw": 18.6,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 13.9,
+            "raw": 13.9,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 15046,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/175119/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 199.5,
+        "difference": -5.5,
+        "relativeDifference": -2.682926829268295
+      }
+    },
+    {
+      "candidate": "N26",
+      "candidateName": "黄豆（干）",
+      "status": "matched",
+      "proposedName": "黄豆（干）",
+      "note": "干货，非熟豆；本报告保留来源“熱量”，同时保留“修正熱量”供追溯，不二者混用。",
+      "provider": "TFDA",
+      "sourceId": "H1105101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 389,
+        "protein_g": 35.6,
+        "carbs_g": 33,
+        "fat_g": 15.7,
+        "fiber_g": 14.5
+      },
+      "source": {
+        "name": "黃豆",
+        "english": "Soy bean",
+        "description": "樣品狀態:乾貨; 前處理描述:混合均勻磨碎",
+        "discardPercentRaw": "0.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 389,
+            "raw": "               389",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 35.6,
+            "raw": "              35.6",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.4000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 33,
+            "raw": "              33.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 15.7,
+            "raw": "              15.7",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.6000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 14.5,
+            "raw": "              14.5",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "1.7000"
+          }
+        ],
+        "correctedEnergyRaw": "               359",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 415.69999999999993,
+        "difference": 26.699999999999932,
+        "relativeDifference": 6.863753213367585
+      }
+    },
+    {
+      "candidate": "N27",
+      "candidateName": "毛豆（水煮熟）",
+      "status": "matched",
+      "proposedName": "毛豆仁（水煮熟）",
+      "note": "未成熟绿大豆，水煮沥水不加盐；去荚豆粒，非成熟干黄豆。",
+      "provider": "USDA",
+      "sourceId": 169283,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 141,
+        "protein_g": 12.4,
+        "carbs_g": 11,
+        "fat_g": 6.4,
+        "fiber_g": 4.2
+      },
+      "source": {
+        "name": "Soybeans, green, cooked, boiled, drained, without salt",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 141,
+            "raw": 141,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 12.4,
+            "raw": 12.4,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 11,
+            "raw": 11,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 6.4,
+            "raw": 6.4,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 4.2,
+            "raw": 4.2,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          }
+        ],
+        "ndbNumber": 11451,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/169283/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 151.2,
+        "difference": 10.199999999999989,
+        "relativeDifference": 7.234042553191489
+      }
+    },
+    {
+      "candidate": "N31",
+      "candidateName": "豆浆（无糖）",
+      "status": "reference_verified",
+      "proposedName": "豆浆（无糖）",
+      "note": "基础豆乳同类参考，不使用加糖加油调制豆乳；浓度存在差异，100g不是100mL。食品定义：https://fooddb.mext.go.jp/details/foodInfo.pl?ITEM_NO=4_04052_7&VIEW_POPUP=1",
+      "provider": "MEXT",
+      "sourceId": "04052",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 43,
+        "protein_g": 3.6,
+        "carbs_g": 2.3,
+        "fat_g": 2.8,
+        "fiber_g": 0.9
+      },
+      "source": {
+        "name": "Soybeans / soy milk, regular",
+        "url": "https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=4_04052_7",
+        "snapshot": "日本食品標準成分表（八訂）増補2023年",
+        "license": "MEXT food-composition reuse with source attribution",
+        "extraction": "Official HTML readback 2026-09-13; numeric transcription; parentheses preserved for estimates",
+        "fields": [
+          {
+            "key": "kcal",
+            "value": 43,
+            "raw": "43",
+            "unit": "kcal",
+            "sourceField": "エネルギー"
+          },
+          {
+            "key": "protein_g",
+            "value": 3.6,
+            "raw": "3.6",
+            "unit": "g",
+            "sourceField": "たんぱく質"
+          },
+          {
+            "key": "carbs_g",
+            "value": 2.3,
+            "raw": "2.3",
+            "unit": "g",
+            "sourceField": "炭水化物"
+          },
+          {
+            "key": "fat_g",
+            "value": 2.8,
+            "raw": "2.8",
+            "unit": "g",
+            "sourceField": "脂質"
+          },
+          {
+            "key": "fiber_g",
+            "value": 0.9,
+            "raw": "0.9",
+            "unit": "g",
+            "sourceField": "食物繊維総量"
+          }
+        ]
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 48.8,
+        "difference": 5.799999999999997,
+        "relativeDifference": 13.488372093023248
+      }
+    },
+    {
+      "candidate": "N32",
+      "candidateName": "鹰嘴豆（水煮熟）",
+      "status": "matched",
+      "proposedName": "鹰嘴豆（水煮熟）",
+      "note": "成熟干豆煮熟、不加盐，按可食熟豆，不套用干豆或汤重。",
+      "provider": "USDA",
+      "sourceId": 173757,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 164,
+        "protein_g": 8.86,
+        "carbs_g": 27.4,
+        "fat_g": 2.59,
+        "fiber_g": 7.6
+      },
+      "source": {
+        "name": "Chickpeas (garbanzo beans, bengal gram), mature seeds, cooked, boiled, without salt",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 164,
+            "raw": 164,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 8.86,
+            "raw": 8.86,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 27.4,
+            "raw": 27.4,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 2.59,
+            "raw": 2.59,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 7.6,
+            "raw": 7.6,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          }
+        ],
+        "ndbNumber": 16057,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/173757/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 168.35,
+        "difference": 4.349999999999994,
+        "relativeDifference": 2.6524390243902296
+      }
+    },
+    {
+      "candidate": "N33",
+      "candidateName": "低脂牛奶",
+      "status": "matched",
+      "proposedName": "低脂牛奶（来源脂肪1.1%）",
+      "note": "来源低脂鲜乳范围0.5–1.5%，本条实际脂肪1.1g/100g；按克，不按mL直接等同。",
+      "provider": "TFDA",
+      "sourceId": "L0106101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 43,
+        "protein_g": 3.3,
+        "carbs_g": 5,
+        "fat_g": 1.1,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "低脂鮮乳",
+        "english": "Low-fat fresh milk ",
+        "description": "樣品狀態:低脂(0.5-1.5%)鮮乳; 前處理描述:混合均勻",
+        "discardPercentRaw": "0.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 43,
+            "raw": "                43",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 3.3,
+            "raw": "               3.3",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 5,
+            "raw": "               5.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 1.1,
+            "raw": "               1.1",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 0,
+            "raw": "               0.0",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                43",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 43.1,
+        "difference": 0.10000000000000142,
+        "relativeDifference": 0.23255813953488857
+      }
+    },
+    {
+      "candidate": "N34",
+      "candidateName": "脱脂牛奶",
+      "status": "matched",
+      "proposedName": "脱脂牛奶",
+      "note": "脱脂液态奶，来源未添加维生素A、D；不是奶粉；按克。",
+      "provider": "USDA",
+      "sourceId": 173432,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 35,
+        "protein_g": 3.37,
+        "carbs_g": 4.86,
+        "fat_g": 0.18,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Milk, nonfat, fluid, without added vitamin A and vitamin D (fat free or skim)",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 35,
+            "raw": 35,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 3.37,
+            "raw": 3.37,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 4.86,
+            "raw": 4.86,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 0.18,
+            "raw": 0.18,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "Z",
+              "description": "Assumed zero (Insignificant amount or not naturally occurring in a food, such as fiber in meat)",
+              "foodNutrientSource": {
+                "id": 5,
+                "code": "7",
+                "description": "Assumed zero"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 1151,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/173432/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 34.54,
+        "difference": -0.46000000000000085,
+        "relativeDifference": -1.3142857142857123
+      }
+    },
+    {
+      "candidate": "N37",
+      "candidateName": "番茄（生）",
+      "status": "matched",
+      "proposedName": "番茄（红色大果，生）",
+      "note": "去蒂，红色大番茄平均值；不含樱桃小番茄。",
+      "provider": "TFDA",
+      "sourceId": "E74001",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 19,
+        "protein_g": 0.8,
+        "carbs_g": 4.1,
+        "fat_g": 0.1,
+        "fiber_g": 1
+      },
+      "source": {
+        "name": "大番茄平均值(紅色系)",
+        "english": "Tomato",
+        "description": "樣品狀態:生,紅色系大果; 前處理描述:去蒂,混合均勻打碎",
+        "discardPercentRaw": "2.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 19,
+            "raw": "                19",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.8,
+            "raw": "               0.8",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 4.1,
+            "raw": "               4.1",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1,
+            "raw": "               1.0",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.2000"
+          }
+        ],
+        "correctedEnergyRaw": "                17",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 20.499999999999996,
+        "difference": 1.4999999999999964,
+        "relativeDifference": 7.894736842105243
+      }
+    },
+    {
+      "candidate": "N38",
+      "candidateName": "黄瓜（生）",
+      "status": "matched",
+      "proposedName": "黄瓜（带皮，生）",
+      "note": "来源 with peel raw；不是去皮样品。",
+      "provider": "USDA",
+      "sourceId": 168409,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 15,
+        "protein_g": 0.65,
+        "carbs_g": 3.63,
+        "fat_g": 0.11,
+        "fiber_g": 0.5
+      },
+      "source": {
+        "name": "Cucumber, with peel, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 15,
+            "raw": 15,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 0.65,
+            "raw": 0.65,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 3.63,
+            "raw": 3.63,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 0.11,
+            "raw": 0.11,
+            "unit": "g",
+            "derivation": {
+              "code": "JO",
+              "description": "Aggregated data involving combinations of data with different source codes when at least one code is not 1, 6, 12, or 13",
+              "foodNutrientSource": {
+                "id": 8,
+                "code": "11",
+                "description": "Aggregated data involving comb. of codes other then 1,12 or6"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0.5,
+            "raw": 0.5,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          }
+        ],
+        "ndbNumber": 11205,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/168409/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [
+        "4/4/9差异超过20%：只提示核对，不改写源热量"
+      ],
+      "energy449": {
+        "calculated": 18.11,
+        "difference": 3.1099999999999994,
+        "relativeDifference": 20.733333333333338
+      }
+    },
+    {
+      "candidate": "N39",
+      "candidateName": "生菜（生）",
+      "status": "matched",
+      "proposedName": "叶生菜（生）",
+      "note": "不结球莴苣平均值；不是莴笋茎或球生菜。",
+      "provider": "TFDA",
+      "sourceId": "E53001",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 16,
+        "protein_g": 1.1,
+        "carbs_g": 2.8,
+        "fat_g": 0.3,
+        "fiber_g": 1.6
+      },
+      "source": {
+        "name": "不結球萵苣平均值",
+        "english": "Lettuce; (Chinese) Leaf lettuce; Gardon lettuce",
+        "description": "樣品狀態:生,不結球萵苣; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": "6.8",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 16,
+            "raw": "                16",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 1.1,
+            "raw": "               1.1",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.2000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 2.8,
+            "raw": "               2.8",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.3,
+            "raw": "               0.3",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.6,
+            "raw": "               1.6",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.3000"
+          }
+        ],
+        "correctedEnergyRaw": "                13",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 18.3,
+        "difference": 2.3000000000000007,
+        "relativeDifference": 14.375000000000004
+      }
+    },
+    {
+      "candidate": "N40",
+      "candidateName": "大白菜（生）",
+      "status": "matched",
+      "proposedName": "大白菜（生）",
+      "note": "结球白菜平均值，可食部；不与小白菜合并。",
+      "provider": "TFDA",
+      "sourceId": "E33001",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 17,
+        "protein_g": 1.2,
+        "carbs_g": 2.9,
+        "fat_g": 0.3,
+        "fiber_g": 0.9
+      },
+      "source": {
+        "name": "結球白菜平均值",
+        "english": "Chinese cabbage, Celery cabbage",
+        "description": "樣品狀態:生,結球白菜; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": "12.7",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 17,
+            "raw": "                17",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 1.2,
+            "raw": "               1.2",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 2.9,
+            "raw": "               2.9",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.3,
+            "raw": "               0.3",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.3000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 0.9,
+            "raw": "               0.9",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.4000"
+          }
+        ],
+        "correctedEnergyRaw": "                15",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 19.099999999999998,
+        "difference": 2.099999999999998,
+        "relativeDifference": 12.352941176470566
+      }
+    },
+    {
+      "candidate": "N41",
+      "candidateName": "小白菜（生）",
+      "status": "matched",
+      "proposedName": "小白菜（生）",
+      "note": "Chinese pak-choi，可食部；不与大白菜pe-tsai混淆。",
+      "provider": "USDA",
+      "sourceId": 170390,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 13,
+        "protein_g": 1.5,
+        "carbs_g": 2.18,
+        "fat_g": 0.2,
+        "fiber_g": 1
+      },
+      "source": {
+        "name": "Cabbage, chinese (pak-choi), raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 13,
+            "raw": 13,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 1.5,
+            "raw": 1.5,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 2.18,
+            "raw": 2.18,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 0.2,
+            "raw": 0.2,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 1,
+            "raw": 1,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          }
+        ],
+        "ndbNumber": 11116,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/170390/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [
+        "4/4/9差异超过20%：只提示核对，不改写源热量"
+      ],
+      "energy449": {
+        "calculated": 16.52,
+        "difference": 3.5199999999999996,
+        "relativeDifference": 27.076923076923066
+      }
+    },
+    {
+      "candidate": "N42",
+      "candidateName": "胡萝卜（生）",
+      "status": "matched",
+      "proposedName": "胡萝卜（去皮，生）",
+      "note": "去蒂、去皮；生鲜平均值。",
+      "provider": "TFDA",
+      "sourceId": "E02001",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 39,
+        "protein_g": 1.1,
+        "carbs_g": 8.9,
+        "fat_g": 0.1,
+        "fiber_g": 2.6
+      },
+      "source": {
+        "name": "胡蘿蔔平均值",
+        "english": "Carrot",
+        "description": "樣品狀態:生; 前處理描述:去蒂及皮,混合均勻打碎",
+        "discardPercentRaw": "15.4",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 39,
+            "raw": "                39",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 1.1,
+            "raw": "               1.1",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.6000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 8.9,
+            "raw": "               8.9",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 2.6,
+            "raw": "               2.6",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          }
+        ],
+        "correctedEnergyRaw": "                34",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 40.9,
+        "difference": 1.8999999999999986,
+        "relativeDifference": 4.871794871794877
+      }
+    },
+    {
+      "candidate": "N43",
+      "candidateName": "南瓜（生）",
+      "status": "matched",
+      "proposedName": "南瓜（去皮去籽，生）",
+      "note": "来源南瓜样品平均值；不是所有品种通用值，尤其不能把74kcal直接视作贝贝南瓜专用数据。",
+      "provider": "TFDA",
+      "sourceId": "E63001",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 74,
+        "protein_g": 1.9,
+        "carbs_g": 17.3,
+        "fat_g": 0.2,
+        "fiber_g": 2.5
+      },
+      "source": {
+        "name": "南瓜平均值",
+        "english": "Pumkin; Chinese squash; Cashaw",
+        "description": "樣品狀態:生; 前處理描述:去皮及籽,混合均勻打碎",
+        "discardPercentRaw": "26.9",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 74,
+            "raw": "                74",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 1.9,
+            "raw": "               1.9",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "1.4000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 17.3,
+            "raw": "              17.3",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 2.5,
+            "raw": "               2.5",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.9000"
+          }
+        ],
+        "correctedEnergyRaw": "                69",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 78.6,
+        "difference": 4.599999999999994,
+        "relativeDifference": 6.216216216216219
+      }
+    },
+    {
+      "candidate": "N44",
+      "candidateName": "茄子（生）",
+      "status": "matched",
+      "proposedName": "长茄子（生）",
+      "note": "去蒂、长茄；不含烹调吸收的油。",
+      "provider": "TFDA",
+      "sourceId": "E7300101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 25,
+        "protein_g": 1.2,
+        "carbs_g": 5.3,
+        "fat_g": 0.2,
+        "fiber_g": 2.7
+      },
+      "source": {
+        "name": "長茄子",
+        "english": "Eggplant",
+        "description": "樣品狀態:生,長茄; 前處理描述:去蒂,混合均勻打碎",
+        "discardPercentRaw": "10.9",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 25,
+            "raw": "                25",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 1.2,
+            "raw": "               1.2",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 5.3,
+            "raw": "               5.3",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.2000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 2.7,
+            "raw": "               2.7",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "1.3000"
+          }
+        ],
+        "correctedEnergyRaw": "                20",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 27.8,
+        "difference": 2.8000000000000007,
+        "relativeDifference": 11.20000000000001
+      }
+    },
+    {
+      "candidate": "N45",
+      "candidateName": "香菇（鲜，生）",
+      "status": "matched",
+      "proposedName": "香菇（鲜，生）",
+      "note": "鲜菇生品平均值；不使用干香菇。",
+      "provider": "TFDA",
+      "sourceId": "G08001",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 39,
+        "protein_g": 3,
+        "carbs_g": 7.6,
+        "fat_g": 0.1,
+        "fiber_g": 3.8
+      },
+      "source": {
+        "name": "香菇平均值",
+        "english": "Mushroom; Champignon; Shiitake",
+        "description": "樣品狀態:生; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": "0.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 39,
+            "raw": "                39",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 3,
+            "raw": "               3.0",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.6000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 7.6,
+            "raw": "               7.6",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 3.8,
+            "raw": "               3.8",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "1.5000"
+          }
+        ],
+        "correctedEnergyRaw": "                31",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 43.3,
+        "difference": 4.299999999999997,
+        "relativeDifference": 11.025641025641008
+      }
+    },
+    {
+      "candidate": "N46",
+      "candidateName": "金针菇（鲜，生）",
+      "status": "matched",
+      "proposedName": "金针菇（鲜，生）",
+      "note": "生鲜可食部，不含包装根基、培养料及调味料；不是生食建议。",
+      "provider": "TFDA",
+      "sourceId": "G1600101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 37,
+        "protein_g": 2.6,
+        "carbs_g": 7.2,
+        "fat_g": 0.3,
+        "fiber_g": 2.3
+      },
+      "source": {
+        "name": "金針菇",
+        "english": "Velvet foot; Gold mushroom; Enokitake; Winter Mushroom; Snow Mushroom",
+        "description": "樣品狀態:生; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": "0.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 37,
+            "raw": "                37",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 2.6,
+            "raw": "               2.6",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.3000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 7.2,
+            "raw": "               7.2",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.3,
+            "raw": "               0.3",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 2.3,
+            "raw": "               2.3",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.6000"
+          }
+        ],
+        "correctedEnergyRaw": "                33",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 41.900000000000006,
+        "difference": 4.900000000000006,
+        "relativeDifference": 13.243243243243263
+      }
+    },
+    {
+      "candidate": "N47",
+      "candidateName": "杏鲍菇（鲜，生）",
+      "status": "matched",
+      "proposedName": "杏鲍菇（鲜，生）",
+      "note": "生鲜样品平均值；未煎炒。",
+      "provider": "TFDA",
+      "sourceId": "G13002",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 41,
+        "protein_g": 2.7,
+        "carbs_g": 8.3,
+        "fat_g": 0.2,
+        "fiber_g": 3.1
+      },
+      "source": {
+        "name": "杏鮑菇平均值",
+        "english": "King oyster mushroom; apricot mushroom; almond abalone mushroom ",
+        "description": "樣品狀態:生; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": "0.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 41,
+            "raw": "                41",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 2.7,
+            "raw": "               2.7",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.4000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 8.3,
+            "raw": "               8.3",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 3.1,
+            "raw": "               3.1",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.5000"
+          }
+        ],
+        "correctedEnergyRaw": "                35",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 45.8,
+        "difference": 4.799999999999997,
+        "relativeDifference": 11.70731707317072
+      }
+    },
+    {
+      "candidate": "N48",
+      "candidateName": "芹菜（生）",
+      "status": "matched",
+      "proposedName": "芹菜茎（生）",
+      "note": "来源本地芹菜，去根及叶；不含叶，不等于西芹专用数据。",
+      "provider": "TFDA",
+      "sourceId": "E37002",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 15,
+        "protein_g": 0.8,
+        "carbs_g": 3.1,
+        "fat_g": 0.1,
+        "fiber_g": 1.4
+      },
+      "source": {
+        "name": "芹菜平均值",
+        "english": "Celery",
+        "description": "樣品狀態:生,本地種; 前處理描述:去根部及葉,混合均勻打碎",
+        "discardPercentRaw": "35.7",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 15,
+            "raw": "                15",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.8,
+            "raw": "               0.8",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 3.1,
+            "raw": "               3.1",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.4,
+            "raw": "               1.4",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.3000"
+          }
+        ],
+        "correctedEnergyRaw": "                13",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 16.5,
+        "difference": 1.5,
+        "relativeDifference": 10.000000000000009
+      }
+    },
+    {
+      "candidate": "N49",
+      "candidateName": "苹果",
+      "status": "matched",
+      "proposedName": "富士苹果（带皮）",
+      "note": "生鲜带皮去核；明确品种，非去皮苹果。",
+      "provider": "TFDA",
+      "sourceId": "D3200501",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 45,
+        "protein_g": 0.2,
+        "carbs_g": 11.9,
+        "fat_g": 0.1,
+        "fiber_g": 1.7
+      },
+      "source": {
+        "name": "富士蘋果(帶皮)",
+        "english": "Fu-Ji apple",
+        "description": "樣品狀態:混色; 前處理描述:帶皮去核,混合均勻打碎",
+        "discardPercentRaw": "7.0",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 45,
+            "raw": "                45",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 11.9,
+            "raw": "              11.9",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.7,
+            "raw": "               1.7",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                42",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 49.3,
+        "difference": 4.299999999999997,
+        "relativeDifference": 9.55555555555554
+      }
+    },
+    {
+      "candidate": "N50",
+      "candidateName": "橙子",
+      "status": "matched",
+      "proposedName": "橙子（果肉）",
+      "note": "柳橙，去皮及籽；鲜果肉而非橙汁。",
+      "provider": "TFDA",
+      "sourceId": "D3600101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 44,
+        "protein_g": 0.8,
+        "carbs_g": 11,
+        "fat_g": 0.1,
+        "fiber_g": 2.1
+      },
+      "source": {
+        "name": "柳橙",
+        "english": "Orange",
+        "description": "樣品狀態:普遍系; 前處理描述:去皮及籽,混合均勻打碎",
+        "discardPercentRaw": "27.8",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 44,
+            "raw": "                44",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.8,
+            "raw": "               0.8",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 11,
+            "raw": "              11.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 2.1,
+            "raw": "               2.1",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.4000"
+          }
+        ],
+        "correctedEnergyRaw": "                40",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 48.1,
+        "difference": 4.100000000000001,
+        "relativeDifference": 9.318181818181825
+      }
+    },
+    {
+      "candidate": "N51",
+      "candidateName": "橘子",
+      "status": "matched",
+      "proposedName": "橘子（椪柑果肉）",
+      "note": "椪柑、去皮去籽；不与橙子互设唯一别名。",
+      "provider": "TFDA",
+      "sourceId": "D3400101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 40,
+        "protein_g": 0.8,
+        "carbs_g": 10,
+        "fat_g": 0.2,
+        "fiber_g": 1.5
+      },
+      "source": {
+        "name": "椪柑",
+        "english": "Tangerine; Ponkan ",
+        "description": "前處理描述:去皮及籽,混合均勻打碎",
+        "discardPercentRaw": "22.1",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 40,
+            "raw": "                40",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.8,
+            "raw": "               0.8",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.3000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 10,
+            "raw": "              10.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.5,
+            "raw": "               1.5",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.2000"
+          }
+        ],
+        "correctedEnergyRaw": "                38",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 45,
+        "difference": 5,
+        "relativeDifference": 12.5
+      }
+    },
+    {
+      "candidate": "N52",
+      "candidateName": "梨",
+      "status": "matched",
+      "proposedName": "梨（幸水梨，去皮）",
+      "note": "去皮去核；不是西洋梨或所有亚洲梨的统一数值。",
+      "provider": "TFDA",
+      "sourceId": "D3000201",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 34,
+        "protein_g": 0.4,
+        "carbs_g": 9,
+        "fat_g": 0,
+        "fiber_g": 1.2
+      },
+      "source": {
+        "name": "幸水梨",
+        "english": "Pear",
+        "description": "前處理描述:去皮及核,混合均勻打碎",
+        "discardPercentRaw": "25.1",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 34,
+            "raw": "                34",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.4,
+            "raw": "               0.4",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 9,
+            "raw": "               9.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0,
+            "raw": "               0.0",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.2,
+            "raw": "               1.2",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                32",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 37.6,
+        "difference": 3.6000000000000014,
+        "relativeDifference": 10.588235294117654
+      }
+    },
+    {
+      "candidate": "N53",
+      "candidateName": "葡萄",
+      "status": "matched",
+      "proposedName": "红葡萄（无籽，带皮）",
+      "note": "无籽红葡萄，含皮、可食果粒；不含梗。",
+      "provider": "TFDA",
+      "sourceId": "D1700801",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 72,
+        "protein_g": 0.5,
+        "carbs_g": 19.2,
+        "fat_g": 0.1,
+        "fiber_g": 0.6
+      },
+      "source": {
+        "name": "無子紅葡萄(含皮)",
+        "english": "Grape",
+        "description": "樣品狀態:無籽種,紅皮; 前處理描述:含皮,混合均勻打碎",
+        "discardPercentRaw": null,
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 72,
+            "raw": "                72",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.5,
+            "raw": "               0.5",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 19.2,
+            "raw": "              19.2",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 0.6,
+            "raw": "               0.6",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.2000"
+          }
+        ],
+        "correctedEnergyRaw": "                71",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 79.7,
+        "difference": 7.700000000000003,
+        "relativeDifference": 10.69444444444445
+      }
+    },
+    {
+      "candidate": "N54",
+      "candidateName": "草莓",
+      "status": "matched",
+      "proposedName": "草莓（鲜）",
+      "note": "去蒂，可食果实；不是冻干或糖渍。",
+      "provider": "TFDA",
+      "sourceId": "D1400101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 39,
+        "protein_g": 1,
+        "carbs_g": 9.3,
+        "fat_g": 0.2,
+        "fiber_g": 1.8
+      },
+      "source": {
+        "name": "草莓",
+        "english": "Strawberry",
+        "description": "前處理描述:去蒂,混合均勻打碎",
+        "discardPercentRaw": "2.6",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 39,
+            "raw": "                39",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 1,
+            "raw": "               1.0",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.2000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 9.3,
+            "raw": "               9.3",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.8,
+            "raw": "               1.8",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.0000"
+          }
+        ],
+        "correctedEnergyRaw": "                36",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 43,
+        "difference": 4,
+        "relativeDifference": 10.256410256410264
+      }
+    },
+    {
+      "candidate": "N55",
+      "candidateName": "猕猴桃",
+      "status": "matched",
+      "proposedName": "猕猴桃（绿肉，去皮）",
+      "note": "绿肉品种，去皮；不套到金黄品种。",
+      "provider": "TFDA",
+      "sourceId": "D0500201",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 56,
+        "protein_g": 1.1,
+        "carbs_g": 14,
+        "fat_g": 0.3,
+        "fiber_g": 2.7
+      },
+      "source": {
+        "name": "奇異果",
+        "english": "Kiwi fruit; Chinese gooseberry",
+        "description": "樣品狀態:綠肉種; 前處理描述:去皮,混合均勻打碎",
+        "discardPercentRaw": "12.9",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 56,
+            "raw": "                56",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 1.1,
+            "raw": "               1.1",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.2000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 14,
+            "raw": "              14.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.3,
+            "raw": "               0.3",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 2.7,
+            "raw": "               2.7",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.6000"
+          }
+        ],
+        "correctedEnergyRaw": "                52",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 63.1,
+        "difference": 7.100000000000001,
+        "relativeDifference": 12.678571428571427
+      }
+    },
+    {
+      "candidate": "N56",
+      "candidateName": "西瓜",
+      "status": "matched",
+      "proposedName": "西瓜（红肉，去皮去籽）",
+      "note": "红肉小瓜平均值；不含瓜皮和籽。",
+      "provider": "TFDA",
+      "sourceId": "D19002",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 33,
+        "protein_g": 0.8,
+        "carbs_g": 8,
+        "fat_g": 0.1,
+        "fiber_g": 0.3
+      },
+      "source": {
+        "name": "西瓜平均值(紅肉小瓜)",
+        "english": "Watermelon",
+        "description": "樣品狀態:紅肉小瓜; 前處理描述:去皮及籽,混合均勻打碎",
+        "discardPercentRaw": "43.7",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 33,
+            "raw": "                33",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.8,
+            "raw": "               0.8",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 8,
+            "raw": "               8.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.1,
+            "raw": "               0.1",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.1000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 0.3,
+            "raw": "               0.3",
+            "unit": "g",
+            "samples": "4",
+            "standardDeviation": "0.1000"
+          }
+        ],
+        "correctedEnergyRaw": "                32",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 36.1,
+        "difference": 3.1000000000000014,
+        "relativeDifference": 9.393939393939398
+      }
+    },
+    {
+      "candidate": "N57",
+      "candidateName": "芒果",
+      "status": "matched",
+      "proposedName": "芒果（果肉）",
+      "note": "来源西洋种平均值，去皮去核；不代表干芒果或糖渍芒果。",
+      "provider": "TFDA",
+      "sourceId": "D21002",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 50,
+        "protein_g": 0.6,
+        "carbs_g": 13,
+        "fat_g": 0.2,
+        "fiber_g": 1.2
+      },
+      "source": {
+        "name": "芒果平均值(西洋種)",
+        "english": "Mango",
+        "description": "樣品狀態:西洋種; 前處理描述:去皮及籽,混合均勻打碎",
+        "discardPercentRaw": "25.8",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 50,
+            "raw": "                50",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.6,
+            "raw": "               0.6",
+            "unit": "g",
+            "samples": "5",
+            "standardDeviation": "0.3000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 13,
+            "raw": "              13.0",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "5",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.2,
+            "raw": "               1.2",
+            "unit": "g",
+            "samples": "5",
+            "standardDeviation": "0.3000"
+          }
+        ],
+        "correctedEnergyRaw": "                48",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 56.199999999999996,
+        "difference": 6.199999999999996,
+        "relativeDifference": 12.399999999999988
+      }
+    },
+    {
+      "candidate": "N58",
+      "candidateName": "桃",
+      "status": "matched",
+      "proposedName": "水蜜桃（去核）",
+      "note": "水蜜桃系平均值，来源去籽、未去皮；不含核。",
+      "provider": "TFDA",
+      "sourceId": "D28001",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 39,
+        "protein_g": 0.9,
+        "carbs_g": 9.7,
+        "fat_g": 0.2,
+        "fiber_g": 1.7
+      },
+      "source": {
+        "name": "水蜜桃平均值",
+        "english": "Peach",
+        "description": "樣品狀態:水蜜桃系; 前處理描述:去籽,混合均勻打碎",
+        "discardPercentRaw": "7.7",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 39,
+            "raw": "                39",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 0.9,
+            "raw": "               0.9",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 9.7,
+            "raw": "               9.7",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0.2,
+            "raw": "               0.2",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.0000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.7,
+            "raw": "               1.7",
+            "unit": "g",
+            "samples": "2",
+            "standardDeviation": "0.5000"
+          }
+        ],
+        "correctedEnergyRaw": "                37",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 44.199999999999996,
+        "difference": 5.199999999999996,
+        "relativeDifference": 13.33333333333333
+      }
+    },
+    {
+      "candidate": "N59",
+      "candidateName": "核桃仁（原味）",
+      "status": "matched",
+      "proposedName": "核桃仁（生，原味）",
+      "note": "来源生核桃，取可食仁；不代表糖裹、盐焗、烘烤。",
+      "provider": "TFDA",
+      "sourceId": "C0405101",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 667,
+        "protein_g": 15.4,
+        "carbs_g": 11.2,
+        "fat_g": 67.9,
+        "fiber_g": 6.2
+      },
+      "source": {
+        "name": "生核桃",
+        "english": "Walnut: raw",
+        "description": "樣品狀態:生; 前處理描述:混合均勻打碎",
+        "discardPercentRaw": "58.5",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 667,
+            "raw": "               667",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 15.4,
+            "raw": "              15.4",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "1.5000"
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 11.2,
+            "raw": "              11.2",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 67.9,
+            "raw": "              67.9",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "3.6000"
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 6.2,
+            "raw": "               6.2",
+            "unit": "g",
+            "samples": "3",
+            "standardDeviation": "0.9000"
+          }
+        ],
+        "correctedEnergyRaw": "               655",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 717.5,
+        "difference": 50.5,
+        "relativeDifference": 7.5712143928035935
+      }
+    },
+    {
+      "candidate": "N60",
+      "candidateName": "腰果仁（原味）",
+      "status": "matched",
+      "proposedName": "腰果仁（生，原味）",
+      "note": "来源raw；不代表油炸或盐焗成品；raw为数据库加工状态名称，不是鼓励食用未处理带壳腰果。",
+      "provider": "USDA",
+      "sourceId": 170162,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 553,
+        "protein_g": 18.2,
+        "carbs_g": 30.2,
+        "fat_g": 43.8,
+        "fiber_g": 3.3
+      },
+      "source": {
+        "name": "Nuts, cashew nuts, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 553,
+            "raw": 553,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 18.2,
+            "raw": 18.2,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 30.2,
+            "raw": 30.2,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 43.8,
+            "raw": 43.8,
+            "unit": "g",
+            "derivation": {
+              "code": "O",
+              "description": "Other procedure used from imputing",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 3.3,
+            "raw": 3.3,
+            "unit": "g",
+            "derivation": {
+              "code": "BFSN",
+              "description": "Based on another form of the food or similar food; Concentration adjustment; Solids; Retention factors not used",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 12087,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/170162/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 587.8,
+        "difference": 34.799999999999955,
+        "relativeDifference": 6.292947558770345
+      }
+    },
+    {
+      "candidate": "N61",
+      "candidateName": "花生仁（原味）",
+      "status": "matched",
+      "proposedName": "花生仁（生，原味）",
+      "note": "生花生各类型，称可食仁；不代表油炸或烘烤。",
+      "provider": "USDA",
+      "sourceId": 172430,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 567,
+        "protein_g": 25.8,
+        "carbs_g": 16.1,
+        "fat_g": 49.2,
+        "fiber_g": 8.5
+      },
+      "source": {
+        "name": "Peanuts, all types, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 567,
+            "raw": 567,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 25.8,
+            "raw": 25.8,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 16.1,
+            "raw": 16.1,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 49.2,
+            "raw": 49.2,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 8.5,
+            "raw": 8.5,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          }
+        ],
+        "ndbNumber": 16087,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/172430/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 610.4000000000001,
+        "difference": 43.40000000000009,
+        "relativeDifference": 7.654320987654328
+      }
+    },
+    {
+      "candidate": "N62",
+      "candidateName": "开心果仁（原味）",
+      "status": "matched",
+      "proposedName": "开心果仁（生，原味）",
+      "note": "明确raw，可食仁；不代表常见盐焗烤开心果。",
+      "provider": "USDA",
+      "sourceId": 170184,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 560,
+        "protein_g": 20.2,
+        "carbs_g": 27.2,
+        "fat_g": 45.3,
+        "fiber_g": 10.6
+      },
+      "source": {
+        "name": "Nuts, pistachio nuts, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 560,
+            "raw": 560,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 20.2,
+            "raw": 20.2,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 27.2,
+            "raw": 27.2,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 45.3,
+            "raw": 45.3,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 10.6,
+            "raw": 10.6,
+            "unit": "g",
+            "derivation": {
+              "code": "A",
+              "description": "Analytical",
+              "foodNutrientSource": {
+                "id": 1,
+                "code": "1",
+                "description": "Analytical or derived from analytical"
+              }
+            }
+          }
+        ],
+        "ndbNumber": 12151,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/170184/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 597.3,
+        "difference": 37.299999999999955,
+        "relativeDifference": 6.6607142857142865
+      }
+    },
+    {
+      "candidate": "N64",
+      "candidateName": "菜籽油",
+      "status": "matched",
+      "proposedName": "菜籽油（低芥酸，Canola）",
+      "note": "明确Canola，不泛指所有传统菜籽油；按克，来源884kcal不擅改为900。",
+      "provider": "USDA",
+      "sourceId": 172336,
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 884,
+        "protein_g": 0,
+        "carbs_g": 0,
+        "fat_g": 100,
+        "fiber_g": 0
+      },
+      "source": {
+        "name": "Oil, canola",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": 1008,
+            "value": 884,
+            "raw": 884,
+            "unit": "kcal",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "protein_g",
+            "sourceField": 1003,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": 1005,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "code": "NC",
+              "description": "Calculated",
+              "foodNutrientSource": {
+                "id": 2,
+                "code": "4",
+                "description": "Calculated or imputed"
+              }
+            }
+          },
+          {
+            "key": "fat_g",
+            "sourceField": 1004,
+            "value": 100,
+            "raw": 100,
+            "unit": "g",
+            "derivation": {
+              "code": "JO",
+              "description": "Aggregated data involving combinations of data with different source codes when at least one code is not 1, 6, 12, or 13",
+              "foodNutrientSource": {
+                "id": 8,
+                "code": "11",
+                "description": "Aggregated data involving comb. of codes other then 1,12 or6"
+              }
+            }
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": 1079,
+            "value": 0,
+            "raw": 0,
+            "unit": "g",
+            "derivation": {
+              "foodNutrientSource": {}
+            }
+          }
+        ],
+        "ndbNumber": 4582,
+        "publicationDate": "4/1/2019",
+        "url": "https://fdc.nal.usda.gov/food-details/172336/nutrients",
+        "archive": "usda-sr-legacy-2018.zip",
+        "snapshot": "SR Legacy 2018 final; FDC record publication dates retained separately",
+        "license": "CC0"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 900,
+        "difference": 16,
+        "relativeDifference": 1.8099547511312153
+      }
+    },
+    {
+      "candidate": "N65",
+      "candidateName": "土豆（生）",
+      "status": "matched",
+      "proposedName": "土豆（去皮，生）",
+      "note": "2022年黄皮种样品，去皮生薯块；0脂肪为来源明确数值；与蒸熟来源独立，不能反推增失水率。",
+      "provider": "TFDA",
+      "sourceId": "B0700202",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 70,
+        "protein_g": 2.3,
+        "carbs_g": 14.9,
+        "fat_g": 0,
+        "fiber_g": 1.2
+      },
+      "source": {
+        "name": "馬鈴薯(2022年取樣)",
+        "english": "Potato; White potato; Irish potato",
+        "description": "樣品狀態:生,黃皮種; 前處理描述:去皮,混合均勻打碎",
+        "discardPercentRaw": "11.8",
+        "fields": [
+          {
+            "key": "kcal",
+            "sourceField": "熱量",
+            "value": 70,
+            "raw": "                70",
+            "unit": "kcal",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "protein_g",
+            "sourceField": "粗蛋白",
+            "value": 2.3,
+            "raw": "               2.3",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "carbs_g",
+            "sourceField": "總碳水化合物",
+            "value": 14.9,
+            "raw": "              14.9",
+            "unit": "g",
+            "samples": null,
+            "standardDeviation": null
+          },
+          {
+            "key": "fat_g",
+            "sourceField": "粗脂肪",
+            "value": 0,
+            "raw": "               0.0",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          },
+          {
+            "key": "fiber_g",
+            "sourceField": "膳食纖維",
+            "value": 1.2,
+            "raw": "               1.2",
+            "unit": "g",
+            "samples": "1",
+            "standardDeviation": null
+          }
+        ],
+        "correctedEnergyRaw": "                68",
+        "url": "https://data.gov.tw/dataset/8543",
+        "archive": "tfda-foods.json",
+        "snapshot": "2026-09-13",
+        "license": "Government Data Open License v1"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 68.8,
+        "difference": -1.2000000000000028,
+        "relativeDifference": -1.7142857142857237
+      }
+    },
+    {
+      "candidate": "N66",
+      "candidateName": "紫薯（生）",
+      "status": "matched",
+      "proposedName": "紫薯（去皮，生）",
+      "note": "紫肉甘薯块根，去皮生品；不是红薯改名。",
+      "provider": "MEXT",
+      "sourceId": "02048",
+      "reviewed": "2026-09-13",
+      "basis": "100 g edible portion",
+      "nutrients": {
+        "kcal": 123,
+        "protein_g": 1.2,
+        "carbs_g": 31.7,
+        "fat_g": 0.3,
+        "fiber_g": 2.5
+      },
+      "source": {
+        "name": "むらさきいも／塊根／皮なし／生",
+        "english": "Sweet potato, purple flesh type, without skin, raw",
+        "fields": [
+          {
+            "key": "kcal",
+            "value": 123,
+            "raw": "123",
+            "unit": "kcal",
+            "sourceField": "エネルギー"
+          },
+          {
+            "key": "protein_g",
+            "value": 1.2,
+            "raw": "1.2",
+            "unit": "g",
+            "sourceField": "たんぱく質"
+          },
+          {
+            "key": "carbs_g",
+            "value": 31.7,
+            "raw": "31.7",
+            "unit": "g",
+            "sourceField": "炭水化物"
+          },
+          {
+            "key": "fat_g",
+            "value": 0.3,
+            "raw": "0.3",
+            "unit": "g",
+            "sourceField": "脂質"
+          },
+          {
+            "key": "fiber_g",
+            "value": 2.5,
+            "raw": "2.5",
+            "unit": "g",
+            "sourceField": "食物繊維総量"
+          }
+        ],
+        "url": "https://fooddb.mext.go.jp/details/details.pl?ITEM_NO=2_02048_7",
+        "snapshot": "日本食品標準成分表（八訂）増補2023年",
+        "license": "MEXT food-composition reuse with source attribution",
+        "extraction": "manual transcription of official HTML, independently readback; no local HTML archive (TLS download failed)"
+      },
+      "diagnostics": [],
+      "energy449": {
+        "calculated": 134.29999999999998,
+        "difference": 11.299999999999983,
+        "relativeDifference": 9.186991869918693
+      }
+    }
+  ]
+}

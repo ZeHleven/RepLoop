@@ -1,0 +1,348 @@
+{
+  "source_commit": "51feceb570b8d0d374948c5bf0558201958d1d4f",
+  "source": "artifacts/agent-dev-notes/current-experience-metrics-20261108/live-02/result.json",
+  "cases": [
+    {
+      "task_id": "serial-Q03",
+      "first_message": "列出最近7天已完成训练的日期和每场训练时长。",
+      "first_tool_result": {
+        "as_of": "2026-11-09",
+        "count": 2,
+        "sessions": [
+          {
+            "id": "8b0becf3-ace6-44fc-9e99-2dce2abf912e",
+            "notes": null,
+            "status": "completed",
+            "plan_id": "6b0dfa7c-0576-43c9-b85c-fa13786419a8",
+            "user_id": "exp-d73f0fb20c-serial-Q03",
+            "feedback": null,
+            "orphaned": false,
+            "exercises": [],
+            "plan_name": "体验指标合成计划",
+            "created_at": "2026-11-09T01:09:36.005001Z",
+            "started_at": "2026-11-08T00:00:00Z",
+            "total_reps": 0,
+            "total_sets": 0,
+            "trained_at": "2026-11-08",
+            "adjustments": [],
+            "day_of_week": null,
+            "completed_at": "2026-11-08T00:12:00Z",
+            "duration_min": 12,
+            "total_volume_kg": 0.0,
+            "adaptive_adjustment_status": "not_needed",
+            "adaptive_adjustment_proposal": null,
+            "energy_classification_version": 0
+          },
+          {
+            "id": "a05942aa-0b2c-403b-9a10-5e33010dff33",
+            "notes": null,
+            "status": "completed",
+            "plan_id": "6b0dfa7c-0576-43c9-b85c-fa13786419a8",
+            "user_id": "exp-d73f0fb20c-serial-Q03",
+            "feedback": null,
+            "orphaned": false,
+            "exercises": [],
+            "plan_name": "体验指标合成计划",
+            "created_at": "2026-11-09T01:09:36.005001Z",
+            "started_at": "2026-11-07T00:00:00Z",
+            "total_reps": 0,
+            "total_sets": 0,
+            "trained_at": "2026-11-07",
+            "adjustments": [],
+            "day_of_week": null,
+            "completed_at": "2026-11-07T00:30:00Z",
+            "duration_min": 30,
+            "total_volume_kg": 0.0,
+            "adaptive_adjustment_status": "not_needed",
+            "adaptive_adjustment_proposal": null,
+            "energy_classification_version": 0
+          }
+        ],
+        "timezone": "Asia/Shanghai",
+        "range_end": "2026-11-09",
+        "truncated": false,
+        "range_start": "2026-11-03",
+        "total_count": 2,
+        "status_filter": [
+          "completed"
+        ]
+      },
+      "first_reply": "统计范围：2026-11-03至2026-11-09；截至2026-11-09（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-11-07（已完成）：0组、0次重复、0kg负重容量。\n\n- 2026-11-08（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+      "follow_message": "改成最近3天，仍只要已完成的日期和每场时长。",
+      "context": [
+        {
+          "role": "task_state",
+          "content": "{\"version\": 1, \"active_task_id\": \"a3a29382-2420-49e7-9ef4-27897def3404\", \"tasks\": [{\"id\": \"a3a29382-2420-49e7-9ef4-27897def3404\", \"request\": \"列出 2026-11-03 至 2026-11-09（最近7天）已完成训练的日期及每场训练时长。\", \"requirements\": [{\"key\": \"date_range\", \"quote\": \"最近7天\", \"source_run_id\": \"a3a29382-2420-49e7-9ef4-27897def3404\", \"kind\": \"goal\", \"as_of\": \"2026-11-09\"}, {\"key\": \"session_status\", \"quote\": \"已完成训练\", \"source_run_id\": \"a3a29382-2420-49e7-9ef4-27897def3404\", \"kind\": \"goal\", \"as_of\": \"2026-11-09\"}, {\"key\": \"output_fields\", \"quote\": \"日期和每场训练时长\", \"source_run_id\": \"a3a29382-2420-49e7-9ef4-27897def3404\", \"kind\": \"goal\", \"as_of\": \"2026-11-09\"}], \"phase\": \"responded\", \"last_run_id\": \"a3a29382-2420-49e7-9ef4-27897def3404\", \"artifact_id\": null, \"proposal_id\": null, \"proposal_pending\": false, \"pending_plan_changes\": [], \"pending_meal\": null, \"unproposed_plan_changes\": [], \"plan_input_gaps\": []}], \"transition\": \"new\", \"evicted_task_ids\": []}"
+        },
+        {
+          "role": "user",
+          "content": "列出最近7天已完成训练的日期和每场训练时长。"
+        },
+        {
+          "role": "assistant",
+          "content": "统计范围：2026-11-03至2026-11-09；截至2026-11-09（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-11-07（已完成）：0组、0次重复、0kg负重容量。\n\n- 2026-11-08（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+          "query_context": {
+            "source_run_id": "a3a29382-2420-49e7-9ef4-27897def3404",
+            "successful_query": true,
+            "primary_intent": "workout_history_query",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "risk_level": "low",
+            "resolved_query": "列出 2026-11-03 至 2026-11-09（最近7天）已完成训练的日期及每场训练时长。"
+          }
+        }
+      ],
+      "provider_routes": [
+        {
+          "http_id": "http-11",
+          "route": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "列出 2026-11-07 至 2026-11-09（最近3天）已完成训练的日期及每场训练时长，仅包含已完成场次。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "continue",
+              "task_id": "a3a29382-2420-49e7-9ef4-27897def3404",
+              "trigger": "改成最近3天，仍只要已完成的日期和每场时长。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "改成最近3天",
+                  "remove": false
+                },
+                {
+                  "key": "session_status",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "http_id": "http-13",
+          "route": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "列出 2026-11-07 至 2026-11-09（最近3天）已完成训练的日期及每场训练时长，仅包含已完成场次。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "continue",
+              "task_id": "a3a29382-2420-49e7-9ef4-27897def3404",
+              "trigger": "改成最近3天，仍只要已完成的日期和每场时长。",
+              "requirements": [
+                {
+                  "key": "date_range",
+                  "quote": "改成最近3天",
+                  "remove": false
+                },
+                {
+                  "key": "session_status",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "task_id": "concurrent_2-Q03",
+      "first_message": "列出最近7天已完成训练的日期和每场训练时长。",
+      "first_tool_result": {
+        "as_of": "2026-11-09",
+        "count": 2,
+        "sessions": [
+          {
+            "id": "6f798c2c-401f-4b3f-9814-4c84d9145014",
+            "notes": null,
+            "status": "completed",
+            "plan_id": "b0c82b09-cc1f-4793-bae1-40f80d6d8ae7",
+            "user_id": "exp-d73f0fb20c-concurrent_2-Q03",
+            "feedback": null,
+            "orphaned": false,
+            "exercises": [],
+            "plan_name": "体验指标合成计划",
+            "created_at": "2026-11-09T01:09:36.048404Z",
+            "started_at": "2026-11-08T00:00:00Z",
+            "total_reps": 0,
+            "total_sets": 0,
+            "trained_at": "2026-11-08",
+            "adjustments": [],
+            "day_of_week": null,
+            "completed_at": "2026-11-08T00:12:00Z",
+            "duration_min": 12,
+            "total_volume_kg": 0.0,
+            "adaptive_adjustment_status": "not_needed",
+            "adaptive_adjustment_proposal": null,
+            "energy_classification_version": 0
+          },
+          {
+            "id": "aba198d0-2549-441a-9552-1c1367e82905",
+            "notes": null,
+            "status": "completed",
+            "plan_id": "b0c82b09-cc1f-4793-bae1-40f80d6d8ae7",
+            "user_id": "exp-d73f0fb20c-concurrent_2-Q03",
+            "feedback": null,
+            "orphaned": false,
+            "exercises": [],
+            "plan_name": "体验指标合成计划",
+            "created_at": "2026-11-09T01:09:36.048404Z",
+            "started_at": "2026-11-07T00:00:00Z",
+            "total_reps": 0,
+            "total_sets": 0,
+            "trained_at": "2026-11-07",
+            "adjustments": [],
+            "day_of_week": null,
+            "completed_at": "2026-11-07T00:30:00Z",
+            "duration_min": 30,
+            "total_volume_kg": 0.0,
+            "adaptive_adjustment_status": "not_needed",
+            "adaptive_adjustment_proposal": null,
+            "energy_classification_version": 0
+          }
+        ],
+        "timezone": "Asia/Shanghai",
+        "range_end": "2026-11-09",
+        "truncated": false,
+        "range_start": "2026-11-03",
+        "total_count": 2,
+        "status_filter": [
+          "completed"
+        ]
+      },
+      "first_reply": "统计范围：2026-11-03至2026-11-09；截至2026-11-09（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-11-07（已完成）：0组、0次重复、0kg负重容量。\n\n- 2026-11-08（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+      "follow_message": "改成最近3天，仍只要已完成的日期和每场时长。",
+      "context": [
+        {
+          "role": "task_state",
+          "content": "{\"version\": 1, \"active_task_id\": \"30ebdbc2-e65c-4b59-b985-4bd9e85da4af\", \"tasks\": [{\"id\": \"30ebdbc2-e65c-4b59-b985-4bd9e85da4af\", \"request\": \"列出 2026-11-03 至 2026-11-09（最近7天）已完成训练的日期及每场训练时长。\", \"requirements\": [{\"key\": \"date_scope\", \"quote\": \"最近7天\", \"source_run_id\": \"30ebdbc2-e65c-4b59-b985-4bd9e85da4af\", \"kind\": \"goal\", \"as_of\": \"2026-11-09\"}, {\"key\": \"session_status\", \"quote\": \"已完成训练\", \"source_run_id\": \"30ebdbc2-e65c-4b59-b985-4bd9e85da4af\", \"kind\": \"goal\", \"as_of\": \"2026-11-09\"}, {\"key\": \"output_fields\", \"quote\": \"日期和每场训练时长\", \"source_run_id\": \"30ebdbc2-e65c-4b59-b985-4bd9e85da4af\", \"kind\": \"goal\", \"as_of\": \"2026-11-09\"}], \"phase\": \"responded\", \"last_run_id\": \"30ebdbc2-e65c-4b59-b985-4bd9e85da4af\", \"artifact_id\": null, \"proposal_id\": null, \"proposal_pending\": false, \"pending_plan_changes\": [], \"pending_meal\": null, \"unproposed_plan_changes\": [], \"plan_input_gaps\": []}], \"transition\": \"new\", \"evicted_task_ids\": []}"
+        },
+        {
+          "role": "user",
+          "content": "列出最近7天已完成训练的日期和每场训练时长。"
+        },
+        {
+          "role": "assistant",
+          "content": "统计范围：2026-11-03至2026-11-09；截至2026-11-09（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-11-07（已完成）：0组、0次重复、0kg负重容量。\n\n- 2026-11-08（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+          "query_context": {
+            "source_run_id": "30ebdbc2-e65c-4b59-b985-4bd9e85da4af",
+            "successful_query": true,
+            "primary_intent": "workout_history_query",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "risk_level": "low",
+            "resolved_query": "列出 2026-11-03 至 2026-11-09（最近7天）已完成训练的日期及每场训练时长。"
+          }
+        }
+      ],
+      "provider_routes": [
+        {
+          "http_id": "http-50",
+          "route": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "列出 2026-11-07 至 2026-11-09（最近3天）已完成训练的日期及每场训练时长，仅包含已完成场次。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "continue",
+              "task_id": "30ebdbc2-e65c-4b59-b985-4bd9e85da4af",
+              "trigger": "改成最近3天，仍只要已完成的日期和每场时长。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "改成最近3天",
+                  "remove": false
+                },
+                {
+                  "key": "session_status",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        },
+        {
+          "http_id": "http-52",
+          "route": {
+            "intent_domain": "workout_history",
+            "request_kind": "query",
+            "requested_effect": "read",
+            "requested_output": "answer",
+            "read_targets": [
+              "workout_history"
+            ],
+            "decision_action": "none",
+            "artifact_action": "none",
+            "normalized_request": "列出 2026-11-07 至 2026-11-09（最近3天）已完成训练的日期及每场训练时长，仅包含已完成场次。",
+            "risk_level": "low",
+            "confidence": 0.95,
+            "task_update": {
+              "action": "continue",
+              "task_id": "30ebdbc2-e65c-4b59-b985-4bd9e85da4af",
+              "trigger": "改成最近3天，仍只要已完成的日期和每场时长。",
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "quote": "改成最近3天",
+                  "remove": false
+                },
+                {
+                  "key": "session_status",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                },
+                {
+                  "key": "output_fields",
+                  "quote": "仍只要已完成的日期和每场时长",
+                  "remove": false
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

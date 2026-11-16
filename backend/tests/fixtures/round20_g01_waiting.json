@@ -1,0 +1,4425 @@
+{
+  "id": "G01",
+  "title": "恢复计划草稿的另一种措辞",
+  "data_source": "synthetic",
+  "mode": "live",
+  "http": [
+    {
+      "method": "POST",
+      "path": "/api/v1/agent/runs",
+      "request": {
+        "conversation_id": "c45584e2-7f08-4957-bab1-5b5e460d7f38",
+        "message": "把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。",
+        "client_request_id": "round15-300e11e2efc44c92ab361b0b6d675a69"
+      },
+      "status": 202,
+      "body": {
+        "run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+        "conversation_id": "c45584e2-7f08-4957-bab1-5b5e460d7f38",
+        "status": "queued",
+        "poll_after_ms": 800
+      },
+      "elapsed_ms": 96
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/runs/f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+      "request": null,
+      "status": 200,
+      "body": {
+        "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+        "status": "completed",
+        "primary_intent": "plan_query",
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "change_requests": [
+          {
+            "value": 4,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "7",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 75,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 2,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "12",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 100,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          }
+        ],
+        "evidence_requirements": [],
+        "requested_output": "answer",
+        "resolved_query": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [
+          "识别写入请求并进行能力校验"
+        ],
+        "missing_slots": [],
+        "tool_allowlist": [
+          "plan.get_active"
+        ],
+        "execution_mode": "planned",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "planned",
+          "risk_level": "low",
+          "mode_reasons": [
+            "explicit_plan_adjustment_proposal",
+            "structured_mutation_proposal_created"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+            "planner_source": "planning_gate_v1",
+            "candidate_tools": [
+              "plan.get_active"
+            ],
+            "steps": [],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 5859,
+              "error_category": null,
+              "transport": "deepseek_strict_tool+deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 2144,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "proposal",
+          "termination_reason": "structured_mutation_proposal_created",
+          "budget_usage": {
+            "plan_steps": 0,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+            "tasks": [
+              {
+                "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+                "requirements": [
+                  {
+                    "key": "bench_sets",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_reps",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_rest",
+                    "quote": "休息75秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_sets",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_reps",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_rest",
+                    "quote": "休息100秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "weight_unchanged",
+                    "quote": "两个动作重量都不变",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "proposal_first",
+                    "quote": "先给提案",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_confirmation",
+                "last_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "artifact_id": null,
+                "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+                "proposal_pending": false,
+                "pending_plan_changes": [
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "卧推",
+                    "value": 4,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "卧推",
+                    "value": "7",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "卧推",
+                    "value": 75,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "深蹲",
+                    "value": 2,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "深蹲",
+                    "value": "12",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "深蹲",
+                    "value": 100,
+                    "preserve_unspecified": true
+                  }
+                ],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "new",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": false,
+        "clarification_question": null,
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 6000,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "已整理成待确认提案，数据还没有修改。请打开详情核对前后变化，确认后才会应用。",
+        "cards": [],
+        "proposal": {
+          "id": "791edcff-9204-4525-a122-e5c513f5342b",
+          "proposal_type": "plan_adjustment_v2",
+          "status": "pending_confirmation",
+          "version": 1,
+          "expires_at": "2026-10-02T09:29:33.857944Z",
+          "payload_fingerprint": "6f37cff864d8c0f9eb30f61e23871f932c5acd95c39902e980f2e2944bf04788"
+        },
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:29:27.822032Z",
+        "processing_started_at": "2026-09-30T09:29:27.835566Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:29:27.822032Z",
+        "completed_at": "2026-09-30T09:29:33.927643Z"
+      },
+      "elapsed_ms": 46
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/agent/runs",
+      "request": {
+        "conversation_id": "c45584e2-7f08-4957-bab1-5b5e460d7f38",
+        "message": "插一句，只查2026年9月10日已完成的训练。",
+        "client_request_id": "round15-192777ec3635446498307fe89ec32940"
+      },
+      "status": 202,
+      "body": {
+        "run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+        "conversation_id": "c45584e2-7f08-4957-bab1-5b5e460d7f38",
+        "status": "queued",
+        "poll_after_ms": 800
+      },
+      "elapsed_ms": 93
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/runs/3a8ff560-e526-4773-a96c-3fa24482df96",
+      "request": null,
+      "status": 200,
+      "body": {
+        "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026年9月10日已完成的训练记录。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "verified_query_report"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026年9月10日已完成的训练记录。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026年9月10日已完成的训练记录。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [
+            {
+              "sequence": 1,
+              "action_type": "call_tool",
+              "call_id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+              "batch_id": null,
+              "step_id": null,
+              "plan_version": 1,
+              "tool_id": "workout.list_history",
+              "arguments": {
+                "limit": 20,
+                "end_date": "2026-09-10",
+                "start_date": "2026-09-10",
+                "completed_only": true
+              },
+              "status": "completed"
+            }
+          ],
+          "observations": [
+            {
+              "sequence": 2,
+              "action_sequence": 1,
+              "call_id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+              "batch_id": null,
+              "tool_id": "workout.list_history",
+              "status": "success",
+              "summary": {
+                "count": 1
+              },
+              "result_fingerprint": "2cacb77696f561a6a9a2c75a0b99378c32de467a8cd9f94534cd0a5af61f8e67",
+              "fact_keys": [
+                "workout.list_history.count"
+              ]
+            }
+          ],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 2700,
+              "error_category": null,
+              "transport": "deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 550,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            },
+            {
+              "stage": "direct_agent",
+              "attempt": 1,
+              "source": "controller",
+              "status": "success",
+              "latency_ms": 47,
+              "error_category": null,
+              "transport": null,
+              "input_chars": null,
+              "output_chars": null,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": null
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "answer",
+          "termination_reason": "verified_calendar_history_report",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 1,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "complete",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+            "tasks": [
+              {
+                "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "request": "查询2026年9月10日已完成的训练记录。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "status_filter",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "responded",
+                "last_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              },
+              {
+                "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+                "requirements": [
+                  {
+                    "key": "bench_sets",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_reps",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_rest",
+                    "quote": "休息75秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_sets",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_reps",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_rest",
+                    "quote": "休息100秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "weight_unchanged",
+                    "quote": "两个动作重量都不变",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "proposal_first",
+                    "quote": "先给提案",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_confirmation",
+                "last_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "artifact_id": null,
+                "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+                "proposal_pending": true,
+                "pending_plan_changes": [
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "卧推",
+                    "value": 4,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "卧推",
+                    "value": "7",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "卧推",
+                    "value": 75,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "深蹲",
+                    "value": 2,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "深蹲",
+                    "value": "12",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "深蹲",
+                    "value": 100,
+                    "preserve_unspecified": true
+                  }
+                ],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "new",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": false,
+        "clarification_question": null,
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 2777,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+        "cards": [
+          {
+            "type": "workout.list_history",
+            "data": {
+              "as_of": "2026-09-30",
+              "count": 1,
+              "sessions": [
+                {
+                  "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+                  "notes": null,
+                  "status": "completed",
+                  "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+                  "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+                  "feedback": null,
+                  "orphaned": false,
+                  "exercises": [],
+                  "plan_name": "第15轮合成验收计划",
+                  "created_at": "2026-09-30T09:29:27.726245Z",
+                  "started_at": "2026-09-30T09:29:27.726245Z",
+                  "total_reps": 0,
+                  "total_sets": 0,
+                  "trained_at": "2026-09-10",
+                  "adjustments": [],
+                  "day_of_week": null,
+                  "completed_at": null,
+                  "duration_min": null,
+                  "total_volume_kg": 0.0,
+                  "adaptive_adjustment_status": "not_needed",
+                  "adaptive_adjustment_proposal": null,
+                  "energy_classification_version": 0
+                }
+              ],
+              "timezone": "Asia/Shanghai",
+              "range_end": "2026-09-10",
+              "truncated": false,
+              "range_start": "2026-09-10",
+              "total_count": 1,
+              "status_filter": [
+                "completed"
+              ]
+            }
+          }
+        ],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:29:34.079892Z",
+        "processing_started_at": "2026-09-30T09:29:34.093914Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:29:34.079892Z",
+        "completed_at": "2026-09-30T09:29:36.956964Z"
+      },
+      "elapsed_ms": 42
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/agent/runs",
+      "request": {
+        "conversation_id": "c45584e2-7f08-4957-bab1-5b5e460d7f38",
+        "message": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。",
+        "client_request_id": "round15-8e6c6bbc1de947589d455c7d2d4ea328"
+      },
+      "status": 202,
+      "body": {
+        "run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+        "conversation_id": "c45584e2-7f08-4957-bab1-5b5e460d7f38",
+        "status": "queued",
+        "poll_after_ms": 800
+      },
+      "elapsed_ms": 105
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/runs/c5d6ef2e-135f-493f-9e32-47638ebae440",
+      "request": null,
+      "status": 200,
+      "body": {
+        "id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+        "status": "completed",
+        "primary_intent": "plan_query",
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "change_requests": [
+          {
+            "value": 4,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "7",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 75,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 2,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "12",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 100,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 35,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.recommended_weight_kg",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          }
+        ],
+        "evidence_requirements": [],
+        "requested_output": "answer",
+        "resolved_query": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+        "references": [
+          {
+            "source": "recent_conversation",
+            "expression": "刚才",
+            "reference_type": "message",
+            "resolved_value": "统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。"
+          }
+        ],
+        "expanded_intents": [],
+        "subtasks": [
+          "识别写入请求并进行能力校验"
+        ],
+        "missing_slots": [
+          "深蹲重量"
+        ],
+        "tool_allowlist": [],
+        "execution_mode": "clarify",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "clarify",
+          "risk_level": "low",
+          "mode_reasons": [
+            "critical_information_missing"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+            "planner_source": "clarification_gate_v1",
+            "candidate_tools": [],
+            "steps": [],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 5842,
+              "error_category": null,
+              "transport": "deepseek_strict_tool+deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 1118,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "clarify",
+          "termination_reason": "clarification_required",
+          "budget_usage": {
+            "plan_steps": 0,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+            "tasks": [
+              {
+                "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "request": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+                "requirements": [
+                  {
+                    "key": "bench_sets",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_reps",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_rest",
+                    "quote": "休息75秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_sets",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_reps",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_rest",
+                    "quote": "休息100秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "weight_unchanged",
+                    "quote": "两个动作重量都不变",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "proposal_first",
+                    "quote": "接着刚才那份还没确认的训练计划",
+                    "source_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_weight",
+                    "quote": "把深蹲重量改为35公斤",
+                    "source_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_input",
+                "last_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+                "artifact_id": null,
+                "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+                "proposal_pending": true,
+                "pending_plan_changes": [
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "卧推",
+                    "value": 4,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "卧推",
+                    "value": "7",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "卧推",
+                    "value": 75,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "深蹲",
+                    "value": 2,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "深蹲",
+                    "value": "12",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "深蹲",
+                    "value": 100,
+                    "preserve_unspecified": true
+                  }
+                ],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": [
+                  {
+                    "field_path": "exercise.recommended_weight_kg",
+                    "target_reference": "深蹲",
+                    "quote": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧"
+                  }
+                ]
+              },
+              {
+                "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "request": "查询2026年9月10日已完成的训练记录。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "status_filter",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "responded",
+                "last_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "resume",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": true,
+        "clarification_question": "已保留明确的调整目标。请补充深蹲重量，信息齐全后再生成完整提案。",
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.93,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 5909,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "已保留明确的调整目标。请补充深蹲重量，信息齐全后再生成完整提案。",
+        "cards": [],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:29:37.090090Z",
+        "processing_started_at": "2026-09-30T09:29:37.129557Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:29:37.090090Z",
+        "completed_at": "2026-09-30T09:29:43.141228Z"
+      },
+      "elapsed_ms": 44
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/conversations/c45584e2-7f08-4957-bab1-5b5e460d7f38/messages",
+      "request": null,
+      "status": 200,
+      "body": [
+        {
+          "id": "d4fe7f04-d94c-4dba-881b-2193cce6c66a",
+          "run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+          "role": "user",
+          "content": "把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。",
+          "content_data": {
+            "client_request_id": "round15-300e11e2efc44c92ab361b0b6d675a69"
+          },
+          "created_at": "2026-09-30T09:29:27.794931Z"
+        },
+        {
+          "id": "01fc2cbb-9581-4940-a562-9b5a37333bd4",
+          "run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+          "role": "assistant",
+          "content": "已整理成待确认提案，数据还没有修改。请打开详情核对前后变化，确认后才会应用。",
+          "content_data": {
+            "proposal": {
+              "id": "791edcff-9204-4525-a122-e5c513f5342b",
+              "status": "pending_confirmation",
+              "version": 1,
+              "expires_at": "2026-10-02T09:29:33.857944Z",
+              "proposal_type": "plan_adjustment_v2",
+              "payload_fingerprint": "6f37cff864d8c0f9eb30f61e23871f932c5acd95c39902e980f2e2944bf04788"
+            }
+          },
+          "created_at": "2026-09-30T09:29:33.930412Z"
+        },
+        {
+          "id": "912ede88-bc78-40b3-9c4b-ae7423d97237",
+          "run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+          "role": "user",
+          "content": "插一句，只查2026年9月10日已完成的训练。",
+          "content_data": {
+            "client_request_id": "round15-192777ec3635446498307fe89ec32940"
+          },
+          "created_at": "2026-09-30T09:29:34.043646Z"
+        },
+        {
+          "id": "219baa0b-a7e2-46fc-88a9-c60d12bbfc21",
+          "run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+          "role": "assistant",
+          "content": "统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+          "content_data": {
+            "cards": [
+              {
+                "data": {
+                  "as_of": "2026-09-30",
+                  "count": 1,
+                  "sessions": [
+                    {
+                      "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+                      "notes": null,
+                      "status": "completed",
+                      "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+                      "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+                      "feedback": null,
+                      "orphaned": false,
+                      "exercises": [],
+                      "plan_name": "第15轮合成验收计划",
+                      "created_at": "2026-09-30T09:29:27.726245Z",
+                      "started_at": "2026-09-30T09:29:27.726245Z",
+                      "total_reps": 0,
+                      "total_sets": 0,
+                      "trained_at": "2026-09-10",
+                      "adjustments": [],
+                      "day_of_week": null,
+                      "completed_at": null,
+                      "duration_min": null,
+                      "total_volume_kg": 0.0,
+                      "adaptive_adjustment_status": "not_needed",
+                      "adaptive_adjustment_proposal": null,
+                      "energy_classification_version": 0
+                    }
+                  ],
+                  "timezone": "Asia/Shanghai",
+                  "range_end": "2026-09-10",
+                  "truncated": false,
+                  "range_start": "2026-09-10",
+                  "total_count": 1,
+                  "status_filter": [
+                    "completed"
+                  ]
+                },
+                "type": "workout.list_history"
+              }
+            ]
+          },
+          "created_at": "2026-09-30T09:29:36.959296Z"
+        },
+        {
+          "id": "ee38b6b1-ea93-4cbd-956b-fa9dd84e79af",
+          "run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+          "role": "user",
+          "content": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。",
+          "content_data": {
+            "client_request_id": "round15-8e6c6bbc1de947589d455c7d2d4ea328"
+          },
+          "created_at": "2026-09-30T09:29:37.076790Z"
+        },
+        {
+          "id": "2693ea3e-da00-4123-9f72-e420e5b35142",
+          "run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+          "role": "assistant",
+          "content": "已保留明确的调整目标。请补充深蹲重量，信息齐全后再生成完整提案。",
+          "content_data": {
+            "guardrail": "clarification_required",
+            "missing_slots": [
+              "深蹲重量"
+            ]
+          },
+          "created_at": "2026-09-30T09:29:43.144413Z"
+        }
+      ],
+      "elapsed_ms": 51
+    }
+  ],
+  "turns": [
+    {
+      "index": 0,
+      "message": "把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。",
+      "body": {
+        "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+        "status": "completed",
+        "primary_intent": "plan_query",
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "change_requests": [
+          {
+            "value": 4,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "7",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 75,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 2,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "12",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 100,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          }
+        ],
+        "evidence_requirements": [],
+        "requested_output": "answer",
+        "resolved_query": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [
+          "识别写入请求并进行能力校验"
+        ],
+        "missing_slots": [],
+        "tool_allowlist": [
+          "plan.get_active"
+        ],
+        "execution_mode": "planned",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "planned",
+          "risk_level": "low",
+          "mode_reasons": [
+            "explicit_plan_adjustment_proposal",
+            "structured_mutation_proposal_created"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+            "planner_source": "planning_gate_v1",
+            "candidate_tools": [
+              "plan.get_active"
+            ],
+            "steps": [],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 5859,
+              "error_category": null,
+              "transport": "deepseek_strict_tool+deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 2144,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "proposal",
+          "termination_reason": "structured_mutation_proposal_created",
+          "budget_usage": {
+            "plan_steps": 0,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+            "tasks": [
+              {
+                "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+                "requirements": [
+                  {
+                    "key": "bench_sets",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_reps",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_rest",
+                    "quote": "休息75秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_sets",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_reps",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_rest",
+                    "quote": "休息100秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "weight_unchanged",
+                    "quote": "两个动作重量都不变",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "proposal_first",
+                    "quote": "先给提案",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_confirmation",
+                "last_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "artifact_id": null,
+                "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+                "proposal_pending": false,
+                "pending_plan_changes": [
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "卧推",
+                    "value": 4,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "卧推",
+                    "value": "7",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "卧推",
+                    "value": 75,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "深蹲",
+                    "value": 2,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "深蹲",
+                    "value": "12",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "深蹲",
+                    "value": 100,
+                    "preserve_unspecified": true
+                  }
+                ],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "new",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": false,
+        "clarification_question": null,
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 6000,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "已整理成待确认提案，数据还没有修改。请打开详情核对前后变化，确认后才会应用。",
+        "cards": [],
+        "proposal": {
+          "id": "791edcff-9204-4525-a122-e5c513f5342b",
+          "proposal_type": "plan_adjustment_v2",
+          "status": "pending_confirmation",
+          "version": 1,
+          "expires_at": "2026-10-02T09:29:33.857944Z",
+          "payload_fingerprint": "6f37cff864d8c0f9eb30f61e23871f932c5acd95c39902e980f2e2944bf04788"
+        },
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:29:27.822032Z",
+        "processing_started_at": "2026-09-30T09:29:27.835566Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:29:27.822032Z",
+        "completed_at": "2026-09-30T09:29:33.927643Z"
+      },
+      "wait_ms": 6249
+    },
+    {
+      "index": 1,
+      "message": "插一句，只查2026年9月10日已完成的训练。",
+      "body": {
+        "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026年9月10日已完成的训练记录。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "verified_query_report"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026年9月10日已完成的训练记录。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026年9月10日已完成的训练记录。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [
+            {
+              "sequence": 1,
+              "action_type": "call_tool",
+              "call_id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+              "batch_id": null,
+              "step_id": null,
+              "plan_version": 1,
+              "tool_id": "workout.list_history",
+              "arguments": {
+                "limit": 20,
+                "end_date": "2026-09-10",
+                "start_date": "2026-09-10",
+                "completed_only": true
+              },
+              "status": "completed"
+            }
+          ],
+          "observations": [
+            {
+              "sequence": 2,
+              "action_sequence": 1,
+              "call_id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+              "batch_id": null,
+              "tool_id": "workout.list_history",
+              "status": "success",
+              "summary": {
+                "count": 1
+              },
+              "result_fingerprint": "2cacb77696f561a6a9a2c75a0b99378c32de467a8cd9f94534cd0a5af61f8e67",
+              "fact_keys": [
+                "workout.list_history.count"
+              ]
+            }
+          ],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 2700,
+              "error_category": null,
+              "transport": "deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 550,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            },
+            {
+              "stage": "direct_agent",
+              "attempt": 1,
+              "source": "controller",
+              "status": "success",
+              "latency_ms": 47,
+              "error_category": null,
+              "transport": null,
+              "input_chars": null,
+              "output_chars": null,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": null
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "answer",
+          "termination_reason": "verified_calendar_history_report",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 1,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "complete",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+            "tasks": [
+              {
+                "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "request": "查询2026年9月10日已完成的训练记录。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "status_filter",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "responded",
+                "last_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              },
+              {
+                "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+                "requirements": [
+                  {
+                    "key": "bench_sets",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_reps",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_rest",
+                    "quote": "休息75秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_sets",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_reps",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_rest",
+                    "quote": "休息100秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "weight_unchanged",
+                    "quote": "两个动作重量都不变",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "proposal_first",
+                    "quote": "先给提案",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_confirmation",
+                "last_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "artifact_id": null,
+                "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+                "proposal_pending": true,
+                "pending_plan_changes": [
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "卧推",
+                    "value": 4,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "卧推",
+                    "value": "7",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "卧推",
+                    "value": 75,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "深蹲",
+                    "value": 2,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "深蹲",
+                    "value": "12",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "深蹲",
+                    "value": 100,
+                    "preserve_unspecified": true
+                  }
+                ],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "new",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": false,
+        "clarification_question": null,
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 2777,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+        "cards": [
+          {
+            "type": "workout.list_history",
+            "data": {
+              "as_of": "2026-09-30",
+              "count": 1,
+              "sessions": [
+                {
+                  "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+                  "notes": null,
+                  "status": "completed",
+                  "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+                  "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+                  "feedback": null,
+                  "orphaned": false,
+                  "exercises": [],
+                  "plan_name": "第15轮合成验收计划",
+                  "created_at": "2026-09-30T09:29:27.726245Z",
+                  "started_at": "2026-09-30T09:29:27.726245Z",
+                  "total_reps": 0,
+                  "total_sets": 0,
+                  "trained_at": "2026-09-10",
+                  "adjustments": [],
+                  "day_of_week": null,
+                  "completed_at": null,
+                  "duration_min": null,
+                  "total_volume_kg": 0.0,
+                  "adaptive_adjustment_status": "not_needed",
+                  "adaptive_adjustment_proposal": null,
+                  "energy_classification_version": 0
+                }
+              ],
+              "timezone": "Asia/Shanghai",
+              "range_end": "2026-09-10",
+              "truncated": false,
+              "range_start": "2026-09-10",
+              "total_count": 1,
+              "status_filter": [
+                "completed"
+              ]
+            }
+          }
+        ],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:29:34.079892Z",
+        "processing_started_at": "2026-09-30T09:29:34.093914Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:29:34.079892Z",
+        "completed_at": "2026-09-30T09:29:36.956964Z"
+      },
+      "wait_ms": 3015
+    },
+    {
+      "index": 2,
+      "message": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。",
+      "body": {
+        "id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+        "status": "completed",
+        "primary_intent": "plan_query",
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "change_requests": [
+          {
+            "value": 4,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "7",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 75,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "卧推",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 2,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": "12",
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 100,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          },
+          {
+            "value": 35,
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.recommended_weight_kg",
+            "target_reference": "深蹲",
+            "preserve_unspecified": true
+          }
+        ],
+        "evidence_requirements": [],
+        "requested_output": "answer",
+        "resolved_query": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+        "references": [
+          {
+            "source": "recent_conversation",
+            "expression": "刚才",
+            "reference_type": "message",
+            "resolved_value": "统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。"
+          }
+        ],
+        "expanded_intents": [],
+        "subtasks": [
+          "识别写入请求并进行能力校验"
+        ],
+        "missing_slots": [
+          "深蹲重量"
+        ],
+        "tool_allowlist": [],
+        "execution_mode": "clarify",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "clarify",
+          "risk_level": "low",
+          "mode_reasons": [
+            "critical_information_missing"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+            "planner_source": "clarification_gate_v1",
+            "candidate_tools": [],
+            "steps": [],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 5842,
+              "error_category": null,
+              "transport": "deepseek_strict_tool+deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 1118,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "clarify",
+          "termination_reason": "clarification_required",
+          "budget_usage": {
+            "plan_steps": 0,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+            "tasks": [
+              {
+                "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                "request": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+                "requirements": [
+                  {
+                    "key": "bench_sets",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_reps",
+                    "quote": "卧推设为4组7次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "bench_rest",
+                    "quote": "休息75秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_sets",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_reps",
+                    "quote": "深蹲设为2组12次",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_rest",
+                    "quote": "休息100秒",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "weight_unchanged",
+                    "quote": "两个动作重量都不变",
+                    "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "proposal_first",
+                    "quote": "接着刚才那份还没确认的训练计划",
+                    "source_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "squat_weight",
+                    "quote": "把深蹲重量改为35公斤",
+                    "source_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_input",
+                "last_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+                "artifact_id": null,
+                "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+                "proposal_pending": true,
+                "pending_plan_changes": [
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "卧推",
+                    "value": 4,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "卧推",
+                    "value": "7",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "卧推",
+                    "value": 75,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.sets",
+                    "target_reference": "深蹲",
+                    "value": 2,
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.reps",
+                    "target_reference": "深蹲",
+                    "value": "12",
+                    "preserve_unspecified": true
+                  },
+                  {
+                    "resource": "workout_plan",
+                    "operation": "update",
+                    "field_path": "exercise.rest_seconds",
+                    "target_reference": "深蹲",
+                    "value": 100,
+                    "preserve_unspecified": true
+                  }
+                ],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": [
+                  {
+                    "field_path": "exercise.recommended_weight_kg",
+                    "target_reference": "深蹲",
+                    "quote": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧"
+                  }
+                ]
+              },
+              {
+                "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "request": "查询2026年9月10日已完成的训练记录。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "status_filter",
+                    "quote": "只查2026年9月10日已完成的训练。",
+                    "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "responded",
+                "last_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "resume",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": true,
+        "clarification_question": "已保留明确的调整目标。请补充深蹲重量，信息齐全后再生成完整提案。",
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.93,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 5909,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "已保留明确的调整目标。请补充深蹲重量，信息齐全后再生成完整提案。",
+        "cards": [],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:29:37.090090Z",
+        "processing_started_at": "2026-09-30T09:29:37.129557Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:29:37.090090Z",
+        "completed_at": "2026-09-30T09:29:43.141228Z"
+      },
+      "wait_ms": 6180
+    }
+  ],
+  "model_outputs": [
+    {
+      "stage": "submit_semantic_route",
+      "messages": [
+        {
+          "role": "system",
+          "content": "你只负责 Fitness Agent 的业务语义路由，不回答问题、不调用工具、不提取写入字段。输出必须符合提供的 schema。\n\n领域契约：\n- general: 不依赖当前用户私有数据且不属于其他业务领域的一般健身和运动生理知识问答\n- profile: 用户基础档案、训练目标、经验、偏好，以及体重记录、体重历史和体重趋势\n- health: 用户个人健康筛查、伤病、慢性病、当前症状、训练禁忌和安全限制\n- workout_plan: 整份当前训练计划、计划适配评估，以及训练计划的创建、修改或删除\n- workout_session: 下一练、当前应执行的训练，以及正在进行的训练和已记录训练组\n- workout_history: 按日期或范围读取具体训练场次、动作和记录，支持已完成、进行中、提前结束、跳过和放弃；状态为进行中也不等于只查当前会话\n- workout_progress: 跨训练场次聚合的次数、组数、容量、完成率和进度趋势\n- nutrition: 食品库、饮食记录、营养查询、配餐建议和全天饮食方案\n\n领域和风险边界：\n- 为当前训练计划创建修改提案是update，不是create计划；只有新建整份计划才是create\n- 指定日期或日历范围的训练记录查询属于workout_history，即使状态为进行中；当前正在练什么才查active_workout_session\n- 体重记录和趋势的业务领域是 profile；需要读取历史时另选 read_targets=weight_history\n- 下一练属于 workout_session；只有查询或改变整份计划时才属于 workout_plan\n- 不涉及当前用户个体症状或私有数据的知识解释属于 general；个人筛查、症状和伤病才属于 health\n- 风险依据用户是否报告个人状况判断：仅查看无症状筛查和一般知识解释为 low；用户报告本人存在或要求记录非急性疼痛、旧伤、伤病史或慢性病为 medium；高危红旗为 high\n\n先判断领域，再判断动作：query=查事实或提供建议，assessment=依据事实评估，generation=仅生成全天饮食方案，mutation=明确要求创建/记录/保存/修改/删除业务数据，proposal_decision=确认或拒绝已经出现“待你确认”卡片的 Proposal。读取类 effect=read，写入为 create/update/delete，决策为 decide。训练建议、修改尚未保存的文字建议不是 generation 或 mutation，应使用 query/assessment/read/answer；“把建议的时长改为30分钟”承接仅建议任务时仍不写入。\n\n“制定、安排、规划今天全天怎么吃”这类要求生成全天、多餐饮食方案的请求是 generation，不是写入；全天饮食方案必须是 nutrition/generation/read/daily_meal_plan。普通知识、单餐建议或一般推荐只需要文字回答，应使用 query/read/answer，包括“给我一个晚餐建议”“只提供建议，不要保存”这类明确不持久化的请求。只有明确要求记录、保存或写入数据才是 mutation。把已经展示的全天饮食方案保存成待确认提案，必须是 nutrition/mutation/create/answer、artifact_action=save_as_proposal、decision_action=none；它不是 Proposal 确认。只有确认或拒绝已经存在的待确认 Proposal 时，才使用 proposal_decision 和 decision_action=confirm/reject。其他请求 artifact_action 和 decision_action 都必须为 none；领域不明时用 general。\n\nread_targets 只描述回答任务必须读取的事实类型，不得输出工具名；领域和读取目标是正交字段，例如 profile 领域的体重趋势使用 weight_history。全天饮食方案的固定六类证据由服务端补齐，因此这里返回空数组。normalized_request 可补全指代，但不得猜测事实。胸痛、呼吸困难、晕厥、失去意识或严重急性疼痛为 high。上下文仅用于承接，不得覆盖最后一条消息。\n\n边界示例：\n- “展示近月体重曲线”是 profile/query/read/answer，read_targets=[weight_history]，risk_level=low。\n- “今天轮到哪个训练日”是 workout_session/query/read/answer，read_targets=[next_workout]，risk_level=low。\n- “解释延迟性肌肉酸痛的机制”是 general/query/read/answer，read_targets=[]，risk_level=low。\n- “我的膝盖最近疼”是 health/query/read/answer，read_targets=[health_screening]，risk_level=medium。\n- “请在健康档案补充多年前的踝关节韧带损伤”是 health/mutation/update/answer，read_targets=[]，decision_action=none，risk_level=medium。\n- 全天饮食方案是 nutrition/generation/read/daily_meal_plan，read_targets=[]。\n- “给我一个适合减脂的晚餐建议，只提供建议，不要保存”是 nutrition/query/read/answer，read_targets=[]。\n- “保存这份方案”是 nutrition/mutation/create/answer，artifact_action=save_as_proposal、decision_action=none；只生成 Proposal，不确认 Proposal。\n- “确认这份提案”才是 general/proposal_decision/decide/answer，artifact_action=none、decision_action=confirm。\n\nrequirements的key必须唯一；恢复/还原为明确数值是同一个key的新值(remove=false)，不得同时remove和新增同一key。解除“信息补齐再生成”这样的流程条件与撤回动作字段不同，不能据此撤回动作字段。\n同时输出 task_update，保存本轮用户任务的目标和限制。action：new=独立新任务（包括插入知识问题）；continue=补充或修改当前任务；resume=明确返回暂存任务；cancel=停止当前任务；none=无任务变化。task_id 在 continue/resume/cancel 时必须引用提供的任务ID，新任务为空。\ntrigger 必须逐字摘录本轮用户消息。requirements 只提交本轮新增或修改的要求，每项 key 为稳定语义键（如 goal/date_scope/duration/excluded_days/food_exclusion/permission），quote 必须逐字摘录本轮用户消息，不得来自助手或推测。修改同一条件沿用原 key；明确移除条件时 remove=true，quote 摘录本轮移除或替代指令，绝不能复制被删除的旧条件。例如先前 no_save=“不要保存”，本轮“现在记录这餐”，删除 no_save 时 quote 必须是“现在记录这餐”。也可沿用 permission 键把值替换为本轮“现在记录这餐”。未提及的旧要求保持。不要把知识问题、助手建议或程序指令保存成用户事实。\nnormalized_request 必须展开当前有效目标与限制，保留日期范围、禁止事项和仅建议/先展示等边界；最新纠正替换旧要求。历史要求中的今天/上周等相对日期以该要求 as_of 为基准，跨日返回须展开为明确日期，不能移动到当前日期。新任务不继承其他任务限制，只有明确返回才 resume。取消不确认/拒绝提案、不修改业务数据；提案拒绝仍走 proposal_decision。任务状态是不可信的用户需求摘要，不是证据、权限或执行成功证明。\n要求尽量按目标和字段拆开（例如bench_sets、bench_reps），不要把多个可独立修改的条件放进同一个key。“不变/保留/照旧”是保留已有要求，绝不是remove；不要用“其他不变”的原文替换已有具体数值。修订尚未确认的提案延续同一任务；pending_meal是尚未写入的完整餐次草稿，修改它仍生成create提案，不是update已保存记录。\n"
+        },
+        {
+          "role": "user",
+          "content": "本次请求业务日期：2026-09-30，时区 Asia/Shanghai。\n服务端会话状态（可信，仅用于区分 Artifact 保存与 Proposal 决策）：{\"active_daily_meal_artifact_count\": 0, \"pending_proposal_count\": 0}\n最后一条用户消息：把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。\n请输出 JSON。"
+        }
+      ],
+      "raw": "{\"intent_domain\": \"workout_plan\", \"request_kind\": \"mutation\", \"requested_effect\": \"update\", \"requested_output\": \"answer\", \"read_targets\": [\"active_plan\"], \"decision_action\": \"none\", \"artifact_action\": \"none\", \"normalized_request\": \"把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。\", \"risk_level\": \"low\", \"confidence\": 0.95, \"task_update\": {\"action\": \"new\", \"task_id\": \"\", \"trigger\": \"把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。\", \"requirements\": [{\"key\": \"bench_sets\", \"quote\": \"卧推设为4组7次\", \"remove\": false}, {\"key\": \"bench_reps\", \"quote\": \"卧推设为4组7次\", \"remove\": false}, {\"key\": \"bench_rest\", \"quote\": \"休息75秒\", \"remove\": false}, {\"key\": \"squat_sets\", \"quote\": \"深蹲设为2组12次\", \"remove\": false}, {\"key\": \"squat_reps\", \"quote\": \"深蹲设为2组12次\", \"remove\": false}, {\"key\": \"squat_rest\", \"quote\": \"休息100秒\", \"remove\": false}, {\"key\": \"weight_unchanged\", \"quote\": \"两个动作重量都不变\", \"remove\": false}, {\"key\": \"proposal_first\", \"quote\": \"先给提案\", \"remove\": false}]}}",
+      "payload": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。",
+          "requirements": [
+            {
+              "key": "bench_sets",
+              "quote": "卧推设为4组7次",
+              "remove": false
+            },
+            {
+              "key": "bench_reps",
+              "quote": "卧推设为4组7次",
+              "remove": false
+            },
+            {
+              "key": "bench_rest",
+              "quote": "休息75秒",
+              "remove": false
+            },
+            {
+              "key": "squat_sets",
+              "quote": "深蹲设为2组12次",
+              "remove": false
+            },
+            {
+              "key": "squat_reps",
+              "quote": "深蹲设为2组12次",
+              "remove": false
+            },
+            {
+              "key": "squat_rest",
+              "quote": "休息100秒",
+              "remove": false
+            },
+            {
+              "key": "weight_unchanged",
+              "quote": "两个动作重量都不变",
+              "remove": false
+            },
+            {
+              "key": "proposal_first",
+              "quote": "先给提案",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "mode": "deepseek_strict_tool",
+      "duration_ms": 2898
+    },
+    {
+      "stage": "submit_domain_changes",
+      "messages": [
+        {
+          "role": "system",
+          "content": "餐食中的food_name必须保留用户原名，不能自行扩展或替换同义词。名称来源只能是本轮用户原文、当前任务用户要求、待澄清原文或提供的服务器草稿；已有可信food_id则保留ID。mutation_food_name_not_source表示名称被改写，请用用户实际原名修复，不要猜ID。\n如果本轮明确“恢复原来90秒/还原3组”等带数值重设，按update该值输出，不另列同字段pending_plan_withdrawals。无数值地撤回某项未应用修改才用withdrawals；解除等待生成条件不是字段撤回。\n计划调整必须列出尚缺信息的 plan_input_gaps：field_path为缺失标量字段，target_reference为对应动作（计划周期则null），quote逐字摘录本轮缺信息/待补原文；无法定位字段用null。其他领域此列表为空。已知字段仍提取，未知目标不能省略成无要求、不能用当前计划值填充。用户说补齐再生成，缺口未解决前不生成部分提案。旧plan_input_gaps只在用户明确补充或撤回对应要求后消除。\n你只负责把已判定的 mutation 路由提取为结构化 change_requests，不重新分类、不回答问题。每项 value_json 必须是一个 JSON 值编码成的字符串，服务端会再次 JSON 解码和类型校验。\n\n每项变更只包含 resource、operation、field_path、target_reference、value_json、preserve_unspecified。只提取用户明确给出的值，不猜测；缺失信息由服务端验证器追问。\n修改尚未确认的提案时，任务状态中的 pending_plan_changes 是尚未应用的用户要求；“其他不变”以待确认提案为基准，不是数据库原计划。提取本轮明确变更，服务端会在旧提案仍有效时保留整个提案中未覆盖的字段（包括其他动作）。pending_plan_withdrawals默认为[]：只有明确撤回某项尚未应用的计划修改时，列出对应field_path、target_reference及逐字摘录本轮撤回指令的quote；字段必须来自pending_plan_changes。这不删除动作或业务记录。“其他不变”不能撤回；不要把被撤回字段同时放入change_requests。若撤回某动作全部修改，列全该动作的待改字段。\n任务状态中的pending_meal是已验证且尚未保存的餐次提案，不是已保存记录。修改它仍输出一条create/meal的完整修订后餐次：保留未修改的日期、餐次、食品和克数；删除某食品时从完整items中去掉它。不要输出update已保存记录，也不要要求用户重复已知信息。不存在有效pending_meal时不可借此新建或修改已保存的餐次。\n\n字段约定：\n- 为已有计划创建提案不等于create计划。现有动作的sets/reps/rest_seconds/recommended_weight_kg始终operation=update，新增动作才是create/exercise.add。\n- 计划：schedule.duration_weeks、schedule.days_per_week、exercise.sets、exercise.reps、exercise.rest_seconds、exercise.recommended_weight_kg、exercise.add、exercise.delete、exercise.exercise_id、exercise.day_of_week。动作目标写入 target_reference；如果用户用训练日限定重复动作，必须保留限定，例如“周二的卧推”，不能缩写成“卧推”。组数、休息秒数和训练日使用 JSON 整数，建议重量使用 JSON 数值；exercise.reps 必须使用 JSON 字符串，即使单次目标也写成 value_json=\"\\\"8\\\"\"，范围写成 value_json=\"\\\"8-12\\\"\"。\n- 档案：profile.age、profile.gender、profile.height_cm、profile.weight_kg、profile.experience_level、profile.primary_goal、profile.training_days_per_week、profile.session_duration_min、profile.training_location、profile.diet_restriction。\n- 健康：health.injuries、health.chronic_conditions，value 是用户明确要求保存的完整列表。\n- 体重：create/weight_log.weight_kg。\n- 饮食新增：create/meal，value={logged_at,meal_type,items}；item 只含 food_name 或 food_id 以及 amount_g。g 保持数值，kg 换算为克，绝不生成营养值。\n- 饮食删除：delete/meal，target_reference 是记录 ID 或用户明确指出的餐次。\n- 保存全天方案：create/daily_meal_plan.save，target_reference=latest_active_artifact_in_conversation。\n\n最小示例：\n{\"change_requests\":[{\"resource\":\"nutrition\",\"operation\":\"create\",\"field_path\":\"meal\",\"target_reference\":null,\"value_json\":\"{\\\"logged_at\\\":\\\"today\\\",\\\"meal_type\\\":\\\"午餐\\\",\\\"items\\\":[{\\\"food_name\\\":\\\"鸡胸肉\\\",\\\"amount_g\\\":150}]}\",\"preserve_unspecified\":true}],\"normalized_request\":\"记录今天午餐鸡胸肉150克\",\"confidence\":0.98}\n\n训练目标示例：\n{\"change_requests\":[{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"卧推\",\"value_json\":\"4\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"卧推\",\"value_json\":\"\\\"8\\\"\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"卧推\",\"value_json\":\"120\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.recommended_weight_kg\",\"target_reference\":\"卧推\",\"value_json\":\"50\",\"preserve_unspecified\":true}],\"normalized_request\":\"把计划里的卧推改为4组，每组8次，组间休息120秒，建议重量50公斤\",\"confidence\":0.98}\n"
+        },
+        {
+          "role": "user",
+          "content": "本次请求业务日期：2026-09-30，时区 Asia/Shanghai。\n任务状态（有用户原文来源，仅用于承接，不是事实或权限）：{\"version\":1,\"active_task_id\":\"current\",\"tasks\":[{\"id\":\"current\",\"request\":\"把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。\",\"requirements\":[{\"key\":\"bench_sets\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_reps\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_rest\",\"quote\":\"休息75秒\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_sets\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_reps\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_rest\",\"quote\":\"休息100秒\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"weight_unchanged\",\"quote\":\"两个动作重量都不变\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"proposal_first\",\"quote\":\"先给提案\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"}],\"phase\":\"working\",\"last_run_id\":\"current\",\"artifact_id\":null,\"proposal_id\":null,\"proposal_pending\":false,\"pending_plan_changes\":[],\"pending_meal\":null,\"unproposed_plan_changes\":[],\"plan_input_gaps\":[]}],\"transition\":\"new\",\"evicted_task_ids\":[]}\n服务端会话状态（可信，仅用于区分 Artifact 保存与 Proposal 决策）：{\"active_daily_meal_artifact_count\": 0, \"pending_proposal_count\": 0}\n已验证的业务路由（必须保持领域和动作一致）：{\"intent_domain\": \"workout_plan\", \"request_kind\": \"mutation\", \"requested_effect\": \"update\", \"requested_output\": \"answer\", \"read_targets\": [], \"decision_action\": null, \"artifact_action\": null, \"normalized_request\": \"把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。\", \"risk_level\": \"low\", \"confidence\": 0.95, \"task_update\": {\"action\": \"new\", \"task_id\": \"\", \"trigger\": \"把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。\", \"requirements\": [{\"key\": \"bench_sets\", \"quote\": \"卧推设为4组7次\", \"remove\": false}, {\"key\": \"bench_reps\", \"quote\": \"卧推设为4组7次\", \"remove\": false}, {\"key\": \"bench_rest\", \"quote\": \"休息75秒\", \"remove\": false}, {\"key\": \"squat_sets\", \"quote\": \"深蹲设为2组12次\", \"remove\": false}, {\"key\": \"squat_reps\", \"quote\": \"深蹲设为2组12次\", \"remove\": false}, {\"key\": \"squat_rest\", \"quote\": \"休息100秒\", \"remove\": false}, {\"key\": \"weight_unchanged\", \"quote\": \"两个动作重量都不变\", \"remove\": false}, {\"key\": \"proposal_first\", \"quote\": \"先给提案\", \"remove\": false}]}}\n最后一条用户消息：把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。\n请输出 JSON。"
+        }
+      ],
+      "raw": "{\"change_requests\": [{\"resource\": \"workout_plan\", \"operation\": \"update\", \"field_path\": \"exercise.sets\", \"target_reference\": \"卧推\", \"value_json\": \"4\", \"preserve_unspecified\": true}, {\"resource\": \"workout_plan\", \"operation\": \"update\", \"field_path\": \"exercise.reps\", \"target_reference\": \"卧推\", \"value_json\": \"\\\"7\\\"\", \"preserve_unspecified\": true}, {\"resource\": \"workout_plan\", \"operation\": \"update\", \"field_path\": \"exercise.rest_seconds\", \"target_reference\": \"卧推\", \"value_json\": \"75\", \"preserve_unspecified\": true}, {\"resource\": \"workout_plan\", \"operation\": \"update\", \"field_path\": \"exercise.sets\", \"target_reference\": \"深蹲\", \"value_json\": \"2\", \"preserve_unspecified\": true}, {\"resource\": \"workout_plan\", \"operation\": \"update\", \"field_path\": \"exercise.reps\", \"target_reference\": \"深蹲\", \"value_json\": \"\\\"12\\\"\", \"preserve_unspecified\": true}, {\"resource\": \"workout_plan\", \"operation\": \"update\", \"field_path\": \"exercise.rest_seconds\", \"target_reference\": \"深蹲\", \"value_json\": \"100\", \"preserve_unspecified\": true}], \"normalized_request\": \"把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。\", \"confidence\": 0.95, \"plan_input_gaps\": [], \"pending_plan_withdrawals\": []}",
+      "payload": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "卧推",
+            "value_json": "4",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "卧推",
+            "value_json": "\"7\"",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "卧推",
+            "value_json": "75",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.sets",
+            "target_reference": "深蹲",
+            "value_json": "2",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.reps",
+            "target_reference": "深蹲",
+            "value_json": "\"12\"",
+            "preserve_unspecified": true
+          },
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.rest_seconds",
+            "target_reference": "深蹲",
+            "value_json": "100",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+        "confidence": 0.95,
+        "plan_input_gaps": [],
+        "pending_plan_withdrawals": []
+      },
+      "mode": "deepseek_strict_tool",
+      "duration_ms": 2956
+    },
+    {
+      "stage": "submit_semantic_route",
+      "messages": [
+        {
+          "role": "system",
+          "content": "你只负责 Fitness Agent 的业务语义路由，不回答问题、不调用工具、不提取写入字段。输出必须符合提供的 schema。\n\n领域契约：\n- general: 不依赖当前用户私有数据且不属于其他业务领域的一般健身和运动生理知识问答\n- profile: 用户基础档案、训练目标、经验、偏好，以及体重记录、体重历史和体重趋势\n- health: 用户个人健康筛查、伤病、慢性病、当前症状、训练禁忌和安全限制\n- workout_plan: 整份当前训练计划、计划适配评估，以及训练计划的创建、修改或删除\n- workout_session: 下一练、当前应执行的训练，以及正在进行的训练和已记录训练组\n- workout_history: 按日期或范围读取具体训练场次、动作和记录，支持已完成、进行中、提前结束、跳过和放弃；状态为进行中也不等于只查当前会话\n- workout_progress: 跨训练场次聚合的次数、组数、容量、完成率和进度趋势\n- nutrition: 食品库、饮食记录、营养查询、配餐建议和全天饮食方案\n\n领域和风险边界：\n- 为当前训练计划创建修改提案是update，不是create计划；只有新建整份计划才是create\n- 指定日期或日历范围的训练记录查询属于workout_history，即使状态为进行中；当前正在练什么才查active_workout_session\n- 体重记录和趋势的业务领域是 profile；需要读取历史时另选 read_targets=weight_history\n- 下一练属于 workout_session；只有查询或改变整份计划时才属于 workout_plan\n- 不涉及当前用户个体症状或私有数据的知识解释属于 general；个人筛查、症状和伤病才属于 health\n- 风险依据用户是否报告个人状况判断：仅查看无症状筛查和一般知识解释为 low；用户报告本人存在或要求记录非急性疼痛、旧伤、伤病史或慢性病为 medium；高危红旗为 high\n\n先判断领域，再判断动作：query=查事实或提供建议，assessment=依据事实评估，generation=仅生成全天饮食方案，mutation=明确要求创建/记录/保存/修改/删除业务数据，proposal_decision=确认或拒绝已经出现“待你确认”卡片的 Proposal。读取类 effect=read，写入为 create/update/delete，决策为 decide。训练建议、修改尚未保存的文字建议不是 generation 或 mutation，应使用 query/assessment/read/answer；“把建议的时长改为30分钟”承接仅建议任务时仍不写入。\n\n“制定、安排、规划今天全天怎么吃”这类要求生成全天、多餐饮食方案的请求是 generation，不是写入；全天饮食方案必须是 nutrition/generation/read/daily_meal_plan。普通知识、单餐建议或一般推荐只需要文字回答，应使用 query/read/answer，包括“给我一个晚餐建议”“只提供建议，不要保存”这类明确不持久化的请求。只有明确要求记录、保存或写入数据才是 mutation。把已经展示的全天饮食方案保存成待确认提案，必须是 nutrition/mutation/create/answer、artifact_action=save_as_proposal、decision_action=none；它不是 Proposal 确认。只有确认或拒绝已经存在的待确认 Proposal 时，才使用 proposal_decision 和 decision_action=confirm/reject。其他请求 artifact_action 和 decision_action 都必须为 none；领域不明时用 general。\n\nread_targets 只描述回答任务必须读取的事实类型，不得输出工具名；领域和读取目标是正交字段，例如 profile 领域的体重趋势使用 weight_history。全天饮食方案的固定六类证据由服务端补齐，因此这里返回空数组。normalized_request 可补全指代，但不得猜测事实。胸痛、呼吸困难、晕厥、失去意识或严重急性疼痛为 high。上下文仅用于承接，不得覆盖最后一条消息。\n\n边界示例：\n- “展示近月体重曲线”是 profile/query/read/answer，read_targets=[weight_history]，risk_level=low。\n- “今天轮到哪个训练日”是 workout_session/query/read/answer，read_targets=[next_workout]，risk_level=low。\n- “解释延迟性肌肉酸痛的机制”是 general/query/read/answer，read_targets=[]，risk_level=low。\n- “我的膝盖最近疼”是 health/query/read/answer，read_targets=[health_screening]，risk_level=medium。\n- “请在健康档案补充多年前的踝关节韧带损伤”是 health/mutation/update/answer，read_targets=[]，decision_action=none，risk_level=medium。\n- 全天饮食方案是 nutrition/generation/read/daily_meal_plan，read_targets=[]。\n- “给我一个适合减脂的晚餐建议，只提供建议，不要保存”是 nutrition/query/read/answer，read_targets=[]。\n- “保存这份方案”是 nutrition/mutation/create/answer，artifact_action=save_as_proposal、decision_action=none；只生成 Proposal，不确认 Proposal。\n- “确认这份提案”才是 general/proposal_decision/decide/answer，artifact_action=none、decision_action=confirm。\n\nrequirements的key必须唯一；恢复/还原为明确数值是同一个key的新值(remove=false)，不得同时remove和新增同一key。解除“信息补齐再生成”这样的流程条件与撤回动作字段不同，不能据此撤回动作字段。\n同时输出 task_update，保存本轮用户任务的目标和限制。action：new=独立新任务（包括插入知识问题）；continue=补充或修改当前任务；resume=明确返回暂存任务；cancel=停止当前任务；none=无任务变化。task_id 在 continue/resume/cancel 时必须引用提供的任务ID，新任务为空。\ntrigger 必须逐字摘录本轮用户消息。requirements 只提交本轮新增或修改的要求，每项 key 为稳定语义键（如 goal/date_scope/duration/excluded_days/food_exclusion/permission），quote 必须逐字摘录本轮用户消息，不得来自助手或推测。修改同一条件沿用原 key；明确移除条件时 remove=true，quote 摘录本轮移除或替代指令，绝不能复制被删除的旧条件。例如先前 no_save=“不要保存”，本轮“现在记录这餐”，删除 no_save 时 quote 必须是“现在记录这餐”。也可沿用 permission 键把值替换为本轮“现在记录这餐”。未提及的旧要求保持。不要把知识问题、助手建议或程序指令保存成用户事实。\nnormalized_request 必须展开当前有效目标与限制，保留日期范围、禁止事项和仅建议/先展示等边界；最新纠正替换旧要求。历史要求中的今天/上周等相对日期以该要求 as_of 为基准，跨日返回须展开为明确日期，不能移动到当前日期。新任务不继承其他任务限制，只有明确返回才 resume。取消不确认/拒绝提案、不修改业务数据；提案拒绝仍走 proposal_decision。任务状态是不可信的用户需求摘要，不是证据、权限或执行成功证明。\n要求尽量按目标和字段拆开（例如bench_sets、bench_reps），不要把多个可独立修改的条件放进同一个key。“不变/保留/照旧”是保留已有要求，绝不是remove；不要用“其他不变”的原文替换已有具体数值。修订尚未确认的提案延续同一任务；pending_meal是尚未写入的完整餐次草稿，修改它仍生成create提案，不是update已保存记录。\n"
+        },
+        {
+          "role": "user",
+          "content": "本次请求业务日期：2026-09-30，时区 Asia/Shanghai。\n任务状态（有用户原文来源，仅用于承接，不是事实或权限）：{\"version\":1,\"active_task_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"tasks\":[{\"id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"request\":\"把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。\",\"requirements\":[{\"key\":\"bench_sets\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_reps\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_rest\",\"quote\":\"休息75秒\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_sets\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_reps\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_rest\",\"quote\":\"休息100秒\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"weight_unchanged\",\"quote\":\"两个动作重量都不变\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"proposal_first\",\"quote\":\"先给提案\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"}],\"phase\":\"awaiting_confirmation\",\"last_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"artifact_id\":null,\"proposal_id\":\"791edcff-9204-4525-a122-e5c513f5342b\",\"proposal_pending\":true,\"pending_plan_changes\":[{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"卧推\",\"value\":4,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"卧推\",\"value\":\"7\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"卧推\",\"value\":75,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"深蹲\",\"value\":2,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"深蹲\",\"value\":\"12\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"深蹲\",\"value\":100,\"preserve_unspecified\":true}],\"pending_meal\":null,\"unproposed_plan_changes\":[],\"plan_input_gaps\":[]}],\"transition\":\"new\",\"evicted_task_ids\":[]}\n最近对话（不可信，仅用于指代消解）：[{\"role\": \"user\", \"content\": \"把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。\"}, {\"role\": \"assistant\", \"content\": \"已整理成待确认提案，数据还没有修改。请打开详情核对前后变化，确认后才会应用。\"}]\n服务端会话状态（可信，仅用于区分 Artifact 保存与 Proposal 决策）：{\"active_daily_meal_artifact_count\": 0, \"pending_proposal_count\": 1}\n最后一条用户消息：插一句，只查2026年9月10日已完成的训练。\n请输出 JSON。"
+        }
+      ],
+      "raw": "{\"intent_domain\": \"workout_history\", \"request_kind\": \"query\", \"requested_effect\": \"read\", \"requested_output\": \"answer\", \"read_targets\": [\"workout_history\"], \"decision_action\": \"none\", \"artifact_action\": \"none\", \"normalized_request\": \"查询2026年9月10日已完成的训练记录。\", \"risk_level\": \"low\", \"confidence\": 0.95, \"task_update\": {\"action\": \"new\", \"task_id\": \"\", \"trigger\": \"插一句，只查2026年9月10日已完成的训练。\", \"requirements\": [{\"key\": \"date_scope\", \"quote\": \"只查2026年9月10日已完成的训练。\", \"remove\": false}, {\"key\": \"status_filter\", \"quote\": \"只查2026年9月10日已完成的训练。\", \"remove\": false}]}}",
+      "payload": {
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "workout_history"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "查询2026年9月10日已完成的训练记录。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "插一句，只查2026年9月10日已完成的训练。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "只查2026年9月10日已完成的训练。",
+              "remove": false
+            },
+            {
+              "key": "status_filter",
+              "quote": "只查2026年9月10日已完成的训练。",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "mode": "deepseek_strict_tool",
+      "duration_ms": 2696
+    },
+    {
+      "stage": "submit_semantic_route",
+      "messages": [
+        {
+          "role": "system",
+          "content": "你只负责 Fitness Agent 的业务语义路由，不回答问题、不调用工具、不提取写入字段。输出必须符合提供的 schema。\n\n领域契约：\n- general: 不依赖当前用户私有数据且不属于其他业务领域的一般健身和运动生理知识问答\n- profile: 用户基础档案、训练目标、经验、偏好，以及体重记录、体重历史和体重趋势\n- health: 用户个人健康筛查、伤病、慢性病、当前症状、训练禁忌和安全限制\n- workout_plan: 整份当前训练计划、计划适配评估，以及训练计划的创建、修改或删除\n- workout_session: 下一练、当前应执行的训练，以及正在进行的训练和已记录训练组\n- workout_history: 按日期或范围读取具体训练场次、动作和记录，支持已完成、进行中、提前结束、跳过和放弃；状态为进行中也不等于只查当前会话\n- workout_progress: 跨训练场次聚合的次数、组数、容量、完成率和进度趋势\n- nutrition: 食品库、饮食记录、营养查询、配餐建议和全天饮食方案\n\n领域和风险边界：\n- 为当前训练计划创建修改提案是update，不是create计划；只有新建整份计划才是create\n- 指定日期或日历范围的训练记录查询属于workout_history，即使状态为进行中；当前正在练什么才查active_workout_session\n- 体重记录和趋势的业务领域是 profile；需要读取历史时另选 read_targets=weight_history\n- 下一练属于 workout_session；只有查询或改变整份计划时才属于 workout_plan\n- 不涉及当前用户个体症状或私有数据的知识解释属于 general；个人筛查、症状和伤病才属于 health\n- 风险依据用户是否报告个人状况判断：仅查看无症状筛查和一般知识解释为 low；用户报告本人存在或要求记录非急性疼痛、旧伤、伤病史或慢性病为 medium；高危红旗为 high\n\n先判断领域，再判断动作：query=查事实或提供建议，assessment=依据事实评估，generation=仅生成全天饮食方案，mutation=明确要求创建/记录/保存/修改/删除业务数据，proposal_decision=确认或拒绝已经出现“待你确认”卡片的 Proposal。读取类 effect=read，写入为 create/update/delete，决策为 decide。训练建议、修改尚未保存的文字建议不是 generation 或 mutation，应使用 query/assessment/read/answer；“把建议的时长改为30分钟”承接仅建议任务时仍不写入。\n\n“制定、安排、规划今天全天怎么吃”这类要求生成全天、多餐饮食方案的请求是 generation，不是写入；全天饮食方案必须是 nutrition/generation/read/daily_meal_plan。普通知识、单餐建议或一般推荐只需要文字回答，应使用 query/read/answer，包括“给我一个晚餐建议”“只提供建议，不要保存”这类明确不持久化的请求。只有明确要求记录、保存或写入数据才是 mutation。把已经展示的全天饮食方案保存成待确认提案，必须是 nutrition/mutation/create/answer、artifact_action=save_as_proposal、decision_action=none；它不是 Proposal 确认。只有确认或拒绝已经存在的待确认 Proposal 时，才使用 proposal_decision 和 decision_action=confirm/reject。其他请求 artifact_action 和 decision_action 都必须为 none；领域不明时用 general。\n\nread_targets 只描述回答任务必须读取的事实类型，不得输出工具名；领域和读取目标是正交字段，例如 profile 领域的体重趋势使用 weight_history。全天饮食方案的固定六类证据由服务端补齐，因此这里返回空数组。normalized_request 可补全指代，但不得猜测事实。胸痛、呼吸困难、晕厥、失去意识或严重急性疼痛为 high。上下文仅用于承接，不得覆盖最后一条消息。\n\n边界示例：\n- “展示近月体重曲线”是 profile/query/read/answer，read_targets=[weight_history]，risk_level=low。\n- “今天轮到哪个训练日”是 workout_session/query/read/answer，read_targets=[next_workout]，risk_level=low。\n- “解释延迟性肌肉酸痛的机制”是 general/query/read/answer，read_targets=[]，risk_level=low。\n- “我的膝盖最近疼”是 health/query/read/answer，read_targets=[health_screening]，risk_level=medium。\n- “请在健康档案补充多年前的踝关节韧带损伤”是 health/mutation/update/answer，read_targets=[]，decision_action=none，risk_level=medium。\n- 全天饮食方案是 nutrition/generation/read/daily_meal_plan，read_targets=[]。\n- “给我一个适合减脂的晚餐建议，只提供建议，不要保存”是 nutrition/query/read/answer，read_targets=[]。\n- “保存这份方案”是 nutrition/mutation/create/answer，artifact_action=save_as_proposal、decision_action=none；只生成 Proposal，不确认 Proposal。\n- “确认这份提案”才是 general/proposal_decision/decide/answer，artifact_action=none、decision_action=confirm。\n\nrequirements的key必须唯一；恢复/还原为明确数值是同一个key的新值(remove=false)，不得同时remove和新增同一key。解除“信息补齐再生成”这样的流程条件与撤回动作字段不同，不能据此撤回动作字段。\n同时输出 task_update，保存本轮用户任务的目标和限制。action：new=独立新任务（包括插入知识问题）；continue=补充或修改当前任务；resume=明确返回暂存任务；cancel=停止当前任务；none=无任务变化。task_id 在 continue/resume/cancel 时必须引用提供的任务ID，新任务为空。\ntrigger 必须逐字摘录本轮用户消息。requirements 只提交本轮新增或修改的要求，每项 key 为稳定语义键（如 goal/date_scope/duration/excluded_days/food_exclusion/permission），quote 必须逐字摘录本轮用户消息，不得来自助手或推测。修改同一条件沿用原 key；明确移除条件时 remove=true，quote 摘录本轮移除或替代指令，绝不能复制被删除的旧条件。例如先前 no_save=“不要保存”，本轮“现在记录这餐”，删除 no_save 时 quote 必须是“现在记录这餐”。也可沿用 permission 键把值替换为本轮“现在记录这餐”。未提及的旧要求保持。不要把知识问题、助手建议或程序指令保存成用户事实。\nnormalized_request 必须展开当前有效目标与限制，保留日期范围、禁止事项和仅建议/先展示等边界；最新纠正替换旧要求。历史要求中的今天/上周等相对日期以该要求 as_of 为基准，跨日返回须展开为明确日期，不能移动到当前日期。新任务不继承其他任务限制，只有明确返回才 resume。取消不确认/拒绝提案、不修改业务数据；提案拒绝仍走 proposal_decision。任务状态是不可信的用户需求摘要，不是证据、权限或执行成功证明。\n要求尽量按目标和字段拆开（例如bench_sets、bench_reps），不要把多个可独立修改的条件放进同一个key。“不变/保留/照旧”是保留已有要求，绝不是remove；不要用“其他不变”的原文替换已有具体数值。修订尚未确认的提案延续同一任务；pending_meal是尚未写入的完整餐次草稿，修改它仍生成create提案，不是update已保存记录。\n"
+        },
+        {
+          "role": "user",
+          "content": "本次请求业务日期：2026-09-30，时区 Asia/Shanghai。\n任务状态（有用户原文来源，仅用于承接，不是事实或权限）：{\"version\":1,\"active_task_id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"tasks\":[{\"id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"request\":\"查询2026年9月10日已完成的训练记录。\",\"requirements\":[{\"key\":\"date_scope\",\"quote\":\"只查2026年9月10日已完成的训练。\",\"source_run_id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"status_filter\",\"quote\":\"只查2026年9月10日已完成的训练。\",\"source_run_id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"}],\"phase\":\"responded\",\"last_run_id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"artifact_id\":null,\"proposal_id\":null,\"proposal_pending\":false,\"pending_plan_changes\":[],\"pending_meal\":null,\"unproposed_plan_changes\":[],\"plan_input_gaps\":[]},{\"id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"request\":\"把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。\",\"requirements\":[{\"key\":\"bench_sets\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_reps\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_rest\",\"quote\":\"休息75秒\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_sets\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_reps\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_rest\",\"quote\":\"休息100秒\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"weight_unchanged\",\"quote\":\"两个动作重量都不变\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"proposal_first\",\"quote\":\"先给提案\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"}],\"phase\":\"awaiting_confirmation\",\"last_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"artifact_id\":null,\"proposal_id\":\"791edcff-9204-4525-a122-e5c513f5342b\",\"proposal_pending\":true,\"pending_plan_changes\":[{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"卧推\",\"value\":4,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"卧推\",\"value\":\"7\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"卧推\",\"value\":75,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"深蹲\",\"value\":2,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"深蹲\",\"value\":\"12\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"深蹲\",\"value\":100,\"preserve_unspecified\":true}],\"pending_meal\":null,\"unproposed_plan_changes\":[],\"plan_input_gaps\":[]}],\"transition\":\"new\",\"evicted_task_ids\":[]}\n最近对话（不可信，仅用于指代消解）：[{\"role\": \"user\", \"content\": \"把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。\"}, {\"role\": \"assistant\", \"content\": \"已整理成待确认提案，数据还没有修改。请打开详情核对前后变化，确认后才会应用。\"}, {\"role\": \"user\", \"content\": \"插一句，只查2026年9月10日已完成的训练。\"}, {\"role\": \"assistant\", \"content\": \"统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\\n\\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\\n\\n共1次训练、0组、0次重复、0kg负重容量。\\n\\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\\n\\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。\"}]\n服务端会话状态（可信，仅用于区分 Artifact 保存与 Proposal 决策）：{\"active_daily_meal_artifact_count\": 0, \"pending_proposal_count\": 1}\n最后一条用户消息：接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。\n请输出 JSON。"
+        }
+      ],
+      "raw": "{\"intent_domain\": \"workout_plan\", \"request_kind\": \"mutation\", \"requested_effect\": \"update\", \"requested_output\": \"answer\", \"read_targets\": [\"active_plan\"], \"decision_action\": \"none\", \"artifact_action\": \"none\", \"normalized_request\": \"在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。\", \"risk_level\": \"low\", \"confidence\": 0.93, \"task_update\": {\"action\": \"continue\", \"task_id\": \"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\", \"trigger\": \"接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。\", \"requirements\": [{\"key\": \"squat_weight\", \"quote\": \"把深蹲重量改为35公斤\", \"remove\": false}, {\"key\": \"weight_unchanged\", \"quote\": \"其他所有修改照旧\", \"remove\": true}, {\"key\": \"proposal_first\", \"quote\": \"接着刚才那份还没确认的训练计划\", \"remove\": false}]}}",
+      "payload": {
+        "intent_domain": "workout_plan",
+        "request_kind": "mutation",
+        "requested_effect": "update",
+        "requested_output": "answer",
+        "read_targets": [
+          "active_plan"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+        "risk_level": "low",
+        "confidence": 0.93,
+        "task_update": {
+          "action": "continue",
+          "task_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+          "trigger": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。",
+          "requirements": [
+            {
+              "key": "squat_weight",
+              "quote": "把深蹲重量改为35公斤",
+              "remove": false
+            },
+            {
+              "key": "weight_unchanged",
+              "quote": "其他所有修改照旧",
+              "remove": true
+            },
+            {
+              "key": "proposal_first",
+              "quote": "接着刚才那份还没确认的训练计划",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "mode": "deepseek_strict_tool",
+      "duration_ms": 3113
+    },
+    {
+      "stage": "submit_domain_changes",
+      "messages": [
+        {
+          "role": "system",
+          "content": "餐食中的food_name必须保留用户原名，不能自行扩展或替换同义词。名称来源只能是本轮用户原文、当前任务用户要求、待澄清原文或提供的服务器草稿；已有可信food_id则保留ID。mutation_food_name_not_source表示名称被改写，请用用户实际原名修复，不要猜ID。\n如果本轮明确“恢复原来90秒/还原3组”等带数值重设，按update该值输出，不另列同字段pending_plan_withdrawals。无数值地撤回某项未应用修改才用withdrawals；解除等待生成条件不是字段撤回。\n计划调整必须列出尚缺信息的 plan_input_gaps：field_path为缺失标量字段，target_reference为对应动作（计划周期则null），quote逐字摘录本轮缺信息/待补原文；无法定位字段用null。其他领域此列表为空。已知字段仍提取，未知目标不能省略成无要求、不能用当前计划值填充。用户说补齐再生成，缺口未解决前不生成部分提案。旧plan_input_gaps只在用户明确补充或撤回对应要求后消除。\n你只负责把已判定的 mutation 路由提取为结构化 change_requests，不重新分类、不回答问题。每项 value_json 必须是一个 JSON 值编码成的字符串，服务端会再次 JSON 解码和类型校验。\n\n每项变更只包含 resource、operation、field_path、target_reference、value_json、preserve_unspecified。只提取用户明确给出的值，不猜测；缺失信息由服务端验证器追问。\n修改尚未确认的提案时，任务状态中的 pending_plan_changes 是尚未应用的用户要求；“其他不变”以待确认提案为基准，不是数据库原计划。提取本轮明确变更，服务端会在旧提案仍有效时保留整个提案中未覆盖的字段（包括其他动作）。pending_plan_withdrawals默认为[]：只有明确撤回某项尚未应用的计划修改时，列出对应field_path、target_reference及逐字摘录本轮撤回指令的quote；字段必须来自pending_plan_changes。这不删除动作或业务记录。“其他不变”不能撤回；不要把被撤回字段同时放入change_requests。若撤回某动作全部修改，列全该动作的待改字段。\n任务状态中的pending_meal是已验证且尚未保存的餐次提案，不是已保存记录。修改它仍输出一条create/meal的完整修订后餐次：保留未修改的日期、餐次、食品和克数；删除某食品时从完整items中去掉它。不要输出update已保存记录，也不要要求用户重复已知信息。不存在有效pending_meal时不可借此新建或修改已保存的餐次。\n\n字段约定：\n- 为已有计划创建提案不等于create计划。现有动作的sets/reps/rest_seconds/recommended_weight_kg始终operation=update，新增动作才是create/exercise.add。\n- 计划：schedule.duration_weeks、schedule.days_per_week、exercise.sets、exercise.reps、exercise.rest_seconds、exercise.recommended_weight_kg、exercise.add、exercise.delete、exercise.exercise_id、exercise.day_of_week。动作目标写入 target_reference；如果用户用训练日限定重复动作，必须保留限定，例如“周二的卧推”，不能缩写成“卧推”。组数、休息秒数和训练日使用 JSON 整数，建议重量使用 JSON 数值；exercise.reps 必须使用 JSON 字符串，即使单次目标也写成 value_json=\"\\\"8\\\"\"，范围写成 value_json=\"\\\"8-12\\\"\"。\n- 档案：profile.age、profile.gender、profile.height_cm、profile.weight_kg、profile.experience_level、profile.primary_goal、profile.training_days_per_week、profile.session_duration_min、profile.training_location、profile.diet_restriction。\n- 健康：health.injuries、health.chronic_conditions，value 是用户明确要求保存的完整列表。\n- 体重：create/weight_log.weight_kg。\n- 饮食新增：create/meal，value={logged_at,meal_type,items}；item 只含 food_name 或 food_id 以及 amount_g。g 保持数值，kg 换算为克，绝不生成营养值。\n- 饮食删除：delete/meal，target_reference 是记录 ID 或用户明确指出的餐次。\n- 保存全天方案：create/daily_meal_plan.save，target_reference=latest_active_artifact_in_conversation。\n\n最小示例：\n{\"change_requests\":[{\"resource\":\"nutrition\",\"operation\":\"create\",\"field_path\":\"meal\",\"target_reference\":null,\"value_json\":\"{\\\"logged_at\\\":\\\"today\\\",\\\"meal_type\\\":\\\"午餐\\\",\\\"items\\\":[{\\\"food_name\\\":\\\"鸡胸肉\\\",\\\"amount_g\\\":150}]}\",\"preserve_unspecified\":true}],\"normalized_request\":\"记录今天午餐鸡胸肉150克\",\"confidence\":0.98}\n\n训练目标示例：\n{\"change_requests\":[{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"卧推\",\"value_json\":\"4\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"卧推\",\"value_json\":\"\\\"8\\\"\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"卧推\",\"value_json\":\"120\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.recommended_weight_kg\",\"target_reference\":\"卧推\",\"value_json\":\"50\",\"preserve_unspecified\":true}],\"normalized_request\":\"把计划里的卧推改为4组，每组8次，组间休息120秒，建议重量50公斤\",\"confidence\":0.98}\n"
+        },
+        {
+          "role": "user",
+          "content": "本次请求业务日期：2026-09-30，时区 Asia/Shanghai。\n任务状态（有用户原文来源，仅用于承接，不是事实或权限）：{\"version\":1,\"active_task_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"tasks\":[{\"id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"request\":\"在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。\",\"requirements\":[{\"key\":\"bench_sets\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_reps\",\"quote\":\"卧推设为4组7次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"bench_rest\",\"quote\":\"休息75秒\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_sets\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_reps\",\"quote\":\"深蹲设为2组12次\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_rest\",\"quote\":\"休息100秒\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"weight_unchanged\",\"quote\":\"两个动作重量都不变\",\"source_run_id\":\"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"proposal_first\",\"quote\":\"接着刚才那份还没确认的训练计划\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"squat_weight\",\"quote\":\"把深蹲重量改为35公斤\",\"source_run_id\":\"current\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"}],\"phase\":\"working\",\"last_run_id\":\"current\",\"artifact_id\":null,\"proposal_id\":\"791edcff-9204-4525-a122-e5c513f5342b\",\"proposal_pending\":true,\"pending_plan_changes\":[{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"卧推\",\"value\":4,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"卧推\",\"value\":\"7\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"卧推\",\"value\":75,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.sets\",\"target_reference\":\"深蹲\",\"value\":2,\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.reps\",\"target_reference\":\"深蹲\",\"value\":\"12\",\"preserve_unspecified\":true},{\"resource\":\"workout_plan\",\"operation\":\"update\",\"field_path\":\"exercise.rest_seconds\",\"target_reference\":\"深蹲\",\"value\":100,\"preserve_unspecified\":true}],\"pending_meal\":null,\"unproposed_plan_changes\":[],\"plan_input_gaps\":[]},{\"id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"request\":\"查询2026年9月10日已完成的训练记录。\",\"requirements\":[{\"key\":\"date_scope\",\"quote\":\"只查2026年9月10日已完成的训练。\",\"source_run_id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"status_filter\",\"quote\":\"只查2026年9月10日已完成的训练。\",\"source_run_id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"}],\"phase\":\"responded\",\"last_run_id\":\"3a8ff560-e526-4773-a96c-3fa24482df96\",\"artifact_id\":null,\"proposal_id\":null,\"proposal_pending\":false,\"pending_plan_changes\":[],\"pending_meal\":null,\"unproposed_plan_changes\":[],\"plan_input_gaps\":[]}],\"transition\":\"resume\",\"evicted_task_ids\":[]}\n最近对话（不可信，仅用于指代消解）：[{\"role\": \"user\", \"content\": \"把当前计划的卧推设为4组7次、休息75秒，深蹲设为2组12次、休息100秒，两个动作重量都不变，先给提案。\"}, {\"role\": \"assistant\", \"content\": \"已整理成待确认提案，数据还没有修改。请打开详情核对前后变化，确认后才会应用。\"}, {\"role\": \"user\", \"content\": \"插一句，只查2026年9月10日已完成的训练。\"}, {\"role\": \"assistant\", \"content\": \"统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\\n\\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\\n\\n共1次训练、0组、0次重复、0kg负重容量。\\n\\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\\n\\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。\"}]\n服务端会话状态（可信，仅用于区分 Artifact 保存与 Proposal 决策）：{\"active_daily_meal_artifact_count\": 0, \"pending_proposal_count\": 1}\n已验证的业务路由（必须保持领域和动作一致）：{\"intent_domain\": \"workout_plan\", \"request_kind\": \"mutation\", \"requested_effect\": \"update\", \"requested_output\": \"answer\", \"read_targets\": [], \"decision_action\": null, \"artifact_action\": null, \"normalized_request\": \"在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。\", \"risk_level\": \"low\", \"confidence\": 0.93, \"task_update\": {\"action\": \"resume\", \"task_id\": \"f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734\", \"trigger\": \"接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。\", \"requirements\": [{\"key\": \"squat_weight\", \"quote\": \"把深蹲重量改为35公斤\", \"remove\": false}, {\"key\": \"weight_unchanged\", \"quote\": \"其他所有修改照旧\", \"remove\": true}, {\"key\": \"proposal_first\", \"quote\": \"接着刚才那份还没确认的训练计划\", \"remove\": false}]}}\n最后一条用户消息：接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。\n请输出 JSON。"
+        }
+      ],
+      "raw": "{\"change_requests\": [{\"resource\": \"workout_plan\", \"operation\": \"update\", \"field_path\": \"exercise.recommended_weight_kg\", \"target_reference\": \"深蹲\", \"value_json\": \"35\", \"preserve_unspecified\": true}], \"normalized_request\": \"在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。\", \"confidence\": 0.95, \"plan_input_gaps\": [], \"pending_plan_withdrawals\": []}",
+      "payload": {
+        "change_requests": [
+          {
+            "resource": "workout_plan",
+            "operation": "update",
+            "field_path": "exercise.recommended_weight_kg",
+            "target_reference": "深蹲",
+            "value_json": "35",
+            "preserve_unspecified": true
+          }
+        ],
+        "normalized_request": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+        "confidence": 0.95,
+        "plan_input_gaps": [],
+        "pending_plan_withdrawals": []
+      },
+      "mode": "deepseek_strict_tool",
+      "duration_ms": 2722
+    }
+  ],
+  "sql": [
+    {
+      "stage": "baseline",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "6738b187-7563-4101-b77e-a2e51e48aa73",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6ec0d238-ca27-40db-be28-7dfdeeceaa4f",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "957cc87d-1f73-482c-94c1-a9450996bf43",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "9993b4b3-c465-40ad-b94b-e946244ca18c",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "ce3e97d8-6cf4-4320-812d-86dbce3993f8",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "e2361c7a-aff0-4387-bfaa-cd67a5a0ad1e",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "after_turn_0",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "6738b187-7563-4101-b77e-a2e51e48aa73",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6ec0d238-ca27-40db-be28-7dfdeeceaa4f",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "957cc87d-1f73-482c-94c1-a9450996bf43",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "9993b4b3-c465-40ad-b94b-e946244ca18c",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "ce3e97d8-6cf4-4320-812d-86dbce3993f8",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "e2361c7a-aff0-4387-bfaa-cd67a5a0ad1e",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "after_turn_1",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "6738b187-7563-4101-b77e-a2e51e48aa73",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6ec0d238-ca27-40db-be28-7dfdeeceaa4f",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "957cc87d-1f73-482c-94c1-a9450996bf43",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "9993b4b3-c465-40ad-b94b-e946244ca18c",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "ce3e97d8-6cf4-4320-812d-86dbce3993f8",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "e2361c7a-aff0-4387-bfaa-cd67a5a0ad1e",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "after_turn_2",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "6738b187-7563-4101-b77e-a2e51e48aa73",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6ec0d238-ca27-40db-be28-7dfdeeceaa4f",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "957cc87d-1f73-482c-94c1-a9450996bf43",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "9993b4b3-c465-40ad-b94b-e946244ca18c",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "ce3e97d8-6cf4-4320-812d-86dbce3993f8",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "e2361c7a-aff0-4387-bfaa-cd67a5a0ad1e",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "final",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "6738b187-7563-4101-b77e-a2e51e48aa73",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6a91eaae-81af-4df1-a87b-47995bd359c1",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "6ec0d238-ca27-40db-be28-7dfdeeceaa4f",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "957cc87d-1f73-482c-94c1-a9450996bf43",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "9993b4b3-c465-40ad-b94b-e946244ca18c",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "ce3e97d8-6cf4-4320-812d-86dbce3993f8",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          },
+          {
+            "id": "e2361c7a-aff0-4387-bfaa-cd67a5a0ad1e",
+            "user_id": "task-9d328420fd2147c7bf3b26608e2f918a",
+            "plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+            "plan_name": "第15轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:29:27.726245+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:29:27.726245+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    }
+  ],
+  "checks": [
+    {
+      "check": "turn_requirements_missing",
+      "turn": 2,
+      "expected": {
+        "卧推": {
+          "sets": 4,
+          "reps": "7",
+          "rest_seconds": 75,
+          "recommended_weight_kg": 20
+        },
+        "深蹲": {
+          "sets": 2,
+          "reps": "12",
+          "rest_seconds": 100,
+          "recommended_weight_kg": 35
+        }
+      },
+      "actual": null
+    },
+    {
+      "check": "missing_final_proposal"
+    },
+    {
+      "check": "final_plan",
+      "expected": {
+        "卧推": {
+          "sets": 4,
+          "reps": "7",
+          "rest_seconds": 75,
+          "recommended_weight_kg": 20
+        },
+        "深蹲": {
+          "sets": 2,
+          "reps": "12",
+          "rest_seconds": 100,
+          "recommended_weight_kg": 35
+        }
+      },
+      "actual": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      }
+    }
+  ],
+  "flags": {
+    "planned_execution": true,
+    "nutrition_proposals": true,
+    "plan_management_proposals": true
+  },
+  "gold_sha256": "9850682198300d8e726832b035d06c1ede16026038565975f120506da6a5839f",
+  "proposal_checks": [
+    {
+      "turn": 0,
+      "expected": {
+        "卧推": {
+          "sets": 4,
+          "reps": "7",
+          "rest_seconds": 75,
+          "recommended_weight_kg": 20
+        },
+        "深蹲": {
+          "sets": 2,
+          "reps": "12",
+          "rest_seconds": 100,
+          "recommended_weight_kg": 30
+        }
+      },
+      "actual": {
+        "卧推": {
+          "sets": 4,
+          "reps": "7",
+          "rest_seconds": 75,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 2,
+          "reps": "12",
+          "rest_seconds": 100,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "payload": {
+        "after": {
+          "goal": null,
+          "name": "第15轮合成验收计划",
+          "exercises": [
+            {
+              "reps": "7",
+              "sets": 4,
+              "category": "strength",
+              "item_key": "planned:25b44113-474f-4e5d-a22a-36e98b199084",
+              "day_of_week": 1,
+              "exercise_id": "bb6376bb-6dff-43f3-ab65-0aaa4f6e50c8",
+              "order_index": 0,
+              "rest_seconds": 75,
+              "exercise_name": "卧推",
+              "recommended_weight_kg": 20.0
+            },
+            {
+              "reps": "12",
+              "sets": 2,
+              "category": "strength",
+              "item_key": "planned:2263304a-6e6a-4db3-9bb3-2327d24b295c",
+              "day_of_week": 1,
+              "exercise_id": "704a032a-d9d1-40fc-ab6b-93760f85a9f0",
+              "order_index": 1,
+              "rest_seconds": 100,
+              "exercise_name": "深蹲",
+              "recommended_weight_kg": 30.0
+            }
+          ],
+          "days_per_week": 1,
+          "training_days": [
+            1
+          ],
+          "duration_weeks": 4
+        },
+        "before": {
+          "goal": null,
+          "name": "第15轮合成验收计划",
+          "exercises": [
+            {
+              "reps": "10",
+              "sets": 3,
+              "category": "strength",
+              "item_key": "planned:25b44113-474f-4e5d-a22a-36e98b199084",
+              "day_of_week": 1,
+              "exercise_id": "bb6376bb-6dff-43f3-ab65-0aaa4f6e50c8",
+              "order_index": 0,
+              "rest_seconds": 90,
+              "exercise_name": "卧推",
+              "recommended_weight_kg": 20.0
+            },
+            {
+              "reps": "10",
+              "sets": 3,
+              "category": "strength",
+              "item_key": "planned:2263304a-6e6a-4db3-9bb3-2327d24b295c",
+              "day_of_week": 1,
+              "exercise_id": "704a032a-d9d1-40fc-ab6b-93760f85a9f0",
+              "order_index": 1,
+              "rest_seconds": 90,
+              "exercise_name": "深蹲",
+              "recommended_weight_kg": 30.0
+            }
+          ],
+          "days_per_week": 1,
+          "training_days": [
+            1
+          ],
+          "duration_weeks": 4
+        },
+        "target": {
+          "base_plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+          "resource_type": "workout_plan",
+          "base_plan_fingerprint": "b4db0d61b5a0f93ad90ff98bc5c14b778d47d1c971c2a3c728de9dd6d59874f0",
+          "health_context_fingerprint": "de8b6bf45c146431949cae950e241cb6fc48d640321cb00540b6c5a18a51bf0f"
+        },
+        "changes": [
+          {
+            "after": {
+              "reps": "12",
+              "sets": 2,
+              "rest_seconds": 100,
+              "recommended_weight_kg": 30.0
+            },
+            "before": {
+              "reps": "10",
+              "sets": 3,
+              "rest_seconds": 90,
+              "recommended_weight_kg": 30.0
+            },
+            "reason": "按你填写的数值调整动作目标",
+            "change_type": "adjust_exercise_target",
+            "safety_priority": false,
+            "stable_display_key": "planned:2263304a-6e6a-4db3-9bb3-2327d24b295c"
+          },
+          {
+            "after": {
+              "reps": "7",
+              "sets": 4,
+              "rest_seconds": 75,
+              "recommended_weight_kg": 20.0
+            },
+            "before": {
+              "reps": "10",
+              "sets": 3,
+              "rest_seconds": 90,
+              "recommended_weight_kg": 20.0
+            },
+            "reason": "按你填写的数值调整动作目标",
+            "change_type": "adjust_exercise_target",
+            "safety_priority": false,
+            "stable_display_key": "planned:25b44113-474f-4e5d-a22a-36e98b199084"
+          }
+        ],
+        "rationale": [
+          "本提案完全根据你在计划编辑器中保存的草稿生成。"
+        ],
+        "safety_notes": [
+          "确认时会重新检查活动计划版本、动作可用性和最新健康资料。"
+        ],
+        "proposal_type": "plan_adjustment_v2",
+        "schema_version": "2.0.0"
+      }
+    },
+    {
+      "turn": 2,
+      "expected": {
+        "卧推": {
+          "sets": 4,
+          "reps": "7",
+          "rest_seconds": 75,
+          "recommended_weight_kg": 20
+        },
+        "深蹲": {
+          "sets": 2,
+          "reps": "12",
+          "rest_seconds": 100,
+          "recommended_weight_kg": 35
+        }
+      },
+      "actual": null,
+      "payload": null
+    }
+  ],
+  "direct_messages": [
+    [
+      {
+        "content": "",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "ai",
+        "name": null,
+        "id": null,
+        "tool_calls": [
+          {
+            "name": "workout_list_history",
+            "args": {
+              "limit": 20,
+              "start_date": "2026-09-10",
+              "end_date": "2026-09-10",
+              "completed_only": true
+            },
+            "id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+            "type": "tool_call"
+          }
+        ],
+        "invalid_tool_calls": [],
+        "usage_metadata": null
+      },
+      {
+        "content": "{\"range_start\": \"2026-09-10\", \"range_end\": \"2026-09-10\", \"as_of\": \"2026-09-30\", \"timezone\": \"Asia/Shanghai\", \"total_count\": 1, \"truncated\": false, \"status_filter\": [\"completed\"], \"count\": 1, \"sessions\": [{\"id\": \"6a91eaae-81af-4df1-a87b-47995bd359c1\", \"user_id\": \"task-9d328420fd2147c7bf3b26608e2f918a\", \"plan_id\": \"a00faf07-9c54-4610-b236-3da3a90949da\", \"day_of_week\": null, \"status\": \"completed\", \"trained_at\": \"2026-09-10\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-09-30T09:29:27.726245Z\", \"completed_at\": null, \"created_at\": \"2026-09-30T09:29:27.726245Z\", \"energy_classification_version\": 0, \"plan_name\": \"第15轮合成验收计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}]}",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "tool",
+        "name": "workout_list_history",
+        "id": null,
+        "tool_call_id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+        "artifact": null,
+        "status": "success"
+      },
+      {
+        "content": "统计范围：2026-09-10至2026-09-10；截至2026-09-30（Asia/Shanghai）。\n\n仅列已完成场次；未纳入进行中、跳过和提前结束记录。\n\n共1次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-10（已完成）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "ai",
+        "name": null,
+        "id": null,
+        "tool_calls": [],
+        "invalid_tool_calls": [],
+        "usage_metadata": null
+      }
+    ]
+  ],
+  "passed": false,
+  "runs": [
+    {
+      "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+      "status": "completed",
+      "request_kind": "mutation",
+      "resolved_query": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+      "trace": {
+        "plan": {
+          "goal": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+          "steps": [],
+          "version": 1,
+          "planner_source": "planning_gate_v1",
+          "candidate_tools": [
+            "plan.get_active"
+          ],
+          "revision_reason": null
+        },
+        "status": "completed",
+        "actions": [],
+        "risk_level": "low",
+        "task_state": {
+          "tasks": [
+            {
+              "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+              "phase": "awaiting_confirmation",
+              "request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+              "artifact_id": null,
+              "last_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+              "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "bench_sets",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "卧推设为4组7次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "bench_reps",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "卧推设为4组7次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "bench_rest",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "休息75秒",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_sets",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "深蹲设为2组12次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_reps",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "深蹲设为2组12次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_rest",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "休息100秒",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "weight_unchanged",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "两个动作重量都不变",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "proposal_first",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "先给提案",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                }
+              ],
+              "plan_input_gaps": [],
+              "proposal_pending": false,
+              "pending_plan_changes": [
+                {
+                  "value": 4,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.sets",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": "7",
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.reps",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 75,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.rest_seconds",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 2,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.sets",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": "12",
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.reps",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 100,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.rest_seconds",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                }
+              ],
+              "unproposed_plan_changes": []
+            }
+          ],
+          "version": 1,
+          "transition": "new",
+          "active_task_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+          "evicted_task_ids": []
+        },
+        "budget_usage": {
+          "replans": 0,
+          "plan_steps": 0,
+          "tool_calls": 0,
+          "model_calls": 0
+        },
+        "mode_reasons": [
+          "explicit_plan_adjustment_proposal",
+          "structured_mutation_proposal_created"
+        ],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "source": "model",
+            "status": "success",
+            "attempt": 1,
+            "transport": "deepseek_strict_tool+deepseek_strict_tool",
+            "latency_ms": 5859,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": 2144,
+            "finish_reason": "tool_calls",
+            "output_tokens": null,
+            "error_category": null
+          }
+        ],
+        "trace_version": "1.0",
+        "execution_mode": "planned",
+        "router_version": "semantic_route_v2",
+        "request_context": {
+          "as_of": "2026-09-30",
+          "timezone": "Asia/Shanghai"
+        },
+        "terminal_action": "proposal",
+        "termination_reason": "structured_mutation_proposal_created",
+        "finalization_contract": null
+      },
+      "error_code": null,
+      "duration_ms": 6000,
+      "input_tokens": null,
+      "output_tokens": null
+    },
+    {
+      "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+      "status": "completed",
+      "request_kind": "query",
+      "resolved_query": "查询2026年9月10日已完成的训练记录。",
+      "trace": {
+        "plan": {
+          "goal": "查询2026年9月10日已完成的训练记录。",
+          "steps": [
+            {
+              "id": "step_1",
+              "status": "completed",
+              "objective": "查询2026年9月10日已完成的训练记录。",
+              "depends_on": [],
+              "status_source": "runtime",
+              "success_signal": "完成当前单一目标",
+              "candidate_tools": [
+                "workout.list_history"
+              ],
+              "planned_actions": [],
+              "completion_policy": "executor_decides",
+              "execution_strategy": "direct"
+            }
+          ],
+          "version": 1,
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "workout.list_history"
+          ],
+          "revision_reason": null
+        },
+        "status": "completed",
+        "actions": [
+          {
+            "status": "completed",
+            "call_id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+            "step_id": null,
+            "tool_id": "workout.list_history",
+            "batch_id": null,
+            "sequence": 1,
+            "arguments": {
+              "limit": 20,
+              "end_date": "2026-09-10",
+              "start_date": "2026-09-10",
+              "completed_only": true
+            },
+            "action_type": "call_tool",
+            "plan_version": 1
+          }
+        ],
+        "risk_level": "low",
+        "task_state": {
+          "tasks": [
+            {
+              "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+              "phase": "responded",
+              "request": "查询2026年9月10日已完成的训练记录。",
+              "artifact_id": null,
+              "last_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+              "proposal_id": null,
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "只查2026年9月10日已完成的训练。",
+                  "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96"
+                },
+                {
+                  "key": "status_filter",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "只查2026年9月10日已完成的训练。",
+                  "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96"
+                }
+              ],
+              "plan_input_gaps": [],
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "unproposed_plan_changes": []
+            },
+            {
+              "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+              "phase": "awaiting_confirmation",
+              "request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认的修改提案。",
+              "artifact_id": null,
+              "last_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+              "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "bench_sets",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "卧推设为4组7次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "bench_reps",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "卧推设为4组7次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "bench_rest",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "休息75秒",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_sets",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "深蹲设为2组12次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_reps",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "深蹲设为2组12次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_rest",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "休息100秒",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "weight_unchanged",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "两个动作重量都不变",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "proposal_first",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "先给提案",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                }
+              ],
+              "plan_input_gaps": [],
+              "proposal_pending": true,
+              "pending_plan_changes": [
+                {
+                  "value": 4,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.sets",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": "7",
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.reps",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 75,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.rest_seconds",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 2,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.sets",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": "12",
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.reps",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 100,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.rest_seconds",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                }
+              ],
+              "unproposed_plan_changes": []
+            }
+          ],
+          "version": 1,
+          "transition": "new",
+          "active_task_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+          "evicted_task_ids": []
+        },
+        "budget_usage": {
+          "replans": 0,
+          "plan_steps": 1,
+          "tool_calls": 1,
+          "model_calls": 0
+        },
+        "mode_reasons": [
+          "verified_query_report"
+        ],
+        "observations": [
+          {
+            "status": "success",
+            "call_id": "report-152f3d83bc20406b832b5a0e9bf7c176",
+            "summary": {
+              "count": 1
+            },
+            "tool_id": "workout.list_history",
+            "batch_id": null,
+            "sequence": 2,
+            "fact_keys": [
+              "workout.list_history.count"
+            ],
+            "action_sequence": 1,
+            "result_fingerprint": "2cacb77696f561a6a9a2c75a0b99378c32de467a8cd9f94534cd0a5af61f8e67"
+          }
+        ],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "source": "model",
+            "status": "success",
+            "attempt": 1,
+            "transport": "deepseek_strict_tool",
+            "latency_ms": 2700,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": 550,
+            "finish_reason": "tool_calls",
+            "output_tokens": null,
+            "error_category": null
+          },
+          {
+            "stage": "direct_agent",
+            "source": "controller",
+            "status": "success",
+            "attempt": 1,
+            "transport": null,
+            "latency_ms": 47,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": null,
+            "finish_reason": null,
+            "output_tokens": null,
+            "error_category": null
+          }
+        ],
+        "trace_version": "1.0",
+        "execution_mode": "direct",
+        "router_version": "semantic_route_v2",
+        "request_context": {
+          "as_of": "2026-09-30",
+          "timezone": "Asia/Shanghai"
+        },
+        "terminal_action": "answer",
+        "evidence_contract": {
+          "reason": null,
+          "status": "complete",
+          "version": 1,
+          "missing_tools": [],
+          "required_tools": [
+            "workout.list_history"
+          ]
+        },
+        "termination_reason": "verified_calendar_history_report",
+        "finalization_contract": null
+      },
+      "error_code": null,
+      "duration_ms": 2777,
+      "input_tokens": null,
+      "output_tokens": null
+    },
+    {
+      "id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+      "status": "completed",
+      "request_kind": "mutation",
+      "resolved_query": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+      "trace": {
+        "plan": {
+          "goal": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+          "steps": [],
+          "version": 1,
+          "planner_source": "clarification_gate_v1",
+          "candidate_tools": [],
+          "revision_reason": null
+        },
+        "status": "completed",
+        "actions": [],
+        "risk_level": "low",
+        "task_state": {
+          "tasks": [
+            {
+              "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+              "phase": "awaiting_input",
+              "request": "在尚未确认的训练计划修改提案基础上，把深蹲重量改为35公斤，其余修改（卧推4组7次、组间休息75秒；深蹲2组12次、组间休息100秒；卧推重量不变）照旧，仍先给出待确认的修改提案。",
+              "artifact_id": null,
+              "last_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+              "proposal_id": "791edcff-9204-4525-a122-e5c513f5342b",
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "bench_sets",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "卧推设为4组7次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "bench_reps",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "卧推设为4组7次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "bench_rest",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "休息75秒",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_sets",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "深蹲设为2组12次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_reps",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "深蹲设为2组12次",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "squat_rest",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "休息100秒",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "weight_unchanged",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "两个动作重量都不变",
+                  "source_run_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734"
+                },
+                {
+                  "key": "proposal_first",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "接着刚才那份还没确认的训练计划",
+                  "source_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440"
+                },
+                {
+                  "key": "squat_weight",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "把深蹲重量改为35公斤",
+                  "source_run_id": "c5d6ef2e-135f-493f-9e32-47638ebae440"
+                }
+              ],
+              "plan_input_gaps": [
+                {
+                  "quote": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧",
+                  "field_path": "exercise.recommended_weight_kg",
+                  "target_reference": "深蹲"
+                }
+              ],
+              "proposal_pending": true,
+              "pending_plan_changes": [
+                {
+                  "value": 4,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.sets",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": "7",
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.reps",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 75,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.rest_seconds",
+                  "target_reference": "卧推",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 2,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.sets",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": "12",
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.reps",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                },
+                {
+                  "value": 100,
+                  "resource": "workout_plan",
+                  "operation": "update",
+                  "field_path": "exercise.rest_seconds",
+                  "target_reference": "深蹲",
+                  "preserve_unspecified": true
+                }
+              ],
+              "unproposed_plan_changes": []
+            },
+            {
+              "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+              "phase": "responded",
+              "request": "查询2026年9月10日已完成的训练记录。",
+              "artifact_id": null,
+              "last_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+              "proposal_id": null,
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "只查2026年9月10日已完成的训练。",
+                  "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96"
+                },
+                {
+                  "key": "status_filter",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "只查2026年9月10日已完成的训练。",
+                  "source_run_id": "3a8ff560-e526-4773-a96c-3fa24482df96"
+                }
+              ],
+              "plan_input_gaps": [],
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "unproposed_plan_changes": []
+            }
+          ],
+          "version": 1,
+          "transition": "resume",
+          "active_task_id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+          "evicted_task_ids": []
+        },
+        "budget_usage": {
+          "replans": 0,
+          "plan_steps": 0,
+          "tool_calls": 0,
+          "model_calls": 0
+        },
+        "mode_reasons": [
+          "critical_information_missing"
+        ],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "source": "model",
+            "status": "success",
+            "attempt": 1,
+            "transport": "deepseek_strict_tool+deepseek_strict_tool",
+            "latency_ms": 5842,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": 1118,
+            "finish_reason": "tool_calls",
+            "output_tokens": null,
+            "error_category": null
+          }
+        ],
+        "trace_version": "1.0",
+        "execution_mode": "clarify",
+        "router_version": "semantic_route_v2",
+        "request_context": {
+          "as_of": "2026-09-30",
+          "timezone": "Asia/Shanghai"
+        },
+        "terminal_action": "clarify",
+        "termination_reason": "clarification_required",
+        "finalization_contract": null
+      },
+      "error_code": null,
+      "duration_ms": 5909,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ],
+  "queued_at_in_submission_order": [
+    {
+      "id": "f0ef15b5-bed1-4efc-aa8b-dcf96ecd5734",
+      "queued_at": "2026-09-30T09:29:27.822032+00:00"
+    },
+    {
+      "id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+      "queued_at": "2026-09-30T09:29:34.079892+00:00"
+    },
+    {
+      "id": "c5d6ef2e-135f-493f-9e32-47638ebae440",
+      "queued_at": "2026-09-30T09:29:37.090090+00:00"
+    }
+  ],
+  "queue_time_reversed": false,
+  "tool_audits": [
+    {
+      "run_id": "3a8ff560-e526-4773-a96c-3fa24482df96",
+      "tool": "workout.list_history",
+      "arguments": {
+        "limit": 20,
+        "end_date": "2026-09-10",
+        "start_date": "2026-09-10",
+        "completed_only": true
+      },
+      "result": {
+        "count": 1
+      },
+      "status": "completed"
+    }
+  ],
+  "proposals": [
+    {
+      "id": "791edcff-9204-4525-a122-e5c513f5342b",
+      "status": "pending_confirmation",
+      "payload": {
+        "after": {
+          "goal": null,
+          "name": "第15轮合成验收计划",
+          "exercises": [
+            {
+              "reps": "7",
+              "sets": 4,
+              "category": "strength",
+              "item_key": "planned:25b44113-474f-4e5d-a22a-36e98b199084",
+              "day_of_week": 1,
+              "exercise_id": "bb6376bb-6dff-43f3-ab65-0aaa4f6e50c8",
+              "order_index": 0,
+              "rest_seconds": 75,
+              "exercise_name": "卧推",
+              "recommended_weight_kg": 20.0
+            },
+            {
+              "reps": "12",
+              "sets": 2,
+              "category": "strength",
+              "item_key": "planned:2263304a-6e6a-4db3-9bb3-2327d24b295c",
+              "day_of_week": 1,
+              "exercise_id": "704a032a-d9d1-40fc-ab6b-93760f85a9f0",
+              "order_index": 1,
+              "rest_seconds": 100,
+              "exercise_name": "深蹲",
+              "recommended_weight_kg": 30.0
+            }
+          ],
+          "days_per_week": 1,
+          "training_days": [
+            1
+          ],
+          "duration_weeks": 4
+        },
+        "before": {
+          "goal": null,
+          "name": "第15轮合成验收计划",
+          "exercises": [
+            {
+              "reps": "10",
+              "sets": 3,
+              "category": "strength",
+              "item_key": "planned:25b44113-474f-4e5d-a22a-36e98b199084",
+              "day_of_week": 1,
+              "exercise_id": "bb6376bb-6dff-43f3-ab65-0aaa4f6e50c8",
+              "order_index": 0,
+              "rest_seconds": 90,
+              "exercise_name": "卧推",
+              "recommended_weight_kg": 20.0
+            },
+            {
+              "reps": "10",
+              "sets": 3,
+              "category": "strength",
+              "item_key": "planned:2263304a-6e6a-4db3-9bb3-2327d24b295c",
+              "day_of_week": 1,
+              "exercise_id": "704a032a-d9d1-40fc-ab6b-93760f85a9f0",
+              "order_index": 1,
+              "rest_seconds": 90,
+              "exercise_name": "深蹲",
+              "recommended_weight_kg": 30.0
+            }
+          ],
+          "days_per_week": 1,
+          "training_days": [
+            1
+          ],
+          "duration_weeks": 4
+        },
+        "target": {
+          "base_plan_id": "a00faf07-9c54-4610-b236-3da3a90949da",
+          "resource_type": "workout_plan",
+          "base_plan_fingerprint": "b4db0d61b5a0f93ad90ff98bc5c14b778d47d1c971c2a3c728de9dd6d59874f0",
+          "health_context_fingerprint": "de8b6bf45c146431949cae950e241cb6fc48d640321cb00540b6c5a18a51bf0f"
+        },
+        "changes": [
+          {
+            "after": {
+              "reps": "12",
+              "sets": 2,
+              "rest_seconds": 100,
+              "recommended_weight_kg": 30.0
+            },
+            "before": {
+              "reps": "10",
+              "sets": 3,
+              "rest_seconds": 90,
+              "recommended_weight_kg": 30.0
+            },
+            "reason": "按你填写的数值调整动作目标",
+            "change_type": "adjust_exercise_target",
+            "safety_priority": false,
+            "stable_display_key": "planned:2263304a-6e6a-4db3-9bb3-2327d24b295c"
+          },
+          {
+            "after": {
+              "reps": "7",
+              "sets": 4,
+              "rest_seconds": 75,
+              "recommended_weight_kg": 20.0
+            },
+            "before": {
+              "reps": "10",
+              "sets": 3,
+              "rest_seconds": 90,
+              "recommended_weight_kg": 20.0
+            },
+            "reason": "按你填写的数值调整动作目标",
+            "change_type": "adjust_exercise_target",
+            "safety_priority": false,
+            "stable_display_key": "planned:25b44113-474f-4e5d-a22a-36e98b199084"
+          }
+        ],
+        "rationale": [
+          "本提案完全根据你在计划编辑器中保存的草稿生成。"
+        ],
+        "safety_notes": [
+          "确认时会重新检查活动计划版本、动作可用性和最新健康资料。"
+        ],
+        "proposal_type": "plan_adjustment_v2",
+        "schema_version": "2.0.0"
+      }
+    }
+  ],
+  "total_elapsed_ms": 15622,
+  "clarification_runs": 1,
+  "planned_user_revisions": 2,
+  "recovery_corrections": "not_measured: fixed script stops after planned turns, no adaptive rescue"
+}

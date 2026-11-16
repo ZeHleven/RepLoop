@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.database import get_db
-from app.deps import get_current_user
+from app.deps import get_current_user, get_billed_user
 from app.models.user import User
 from app.models.chat import ChatSession, ChatMessage
 from app.schemas.chat import ChatRequest, ChatResponse, SessionResponse, MessageResponse
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/chat", tags=["chat"])
 @router.post("", response_model=ChatResponse)
 async def chat(
     body: ChatRequest,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     if body.session_id:
@@ -46,7 +46,7 @@ async def chat(
 
 @router.get("/sessions", response_model=list[SessionResponse])
 async def list_sessions(
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     rows = (await db.execute(
@@ -61,7 +61,7 @@ async def list_sessions(
 @router.get("/sessions/{session_id}/messages", response_model=list[MessageResponse])
 async def get_messages(
     session_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_billed_user),
     db: AsyncSession = Depends(get_db),
 ):
     session = await db.scalar(

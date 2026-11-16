@@ -1,0 +1,11 @@
+.read-feedback { box-sizing: border-box; display: flex; align-items: center; justify-content: center; }
+.read-feedback--initial { min-height: 360px; padding: 72px 16px; }
+.read-feedback--compact { height: 48px; justify-content: flex-end; overflow: visible; }
+.read-wave { color: #315f48; font-size: 36px; font-weight: 500; line-height: 1.8; perspective: 500px; opacity: 0; animation: read-wave-reveal 1ms 120ms forwards; }
+.read-feedback--compact .read-wave { font-size: 24px; }
+.read-wave-char { display: inline-block; white-space: pre; transform-style: preserve-3d; animation: read-wave-letter 1.7s ease-in-out infinite; }
+@keyframes read-wave-reveal { to { opacity: 1; } }
+@keyframes read-wave-letter {
+  0%,73.5294%,100% { transform: translate3d(0,0,0) scale(1) rotateY(0); color: #315f48; }
+  36.7647% { transform: translate3d(2px,-4px,12px) scale(1.065) rotateY(6deg); color: #5f742a; }
+}

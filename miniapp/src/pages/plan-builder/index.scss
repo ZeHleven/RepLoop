@@ -1,0 +1,281 @@
+.plan-builder-page {
+  padding-bottom: 50px;
+}
+
+.builder-heading {
+  padding: 18px 4px 30px;
+}
+
+.builder-kicker,
+.builder-title,
+.builder-subtitle,
+.section-title,
+.section-value,
+.slider-label,
+.rationale-line,
+.plan-section-heading,
+.day-title,
+.day-meta,
+.day-duration,
+.exercise-name,
+.exercise-category,
+.field-label,
+.safety-title,
+.safety-line {
+  display: block;
+}
+
+.builder-kicker {
+  color: #1d6b49;
+  font-size: 24px;
+  font-weight: 750;
+}
+
+.builder-title {
+  margin-top: 8px;
+  font-size: 44px;
+  font-weight: 850;
+}
+
+.builder-subtitle {
+  margin-top: 10px;
+  color: #718178;
+  font-size: 25px;
+}
+
+.section-row,
+.day-heading,
+.exercise-topline,
+.builder-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title,
+.plan-section-heading {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.section-value {
+  color: #1d6b49;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.slider-label {
+  margin-top: 26px;
+  color: #5f7066;
+  font-size: 24px;
+}
+
+.preference-card slider {
+  margin: 8px 0 0;
+}
+
+.weekday-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.weekday-row .weekday {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: auto;
+  min-width: 100px;
+  min-height: 76px;
+  height: auto;
+  margin: 0;
+  padding: 12px 20px;
+  border: 1px solid #dce6dc;
+  border-radius: 16px;
+  background: #f4f7f2;
+  color: #53665b;
+  font-size: 26px;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.weekday-row .weekday::after { border: 0; }
+.weekday-row .weekday.selected { background: #1d6b49; border-color: #1d6b49; color: #fff; }
+.weekday-row .weekday[disabled] { opacity: 0.6; }
+.schedule-hint, .schedule-pending {
+  display: block;
+  margin-top: 14px;
+  font-size: 23px;
+  line-height: 1.6;
+  color: #5f7066;
+}
+.schedule-pending { color: #805b1a; }
+.preference-card .section-row { flex-wrap: wrap; gap: 10px; }
+
+.regenerate-button {
+  min-height: 72px;
+  margin-top: 26px;
+  font-size: 26px;
+}
+
+.rationale-card {
+  background: #edf6ef;
+}
+
+.rationale-line {
+  margin-top: 14px;
+  color: #53665b;
+  font-size: 24px;
+  line-height: 1.55;
+}
+
+.plan-section-heading {
+  margin: 38px 4px 20px;
+}
+
+.day-heading {
+  padding-bottom: 20px;
+}
+
+.day-title {
+  font-size: 31px;
+  font-weight: 820;
+}
+
+.day-meta,
+.day-duration {
+  margin-top: 5px;
+  color: #718178;
+  font-size: 23px;
+}
+
+.day-duration {
+  margin-top: 0;
+}
+
+.exercise-editor {
+  padding: 24px 0;
+  border-top: 1px solid #e7ede7;
+}
+
+.exercise-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.exercise-name {
+  font-size: 28px;
+  font-weight: 780;
+}
+
+.exercise-category {
+  margin-top: 5px;
+  color: #718178;
+  font-size: 21px;
+}
+
+.remove-action,
+.replace-action {
+  color: #1d6b49;
+  font-size: 23px;
+}
+
+.remove-action {
+  color: #9d5549;
+}
+
+.replace-action {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 9px 15px;
+  border-radius: 12px;
+  background: #edf5ef;
+}
+
+.prescription-grid {
+  display: grid;
+  margin-top: 20px;
+  grid-template-columns: 1fr 1fr 1.25fr;
+  gap: 12px;
+}
+
+.prescription-field {
+  min-width: 0;
+}
+
+.field-label {
+  margin-bottom: 8px;
+  color: #718178;
+  font-size: 20px;
+}
+
+.stepper,
+.reps-input {
+  display: flex;
+  height: 64px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #dce6dc;
+  border-radius: 15px;
+  background: #f8faf7;
+  font-size: 24px;
+}
+
+.stepper view {
+  padding: 13px 15px;
+  color: #1d6b49;
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.rest-stepper view {
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.reps-input {
+  padding: 0 14px;
+  text-align: center;
+}
+
+.safety-card {
+  margin: 28px 0;
+  padding: 26px;
+  border-radius: 24px;
+  background: #fff5df;
+  color: #6b5120;
+}
+
+.safety-title {
+  font-size: 27px;
+  font-weight: 800;
+}
+
+.safety-line {
+  margin-top: 12px;
+  font-size: 23px;
+  line-height: 1.55;
+}
+
+.builder-actions {
+  gap: 16px;
+}
+
+.builder-actions button {
+  margin: 0;
+}
+
+.save-button {
+  width: 34%;
+  flex: none;
+  font-size: 26px;
+}
+
+.start-now-button {
+  min-width: 0;
+  flex: 1;
+  font-size: 27px;
+}

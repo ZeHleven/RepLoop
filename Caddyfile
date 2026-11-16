@@ -1,3 +1,20 @@
-localhost {
+# Replace example.com with your actual domain.
+# Caddy automatically obtains and renews TLS certificates via Let's Encrypt.
+{
+    email {$CADDY_EMAIL}
+}
+
+{$DOMAIN:example.com} {
     reverse_proxy fastapi:8000
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options nosniff
+        X-Frame-Options SAMEORIGIN
+    }
+
+    log {
+        output file /var/log/caddy/access.log
+        format json
+    }
 }

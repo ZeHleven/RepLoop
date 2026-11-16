@@ -1,0 +1,32 @@
+.agent-message-content {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.agent-text-block {
+  white-space: pre-wrap;
+  & + & { margin-top: 14px; }
+}
+
+.agent-text-heading {
+  font-weight: 600;
+  font-size: inherit;
+  line-height: 1.5;
+}
+
+.agent-text-bold { font-weight: 600; }
+.agent-text-mono { font-family: monospace; }
+.agent-text-code {
+  padding: 12px;
+  border-radius: 8px;
+  background: #f1f5f0;
+  font-size: 0.9em;
+}
+.agent-text-list-item {
+  display: flex;
+  align-items: flex-start;
+  & + & { margin-top: 6px; }
+}
+.agent-list-marker { flex-shrink: 0; margin-right: 12px; }
+.agent-block-text { min-width: 0; }

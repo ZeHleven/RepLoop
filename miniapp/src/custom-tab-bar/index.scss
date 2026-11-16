@@ -1,0 +1,20 @@
+@use '../styles/capsule-layout' as capsule;
+.capsule-host { position:fixed;left:48px;right:48px;bottom:calc(#{capsule.$bottom} + env(safe-area-inset-bottom));z-index:100;color:#173226; }
+.capsule-hidden { display:none; }
+.capsule-bar { position:relative;display:flex;height:capsule.$height;box-sizing:border-box;padding:12px;border:1px solid #dfe5d6;border-radius:68px;background:#fffef6;box-shadow:0 16px 56px rgba(28,65,47,.047),0 2px 4px rgba(28,65,47,.02); }
+.capsule-pill { position:absolute;left:12px;top:12px;bottom:12px;width:calc((100% - 24px)/4);border-radius:54px;background:#e9efa9;pointer-events:none; }
+.capsule-moving { animation:capsule-travel 300ms cubic-bezier(.22,.61,.36,1) both; }
+.capsule-item { position:relative;flex:1;min-width:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:6px;padding:8px 0;color:#718074; }
+.capsule-selected { color:#1d6b49; }
+.capsule-label {font-size:23px;line-height:30px;font-weight:550;white-space:nowrap;}
+.capsule-selected .capsule-label {font-weight:650;}
+.capsule-icon {position:relative;width:44px;height:44px;transform-origin:50% 70%;}
+.capsule-image {position:absolute;left:0;top:0;width:44px;height:44px;transition:opacity 180ms ease-out;}
+.capsule-icon-playing {animation:capsule-ack 320ms ease-out both;}
+.capsule-kind-0.capsule-icon-playing {animation-name:capsule-training;}
+.capsule-kind-2.capsule-icon-playing {animation-name:capsule-chat;}
+.capsule-error {display:block;margin-bottom:12px;padding:14px 22px;border-radius:22px;background:#fff0ed;color:#9d382b;font-size:24px;line-height:1.5;}
+@keyframes capsule-travel {from{transform:translateX(var(--capsule-from));}to{transform:translateX(var(--capsule-to));}}
+@keyframes capsule-ack {0%{transform:scale(.94);}45%{transform:translateY(-4px) scale(1.035);}100%{transform:none;}}
+@keyframes capsule-training {0%{transform:rotate(-5deg) scale(.96);}48%{transform:translateY(-4px) rotate(2deg);}100%{transform:none;}}
+@keyframes capsule-chat {0%{transform:scale(.93);}50%{transform:scale(1.055);}100%{transform:none;}}

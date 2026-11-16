@@ -16,36 +16,36 @@ services:
       retries: 10
     restart: unless-stopped
 
-  redis:
-    image: redis:7-alpine
-    volumes:
-      - redis_data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-    restart: unless-stopped
+  bootstrap:
+    build: ./backend
+    env_file: .env
+    command:
+      - sh
+      - -c
+      - alembic upgrade head && python scripts/seed_exercises.py && python scripts/seed_foods.py
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
 
   fastapi:
     build: ./backend
     env_file: .env
     depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
+      bootstrap:
+        condition: service_completed_successfully
+    environment:
+      RUN_DB_MIGRATIONS_ON_STARTUP: "false"
     ports:
       - "8000:8000"
     restart: unless-stopped
 
   caddy:
-    image: caddy:2-alpine
+    image: docker.m.daocloud.io/library/caddy:2-alpine
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./Caddyfile.dev:/etc/caddy/Caddyfile
       - caddy_data:/data
     depends_on:
       - fastapi
@@ -53,5 +53,4 @@ services:
 
 volumes:
   postgres_data:
-  redis_data:
   caddy_data:

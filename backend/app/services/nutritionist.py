@@ -1,11 +1,11 @@
 import json
-import httpx
 from datetime import date
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.config import settings
 from app.models.profile import UserProfile
 from app.models.meal import MealLog, MealItem
+from app.services.ai_client import chat_completion
 
 
 async def get_daily_nutrition_advice(
@@ -67,12 +67,10 @@ async def get_daily_nutrition_advice(
         {"role": "user", "content": prompt},
     ]
 
-    async with httpx.AsyncClient() as client:
-        resp = await client.post(
-            f"{settings.DEEPSEEK_BASE_URL}/v1/chat/completions",
-            headers={"Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"},
-            json={"model": settings.DEEPSEEK_CHAT_MODEL, "messages": messages, "max_tokens": 512, "temperature": 0.5},
-            timeout=60.0,
-        )
-        resp.raise_for_status()
-        return resp.json()["choices"][0]["message"]["content"]
+    return await chat_completion(
+        messages,
+        model=settings.DEEPSEEK_REASONING_MODEL,
+        max_tokens=512,
+        temperature=0.5,
+        thinking=False,
+    )

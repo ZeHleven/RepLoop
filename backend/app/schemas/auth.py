@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, EmailStr, Field, field_validator
 
 
 class RegisterRequest(BaseModel):
@@ -37,3 +37,20 @@ class TokenResponse(BaseModel):
 
 class RefreshRequest(BaseModel):
     refresh_token: str
+
+
+class WeChatLoginRequest(BaseModel):
+    code: str = Field(min_length=1, max_length=256)
+
+    @field_validator("code")
+    @classmethod
+    def normalize_code(cls, value: str) -> str:
+        normalized = value.strip()
+        if not normalized:
+            raise ValueError("微信登录凭证不能为空")
+        return normalized
+
+
+class WeChatLoginResponse(TokenResponse):
+    is_new_user: bool
+    onboarding_completed: bool

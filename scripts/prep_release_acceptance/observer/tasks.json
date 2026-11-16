@@ -1,0 +1,93 @@
+{
+  "schema_version": "1.0",
+  "authorship": "Implementer-authored development regression. Synthetic data, not blind and not a phone replay; actual production tool trace unavailable.",
+  "fixture": {
+    "profile": {
+      "age": 30,
+      "height_cm": 170,
+      "weight_kg": 65,
+      "goal": "保持体重",
+      "training_days_per_week": 3
+    },
+    "plan": {
+      "name": "体验指标合成计划",
+      "monday": [
+        {
+          "exercise": "卧推",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 20
+        },
+        {
+          "exercise": "深蹲",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 30
+        }
+      ]
+    },
+    "workouts": [
+      {
+        "day_offset": -2,
+        "status": "completed",
+        "duration_min": 30
+      },
+      {
+        "day_offset": -1,
+        "status": "completed",
+        "duration_min": 12
+      },
+      {
+        "day_offset": 0,
+        "status": "in_progress",
+        "duration_min": null
+      }
+    ],
+    "dinners": [
+      {
+        "day_offset": -1,
+        "rice_g": 150,
+        "chicken_g": 100,
+        "calories": 360,
+        "protein_g": 35.5,
+        "carbs_g": 42,
+        "fat_g": 5.1
+      },
+      {
+        "day_offset": -2,
+        "rice_g": 100,
+        "chicken_g": 200,
+        "calories": 460,
+        "protein_g": 65,
+        "carbs_g": 28,
+        "fat_g": 8.2
+      }
+    ]
+  },
+  "cohorts": [
+    {
+      "id": "serial",
+      "client_concurrency": 1
+    }
+  ],
+  "cases": [
+    {
+      "id": "P01",
+      "category": "next_prep_short",
+      "sample_role": "reported_utterance_new_conversation",
+      "turns": [
+        "给我下一次训练的准备建议"
+      ],
+      "acceptance": "基于真实读取的合成活动计划/下一练给出准备建议；不回退未取资料，不捏造计划动作、日期或训练量；无写入或未请求提案。"
+    },
+    {
+      "id": "P02",
+      "category": "next_prep_explicit_readonly",
+      "sample_role": "original_protocol_utterance",
+      "turns": [
+        "结合我已有的计划，给下一次训练的准备建议，先不要修改。"
+      ],
+      "acceptance": "明确只读建议，结合实际计划/下一练；完整证据、无业务修改、无意外提案，不要求实际训练。"
+    }
+  ]
+}

@@ -1,0 +1,595 @@
+{
+  "fixture_version": "1.0.0",
+  "scope": {
+    "surface": "dedicated_proposal_detail_page",
+    "actions": ["confirm", "reject"],
+    "mutation_endpoint_count": 2,
+    "ui_owns_authority": false
+  },
+  "confirmation_cases": [
+    {
+      "case_id": "confirm.reviewed_and_accepted",
+      "action": "confirm",
+      "server_status": "pending_confirmation",
+      "local_expiry_state": "before",
+      "detail_reviewed": true,
+      "confirmation_required": false,
+      "user_choice": "accept",
+      "existing_journal": "none",
+      "expected": {
+        "modal": "not_required",
+        "post_attempts": 1,
+        "lock": "acquired",
+        "next_ui_state": "submitting",
+        "request_id": "create"
+      }
+    },
+    {
+      "case_id": "confirm.manual_retry_cancelled",
+      "action": "confirm",
+      "server_status": "pending_confirmation",
+      "local_expiry_state": "before",
+      "detail_reviewed": true,
+      "confirmation_required": true,
+      "user_choice": "cancel",
+      "existing_journal": "reusable",
+      "expected": {
+        "modal": "confirm_plan_adjustment",
+        "post_attempts": 0,
+        "lock": "not_acquired",
+        "next_ui_state": "pending_confirmation",
+        "request_id": "none"
+      }
+    },
+    {
+      "case_id": "reject.reviewed_and_accepted",
+      "action": "reject",
+      "server_status": "pending_confirmation",
+      "local_expiry_state": "before",
+      "detail_reviewed": true,
+      "confirmation_required": true,
+      "user_choice": "accept",
+      "existing_journal": "none",
+      "expected": {
+        "modal": "confirm_rejection",
+        "post_attempts": 1,
+        "lock": "acquired",
+        "next_ui_state": "submitting",
+        "request_id": "create"
+      }
+    },
+    {
+      "case_id": "reject.reviewed_but_cancelled",
+      "action": "reject",
+      "server_status": "pending_confirmation",
+      "local_expiry_state": "before",
+      "detail_reviewed": true,
+      "confirmation_required": true,
+      "user_choice": "cancel",
+      "existing_journal": "none",
+      "expected": {
+        "modal": "confirm_rejection",
+        "post_attempts": 0,
+        "lock": "not_acquired",
+        "next_ui_state": "pending_confirmation",
+        "request_id": "none"
+      }
+    },
+    {
+      "case_id": "confirm.full_detail_not_reviewed",
+      "action": "confirm",
+      "server_status": "pending_confirmation",
+      "local_expiry_state": "before",
+      "detail_reviewed": false,
+      "confirmation_required": false,
+      "user_choice": "accept",
+      "existing_journal": "none",
+      "expected": {
+        "modal": "blocked_until_full_detail",
+        "post_attempts": 0,
+        "lock": "not_acquired",
+        "next_ui_state": "review_required",
+        "request_id": "none"
+      }
+    },
+    {
+      "case_id": "confirm.local_expiry_requires_refresh",
+      "action": "confirm",
+      "server_status": "pending_confirmation",
+      "local_expiry_state": "at_or_after",
+      "detail_reviewed": true,
+      "confirmation_required": false,
+      "user_choice": "accept",
+      "existing_journal": "none",
+      "expected": {
+        "modal": "not_shown",
+        "post_attempts": 0,
+        "lock": "not_acquired",
+        "next_ui_state": "refresh_required",
+        "request_id": "none"
+      }
+    },
+    {
+      "case_id": "confirm.reusable_journal_still_requires_modal",
+      "action": "confirm",
+      "server_status": "pending_confirmation",
+      "local_expiry_state": "before",
+      "detail_reviewed": true,
+      "confirmation_required": true,
+      "user_choice": "accept",
+      "existing_journal": "reusable",
+      "expected": {
+        "modal": "confirm_plan_adjustment",
+        "post_attempts": 1,
+        "lock": "acquired",
+        "next_ui_state": "submitting",
+        "request_id": "reuse"
+      }
+    }
+  ],
+  "button_lock_cases": [
+    {
+      "case_id": "lock.double_tap_same_action",
+      "event": "second_confirm_tap",
+      "initial_lock": "confirm_in_flight",
+      "completion": "none",
+      "expected": {
+        "new_post_attempts": 0,
+        "new_get_attempts": 0,
+        "ignored_gestures": 1,
+        "next_lock": "confirm_in_flight",
+        "next_ui_state": "submitting"
+      }
+    },
+    {
+      "case_id": "lock.opposite_action_while_confirming",
+      "event": "reject_tap",
+      "initial_lock": "confirm_in_flight",
+      "completion": "none",
+      "expected": {
+        "new_post_attempts": 0,
+        "new_get_attempts": 0,
+        "ignored_gestures": 1,
+        "next_lock": "confirm_in_flight",
+        "next_ui_state": "submitting"
+      }
+    },
+    {
+      "case_id": "lock.refresh_while_mutation_in_flight",
+      "event": "refresh_tap",
+      "initial_lock": "reject_in_flight",
+      "completion": "none",
+      "expected": {
+        "new_post_attempts": 0,
+        "new_get_attempts": 0,
+        "ignored_gestures": 1,
+        "next_lock": "reject_in_flight",
+        "next_ui_state": "submitting"
+      }
+    },
+    {
+      "case_id": "lock.success_releases_to_terminal",
+      "event": "request_settled",
+      "initial_lock": "confirm_in_flight",
+      "completion": "applied",
+      "expected": {
+        "new_post_attempts": 0,
+        "new_get_attempts": 0,
+        "ignored_gestures": 0,
+        "next_lock": "unlocked",
+        "next_ui_state": "applied"
+      }
+    },
+    {
+      "case_id": "lock.uncertain_releases_to_verification",
+      "event": "request_settled",
+      "initial_lock": "confirm_in_flight",
+      "completion": "uncertain",
+      "expected": {
+        "new_post_attempts": 0,
+        "new_get_attempts": 1,
+        "ignored_gestures": 0,
+        "next_lock": "verification_in_flight",
+        "next_ui_state": "verifying"
+      }
+    },
+    {
+      "case_id": "lock.known_error_releases_without_repost",
+      "event": "request_settled",
+      "initial_lock": "reject_in_flight",
+      "completion": "feature_disabled",
+      "expected": {
+        "new_post_attempts": 0,
+        "new_get_attempts": 0,
+        "ignored_gestures": 0,
+        "next_lock": "unlocked",
+        "next_ui_state": "manual_retry_available"
+      }
+    }
+  ],
+  "uncertain_result_cases": [
+    {
+      "case_id": "uncertain.get_applied",
+      "action": "confirm",
+      "post_result": "uncertain",
+      "get_result": "applied",
+      "expected": {
+        "automatic_post_attempts": 0,
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "applied",
+        "label": "已应用",
+        "manual_retry_visible": false,
+        "may_claim_applied": true
+      }
+    },
+    {
+      "case_id": "uncertain.get_rejected",
+      "action": "reject",
+      "post_result": "uncertain",
+      "get_result": "rejected",
+      "expected": {
+        "automatic_post_attempts": 0,
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "rejected",
+        "label": "已拒绝",
+        "manual_retry_visible": false,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "uncertain.get_expired",
+      "action": "confirm",
+      "post_result": "uncertain",
+      "get_result": "expired",
+      "expected": {
+        "automatic_post_attempts": 0,
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "expired",
+        "label": "已过期",
+        "manual_retry_visible": false,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "uncertain.get_pending_allows_explicit_retry",
+      "action": "confirm",
+      "post_result": "uncertain",
+      "get_result": "pending_confirmation",
+      "expected": {
+        "automatic_post_attempts": 0,
+        "get_attempts": 1,
+        "journal": "keep",
+        "ui_state": "retry_confirmation_required",
+        "label": "上次操作结果未确认",
+        "manual_retry_visible": true,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "uncertain.get_failed_keeps_verifying",
+      "action": "reject",
+      "post_result": "uncertain",
+      "get_result": "transport_error",
+      "expected": {
+        "automatic_post_attempts": 0,
+        "get_attempts": 1,
+        "journal": "keep",
+        "ui_state": "verifying",
+        "label": "正在核实提案状态",
+        "manual_retry_visible": false,
+        "may_claim_applied": false
+      }
+    }
+  ],
+  "manual_retry_cases": [
+    {
+      "case_id": "retry.pending_confirm_accepted",
+      "journal": "reusable_confirm",
+      "authoritative_status": "pending_confirmation",
+      "user_choice": "accept",
+      "expected": {
+        "modal_required": true,
+        "post_attempts": 1,
+        "request_id": "reuse",
+        "new_request_id_count": 0,
+        "next_ui_state": "submitting"
+      }
+    },
+    {
+      "case_id": "retry.pending_confirm_cancelled",
+      "journal": "reusable_confirm",
+      "authoritative_status": "pending_confirmation",
+      "user_choice": "cancel",
+      "expected": {
+        "modal_required": true,
+        "post_attempts": 0,
+        "request_id": "none",
+        "new_request_id_count": 0,
+        "next_ui_state": "retry_confirmation_required"
+      }
+    },
+    {
+      "case_id": "retry.feature_disabled_reject_accepted",
+      "journal": "reusable_reject",
+      "authoritative_status": "pending_confirmation",
+      "user_choice": "accept",
+      "expected": {
+        "modal_required": true,
+        "post_attempts": 1,
+        "request_id": "reuse",
+        "new_request_id_count": 0,
+        "next_ui_state": "submitting"
+      }
+    },
+    {
+      "case_id": "retry.terminal_status_blocks_post",
+      "journal": "reusable_confirm",
+      "authoritative_status": "applied",
+      "user_choice": "accept",
+      "expected": {
+        "modal_required": false,
+        "post_attempts": 0,
+        "request_id": "none",
+        "new_request_id_count": 0,
+        "next_ui_state": "applied"
+      }
+    },
+    {
+      "case_id": "retry.missing_journal_blocks_idempotent_retry",
+      "journal": "none",
+      "authoritative_status": "pending_confirmation",
+      "user_choice": "accept",
+      "expected": {
+        "modal_required": false,
+        "post_attempts": 0,
+        "request_id": "none",
+        "new_request_id_count": 0,
+        "next_ui_state": "fresh_decision_required"
+      }
+    }
+  ],
+  "error_presentation_cases": [
+    {
+      "case_id": "error.not_found",
+      "error_code": "proposal_not_found",
+      "recovery": "render_unavailable",
+      "get_status": null,
+      "expected": {
+        "get_attempts": 0,
+        "journal": "clear",
+        "ui_state": "unavailable",
+        "label": "提案不可用",
+        "tone": "neutral",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.feature_disabled",
+      "error_code": "proposal_feature_disabled",
+      "recovery": "wait_for_manual_retry",
+      "get_status": null,
+      "expected": {
+        "get_attempts": 0,
+        "journal": "keep",
+        "ui_state": "manual_retry_available",
+        "label": "操作暂时不可用",
+        "tone": "warning",
+        "actions": ["manual_retry_same_request"],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.version_conflict_get_pending",
+      "error_code": "proposal_version_conflict",
+      "recovery": "query_status",
+      "get_status": "pending_confirmation",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "pending_confirmation",
+        "label": "提案已更新，请重新确认",
+        "tone": "attention",
+        "actions": ["start_new_decision"],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.not_pending_get_applied",
+      "error_code": "proposal_not_pending",
+      "recovery": "query_status",
+      "get_status": "applied",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "applied",
+        "label": "已应用",
+        "tone": "success",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": true
+      }
+    },
+    {
+      "case_id": "error.not_pending_get_rejected",
+      "error_code": "proposal_not_pending",
+      "recovery": "query_status",
+      "get_status": "rejected",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "rejected",
+        "label": "已拒绝",
+        "tone": "neutral",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.expired_get_expired",
+      "error_code": "proposal_expired",
+      "recovery": "query_status",
+      "get_status": "expired",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "expired",
+        "label": "已过期",
+        "tone": "neutral",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.base_plan_changed_get_stale",
+      "error_code": "proposal_base_plan_changed",
+      "recovery": "query_status",
+      "get_status": "stale",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "stale",
+        "label": "计划情况已变化",
+        "tone": "warning",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.health_changed_get_stale",
+      "error_code": "proposal_health_context_changed",
+      "recovery": "query_status",
+      "get_status": "stale",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "stale",
+        "label": "计划情况已变化",
+        "tone": "warning",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.payload_invalid_get_stale",
+      "error_code": "proposal_payload_invalid",
+      "recovery": "query_status",
+      "get_status": "stale",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "stale",
+        "label": "计划情况已变化",
+        "tone": "warning",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.candidate_unavailable_get_stale",
+      "error_code": "proposal_candidate_unavailable",
+      "recovery": "query_status",
+      "get_status": "stale",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "stale",
+        "label": "计划情况已变化",
+        "tone": "warning",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.execution_failed_get_failed",
+      "error_code": "proposal_execution_failed",
+      "recovery": "query_status",
+      "get_status": "failed",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "failed",
+        "label": "调整未完成",
+        "tone": "warning",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.execution_conflict_get_pending",
+      "error_code": "proposal_execution_conflict",
+      "recovery": "query_status",
+      "get_status": "pending_confirmation",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "pending_confirmation",
+        "label": "计划正在更新，请重新确认",
+        "tone": "attention",
+        "actions": ["start_new_decision"],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.idempotency_conflict_get_pending",
+      "error_code": "proposal_idempotency_conflict",
+      "recovery": "query_status",
+      "get_status": "pending_confirmation",
+      "expected": {
+        "get_attempts": 1,
+        "journal": "clear",
+        "ui_state": "pending_confirmation",
+        "label": "操作标识冲突，请重新确认",
+        "tone": "attention",
+        "actions": ["start_new_decision"],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    },
+    {
+      "case_id": "error.client_validation",
+      "error_code": "proposal_client_contract_invalid",
+      "recovery": "fix_client_contract",
+      "get_status": null,
+      "expected": {
+        "get_attempts": 0,
+        "journal": "clear",
+        "ui_state": "client_update_required",
+        "label": "客户端版本暂不支持此操作",
+        "tone": "warning",
+        "actions": [],
+        "automatic_post_attempts": 0,
+        "may_claim_applied": false
+      }
+    }
+  ],
+  "safety_invariants": {
+    "fresh_confirm_requires_second_confirmation": false,
+    "reject_requires_second_confirmation": true,
+    "full_detail_review_required_before_decision": true,
+    "single_proposal_mutation_lock": true,
+    "opposite_action_blocked_while_locked": true,
+    "refresh_blocked_while_mutation_in_flight": true,
+    "uncertain_result_forces_status_query": true,
+    "automatic_decision_repost_allowed": false,
+    "manual_retry_requires_second_confirmation": true,
+    "manual_retry_reuses_client_request_id": true,
+    "terminal_state_requires_server_evidence": true,
+    "client_clock_cannot_claim_expired": true,
+    "applied_state_cannot_be_optimistic": true
+  }
+}

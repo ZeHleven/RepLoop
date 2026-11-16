@@ -1,11 +1,11 @@
 import json
-import httpx
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.config import settings
 from app.models.profile import UserProfile
 from app.models.exercise import Exercise
 from app.models.workout import WorkoutPlan, PlannedExercise
+from app.services.ai_client import AIServiceError, chat_completion
 
 
 async def generate_workout_plan(
@@ -17,9 +17,29 @@ async def generate_workout_plan(
 ) -> WorkoutPlan:
     profile = await db.scalar(select(UserProfile).where(UserProfile.user_id == user_id))
 
-    # Pull a sample of exercises from DB to include in prompt context
-    exercises = (await db.execute(select(Exercise).where(Exercise.is_active.is_(True)).limit(20))).scalars().all()
-    exercise_list = [{"id": e.id, "name": e.name_zh, "category": e.category, "difficulty": e.difficulty} for e in exercises]
+    # Pull a bounded, user-safe set of exercises into prompt context.
+    exercises = (await db.execute(
+        select(Exercise).where(Exercise.is_active.is_(True), Exercise.owner_id.is_(None)).limit(100)
+    )).scalars().all()
+    injuries = set(profile.injuries or []) if profile and isinstance(profile.injuries, list) else set()
+    if injuries:
+        exercises = [
+            exercise for exercise in exercises
+            if not injuries.intersection(set(exercise.contraindications or []))
+        ]
+    exercise_list = [
+        {
+            "id": exercise.id,
+            "name": exercise.name_zh,
+            "category": exercise.category,
+            "difficulty": exercise.difficulty,
+            "equipment": exercise.equipment or [],
+        }
+        for exercise in exercises
+    ]
+    if not exercise_list:
+        raise AIServiceError("当前动作库中没有符合用户条件的可用动作")
+    allowed_exercise_ids = {exercise["id"] for exercise in exercise_list}
 
     effective_goal = goal or (profile.primary_goal if profile else "增肌")
     days_per_week = profile.training_days_per_week if profile and profile.training_days_per_week else 3
@@ -33,6 +53,8 @@ async def generate_workout_plan(
 - 经验：{experience}
 - 每周训练天数：{days_per_week}
 - 训练地点：{location}
+- 伤病情况：{json.dumps(profile.injuries, ensure_ascii=False) if profile and profile.injuries else "无"}
+- 慢性疾病：{json.dumps(profile.chronic_conditions, ensure_ascii=False) if profile and profile.chronic_conditions else "无"}
 
 可用动作库（从中选择合适动作）：
 {json.dumps(exercise_list, ensure_ascii=False)}
@@ -53,15 +75,14 @@ async def generate_workout_plan(
         {"role": "user", "content": prompt},
     ]
 
-    async with httpx.AsyncClient() as client:
-        resp = await client.post(
-            f"{settings.DEEPSEEK_BASE_URL}/v1/chat/completions",
-            headers={"Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"},
-            json={"model": settings.DEEPSEEK_CHAT_MODEL, "messages": messages, "max_tokens": 2048, "temperature": 0.3},
-            timeout=60.0,
-        )
-        resp.raise_for_status()
-        content = resp.json()["choices"][0]["message"]["content"]
+    content = await chat_completion(
+        messages,
+        model=settings.DEEPSEEK_REASONING_MODEL,
+        max_tokens=2048,
+        temperature=0.3,
+        json_mode=True,
+        thinking=True,
+    )
 
     # Strip markdown fences if present
     content = content.strip()
@@ -71,7 +92,10 @@ async def generate_workout_plan(
             content = content[4:]
     content = content.strip()
 
-    data = json.loads(content)
+    try:
+        data = json.loads(content)
+    except json.JSONDecodeError as exc:
+        raise AIServiceError("AI 未能生成有效的训练计划数据") from exc
 
     plan = WorkoutPlan(
         user_id=user_id,
@@ -86,7 +110,7 @@ async def generate_workout_plan(
 
     for i, ex in enumerate(data.get("exercises", [])):
         exercise_id = ex.get("exercise_id")
-        if not exercise_id:
+        if not exercise_id or exercise_id not in allowed_exercise_ids:
             continue
         db.add(PlannedExercise(
             plan_id=plan.id,

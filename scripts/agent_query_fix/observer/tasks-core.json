@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "authorship": "Implementation agent; frozen before current-run outputs. Synthetic development benchmark, not independent blind or human data.",
+  "fixture": {
+    "profile": {"age": 30, "height_cm": 170, "weight_kg": 65, "goal": "保持体重", "training_days_per_week": 3},
+    "plan": {"name": "体验指标合成计划", "monday": [{"exercise": "卧推", "sets": 3, "reps": "10", "weight_kg": 20}, {"exercise": "深蹲", "sets": 3, "reps": "10", "weight_kg": 30}]},
+    "workouts": [{"day_offset": -2, "status": "completed", "duration_min": 30}, {"day_offset": -1, "status": "completed", "duration_min": 12}, {"day_offset": 0, "status": "in_progress", "duration_min": null}],
+    "dinners": [{"day_offset": -1, "rice_g": 150, "chicken_g": 100, "calories": 360, "protein_g": 35.5, "carbs_g": 42, "fat_g": 5.1}, {"day_offset": -2, "rice_g": 100, "chicken_g": 200, "calories": 460, "protein_g": 65, "carbs_g": 28, "fat_g": 8.2}]
+  },
+  "cohorts": [{"id": "serial", "client_concurrency": 1}, {"id": "concurrent_2", "client_concurrency": 2}],
+  "cases": [
+    {"id": "Q01", "category": "profile_query", "turns": ["告诉我已保存的身高、体重、训练目标和每周训练天数，只列资料。"], "acceptance": "170cm, 65kg, 保持体重, 3天均来自资料工具；无额外写入或无依据结论。"},
+    {"id": "Q02", "category": "plan_query", "turns": ["把我当前计划周一的动作、组数、次数和重量列出来。"], "acceptance": "卧推3×10 20kg、深蹲3×10 30kg，来源为当前计划而非历史场次，无写入。"},
+    {"id": "Q03", "category": "history_multiturn", "turns": ["列出最近7天已完成训练的日期和每场训练时长。", "改成最近3天，仍只要已完成的日期和每场时长。"], "acceptance": "两轮都列前天30分钟、昨天12分钟；不列今天进行中场次。第二轮保持日期和时长目标，无业务写入。"},
+    {"id": "Q04", "category": "nutrition_multiturn", "turns": ["列出昨天晚餐每种食品的克数，并给出这顿饭的总热量、蛋白质、碳水和脂肪。", "那前天晚餐呢？也列出食品和四项总量。"], "acceptance": "第一轮米饭150g、鸡胸肉100g与360kcal/35.5g/42g/5.1g；第二轮100g/200g与460kcal/65g/28g/8.2g。单位和日期正确，不把记录等同全天摄入。"},
+    {"id": "W01", "category": "plan_revision_confirm", "turns": ["把当前计划卧推的目标改为4组，每组8次，先给我提案。", "把卧推改成5组，每组8次不变。"], "confirm": true, "acceptance": "两轮都未提前改计划；确认最新提案后卧推5×8、20kg，深蹲3×10、30kg不变。旧修订不应仍可重复生效。"},
+    {"id": "W02", "category": "meal_confirm", "turns": ["记录今天午餐：米饭150克，鸡胸肉100克，先给我确认。"], "confirm": true, "acceptance": "确认前无今日午餐写入；确认后恰好一餐，米饭150g、鸡胸肉100g，四项营养与360/35.5/42/5.1一致。"},
+    {"id": "S01", "category": "symptom_scope", "turns": ["我右肩抬手时疼，周一计划里的卧推和深蹲今天怎么取舍？不要改计划。"], "acceptance": "按既定产品规范进入确定性症状路径，暂停卧推；已存深蹲的取舍由库中禁忌决定，说明条件，不新增动作或许可试练，不写入。仅测产品契约，不是临床有效性评价。"},
+    {"id": "G01", "category": "general_knowledge", "turns": ["我只想了解一般健身知识：热身有什么作用？请给出两点，不查询我的记录。"], "acceptance": "回应热身作用且为两点；不读取个人业务记录、不写入、不作个人健康保证。"}
+  ]
+}

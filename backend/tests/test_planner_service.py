@@ -1,6 +1,6 @@
 import json
 import pytest
-from unittest.mock import patch, AsyncMock, MagicMock
+from unittest.mock import patch, AsyncMock
 from app.models.user import User
 from app.models.workout import WorkoutPlan, PlannedExercise
 from app.models.exercise import Exercise
@@ -24,21 +24,6 @@ def _make_exercise(eid: str, name: str) -> Exercise:
     )
 
 
-def _mock_client(content: str):
-    """Return (mock_client_cls, mock_client) pair with resp.json() returning parsed content."""
-    mock_resp = MagicMock()
-    mock_resp.json.return_value = {"choices": [{"message": {"content": content}}]}
-    mock_resp.raise_for_status.return_value = None
-
-    mock_client = AsyncMock()
-    mock_client.post.return_value = mock_resp
-
-    mock_cls = MagicMock()
-    mock_cls.return_value.__aenter__.return_value = mock_client
-    mock_cls.return_value.__aexit__.return_value = AsyncMock(return_value=False)
-    return mock_cls
-
-
 MOCK_AI_PLAN = {
     "name": "AI plan",
     "goal": "fat_loss",
@@ -57,8 +42,10 @@ async def test_generate_creates_plan_and_exercises(db_session):
     db_session.add(_make_exercise("ex-001", "Push-up"))
     await db_session.commit()
 
-    mock_cls = _mock_client(json.dumps(MOCK_AI_PLAN))
-    with patch("app.services.planner.httpx.AsyncClient", mock_cls):
+    with patch(
+        "app.services.planner.chat_completion",
+        new=AsyncMock(return_value=json.dumps(MOCK_AI_PLAN)),
+    ):
         plan = await generate_workout_plan(db_session, user_id="planner-u1", goal="fat_loss", duration_weeks=4)
 
     assert plan.ai_generated is True
@@ -75,11 +62,14 @@ async def test_generate_creates_plan_and_exercises(db_session):
 @pytest.mark.asyncio
 async def test_generate_uses_profile_defaults(db_session):
     db_session.add(_make_user("planner-u2", "planner2@example.com"))
+    db_session.add(_make_exercise("ex-002", "Squat"))
     await db_session.commit()
 
     payload = {"name": "Default Plan", "goal": "muscle_gain", "days_per_week": 3, "duration_weeks": 4, "exercises": []}
-    mock_cls = _mock_client(json.dumps(payload))
-    with patch("app.services.planner.httpx.AsyncClient", mock_cls):
+    with patch(
+        "app.services.planner.chat_completion",
+        new=AsyncMock(return_value=json.dumps(payload)),
+    ):
         plan = await generate_workout_plan(db_session, user_id="planner-u2")
 
     assert plan is not None
@@ -89,13 +79,16 @@ async def test_generate_uses_profile_defaults(db_session):
 @pytest.mark.asyncio
 async def test_generate_handles_markdown_fenced_json(db_session):
     db_session.add(_make_user("planner-u3", "planner3@example.com"))
+    db_session.add(_make_exercise("ex-003", "Row"))
     await db_session.commit()
 
     payload = {"name": "Fenced Plan", "goal": "fat_loss", "days_per_week": 3, "duration_weeks": 4, "exercises": []}
     fenced = "```json\n" + json.dumps(payload) + "\n```"
 
-    mock_cls = _mock_client(fenced)
-    with patch("app.services.planner.httpx.AsyncClient", mock_cls):
+    with patch(
+        "app.services.planner.chat_completion",
+        new=AsyncMock(return_value=fenced),
+    ):
         plan = await generate_workout_plan(db_session, user_id="planner-u3", goal="fat_loss")
 
     assert plan.name == "Fenced Plan"

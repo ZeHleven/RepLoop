@@ -1,0 +1,3346 @@
+{
+  "id": "H04",
+  "title": "真正进入澄清再选择状态完成查询",
+  "data_source": "synthetic",
+  "mode": "live",
+  "http": [
+    {
+      "method": "POST",
+      "path": "/api/v1/agent/runs",
+      "request": {
+        "conversation_id": "ccc37e48-e7df-4604-8db5-ce13c300dc73",
+        "message": "帮我查2026年9月18日至20日未完成的训练。",
+        "client_request_id": "round18-a1968fab65304d029c9352fbc83a70df"
+      },
+      "status": 202,
+      "body": {
+        "run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+        "conversation_id": "ccc37e48-e7df-4604-8db5-ce13c300dc73",
+        "status": "queued",
+        "poll_after_ms": 800
+      },
+      "elapsed_ms": 100
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/runs/a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+      "request": null,
+      "status": 200,
+      "body": {
+        "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [
+          "训练状态"
+        ],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "single_goal_or_tool",
+            "history_status_scope_unresolved"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 1573,
+              "error_category": null,
+              "transport": "deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 550,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "clarify",
+          "termination_reason": "history_status_scope_unresolved",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "pending",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+            "tasks": [
+              {
+                "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "request": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "2026年9月18日至20日",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "completion_status",
+                    "quote": "未完成的训练",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_input",
+                "last_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "new",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": true,
+        "clarification_question": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 1645,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "cards": [],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:37:49.074573Z",
+        "processing_started_at": "2026-09-30T09:37:49.188699Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:37:49.074573Z",
+        "completed_at": "2026-09-30T09:37:50.930732Z"
+      },
+      "elapsed_ms": 50
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/agent/runs",
+      "request": {
+        "conversation_id": "ccc37e48-e7df-4604-8db5-ce13c300dc73",
+        "message": "我选跳过和放弃。",
+        "client_request_id": "round18-e0e777b51e8f47d3b30a467743096dd4"
+      },
+      "status": 202,
+      "body": {
+        "run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+        "conversation_id": "ccc37e48-e7df-4604-8db5-ce13c300dc73",
+        "status": "queued",
+        "poll_after_ms": 800
+      },
+      "elapsed_ms": 103
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/runs/d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+      "request": null,
+      "status": 200,
+      "body": {
+        "id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "verified_query_report"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [
+            {
+              "sequence": 1,
+              "action_type": "call_tool",
+              "call_id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+              "batch_id": null,
+              "step_id": null,
+              "plan_version": 1,
+              "tool_id": "workout.list_history",
+              "arguments": {
+                "limit": 20,
+                "end_date": "2026-09-20",
+                "statuses": [
+                  "skipped",
+                  "abandoned"
+                ],
+                "start_date": "2026-09-18"
+              },
+              "status": "completed"
+            }
+          ],
+          "observations": [
+            {
+              "sequence": 2,
+              "action_sequence": 1,
+              "call_id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+              "batch_id": null,
+              "tool_id": "workout.list_history",
+              "status": "success",
+              "summary": {
+                "count": 2
+              },
+              "result_fingerprint": "a743c75ffd993829edc13e39d34f2817dbb7a5e586a85eee84a850b6d0b1f132",
+              "fact_keys": [
+                "workout.list_history.count"
+              ]
+            }
+          ],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 0,
+              "source": "rules",
+              "status": "success",
+              "latency_ms": 1,
+              "error_category": null,
+              "transport": null,
+              "input_chars": null,
+              "output_chars": null,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": null
+            },
+            {
+              "stage": "direct_agent",
+              "attempt": 1,
+              "source": "controller",
+              "status": "success",
+              "latency_ms": 46,
+              "error_category": null,
+              "transport": null,
+              "input_chars": null,
+              "output_chars": null,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": null
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "answer",
+          "termination_reason": "verified_calendar_history_report",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 1,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "complete",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+            "tasks": [
+              {
+                "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "request": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "2026年9月18日至20日",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "completion_status",
+                    "quote": "未完成的训练",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "pending_slot",
+                    "quote": "我选跳过和放弃。",
+                    "source_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "responded",
+                "last_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "continue",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": false,
+        "clarification_question": null,
+        "understanding_version": "v6",
+        "intent_source": "rules",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 0,
+        "intent_fallback_reason": "clarification_filled",
+        "intent_error_category": null,
+        "duration_ms": 71,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "统计范围：2026-09-18至2026-09-20；截至2026-09-30（Asia/Shanghai）。\n\n仅列状态为跳过、放弃的场次。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-18（跳过）：0组、0次重复、0kg负重容量。\n\n- 2026-09-19（放弃）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+        "cards": [
+          {
+            "type": "workout.list_history",
+            "data": {
+              "as_of": "2026-09-30",
+              "count": 2,
+              "sessions": [
+                {
+                  "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+                  "notes": null,
+                  "status": "abandoned",
+                  "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+                  "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+                  "feedback": null,
+                  "orphaned": false,
+                  "exercises": [],
+                  "plan_name": "第18轮合成验收计划",
+                  "created_at": "2026-09-30T09:37:48.981416Z",
+                  "started_at": "2026-09-30T09:37:48.981416Z",
+                  "total_reps": 0,
+                  "total_sets": 0,
+                  "trained_at": "2026-09-19",
+                  "adjustments": [],
+                  "day_of_week": null,
+                  "completed_at": null,
+                  "duration_min": null,
+                  "total_volume_kg": 0.0,
+                  "adaptive_adjustment_status": "not_needed",
+                  "adaptive_adjustment_proposal": null,
+                  "energy_classification_version": 0
+                },
+                {
+                  "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+                  "notes": null,
+                  "status": "skipped",
+                  "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+                  "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+                  "feedback": null,
+                  "orphaned": false,
+                  "exercises": [],
+                  "plan_name": "第18轮合成验收计划",
+                  "created_at": "2026-09-30T09:37:48.981416Z",
+                  "started_at": "2026-09-30T09:37:48.981416Z",
+                  "total_reps": 0,
+                  "total_sets": 0,
+                  "trained_at": "2026-09-18",
+                  "adjustments": [],
+                  "day_of_week": null,
+                  "completed_at": null,
+                  "duration_min": null,
+                  "total_volume_kg": 0.0,
+                  "adaptive_adjustment_status": "not_needed",
+                  "adaptive_adjustment_proposal": null,
+                  "energy_classification_version": 0
+                }
+              ],
+              "timezone": "Asia/Shanghai",
+              "range_end": "2026-09-20",
+              "truncated": false,
+              "range_start": "2026-09-18",
+              "total_count": 2,
+              "status_filter": [
+                "skipped",
+                "abandoned"
+              ]
+            }
+          }
+        ],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:37:50.979744Z",
+        "processing_started_at": "2026-09-30T09:37:51.112956Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:37:50.979744Z",
+        "completed_at": "2026-09-30T09:37:51.269436Z"
+      },
+      "elapsed_ms": 46
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/agent/runs",
+      "request": {
+        "conversation_id": "ccc37e48-e7df-4604-8db5-ce13c300dc73",
+        "message": "其中只保留放弃，日期不变。",
+        "client_request_id": "round18-f1203877be45495794e34ebb168a3066"
+      },
+      "status": 202,
+      "body": {
+        "run_id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+        "conversation_id": "ccc37e48-e7df-4604-8db5-ce13c300dc73",
+        "status": "queued",
+        "poll_after_ms": 800
+      },
+      "elapsed_ms": 124
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/runs/4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+      "request": null,
+      "status": 200,
+      "body": {
+        "id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [
+          "训练状态"
+        ],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "single_goal_or_tool",
+            "history_status_scope_unresolved"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 1249,
+              "error_category": null,
+              "transport": "deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 530,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "clarify",
+          "termination_reason": "history_status_scope_unresolved",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "pending",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+            "tasks": [
+              {
+                "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "request": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "2026年9月18日至20日",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "completion_status",
+                    "quote": "未完成的训练",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "pending_slot",
+                    "quote": "我选跳过和放弃。",
+                    "source_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_input",
+                "last_run_id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "continue",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": true,
+        "clarification_question": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 1307,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "cards": [],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:37:51.300730Z",
+        "processing_started_at": "2026-09-30T09:37:51.461724Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:37:51.300730Z",
+        "completed_at": "2026-09-30T09:37:52.853222Z"
+      },
+      "elapsed_ms": 49
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/agent/conversations/ccc37e48-e7df-4604-8db5-ce13c300dc73/messages",
+      "request": null,
+      "status": 200,
+      "body": [
+        {
+          "id": "3d701c4e-b3f3-4b3e-9999-8f405309446f",
+          "run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+          "role": "user",
+          "content": "帮我查2026年9月18日至20日未完成的训练。",
+          "content_data": {
+            "client_request_id": "round18-a1968fab65304d029c9352fbc83a70df"
+          },
+          "created_at": "2026-09-30T09:37:49.139253Z"
+        },
+        {
+          "id": "310cba2e-4c17-48d1-87bc-235ff05f514c",
+          "run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+          "role": "assistant",
+          "content": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+          "content_data": {},
+          "created_at": "2026-09-30T09:37:50.933013Z"
+        },
+        {
+          "id": "195ce09d-8118-47e1-9470-4e8ac1562765",
+          "run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+          "role": "user",
+          "content": "我选跳过和放弃。",
+          "content_data": {
+            "client_request_id": "round18-e0e777b51e8f47d3b30a467743096dd4"
+          },
+          "created_at": "2026-09-30T09:37:51.067081Z"
+        },
+        {
+          "id": "24ca8365-70ae-4f4d-a47f-9f4a4574a6bd",
+          "run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+          "role": "assistant",
+          "content": "统计范围：2026-09-18至2026-09-20；截至2026-09-30（Asia/Shanghai）。\n\n仅列状态为跳过、放弃的场次。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-18（跳过）：0组、0次重复、0kg负重容量。\n\n- 2026-09-19（放弃）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+          "content_data": {
+            "cards": [
+              {
+                "data": {
+                  "as_of": "2026-09-30",
+                  "count": 2,
+                  "sessions": [
+                    {
+                      "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+                      "notes": null,
+                      "status": "abandoned",
+                      "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+                      "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+                      "feedback": null,
+                      "orphaned": false,
+                      "exercises": [],
+                      "plan_name": "第18轮合成验收计划",
+                      "created_at": "2026-09-30T09:37:48.981416Z",
+                      "started_at": "2026-09-30T09:37:48.981416Z",
+                      "total_reps": 0,
+                      "total_sets": 0,
+                      "trained_at": "2026-09-19",
+                      "adjustments": [],
+                      "day_of_week": null,
+                      "completed_at": null,
+                      "duration_min": null,
+                      "total_volume_kg": 0.0,
+                      "adaptive_adjustment_status": "not_needed",
+                      "adaptive_adjustment_proposal": null,
+                      "energy_classification_version": 0
+                    },
+                    {
+                      "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+                      "notes": null,
+                      "status": "skipped",
+                      "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+                      "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+                      "feedback": null,
+                      "orphaned": false,
+                      "exercises": [],
+                      "plan_name": "第18轮合成验收计划",
+                      "created_at": "2026-09-30T09:37:48.981416Z",
+                      "started_at": "2026-09-30T09:37:48.981416Z",
+                      "total_reps": 0,
+                      "total_sets": 0,
+                      "trained_at": "2026-09-18",
+                      "adjustments": [],
+                      "day_of_week": null,
+                      "completed_at": null,
+                      "duration_min": null,
+                      "total_volume_kg": 0.0,
+                      "adaptive_adjustment_status": "not_needed",
+                      "adaptive_adjustment_proposal": null,
+                      "energy_classification_version": 0
+                    }
+                  ],
+                  "timezone": "Asia/Shanghai",
+                  "range_end": "2026-09-20",
+                  "truncated": false,
+                  "range_start": "2026-09-18",
+                  "total_count": 2,
+                  "status_filter": [
+                    "skipped",
+                    "abandoned"
+                  ]
+                },
+                "type": "workout.list_history"
+              }
+            ]
+          },
+          "created_at": "2026-09-30T09:37:51.271338Z"
+        },
+        {
+          "id": "c24c9760-d139-4dc7-b40e-feeb11b88c7b",
+          "run_id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+          "role": "user",
+          "content": "其中只保留放弃，日期不变。",
+          "content_data": {
+            "client_request_id": "round18-f1203877be45495794e34ebb168a3066"
+          },
+          "created_at": "2026-09-30T09:37:51.391706Z"
+        },
+        {
+          "id": "74bbb966-8679-4ca4-b763-4ef3fbda87f7",
+          "run_id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+          "role": "assistant",
+          "content": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+          "content_data": {},
+          "created_at": "2026-09-30T09:37:52.856225Z"
+        }
+      ],
+      "elapsed_ms": 48
+    }
+  ],
+  "turns": [
+    {
+      "index": 0,
+      "message": "帮我查2026年9月18日至20日未完成的训练。",
+      "body": {
+        "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [
+          "训练状态"
+        ],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "single_goal_or_tool",
+            "history_status_scope_unresolved"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 1573,
+              "error_category": null,
+              "transport": "deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 550,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "clarify",
+          "termination_reason": "history_status_scope_unresolved",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "pending",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+            "tasks": [
+              {
+                "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "request": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "2026年9月18日至20日",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "completion_status",
+                    "quote": "未完成的训练",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_input",
+                "last_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "new",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": true,
+        "clarification_question": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 1645,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "cards": [],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:37:49.074573Z",
+        "processing_started_at": "2026-09-30T09:37:49.188699Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:37:49.074573Z",
+        "completed_at": "2026-09-30T09:37:50.930732Z"
+      },
+      "wait_ms": 1907
+    },
+    {
+      "index": 1,
+      "message": "我选跳过和放弃。",
+      "body": {
+        "id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "verified_query_report"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [
+            {
+              "sequence": 1,
+              "action_type": "call_tool",
+              "call_id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+              "batch_id": null,
+              "step_id": null,
+              "plan_version": 1,
+              "tool_id": "workout.list_history",
+              "arguments": {
+                "limit": 20,
+                "end_date": "2026-09-20",
+                "statuses": [
+                  "skipped",
+                  "abandoned"
+                ],
+                "start_date": "2026-09-18"
+              },
+              "status": "completed"
+            }
+          ],
+          "observations": [
+            {
+              "sequence": 2,
+              "action_sequence": 1,
+              "call_id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+              "batch_id": null,
+              "tool_id": "workout.list_history",
+              "status": "success",
+              "summary": {
+                "count": 2
+              },
+              "result_fingerprint": "a743c75ffd993829edc13e39d34f2817dbb7a5e586a85eee84a850b6d0b1f132",
+              "fact_keys": [
+                "workout.list_history.count"
+              ]
+            }
+          ],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 0,
+              "source": "rules",
+              "status": "success",
+              "latency_ms": 1,
+              "error_category": null,
+              "transport": null,
+              "input_chars": null,
+              "output_chars": null,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": null
+            },
+            {
+              "stage": "direct_agent",
+              "attempt": 1,
+              "source": "controller",
+              "status": "success",
+              "latency_ms": 46,
+              "error_category": null,
+              "transport": null,
+              "input_chars": null,
+              "output_chars": null,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": null
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "answer",
+          "termination_reason": "verified_calendar_history_report",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 1,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "complete",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+            "tasks": [
+              {
+                "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "request": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "2026年9月18日至20日",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "completion_status",
+                    "quote": "未完成的训练",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "pending_slot",
+                    "quote": "我选跳过和放弃。",
+                    "source_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "responded",
+                "last_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "continue",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": false,
+        "clarification_question": null,
+        "understanding_version": "v6",
+        "intent_source": "rules",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 0,
+        "intent_fallback_reason": "clarification_filled",
+        "intent_error_category": null,
+        "duration_ms": 71,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "统计范围：2026-09-18至2026-09-20；截至2026-09-30（Asia/Shanghai）。\n\n仅列状态为跳过、放弃的场次。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-18（跳过）：0组、0次重复、0kg负重容量。\n\n- 2026-09-19（放弃）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+        "cards": [
+          {
+            "type": "workout.list_history",
+            "data": {
+              "as_of": "2026-09-30",
+              "count": 2,
+              "sessions": [
+                {
+                  "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+                  "notes": null,
+                  "status": "abandoned",
+                  "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+                  "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+                  "feedback": null,
+                  "orphaned": false,
+                  "exercises": [],
+                  "plan_name": "第18轮合成验收计划",
+                  "created_at": "2026-09-30T09:37:48.981416Z",
+                  "started_at": "2026-09-30T09:37:48.981416Z",
+                  "total_reps": 0,
+                  "total_sets": 0,
+                  "trained_at": "2026-09-19",
+                  "adjustments": [],
+                  "day_of_week": null,
+                  "completed_at": null,
+                  "duration_min": null,
+                  "total_volume_kg": 0.0,
+                  "adaptive_adjustment_status": "not_needed",
+                  "adaptive_adjustment_proposal": null,
+                  "energy_classification_version": 0
+                },
+                {
+                  "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+                  "notes": null,
+                  "status": "skipped",
+                  "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+                  "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+                  "feedback": null,
+                  "orphaned": false,
+                  "exercises": [],
+                  "plan_name": "第18轮合成验收计划",
+                  "created_at": "2026-09-30T09:37:48.981416Z",
+                  "started_at": "2026-09-30T09:37:48.981416Z",
+                  "total_reps": 0,
+                  "total_sets": 0,
+                  "trained_at": "2026-09-18",
+                  "adjustments": [],
+                  "day_of_week": null,
+                  "completed_at": null,
+                  "duration_min": null,
+                  "total_volume_kg": 0.0,
+                  "adaptive_adjustment_status": "not_needed",
+                  "adaptive_adjustment_proposal": null,
+                  "energy_classification_version": 0
+                }
+              ],
+              "timezone": "Asia/Shanghai",
+              "range_end": "2026-09-20",
+              "truncated": false,
+              "range_start": "2026-09-18",
+              "total_count": 2,
+              "status_filter": [
+                "skipped",
+                "abandoned"
+              ]
+            }
+          }
+        ],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:37:50.979744Z",
+        "processing_started_at": "2026-09-30T09:37:51.112956Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:37:50.979744Z",
+        "completed_at": "2026-09-30T09:37:51.269436Z"
+      },
+      "wait_ms": 319
+    },
+    {
+      "index": 2,
+      "message": "其中只保留放弃，日期不变。",
+      "body": {
+        "id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+        "status": "completed",
+        "primary_intent": "workout_history_query",
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "change_requests": [],
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "requested_output": "answer",
+        "resolved_query": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+        "references": [],
+        "expanded_intents": [],
+        "subtasks": [],
+        "missing_slots": [
+          "训练状态"
+        ],
+        "tool_allowlist": [
+          "workout.list_history"
+        ],
+        "execution_mode": "direct",
+        "execution_trace": {
+          "trace_version": "1.0",
+          "router_version": "semantic_route_v2",
+          "execution_mode": "direct",
+          "risk_level": "low",
+          "mode_reasons": [
+            "single_goal_or_tool",
+            "history_status_scope_unresolved"
+          ],
+          "status": "completed",
+          "plan": {
+            "version": 1,
+            "goal": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+            "planner_source": "direct_v1",
+            "candidate_tools": [
+              "workout.list_history"
+            ],
+            "steps": [
+              {
+                "id": "step_1",
+                "objective": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+                "depends_on": [],
+                "candidate_tools": [
+                  "workout.list_history"
+                ],
+                "execution_strategy": "direct",
+                "completion_policy": "executor_decides",
+                "planned_actions": [],
+                "success_signal": "完成当前单一目标",
+                "status": "completed",
+                "status_source": "runtime"
+              }
+            ],
+            "revision_reason": null
+          },
+          "actions": [],
+          "observations": [],
+          "stage_timings": [
+            {
+              "stage": "intent",
+              "attempt": 1,
+              "source": "model",
+              "status": "success",
+              "latency_ms": 1249,
+              "error_category": null,
+              "transport": "deepseek_strict_tool",
+              "input_chars": null,
+              "output_chars": 530,
+              "input_tokens": null,
+              "output_tokens": null,
+              "finish_reason": "tool_calls"
+            }
+          ],
+          "finalization_contract": null,
+          "terminal_action": "clarify",
+          "termination_reason": "history_status_scope_unresolved",
+          "budget_usage": {
+            "plan_steps": 1,
+            "model_calls": 0,
+            "tool_calls": 0,
+            "replans": 0
+          },
+          "evidence_contract": {
+            "version": 1,
+            "required_tools": [
+              "workout.list_history"
+            ],
+            "missing_tools": [],
+            "status": "pending",
+            "reason": null
+          },
+          "request_context": {
+            "as_of": "2026-09-30",
+            "timezone": "Asia/Shanghai"
+          },
+          "task_state": {
+            "version": 1,
+            "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+            "tasks": [
+              {
+                "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                "request": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+                "requirements": [
+                  {
+                    "key": "date_scope",
+                    "quote": "2026年9月18日至20日",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "completion_status",
+                    "quote": "未完成的训练",
+                    "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  },
+                  {
+                    "key": "pending_slot",
+                    "quote": "我选跳过和放弃。",
+                    "source_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+                    "kind": "goal",
+                    "as_of": "2026-09-30"
+                  }
+                ],
+                "phase": "awaiting_input",
+                "last_run_id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+                "artifact_id": null,
+                "proposal_id": null,
+                "proposal_pending": false,
+                "pending_plan_changes": [],
+                "pending_meal": null,
+                "unproposed_plan_changes": [],
+                "plan_input_gaps": []
+              }
+            ],
+            "transition": "continue",
+            "evicted_task_ids": []
+          }
+        },
+        "risk_level": "low",
+        "clarification_required": true,
+        "clarification_question": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "understanding_version": "v6",
+        "intent_source": "model",
+        "intent_confidence": 0.95,
+        "intent_attempt_count": 1,
+        "intent_fallback_reason": null,
+        "intent_error_category": null,
+        "duration_ms": 1307,
+        "input_tokens": null,
+        "output_tokens": null,
+        "error_code": null,
+        "error_message": null,
+        "reply": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。",
+        "cards": [],
+        "poll_after_ms": null,
+        "queued_at": "2026-09-30T09:37:51.300730Z",
+        "processing_started_at": "2026-09-30T09:37:51.461724Z",
+        "attempt_count": 1,
+        "started_at": "2026-09-30T09:37:51.300730Z",
+        "completed_at": "2026-09-30T09:37:52.853222Z"
+      },
+      "wait_ms": 1582
+    }
+  ],
+  "model_outputs": [
+    {
+      "stage": "submit_semantic_route",
+      "messages": [
+        {
+          "role": "system",
+          "content": "你只负责 Fitness Agent 的业务语义路由，不回答问题、不调用工具、不提取写入字段。输出必须符合提供的 schema。\n\n领域契约：\n- general: 不依赖当前用户私有数据且不属于其他业务领域的一般健身和运动生理知识问答\n- profile: 用户基础档案、训练目标、经验、偏好，以及体重记录、体重历史和体重趋势\n- health: 用户个人健康筛查、伤病、慢性病、当前症状、训练禁忌和安全限制\n- workout_plan: 整份当前训练计划、计划适配评估，以及训练计划的创建、修改或删除\n- workout_session: 下一练、当前应执行的训练，以及正在进行的训练和已记录训练组\n- workout_history: 按日期或范围读取具体训练场次、动作和记录，支持已完成、进行中、提前结束、跳过和放弃；状态为进行中也不等于只查当前会话\n- workout_progress: 跨训练场次聚合的次数、组数、容量、完成率和进度趋势\n- nutrition: 食品库、饮食记录、营养查询、配餐建议和全天饮食方案\n\n领域和风险边界：\n- 为当前训练计划创建修改提案是update，不是create计划；只有新建整份计划才是create\n- 指定日期或日历范围的训练记录查询属于workout_history，即使状态为进行中；当前正在练什么才查active_workout_session\n- 体重记录和趋势的业务领域是 profile；需要读取历史时另选 read_targets=weight_history\n- 下一练属于 workout_session；只有查询或改变整份计划时才属于 workout_plan\n- 不涉及当前用户个体症状或私有数据的知识解释属于 general；个人筛查、症状和伤病才属于 health\n- 风险依据用户是否报告个人状况判断：仅查看无症状筛查和一般知识解释为 low；用户报告本人存在或要求记录非急性疼痛、旧伤、伤病史或慢性病为 medium；高危红旗为 high\n\n先判断领域，再判断动作：query=查事实或提供建议，assessment=依据事实评估，generation=仅生成全天饮食方案，mutation=明确要求创建/记录/保存/修改/删除业务数据，proposal_decision=确认或拒绝已经出现“待你确认”卡片的 Proposal。读取类 effect=read，写入为 create/update/delete，决策为 decide。训练建议、修改尚未保存的文字建议不是 generation 或 mutation，应使用 query/assessment/read/answer；“把建议的时长改为30分钟”承接仅建议任务时仍不写入。\n\n“制定、安排、规划今天全天怎么吃”这类要求生成全天、多餐饮食方案的请求是 generation，不是写入；全天饮食方案必须是 nutrition/generation/read/daily_meal_plan。普通知识、单餐建议或一般推荐只需要文字回答，应使用 query/read/answer，包括“给我一个晚餐建议”“只提供建议，不要保存”这类明确不持久化的请求。只有明确要求记录、保存或写入数据才是 mutation。把已经展示的全天饮食方案保存成待确认提案，必须是 nutrition/mutation/create/answer、artifact_action=save_as_proposal、decision_action=none；它不是 Proposal 确认。只有确认或拒绝已经存在的待确认 Proposal 时，才使用 proposal_decision 和 decision_action=confirm/reject。其他请求 artifact_action 和 decision_action 都必须为 none；领域不明时用 general。\n\nread_targets 只描述回答任务必须读取的事实类型，不得输出工具名；领域和读取目标是正交字段，例如 profile 领域的体重趋势使用 weight_history。全天饮食方案的固定六类证据由服务端补齐，因此这里返回空数组。normalized_request 可补全指代，但不得猜测事实。胸痛、呼吸困难、晕厥、失去意识或严重急性疼痛为 high。上下文仅用于承接，不得覆盖最后一条消息。\n\n边界示例：\n- “展示近月体重曲线”是 profile/query/read/answer，read_targets=[weight_history]，risk_level=low。\n- “今天轮到哪个训练日”是 workout_session/query/read/answer，read_targets=[next_workout]，risk_level=low。\n- “解释延迟性肌肉酸痛的机制”是 general/query/read/answer，read_targets=[]，risk_level=low。\n- “我的膝盖最近疼”是 health/query/read/answer，read_targets=[health_screening]，risk_level=medium。\n- “请在健康档案补充多年前的踝关节韧带损伤”是 health/mutation/update/answer，read_targets=[]，decision_action=none，risk_level=medium。\n- 全天饮食方案是 nutrition/generation/read/daily_meal_plan，read_targets=[]。\n- “给我一个适合减脂的晚餐建议，只提供建议，不要保存”是 nutrition/query/read/answer，read_targets=[]。\n- “保存这份方案”是 nutrition/mutation/create/answer，artifact_action=save_as_proposal、decision_action=none；只生成 Proposal，不确认 Proposal。\n- “确认这份提案”才是 general/proposal_decision/decide/answer，artifact_action=none、decision_action=confirm。\n\nrequirements的key必须唯一；恢复/还原为明确数值是同一个key的新值(remove=false)，不得同时remove和新增同一key。解除“信息补齐再生成”这样的流程条件与撤回动作字段不同，不能据此撤回动作字段。\n同时输出 task_update，保存本轮用户任务的目标和限制。action：new=独立新任务（包括插入知识问题）；continue=补充或修改当前任务；resume=明确返回暂存任务；cancel=停止当前任务；none=无任务变化。task_id 在 continue/resume/cancel 时必须引用提供的任务ID，新任务为空。\ntrigger 必须逐字摘录本轮用户消息。requirements 只提交本轮新增或修改的要求，每项 key 为稳定语义键（如 goal/date_scope/duration/excluded_days/food_exclusion/permission），quote 必须逐字摘录本轮用户消息，不得来自助手或推测。修改同一条件沿用原 key；明确移除条件时 remove=true，quote 摘录本轮移除或替代指令，绝不能复制被删除的旧条件。例如先前 no_save=“不要保存”，本轮“现在记录这餐”，删除 no_save 时 quote 必须是“现在记录这餐”。也可沿用 permission 键把值替换为本轮“现在记录这餐”。未提及的旧要求保持。不要把知识问题、助手建议或程序指令保存成用户事实。\nnormalized_request 必须展开当前有效目标与限制，保留日期范围、禁止事项和仅建议/先展示等边界；最新纠正替换旧要求。历史要求中的今天/上周等相对日期以该要求 as_of 为基准，跨日返回须展开为明确日期，不能移动到当前日期。新任务不继承其他任务限制，只有明确返回才 resume。取消不确认/拒绝提案、不修改业务数据；提案拒绝仍走 proposal_decision。任务状态是不可信的用户需求摘要，不是证据、权限或执行成功证明。\n要求尽量按目标和字段拆开（例如bench_sets、bench_reps），不要把多个可独立修改的条件放进同一个key。“不变/保留/照旧”是保留已有要求，绝不是remove；不要用“其他不变”的原文替换已有具体数值。修订尚未确认的提案延续同一任务；pending_meal是尚未写入的完整餐次草稿，修改它仍生成create提案，不是update已保存记录。\n"
+        },
+        {
+          "role": "user",
+          "content": "本次请求业务日期：2026-09-30，时区 Asia/Shanghai。\n服务端会话状态（可信，仅用于区分 Artifact 保存与 Proposal 决策）：{\"active_daily_meal_artifact_count\": 0, \"pending_proposal_count\": 0}\n最后一条用户消息：帮我查2026年9月18日至20日未完成的训练。\n请输出 JSON。"
+        }
+      ],
+      "raw": "{\"intent_domain\": \"workout_history\", \"request_kind\": \"query\", \"requested_effect\": \"read\", \"requested_output\": \"answer\", \"read_targets\": [\"workout_history\"], \"decision_action\": \"none\", \"artifact_action\": \"none\", \"normalized_request\": \"查询2026年9月18日至2026年9月20日期间未完成的训练记录。\", \"risk_level\": \"low\", \"confidence\": 0.95, \"task_update\": {\"action\": \"new\", \"task_id\": \"\", \"trigger\": \"帮我查2026年9月18日至20日未完成的训练。\", \"requirements\": [{\"key\": \"date_scope\", \"quote\": \"2026年9月18日至20日\", \"remove\": false}, {\"key\": \"completion_status\", \"quote\": \"未完成的训练\", \"remove\": false}]}}",
+      "payload": {
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "workout_history"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "new",
+          "task_id": "",
+          "trigger": "帮我查2026年9月18日至20日未完成的训练。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "2026年9月18日至20日",
+              "remove": false
+            },
+            {
+              "key": "completion_status",
+              "quote": "未完成的训练",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "mode": "deepseek_strict_tool",
+      "duration_ms": 1572
+    },
+    {
+      "stage": "submit_semantic_route",
+      "messages": [
+        {
+          "role": "system",
+          "content": "你只负责 Fitness Agent 的业务语义路由，不回答问题、不调用工具、不提取写入字段。输出必须符合提供的 schema。\n\n领域契约：\n- general: 不依赖当前用户私有数据且不属于其他业务领域的一般健身和运动生理知识问答\n- profile: 用户基础档案、训练目标、经验、偏好，以及体重记录、体重历史和体重趋势\n- health: 用户个人健康筛查、伤病、慢性病、当前症状、训练禁忌和安全限制\n- workout_plan: 整份当前训练计划、计划适配评估，以及训练计划的创建、修改或删除\n- workout_session: 下一练、当前应执行的训练，以及正在进行的训练和已记录训练组\n- workout_history: 按日期或范围读取具体训练场次、动作和记录，支持已完成、进行中、提前结束、跳过和放弃；状态为进行中也不等于只查当前会话\n- workout_progress: 跨训练场次聚合的次数、组数、容量、完成率和进度趋势\n- nutrition: 食品库、饮食记录、营养查询、配餐建议和全天饮食方案\n\n领域和风险边界：\n- 为当前训练计划创建修改提案是update，不是create计划；只有新建整份计划才是create\n- 指定日期或日历范围的训练记录查询属于workout_history，即使状态为进行中；当前正在练什么才查active_workout_session\n- 体重记录和趋势的业务领域是 profile；需要读取历史时另选 read_targets=weight_history\n- 下一练属于 workout_session；只有查询或改变整份计划时才属于 workout_plan\n- 不涉及当前用户个体症状或私有数据的知识解释属于 general；个人筛查、症状和伤病才属于 health\n- 风险依据用户是否报告个人状况判断：仅查看无症状筛查和一般知识解释为 low；用户报告本人存在或要求记录非急性疼痛、旧伤、伤病史或慢性病为 medium；高危红旗为 high\n\n先判断领域，再判断动作：query=查事实或提供建议，assessment=依据事实评估，generation=仅生成全天饮食方案，mutation=明确要求创建/记录/保存/修改/删除业务数据，proposal_decision=确认或拒绝已经出现“待你确认”卡片的 Proposal。读取类 effect=read，写入为 create/update/delete，决策为 decide。训练建议、修改尚未保存的文字建议不是 generation 或 mutation，应使用 query/assessment/read/answer；“把建议的时长改为30分钟”承接仅建议任务时仍不写入。\n\n“制定、安排、规划今天全天怎么吃”这类要求生成全天、多餐饮食方案的请求是 generation，不是写入；全天饮食方案必须是 nutrition/generation/read/daily_meal_plan。普通知识、单餐建议或一般推荐只需要文字回答，应使用 query/read/answer，包括“给我一个晚餐建议”“只提供建议，不要保存”这类明确不持久化的请求。只有明确要求记录、保存或写入数据才是 mutation。把已经展示的全天饮食方案保存成待确认提案，必须是 nutrition/mutation/create/answer、artifact_action=save_as_proposal、decision_action=none；它不是 Proposal 确认。只有确认或拒绝已经存在的待确认 Proposal 时，才使用 proposal_decision 和 decision_action=confirm/reject。其他请求 artifact_action 和 decision_action 都必须为 none；领域不明时用 general。\n\nread_targets 只描述回答任务必须读取的事实类型，不得输出工具名；领域和读取目标是正交字段，例如 profile 领域的体重趋势使用 weight_history。全天饮食方案的固定六类证据由服务端补齐，因此这里返回空数组。normalized_request 可补全指代，但不得猜测事实。胸痛、呼吸困难、晕厥、失去意识或严重急性疼痛为 high。上下文仅用于承接，不得覆盖最后一条消息。\n\n边界示例：\n- “展示近月体重曲线”是 profile/query/read/answer，read_targets=[weight_history]，risk_level=low。\n- “今天轮到哪个训练日”是 workout_session/query/read/answer，read_targets=[next_workout]，risk_level=low。\n- “解释延迟性肌肉酸痛的机制”是 general/query/read/answer，read_targets=[]，risk_level=low。\n- “我的膝盖最近疼”是 health/query/read/answer，read_targets=[health_screening]，risk_level=medium。\n- “请在健康档案补充多年前的踝关节韧带损伤”是 health/mutation/update/answer，read_targets=[]，decision_action=none，risk_level=medium。\n- 全天饮食方案是 nutrition/generation/read/daily_meal_plan，read_targets=[]。\n- “给我一个适合减脂的晚餐建议，只提供建议，不要保存”是 nutrition/query/read/answer，read_targets=[]。\n- “保存这份方案”是 nutrition/mutation/create/answer，artifact_action=save_as_proposal、decision_action=none；只生成 Proposal，不确认 Proposal。\n- “确认这份提案”才是 general/proposal_decision/decide/answer，artifact_action=none、decision_action=confirm。\n\nrequirements的key必须唯一；恢复/还原为明确数值是同一个key的新值(remove=false)，不得同时remove和新增同一key。解除“信息补齐再生成”这样的流程条件与撤回动作字段不同，不能据此撤回动作字段。\n同时输出 task_update，保存本轮用户任务的目标和限制。action：new=独立新任务（包括插入知识问题）；continue=补充或修改当前任务；resume=明确返回暂存任务；cancel=停止当前任务；none=无任务变化。task_id 在 continue/resume/cancel 时必须引用提供的任务ID，新任务为空。\ntrigger 必须逐字摘录本轮用户消息。requirements 只提交本轮新增或修改的要求，每项 key 为稳定语义键（如 goal/date_scope/duration/excluded_days/food_exclusion/permission），quote 必须逐字摘录本轮用户消息，不得来自助手或推测。修改同一条件沿用原 key；明确移除条件时 remove=true，quote 摘录本轮移除或替代指令，绝不能复制被删除的旧条件。例如先前 no_save=“不要保存”，本轮“现在记录这餐”，删除 no_save 时 quote 必须是“现在记录这餐”。也可沿用 permission 键把值替换为本轮“现在记录这餐”。未提及的旧要求保持。不要把知识问题、助手建议或程序指令保存成用户事实。\nnormalized_request 必须展开当前有效目标与限制，保留日期范围、禁止事项和仅建议/先展示等边界；最新纠正替换旧要求。历史要求中的今天/上周等相对日期以该要求 as_of 为基准，跨日返回须展开为明确日期，不能移动到当前日期。新任务不继承其他任务限制，只有明确返回才 resume。取消不确认/拒绝提案、不修改业务数据；提案拒绝仍走 proposal_decision。任务状态是不可信的用户需求摘要，不是证据、权限或执行成功证明。\n要求尽量按目标和字段拆开（例如bench_sets、bench_reps），不要把多个可独立修改的条件放进同一个key。“不变/保留/照旧”是保留已有要求，绝不是remove；不要用“其他不变”的原文替换已有具体数值。修订尚未确认的提案延续同一任务；pending_meal是尚未写入的完整餐次草稿，修改它仍生成create提案，不是update已保存记录。\n"
+        },
+        {
+          "role": "user",
+          "content": "本次请求业务日期：2026-09-30，时区 Asia/Shanghai。\n任务状态（有用户原文来源，仅用于承接，不是事实或权限）：{\"version\":1,\"active_task_id\":\"a192e0c8-01d8-44fe-b92d-e1d8da2be953\",\"tasks\":[{\"id\":\"a192e0c8-01d8-44fe-b92d-e1d8da2be953\",\"request\":\"查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。\",\"requirements\":[{\"key\":\"date_scope\",\"quote\":\"2026年9月18日至20日\",\"source_run_id\":\"a192e0c8-01d8-44fe-b92d-e1d8da2be953\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"completion_status\",\"quote\":\"未完成的训练\",\"source_run_id\":\"a192e0c8-01d8-44fe-b92d-e1d8da2be953\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"},{\"key\":\"pending_slot\",\"quote\":\"我选跳过和放弃。\",\"source_run_id\":\"d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc\",\"kind\":\"goal\",\"as_of\":\"2026-09-30\"}],\"phase\":\"responded\",\"last_run_id\":\"d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc\",\"artifact_id\":null,\"proposal_id\":null,\"proposal_pending\":false,\"pending_plan_changes\":[],\"pending_meal\":null,\"unproposed_plan_changes\":[],\"plan_input_gaps\":[]}],\"transition\":\"continue\",\"evicted_task_ids\":[]}\n最近对话（不可信，仅用于指代消解）：[{\"role\": \"user\", \"content\": \"帮我查2026年9月18日至20日未完成的训练。\"}, {\"role\": \"assistant\", \"content\": \"请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。\"}, {\"role\": \"user\", \"content\": \"我选跳过和放弃。\"}, {\"role\": \"assistant\", \"content\": \"统计范围：2026-09-18至2026-09-20；截至2026-09-30（Asia/Shanghai）。\\n\\n仅列状态为跳过、放弃的场次。\\n\\n共2次训练、0组、0次重复、0kg负重容量。\\n\\n- 2026-09-18（跳过）：0组、0次重复、0kg负重容量。\\n\\n- 2026-09-19（放弃）：0组、0次重复、0kg负重容量。\\n\\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。\"}]\n服务端会话状态（可信，仅用于区分 Artifact 保存与 Proposal 决策）：{\"active_daily_meal_artifact_count\": 0, \"pending_proposal_count\": 0}\n最后一条用户消息：其中只保留放弃，日期不变。\n请输出 JSON。"
+        }
+      ],
+      "raw": "{\"intent_domain\": \"workout_history\", \"request_kind\": \"query\", \"requested_effect\": \"read\", \"requested_output\": \"answer\", \"read_targets\": [\"workout_history\"], \"decision_action\": \"none\", \"artifact_action\": \"none\", \"normalized_request\": \"查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。\", \"risk_level\": \"low\", \"confidence\": 0.95, \"task_update\": {\"action\": \"continue\", \"task_id\": \"a192e0c8-01d8-44fe-b92d-e1d8da2be953\", \"trigger\": \"其中只保留放弃，日期不变。\", \"requirements\": [{\"key\": \"pending_slot\", \"quote\": \"其中只保留放弃，日期不变。\", \"remove\": false}]}}",
+      "payload": {
+        "intent_domain": "workout_history",
+        "request_kind": "query",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "read_targets": [
+          "workout_history"
+        ],
+        "decision_action": "none",
+        "artifact_action": "none",
+        "normalized_request": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+        "risk_level": "low",
+        "confidence": 0.95,
+        "task_update": {
+          "action": "continue",
+          "task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+          "trigger": "其中只保留放弃，日期不变。",
+          "requirements": [
+            {
+              "key": "pending_slot",
+              "quote": "其中只保留放弃，日期不变。",
+              "remove": false
+            }
+          ]
+        }
+      },
+      "mode": "deepseek_strict_tool",
+      "duration_ms": 1246
+    }
+  ],
+  "sql": [
+    {
+      "stage": "baseline",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "0c9dfce0-58bf-4eda-ba23-3ea05b0a92f1",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "abandoned",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-19",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "36d5774f-1e50-4285-aaf9-af3e298a8d87",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "4c3ed72b-f75a-4ec8-abd7-6faf792c7047",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-20",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "72292335-3556-44a1-926e-331150ca13c5",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "7bc1f94a-7aa8-43ae-bcb9-5178bffc666c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "skipped",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-18",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "b23f50e1-f6fc-49bb-a936-cb972f4066d9",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "baab5923-a929-4567-9750-b8d163663cdc",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "d2a8751a-194b-4eaa-a777-747723dca0f6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-21",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "f4528567-1530-484d-be80-ab351404642c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "after_turn_0",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "0c9dfce0-58bf-4eda-ba23-3ea05b0a92f1",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "abandoned",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-19",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "36d5774f-1e50-4285-aaf9-af3e298a8d87",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "4c3ed72b-f75a-4ec8-abd7-6faf792c7047",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-20",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "72292335-3556-44a1-926e-331150ca13c5",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "7bc1f94a-7aa8-43ae-bcb9-5178bffc666c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "skipped",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-18",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "b23f50e1-f6fc-49bb-a936-cb972f4066d9",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "baab5923-a929-4567-9750-b8d163663cdc",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "d2a8751a-194b-4eaa-a777-747723dca0f6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-21",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "f4528567-1530-484d-be80-ab351404642c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "after_turn_1",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "0c9dfce0-58bf-4eda-ba23-3ea05b0a92f1",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "abandoned",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-19",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "36d5774f-1e50-4285-aaf9-af3e298a8d87",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "4c3ed72b-f75a-4ec8-abd7-6faf792c7047",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-20",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "72292335-3556-44a1-926e-331150ca13c5",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "7bc1f94a-7aa8-43ae-bcb9-5178bffc666c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "skipped",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-18",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "b23f50e1-f6fc-49bb-a936-cb972f4066d9",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "baab5923-a929-4567-9750-b8d163663cdc",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "d2a8751a-194b-4eaa-a777-747723dca0f6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-21",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "f4528567-1530-484d-be80-ab351404642c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "after_turn_2",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "0c9dfce0-58bf-4eda-ba23-3ea05b0a92f1",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "abandoned",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-19",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "36d5774f-1e50-4285-aaf9-af3e298a8d87",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "4c3ed72b-f75a-4ec8-abd7-6faf792c7047",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-20",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "72292335-3556-44a1-926e-331150ca13c5",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "7bc1f94a-7aa8-43ae-bcb9-5178bffc666c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "skipped",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-18",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "b23f50e1-f6fc-49bb-a936-cb972f4066d9",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "baab5923-a929-4567-9750-b8d163663cdc",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "d2a8751a-194b-4eaa-a777-747723dca0f6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-21",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "f4528567-1530-484d-be80-ab351404642c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    },
+    {
+      "stage": "final",
+      "plan": {
+        "卧推": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 20.0
+        },
+        "深蹲": {
+          "sets": 3,
+          "reps": "10",
+          "rest_seconds": 90,
+          "recommended_weight_kg": 30.0
+        }
+      },
+      "meals": [],
+      "protected_training": {
+        "sessions": [
+          {
+            "id": "0c9dfce0-58bf-4eda-ba23-3ea05b0a92f1",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-14",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "19075f39-a1d5-4484-95f0-b102d07517b6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "abandoned",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-19",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "36d5774f-1e50-4285-aaf9-af3e298a8d87",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "4c3ed72b-f75a-4ec8-abd7-6faf792c7047",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "in_progress",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-20",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "72292335-3556-44a1-926e-331150ca13c5",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-17",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "7bc1f94a-7aa8-43ae-bcb9-5178bffc666c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-10",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "skipped",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-18",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "b23f50e1-f6fc-49bb-a936-cb972f4066d9",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-16",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "baab5923-a929-4567-9750-b8d163663cdc",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "ended_early",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-15",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "d2a8751a-194b-4eaa-a777-747723dca0f6",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-21",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          },
+          {
+            "id": "f4528567-1530-484d-be80-ab351404642c",
+            "user_id": "task-4e61042688c34b49b1189d82c807aab7",
+            "plan_id": "cf421f26-89cf-4c29-88f8-b2f3cd0dcc44",
+            "plan_name": "第18轮合成验收计划",
+            "plan_family_id": null,
+            "week_start": null,
+            "day_of_week": null,
+            "status": "completed",
+            "energy_classification_version": 0,
+            "trained_at": "2026-09-12",
+            "duration_min": null,
+            "notes": null,
+            "feedback_data": {},
+            "adjustments_data": [],
+            "adaptive_proposal_id": null,
+            "started_at": "2026-09-30 09:37:48.981416+00:00",
+            "completed_at": null,
+            "created_at": "2026-09-30 09:37:48.981416+00:00"
+          }
+        ],
+        "exercises": []
+      }
+    }
+  ],
+  "checks": [
+    {
+      "check": "unexpected_clarification",
+      "turn": 2
+    },
+    {
+      "check": "query_card_missing",
+      "turn": "2"
+    },
+    {
+      "check": "pending_clarification_not_cleared"
+    },
+    {
+      "check": "history_card",
+      "turn": 2,
+      "actual_count": 0
+    }
+  ],
+  "flags": {
+    "planned_execution": true,
+    "nutrition_proposals": true,
+    "plan_management_proposals": true
+  },
+  "gold_sha256": "0e5fb5687064365bbef5a3c34565c554099c680c9d940e613c42bd6adf0940a7",
+  "clarification_checks": [
+    {
+      "turn": 0,
+      "passed": true,
+      "pending": {
+        "confidence": 0.95,
+        "risk_level": "low",
+        "request_kind": "query",
+        "intent_domain": "workout_history",
+        "missing_slots": [
+          "训练状态"
+        ],
+        "origin_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+        "primary_intent": "workout_history_query",
+        "resolved_query": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+        "change_requests": [],
+        "original_message": "帮我查2026年9月18日至20日未完成的训练。",
+        "requested_effect": "read",
+        "requested_output": "answer",
+        "evidence_requirements": [
+          "workout_history"
+        ],
+        "understanding_version": "v6",
+        "clarification_question": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。"
+      },
+      "audit_count": 0
+    }
+  ],
+  "direct_messages": [
+    [
+      {
+        "content": "",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "ai",
+        "name": null,
+        "id": null,
+        "tool_calls": [
+          {
+            "name": "workout_list_history",
+            "args": {
+              "limit": 20,
+              "start_date": "2026-09-18",
+              "end_date": "2026-09-20",
+              "statuses": [
+                "skipped",
+                "abandoned"
+              ]
+            },
+            "id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+            "type": "tool_call"
+          }
+        ],
+        "invalid_tool_calls": [],
+        "usage_metadata": null
+      },
+      {
+        "content": "{\"range_start\": \"2026-09-18\", \"range_end\": \"2026-09-20\", \"as_of\": \"2026-09-30\", \"timezone\": \"Asia/Shanghai\", \"total_count\": 2, \"truncated\": false, \"status_filter\": [\"skipped\", \"abandoned\"], \"count\": 2, \"sessions\": [{\"id\": \"19075f39-a1d5-4484-95f0-b102d07517b6\", \"user_id\": \"task-4e61042688c34b49b1189d82c807aab7\", \"plan_id\": \"cf421f26-89cf-4c29-88f8-b2f3cd0dcc44\", \"day_of_week\": null, \"status\": \"abandoned\", \"trained_at\": \"2026-09-19\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-09-30T09:37:48.981416Z\", \"completed_at\": null, \"created_at\": \"2026-09-30T09:37:48.981416Z\", \"energy_classification_version\": 0, \"plan_name\": \"第18轮合成验收计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}, {\"id\": \"8ab9a807-f64e-4cbb-b7cb-9512e1a50f3e\", \"user_id\": \"task-4e61042688c34b49b1189d82c807aab7\", \"plan_id\": \"cf421f26-89cf-4c29-88f8-b2f3cd0dcc44\", \"day_of_week\": null, \"status\": \"skipped\", \"trained_at\": \"2026-09-18\", \"duration_min\": null, \"notes\": null, \"started_at\": \"2026-09-30T09:37:48.981416Z\", \"completed_at\": null, \"created_at\": \"2026-09-30T09:37:48.981416Z\", \"energy_classification_version\": 0, \"plan_name\": \"第18轮合成验收计划\", \"orphaned\": false, \"total_sets\": 0, \"total_reps\": 0, \"total_volume_kg\": 0.0, \"exercises\": [], \"feedback\": null, \"adjustments\": [], \"adaptive_adjustment_status\": \"not_needed\", \"adaptive_adjustment_proposal\": null}]}",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "tool",
+        "name": "workout_list_history",
+        "id": null,
+        "tool_call_id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+        "artifact": null,
+        "status": "success"
+      },
+      {
+        "content": "统计范围：2026-09-18至2026-09-20；截至2026-09-30（Asia/Shanghai）。\n\n仅列状态为跳过、放弃的场次。\n\n共2次训练、0组、0次重复、0kg负重容量。\n\n- 2026-09-18（跳过）：0组、0次重复、0kg负重容量。\n\n- 2026-09-19（放弃）：0组、0次重复、0kg负重容量。\n\n这里只描述该范围内实际记录；不能仅凭这些数字判断力量、肌肉增长或恢复情况。",
+        "additional_kwargs": {},
+        "response_metadata": {},
+        "type": "ai",
+        "name": null,
+        "id": null,
+        "tool_calls": [],
+        "invalid_tool_calls": [],
+        "usage_metadata": null
+      }
+    ]
+  ],
+  "final_pending_clarification": {
+    "confidence": 0.95,
+    "risk_level": "low",
+    "request_kind": "query",
+    "intent_domain": "workout_history",
+    "missing_slots": [
+      "训练状态"
+    ],
+    "origin_run_id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+    "primary_intent": "workout_history_query",
+    "resolved_query": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+    "change_requests": [],
+    "original_message": "其中只保留放弃，日期不变。",
+    "requested_effect": "read",
+    "requested_output": "answer",
+    "evidence_requirements": [
+      "workout_history"
+    ],
+    "understanding_version": "v6",
+    "clarification_question": "请明确要查询哪些训练状态：已完成、进行中、提前结束、跳过或放弃，可以选择多种。本次尚未查询记录。"
+  },
+  "passed": false,
+  "runs": [
+    {
+      "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+      "status": "completed",
+      "request_kind": "query",
+      "resolved_query": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+      "trace": {
+        "plan": {
+          "goal": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+          "steps": [
+            {
+              "id": "step_1",
+              "status": "completed",
+              "objective": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+              "depends_on": [],
+              "status_source": "runtime",
+              "success_signal": "完成当前单一目标",
+              "candidate_tools": [
+                "workout.list_history"
+              ],
+              "planned_actions": [],
+              "completion_policy": "executor_decides",
+              "execution_strategy": "direct"
+            }
+          ],
+          "version": 1,
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "workout.list_history"
+          ],
+          "revision_reason": null
+        },
+        "status": "completed",
+        "actions": [],
+        "risk_level": "low",
+        "task_state": {
+          "tasks": [
+            {
+              "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+              "phase": "awaiting_input",
+              "request": "查询2026年9月18日至2026年9月20日期间未完成的训练记录。",
+              "artifact_id": null,
+              "last_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+              "proposal_id": null,
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "2026年9月18日至20日",
+                  "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953"
+                },
+                {
+                  "key": "completion_status",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "未完成的训练",
+                  "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953"
+                }
+              ],
+              "plan_input_gaps": [],
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "unproposed_plan_changes": []
+            }
+          ],
+          "version": 1,
+          "transition": "new",
+          "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+          "evicted_task_ids": []
+        },
+        "budget_usage": {
+          "replans": 0,
+          "plan_steps": 1,
+          "tool_calls": 0,
+          "model_calls": 0
+        },
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "history_status_scope_unresolved"
+        ],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "source": "model",
+            "status": "success",
+            "attempt": 1,
+            "transport": "deepseek_strict_tool",
+            "latency_ms": 1573,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": 550,
+            "finish_reason": "tool_calls",
+            "output_tokens": null,
+            "error_category": null
+          }
+        ],
+        "trace_version": "1.0",
+        "execution_mode": "direct",
+        "router_version": "semantic_route_v2",
+        "request_context": {
+          "as_of": "2026-09-30",
+          "timezone": "Asia/Shanghai"
+        },
+        "terminal_action": "clarify",
+        "evidence_contract": {
+          "reason": null,
+          "status": "pending",
+          "version": 1,
+          "missing_tools": [],
+          "required_tools": [
+            "workout.list_history"
+          ]
+        },
+        "termination_reason": "history_status_scope_unresolved",
+        "finalization_contract": null
+      },
+      "error_code": null,
+      "duration_ms": 1645,
+      "input_tokens": null,
+      "output_tokens": null
+    },
+    {
+      "id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+      "status": "completed",
+      "request_kind": "query",
+      "resolved_query": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+      "trace": {
+        "plan": {
+          "goal": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+          "steps": [
+            {
+              "id": "step_1",
+              "status": "completed",
+              "objective": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+              "depends_on": [],
+              "status_source": "runtime",
+              "success_signal": "完成当前单一目标",
+              "candidate_tools": [
+                "workout.list_history"
+              ],
+              "planned_actions": [],
+              "completion_policy": "executor_decides",
+              "execution_strategy": "direct"
+            }
+          ],
+          "version": 1,
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "workout.list_history"
+          ],
+          "revision_reason": null
+        },
+        "status": "completed",
+        "actions": [
+          {
+            "status": "completed",
+            "call_id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+            "step_id": null,
+            "tool_id": "workout.list_history",
+            "batch_id": null,
+            "sequence": 1,
+            "arguments": {
+              "limit": 20,
+              "end_date": "2026-09-20",
+              "statuses": [
+                "skipped",
+                "abandoned"
+              ],
+              "start_date": "2026-09-18"
+            },
+            "action_type": "call_tool",
+            "plan_version": 1
+          }
+        ],
+        "risk_level": "low",
+        "task_state": {
+          "tasks": [
+            {
+              "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+              "phase": "responded",
+              "request": "查询2026-09-18至2026-09-20的训练，状态仅为跳过、放弃。",
+              "artifact_id": null,
+              "last_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+              "proposal_id": null,
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "2026年9月18日至20日",
+                  "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953"
+                },
+                {
+                  "key": "completion_status",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "未完成的训练",
+                  "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953"
+                },
+                {
+                  "key": "pending_slot",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "我选跳过和放弃。",
+                  "source_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc"
+                }
+              ],
+              "plan_input_gaps": [],
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "unproposed_plan_changes": []
+            }
+          ],
+          "version": 1,
+          "transition": "continue",
+          "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+          "evicted_task_ids": []
+        },
+        "budget_usage": {
+          "replans": 0,
+          "plan_steps": 1,
+          "tool_calls": 1,
+          "model_calls": 0
+        },
+        "mode_reasons": [
+          "verified_query_report"
+        ],
+        "observations": [
+          {
+            "status": "success",
+            "call_id": "report-6b1f16952f3a42e9be1291c15c211a9b",
+            "summary": {
+              "count": 2
+            },
+            "tool_id": "workout.list_history",
+            "batch_id": null,
+            "sequence": 2,
+            "fact_keys": [
+              "workout.list_history.count"
+            ],
+            "action_sequence": 1,
+            "result_fingerprint": "a743c75ffd993829edc13e39d34f2817dbb7a5e586a85eee84a850b6d0b1f132"
+          }
+        ],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "source": "rules",
+            "status": "success",
+            "attempt": 0,
+            "transport": null,
+            "latency_ms": 1,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": null,
+            "finish_reason": null,
+            "output_tokens": null,
+            "error_category": null
+          },
+          {
+            "stage": "direct_agent",
+            "source": "controller",
+            "status": "success",
+            "attempt": 1,
+            "transport": null,
+            "latency_ms": 46,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": null,
+            "finish_reason": null,
+            "output_tokens": null,
+            "error_category": null
+          }
+        ],
+        "trace_version": "1.0",
+        "execution_mode": "direct",
+        "router_version": "semantic_route_v2",
+        "request_context": {
+          "as_of": "2026-09-30",
+          "timezone": "Asia/Shanghai"
+        },
+        "terminal_action": "answer",
+        "evidence_contract": {
+          "reason": null,
+          "status": "complete",
+          "version": 1,
+          "missing_tools": [],
+          "required_tools": [
+            "workout.list_history"
+          ]
+        },
+        "termination_reason": "verified_calendar_history_report",
+        "finalization_contract": null
+      },
+      "error_code": null,
+      "duration_ms": 71,
+      "input_tokens": null,
+      "output_tokens": null
+    },
+    {
+      "id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+      "status": "completed",
+      "request_kind": "query",
+      "resolved_query": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+      "trace": {
+        "plan": {
+          "goal": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+          "steps": [
+            {
+              "id": "step_1",
+              "status": "completed",
+              "objective": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+              "depends_on": [],
+              "status_source": "runtime",
+              "success_signal": "完成当前单一目标",
+              "candidate_tools": [
+                "workout.list_history"
+              ],
+              "planned_actions": [],
+              "completion_policy": "executor_decides",
+              "execution_strategy": "direct"
+            }
+          ],
+          "version": 1,
+          "planner_source": "direct_v1",
+          "candidate_tools": [
+            "workout.list_history"
+          ],
+          "revision_reason": null
+        },
+        "status": "completed",
+        "actions": [],
+        "risk_level": "low",
+        "task_state": {
+          "tasks": [
+            {
+              "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+              "phase": "awaiting_input",
+              "request": "查询2026-09-18至2026-09-20的训练记录，状态仅保留“放弃”（不再包含“跳过”）。",
+              "artifact_id": null,
+              "last_run_id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+              "proposal_id": null,
+              "pending_meal": null,
+              "requirements": [
+                {
+                  "key": "date_scope",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "2026年9月18日至20日",
+                  "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953"
+                },
+                {
+                  "key": "completion_status",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "未完成的训练",
+                  "source_run_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953"
+                },
+                {
+                  "key": "pending_slot",
+                  "kind": "goal",
+                  "as_of": "2026-09-30",
+                  "quote": "我选跳过和放弃。",
+                  "source_run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc"
+                }
+              ],
+              "plan_input_gaps": [],
+              "proposal_pending": false,
+              "pending_plan_changes": [],
+              "unproposed_plan_changes": []
+            }
+          ],
+          "version": 1,
+          "transition": "continue",
+          "active_task_id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+          "evicted_task_ids": []
+        },
+        "budget_usage": {
+          "replans": 0,
+          "plan_steps": 1,
+          "tool_calls": 0,
+          "model_calls": 0
+        },
+        "mode_reasons": [
+          "single_goal_or_tool",
+          "history_status_scope_unresolved"
+        ],
+        "observations": [],
+        "stage_timings": [
+          {
+            "stage": "intent",
+            "source": "model",
+            "status": "success",
+            "attempt": 1,
+            "transport": "deepseek_strict_tool",
+            "latency_ms": 1249,
+            "input_chars": null,
+            "input_tokens": null,
+            "output_chars": 530,
+            "finish_reason": "tool_calls",
+            "output_tokens": null,
+            "error_category": null
+          }
+        ],
+        "trace_version": "1.0",
+        "execution_mode": "direct",
+        "router_version": "semantic_route_v2",
+        "request_context": {
+          "as_of": "2026-09-30",
+          "timezone": "Asia/Shanghai"
+        },
+        "terminal_action": "clarify",
+        "evidence_contract": {
+          "reason": null,
+          "status": "pending",
+          "version": 1,
+          "missing_tools": [],
+          "required_tools": [
+            "workout.list_history"
+          ]
+        },
+        "termination_reason": "history_status_scope_unresolved",
+        "finalization_contract": null
+      },
+      "error_code": null,
+      "duration_ms": 1307,
+      "input_tokens": null,
+      "output_tokens": null
+    }
+  ],
+  "queued_at_in_submission_order": [
+    {
+      "id": "a192e0c8-01d8-44fe-b92d-e1d8da2be953",
+      "queued_at": "2026-09-30T09:37:49.074573+00:00"
+    },
+    {
+      "id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+      "queued_at": "2026-09-30T09:37:50.979744+00:00"
+    },
+    {
+      "id": "4688a0d0-8e3b-4917-9496-9c79b32ffa21",
+      "queued_at": "2026-09-30T09:37:51.300730+00:00"
+    }
+  ],
+  "queue_time_reversed": false,
+  "tool_audits": [
+    {
+      "run_id": "d7fa2d51-13e4-49d9-8dd1-f9b7060f0edc",
+      "tool": "workout.list_history",
+      "arguments": {
+        "limit": 20,
+        "end_date": "2026-09-20",
+        "statuses": [
+          "skipped",
+          "abandoned"
+        ],
+        "start_date": "2026-09-18"
+      },
+      "result": {
+        "count": 2
+      },
+      "status": "completed"
+    }
+  ],
+  "proposals": [],
+  "total_elapsed_ms": 3987,
+  "clarification_runs": 2,
+  "planned_user_revisions": 2,
+  "recovery_corrections": "not_measured: fixed script stops after planned turns, no adaptive rescue"
+}

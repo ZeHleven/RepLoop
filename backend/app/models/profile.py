@@ -16,7 +16,7 @@ class UserProfile(Base):
         String, ForeignKey("users.id"), unique=True, index=True
     )
     age: Mapped[int | None] = mapped_column(Integer, nullable=True)
-    gender: Mapped[str | None] = mapped_column(String(10), nullable=True)
+    gender: Mapped[str | None] = mapped_column(String(32), nullable=True)
     height_cm: Mapped[float | None] = mapped_column(Float, nullable=True)
     weight_kg: Mapped[float | None] = mapped_column(Float, nullable=True)
     bmi: Mapped[float | None] = mapped_column(Float, nullable=True)
@@ -27,8 +27,9 @@ class UserProfile(Base):
     session_duration_min: Mapped[int | None] = mapped_column(Integer, nullable=True)
     training_location: Mapped[str | None] = mapped_column(String(50), nullable=True)
     diet_restriction: Mapped[str | None] = mapped_column(String(50), nullable=True)
-    injuries: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
-    chronic_conditions: Mapped[dict | None] = mapped_column(JSONB, nullable=True)
+    daily_activity_level: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    injuries: Mapped[list | None] = mapped_column(JSONB, nullable=True)
+    chronic_conditions: Mapped[list | None] = mapped_column(JSONB, nullable=True)
     onboarding_completed: Mapped[bool] = mapped_column(Boolean, default=False)
     updated_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), server_default=func.now(), onupdate=func.now()

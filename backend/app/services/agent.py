@@ -1,10 +1,14 @@
-import httpx
+import json
+import logging
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 from app.config import settings
 from app.models.chat import ChatSession, ChatMessage
 from app.models.profile import UserProfile
+from app.services.ai_client import AIServiceError, chat_completion
 from app.services.knowledge import search_knowledge_base
+
+logger = logging.getLogger(__name__)
 
 
 SYSTEM_PROMPT = """你是一位专业的中文健身教练和营养顾问。根据用户的体能状况、目标和偏好，
@@ -12,20 +16,13 @@ SYSTEM_PROMPT = """你是一位专业的中文健身教练和营养顾问。根�
 
 
 async def call_deepseek(messages: list[dict]) -> str:
-    async with httpx.AsyncClient() as client:
-        resp = await client.post(
-            f"{settings.DEEPSEEK_BASE_URL}/v1/chat/completions",
-            headers={"Authorization": f"Bearer {settings.DEEPSEEK_API_KEY}"},
-            json={
-                "model": settings.DEEPSEEK_CHAT_MODEL,
-                "messages": messages,
-                "max_tokens": 1024,
-                "temperature": 0.7,
-            },
-            timeout=60.0,
-        )
-        resp.raise_for_status()
-        return resp.json()["choices"][0]["message"]["content"]
+    return await chat_completion(
+        messages,
+        model=settings.DEEPSEEK_CHAT_MODEL,
+        max_tokens=1024,
+        temperature=0.7,
+        thinking=False,
+    )
 
 
 async def _build_system_prompt(db: AsyncSession, user_id: str) -> str:
@@ -37,7 +34,12 @@ async def _build_system_prompt(db: AsyncSession, user_id: str) -> str:
     if profile.age:
         parts.append(f"年龄：{profile.age}岁")
     if profile.gender:
-        parts.append(f"性别：{'男' if profile.gender == 'male' else '女'}")
+        gender_labels = {
+            "male": "男",
+            "female": "女",
+            "prefer_not_to_say": "未透露",
+        }
+        parts.append(f"性别：{gender_labels.get(profile.gender, '未透露')}")
     if profile.height_cm and profile.weight_kg:
         parts.append(f"身高体重：{profile.height_cm}cm / {profile.weight_kg}kg (BMI {profile.bmi}，{profile.bmi_category})")
     if profile.primary_goal:
@@ -50,6 +52,17 @@ async def _build_system_prompt(db: AsyncSession, user_id: str) -> str:
         parts.append(f"训练地点：{profile.training_location}")
     if profile.diet_restriction:
         parts.append(f"饮食限制：{profile.diet_restriction}")
+    if profile.injuries:
+        parts.append(f"伤病情况：{json.dumps(profile.injuries, ensure_ascii=False)}")
+    if profile.chronic_conditions:
+        parts.append(
+            f"慢性疾病：{json.dumps(profile.chronic_conditions, ensure_ascii=False)}"
+        )
+    if profile.injuries or profile.chronic_conditions:
+        parts.append(
+            "安全要求：避免诊断或替代医疗建议；涉及伤病、胸痛、眩晕、呼吸困难或慢性病风险时，"
+            "应建议用户先咨询医生或合格专业人士。"
+        )
     return "\n".join(parts)
 
 
@@ -62,8 +75,15 @@ async def chat_with_agent(
 ) -> str:
     system_prompt = await _build_system_prompt(db, user_id)
 
-    # RAG: 检索相关知识
-    rag_chunks = await search_knowledge_base(db, query_text=user_message, limit=3)
+    # RAG is optional because DeepSeek currently exposes chat models only.
+    rag_chunks = []
+    if settings.RAG_ENABLED:
+        try:
+            rag_chunks = await search_knowledge_base(
+                db, query_text=user_message, limit=3
+            )
+        except AIServiceError as exc:
+            logger.warning("RAG lookup skipped: %s", exc)
     if rag_chunks:
         rag_text = "\n".join(f"- {c.content}" for c in rag_chunks)
         system_prompt += f"\n\n【相关知识】\n{rag_text}"

@@ -1,0 +1,560 @@
+{
+  "fixture_version": "1.0.0",
+  "cases": [
+    {
+      "case_id": "route_allowlist.match_ordered",
+      "check_type": "route_allowlist",
+      "legacy_fact": {
+        "tool_ids": [
+          "plan.get_active",
+          "health.get_screening_summary"
+        ]
+      },
+      "registry_fact": {
+        "tool_ids": [
+          "plan.get_active",
+          "health.get_screening_summary"
+        ]
+      },
+      "expected": {
+        "status": "match",
+        "mismatch_codes": []
+      }
+    },
+    {
+      "case_id": "route_allowlist.permission_expansion",
+      "check_type": "route_allowlist",
+      "legacy_fact": {
+        "tool_ids": [
+          "plan.get_active"
+        ]
+      },
+      "registry_fact": {
+        "tool_ids": [
+          "plan.get_active",
+          "profile.get_summary"
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "permission_expansion"
+        ]
+      }
+    },
+    {
+      "case_id": "route_allowlist.registry_omission",
+      "check_type": "route_allowlist",
+      "legacy_fact": {
+        "tool_ids": [
+          "plan.get_active",
+          "health.get_screening_summary"
+        ]
+      },
+      "registry_fact": {
+        "tool_ids": [
+          "plan.get_active"
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "registered_tool_missing"
+        ]
+      }
+    },
+    {
+      "case_id": "route_allowlist.order_mismatch",
+      "check_type": "route_allowlist",
+      "legacy_fact": {
+        "tool_ids": [
+          "plan.get_active",
+          "health.get_screening_summary"
+        ]
+      },
+      "registry_fact": {
+        "tool_ids": [
+          "health.get_screening_summary",
+          "plan.get_active"
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "tool_order_mismatch"
+        ]
+      }
+    },
+    {
+      "case_id": "constructed_tools.match_identities",
+      "check_type": "constructed_tools",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "plan.get_active",
+            "langchain_name": "plan_get_active"
+          },
+          {
+            "tool_id": "workout.get_next",
+            "langchain_name": "workout_get_next"
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "plan.get_active",
+            "langchain_name": "plan_get_active"
+          },
+          {
+            "tool_id": "workout.get_next",
+            "langchain_name": "workout_get_next"
+          }
+        ]
+      },
+      "expected": {
+        "status": "match",
+        "mismatch_codes": []
+      }
+    },
+    {
+      "case_id": "constructed_tools.registry_entry_missing",
+      "check_type": "constructed_tools",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "legacy.read_unknown",
+            "langchain_name": "legacy_read_unknown"
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": []
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "registered_tool_missing"
+        ]
+      }
+    },
+    {
+      "case_id": "constructed_tools.unexpected_known_tool",
+      "check_type": "constructed_tools",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "plan.get_active",
+            "langchain_name": "plan_get_active"
+          },
+          {
+            "tool_id": "profile.get_summary",
+            "langchain_name": "profile_get_summary"
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "plan.get_active",
+            "langchain_name": "plan_get_active"
+          }
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "unexpected_tool"
+        ]
+      }
+    },
+    {
+      "case_id": "constructed_tools.langchain_name_mismatch",
+      "check_type": "constructed_tools",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_next",
+            "langchain_name": "workout_get_next_v1"
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_next",
+            "langchain_name": "workout_get_next"
+          }
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "langchain_name_mismatch"
+        ]
+      }
+    },
+    {
+      "case_id": "argument_schema.match_bounded_default",
+      "check_type": "argument_schema",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.list_history",
+            "schema_ref": "WorkoutHistoryArguments",
+            "additional_properties": false,
+            "fields": [
+              {
+                "name": "limit",
+                "type": "integer",
+                "required": false,
+                "default": 5,
+                "minimum": 1,
+                "maximum": 20
+              }
+            ]
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.list_history",
+            "schema_ref": "WorkoutHistoryArguments",
+            "additional_properties": false,
+            "fields": [
+              {
+                "name": "limit",
+                "type": "integer",
+                "required": false,
+                "default": 5,
+                "minimum": 1,
+                "maximum": 20
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "status": "match",
+        "mismatch_codes": []
+      }
+    },
+    {
+      "case_id": "argument_schema.structure_mismatch",
+      "check_type": "argument_schema",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_progress",
+            "schema_ref": "WorkoutProgressArguments",
+            "additional_properties": false,
+            "fields": [
+              {
+                "name": "weeks",
+                "type": "integer",
+                "required": false,
+                "default": 8,
+                "minimum": 1,
+                "maximum": 52
+              }
+            ]
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_progress",
+            "schema_ref": "WorkoutProgressArguments",
+            "additional_properties": true,
+            "fields": [
+              {
+                "name": "weeks",
+                "type": "integer",
+                "required": false,
+                "default": 8,
+                "minimum": 1,
+                "maximum": 52
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "argument_schema_mismatch"
+        ]
+      }
+    },
+    {
+      "case_id": "argument_schema.default_mismatch",
+      "check_type": "argument_schema",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_progress",
+            "schema_ref": "WorkoutProgressArguments",
+            "additional_properties": false,
+            "fields": [
+              {
+                "name": "weeks",
+                "type": "integer",
+                "required": false,
+                "default": 8,
+                "minimum": 1,
+                "maximum": 52
+              }
+            ]
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_progress",
+            "schema_ref": "WorkoutProgressArguments",
+            "additional_properties": false,
+            "fields": [
+              {
+                "name": "weeks",
+                "type": "integer",
+                "required": false,
+                "default": 4,
+                "minimum": 1,
+                "maximum": 52
+              }
+            ]
+          }
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "default_argument_mismatch"
+        ]
+      }
+    },
+    {
+      "case_id": "parallel_policy.match_safe_and_conditional",
+      "check_type": "parallel_policy",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_active_session",
+            "mode": "read",
+            "side_effects": "none",
+            "parallel_safe": true
+          },
+          {
+            "tool_id": "workout.get_next",
+            "mode": "read",
+            "side_effects": "none",
+            "parallel_safe": true
+          }
+        ],
+        "conditional_pairs": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "fallback_tool_id": "workout.get_next",
+            "speculative_parallel_allowed": false
+          }
+        ]
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "workout.get_active_session",
+            "mode": "read",
+            "side_effects": "none",
+            "parallel_safe": true
+          },
+          {
+            "tool_id": "workout.get_next",
+            "mode": "read",
+            "side_effects": "none",
+            "parallel_safe": true
+          }
+        ],
+        "conditional_pairs": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "fallback_tool_id": "workout.get_next",
+            "speculative_parallel_allowed": false
+          }
+        ]
+      },
+      "expected": {
+        "status": "match",
+        "mismatch_codes": []
+      }
+    },
+    {
+      "case_id": "parallel_policy.tool_policy_mismatch",
+      "check_type": "parallel_policy",
+      "legacy_fact": {
+        "tools": [
+          {
+            "tool_id": "plan.get_active",
+            "mode": "read",
+            "side_effects": "none",
+            "parallel_safe": true
+          }
+        ],
+        "conditional_pairs": []
+      },
+      "registry_fact": {
+        "tools": [
+          {
+            "tool_id": "plan.get_active",
+            "mode": "read",
+            "side_effects": "none",
+            "parallel_safe": false
+          }
+        ],
+        "conditional_pairs": []
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "parallel_policy_mismatch"
+        ]
+      }
+    },
+    {
+      "case_id": "conditional_evidence.match_on_not_found",
+      "check_type": "conditional_evidence",
+      "legacy_fact": {
+        "events": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "primary_status": "success_missing",
+            "fallback_tool_id": "workout.get_next"
+          }
+        ]
+      },
+      "registry_fact": {
+        "events": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "primary_status": "success_missing",
+            "fallback_tool_id": "workout.get_next"
+          }
+        ]
+      },
+      "expected": {
+        "status": "match",
+        "mismatch_codes": []
+      }
+    },
+    {
+      "case_id": "conditional_evidence.match_no_fallback",
+      "check_type": "conditional_evidence",
+      "legacy_fact": {
+        "events": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "primary_status": "success_found",
+            "fallback_tool_id": null
+          }
+        ]
+      },
+      "registry_fact": {
+        "events": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "primary_status": "success_found",
+            "fallback_tool_id": null
+          }
+        ]
+      },
+      "expected": {
+        "status": "match",
+        "mismatch_codes": []
+      }
+    },
+    {
+      "case_id": "conditional_evidence.fallback_mismatch",
+      "check_type": "conditional_evidence",
+      "legacy_fact": {
+        "events": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "primary_status": "success_missing",
+            "fallback_tool_id": null
+          }
+        ]
+      },
+      "registry_fact": {
+        "events": [
+          {
+            "primary_tool_id": "workout.get_active_session",
+            "primary_status": "success_missing",
+            "fallback_tool_id": "workout.get_next"
+          }
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "conditional_evidence_mismatch"
+        ]
+      }
+    },
+    {
+      "case_id": "observation_semantics.match_missing",
+      "check_type": "observation_semantics",
+      "legacy_fact": {
+        "observations": [
+          {
+            "tool_id": "workout.get_active_session",
+            "run_status": "completed",
+            "classification": "success_missing"
+          }
+        ]
+      },
+      "registry_fact": {
+        "observations": [
+          {
+            "tool_id": "workout.get_active_session",
+            "run_status": "completed",
+            "classification": "success_missing"
+          }
+        ]
+      },
+      "expected": {
+        "status": "match",
+        "mismatch_codes": []
+      }
+    },
+    {
+      "case_id": "observation_semantics.classification_mismatch",
+      "check_type": "observation_semantics",
+      "legacy_fact": {
+        "observations": [
+          {
+            "tool_id": "workout.list_history",
+            "run_status": "completed",
+            "classification": "success_empty"
+          }
+        ]
+      },
+      "registry_fact": {
+        "observations": [
+          {
+            "tool_id": "workout.list_history",
+            "run_status": "completed",
+            "classification": "success_found"
+          }
+        ]
+      },
+      "expected": {
+        "status": "mismatch",
+        "mismatch_codes": [
+          "observation_semantics_mismatch"
+        ]
+      }
+    }
+  ]
+}

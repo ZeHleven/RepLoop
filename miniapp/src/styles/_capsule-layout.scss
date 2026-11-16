@@ -1,0 +1,14 @@
+// One geometry contract for the floating bar and the content viewport (750 design units).
+$height: 128px;
+$bottom: 24px;
+$content-gap: 16px;
+$reserved: $height + $bottom + $content-gap;
+
+@mixin scroll-viewport {
+  width: 100%;
+  height: calc(100vh - #{$reserved} - env(safe-area-inset-bottom));
+  min-height: 0;
+  overflow: hidden auto;
+  overscroll-behavior-y: contain;
+  box-sizing: border-box;
+}

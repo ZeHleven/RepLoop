@@ -1,0 +1,33 @@
+# Production overrides: apply with docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+services:
+  postgres:
+    ports: !reset []
+    restart: always
+
+  bootstrap:
+    env_file: .env.production
+
+  fastapi:
+    ports: !reset []
+    env_file: .env.production
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 512m
+
+  caddy:
+    restart: always
+    ports: !override
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMAIN: ${DOMAIN}
+      CADDY_EMAIL: ${CADDY_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_logs:/var/log/caddy
+
+volumes:
+  caddy_logs:

@@ -1,0 +1,335 @@
+[
+  {
+    "id": "G01",
+    "message": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。",
+    "route": {
+      "intent_domain": "workout_plan",
+      "request_kind": "mutation",
+      "requested_effect": "update",
+      "requested_output": "answer",
+      "read_targets": [
+        "active_plan"
+      ],
+      "decision_action": "none",
+      "artifact_action": "none",
+      "normalized_request": "接着刚才那份尚未确认的训练计划提案，把深蹲重量改为35公斤，其他修改（卧推4组7次、休息75秒；深蹲2组12次、休息100秒；卧推重量不变）照旧，仍先给出待确认提案。",
+      "risk_level": "low",
+      "confidence": 0.95,
+      "task_update": {
+        "action": "continue",
+        "task_id": "3117ed97-a933-407e-900b-411cba8084f5",
+        "trigger": "接着刚才那份还没确认的训练计划，把深蹲重量改为35公斤，其他所有修改照旧。",
+        "requirements": [
+          {
+            "key": "squat_weight",
+            "quote": "把深蹲重量改为35公斤",
+            "remove": false
+          },
+          {
+            "key": "weight_unchanged",
+            "quote": "其他所有修改照旧",
+            "remove": true
+          },
+          {
+            "key": "proposal_first",
+            "quote": "接着刚才那份还没确认的训练计划",
+            "remove": false
+          }
+        ]
+      }
+    },
+    "state": {
+      "version": 1,
+      "active_task_id": "c44ebdd1-a156-467d-9dec-91c03156e562",
+      "tasks": [
+        {
+          "id": "c44ebdd1-a156-467d-9dec-91c03156e562",
+          "request": "查询2026年9月10日已完成的训练记录。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "只查2026年9月10日已完成的训练",
+              "source_run_id": "c44ebdd1-a156-467d-9dec-91c03156e562",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "completion_status",
+              "quote": "只查2026年9月10日已完成的训练",
+              "source_run_id": "c44ebdd1-a156-467d-9dec-91c03156e562",
+              "as_of": "2026-09-30"
+            }
+          ],
+          "phase": "responded",
+          "last_run_id": "c44ebdd1-a156-467d-9dec-91c03156e562",
+          "artifact_id": null,
+          "proposal_id": null,
+          "proposal_pending": false,
+          "pending_plan_changes": [],
+          "pending_meal": null
+        },
+        {
+          "id": "3117ed97-a933-407e-900b-411cba8084f5",
+          "request": "把当前训练计划中的卧推改为4组7次、组间休息75秒，深蹲改为2组12次、组间休息100秒，两个动作的重量保持不变，先给出待确认提案。",
+          "requirements": [
+            {
+              "key": "bench_sets",
+              "quote": "卧推设为4组7次",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "bench_reps",
+              "quote": "卧推设为4组7次",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "bench_rest",
+              "quote": "休息75秒",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "squat_sets",
+              "quote": "深蹲设为2组12次",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "squat_reps",
+              "quote": "深蹲设为2组12次",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "squat_rest",
+              "quote": "休息100秒",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "weight_unchanged",
+              "quote": "两个动作重量都不变",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "proposal_first",
+              "quote": "先给提案",
+              "source_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+              "as_of": "2026-09-30"
+            }
+          ],
+          "phase": "awaiting_confirmation",
+          "last_run_id": "3117ed97-a933-407e-900b-411cba8084f5",
+          "artifact_id": null,
+          "proposal_id": "2c97bd66-7b5a-47b7-931d-a4b91edea512",
+          "proposal_pending": true,
+          "pending_plan_changes": [
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "卧推",
+              "value": 4,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "卧推",
+              "value": "7",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "卧推",
+              "value": 75,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.sets",
+              "target_reference": "深蹲",
+              "value": 2,
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.reps",
+              "target_reference": "深蹲",
+              "value": "12",
+              "preserve_unspecified": true
+            },
+            {
+              "resource": "workout_plan",
+              "operation": "update",
+              "field_path": "exercise.rest_seconds",
+              "target_reference": "深蹲",
+              "value": 100,
+              "preserve_unspecified": true
+            }
+          ],
+          "pending_meal": null
+        }
+      ],
+      "transition": "new",
+      "evicted_task_ids": []
+    }
+  },
+  {
+    "id": "G02",
+    "message": "刚才那份还没保存的午餐继续处理：去掉橄榄油，鸡胸改成110克，其他信息不变。",
+    "route": {
+      "intent_domain": "nutrition",
+      "request_kind": "mutation",
+      "requested_effect": "create",
+      "requested_output": "answer",
+      "read_targets": [],
+      "decision_action": "none",
+      "artifact_action": "none",
+      "normalized_request": "继续处理尚未保存的2026年9月26日午餐待确认提案：去掉橄榄油，鸡胸改为110克，米饭140克、日期2026年9月26日、餐次午餐等其他信息不变，重新生成待确认提案。",
+      "risk_level": "low",
+      "confidence": 0.93,
+      "task_update": {
+        "action": "continue",
+        "task_id": "6df00188-198e-45a0-bc1f-ad7744331657",
+        "trigger": "刚才那份还没保存的午餐继续处理：去掉橄榄油，鸡胸改成110克，其他信息不变。",
+        "requirements": [
+          {
+            "key": "food_olive_oil",
+            "quote": "去掉橄榄油",
+            "remove": true
+          },
+          {
+            "key": "food_chicken_breast",
+            "quote": "鸡胸改成110克",
+            "remove": false
+          },
+          {
+            "key": "food_rice",
+            "quote": "其他信息不变",
+            "remove": false
+          },
+          {
+            "key": "meal_date",
+            "quote": "其他信息不变",
+            "remove": false
+          },
+          {
+            "key": "meal_type",
+            "quote": "其他信息不变",
+            "remove": false
+          }
+        ]
+      }
+    },
+    "state": {
+      "version": 1,
+      "active_task_id": "bce2f3a9-acc0-4aa9-bf27-18cf6b138e1a",
+      "tasks": [
+        {
+          "id": "bce2f3a9-acc0-4aa9-bf27-18cf6b138e1a",
+          "request": "查看2026年9月18日至2026年9月19日已经完成的训练记录。",
+          "requirements": [
+            {
+              "key": "date_scope",
+              "quote": "2026年9月18日至9月19日",
+              "source_run_id": "bce2f3a9-acc0-4aa9-bf27-18cf6b138e1a",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "record_scope",
+              "quote": "已经完成的训练记录",
+              "source_run_id": "bce2f3a9-acc0-4aa9-bf27-18cf6b138e1a",
+              "as_of": "2026-09-30"
+            }
+          ],
+          "phase": "responded",
+          "last_run_id": "bce2f3a9-acc0-4aa9-bf27-18cf6b138e1a",
+          "artifact_id": null,
+          "proposal_id": null,
+          "proposal_pending": false,
+          "pending_plan_changes": [],
+          "pending_meal": null
+        },
+        {
+          "id": "6df00188-198e-45a0-bc1f-ad7744331657",
+          "request": "更正待确认的饮食记录提案：日期改为2026年9月26日，餐次改为午餐，食物和份量保持米饭140克、鸡胸90克、橄榄油4克不变。",
+          "requirements": [
+            {
+              "key": "meal_date",
+              "quote": "实际是2026年9月26日午餐",
+              "source_run_id": "974406af-623e-4470-8293-309f01078f36",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "meal_type",
+              "quote": "实际是2026年9月26日午餐",
+              "source_run_id": "974406af-623e-4470-8293-309f01078f36",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "food_rice",
+              "quote": "食物和份量都不动",
+              "source_run_id": "974406af-623e-4470-8293-309f01078f36",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "food_chicken_breast",
+              "quote": "食物和份量都不动",
+              "source_run_id": "974406af-623e-4470-8293-309f01078f36",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "food_olive_oil",
+              "quote": "食物和份量都不动",
+              "source_run_id": "974406af-623e-4470-8293-309f01078f36",
+              "as_of": "2026-09-30"
+            },
+            {
+              "key": "pending_proposal",
+              "quote": "先准备记录2026年9月25日早餐的待确认提案",
+              "source_run_id": "6df00188-198e-45a0-bc1f-ad7744331657",
+              "as_of": "2026-09-30"
+            }
+          ],
+          "phase": "awaiting_confirmation",
+          "last_run_id": "974406af-623e-4470-8293-309f01078f36",
+          "artifact_id": null,
+          "proposal_id": "3e6a2c1f-227f-4405-9d0e-487c462357b4",
+          "proposal_pending": true,
+          "pending_plan_changes": [],
+          "pending_meal": {
+            "logged_at": "2026-09-26",
+            "meal_type": "午餐",
+            "items": [
+              {
+                "food_id": "db9ed9d774fc473da68e814810324144-米饭",
+                "food_name": "米饭",
+                "amount_g": 140.0
+              },
+              {
+                "food_id": "db9ed9d774fc473da68e814810324144-鸡胸",
+                "food_name": "鸡胸",
+                "amount_g": 90.0
+              },
+              {
+                "food_id": "db9ed9d774fc473da68e814810324144-橄榄油",
+                "food_name": "橄榄油",
+                "amount_g": 4.0
+              }
+            ]
+          }
+        }
+      ],
+      "transition": "new",
+      "evicted_task_ids": []
+    }
+  }
+]

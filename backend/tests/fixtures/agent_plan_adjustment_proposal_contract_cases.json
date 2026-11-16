@@ -1,0 +1,979 @@
+{
+  "fixture_version": "1.0.0",
+  "canonical_payloads": {
+    "adherence": {
+      "schema_version": "1.0.0",
+      "proposal_type": "plan_adjustment_v1",
+      "target": {
+        "resource_type": "workout_plan",
+        "base_plan_id": "plan-base-adherence",
+        "base_plan_fingerprint": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      "before": {
+        "name": "基础力量计划",
+        "goal": "strength",
+        "duration_weeks": 4,
+        "days_per_week": 1,
+        "exercises": [
+          {
+            "slot_key": "day-1-order-0",
+            "exercise_id": "exercise-squat",
+            "exercise_name": "深蹲",
+            "day_of_week": 1,
+            "sets": 4,
+            "reps": "8-10",
+            "rest_seconds": 120,
+            "recommended_weight_kg": 60.0,
+            "order_index": 0
+          }
+        ]
+      },
+      "after": {
+        "name": "基础力量计划（调整版）",
+        "goal": "strength",
+        "duration_weeks": 4,
+        "days_per_week": 1,
+        "exercises": [
+          {
+            "slot_key": "day-1-order-0",
+            "exercise_id": "exercise-squat",
+            "exercise_name": "深蹲",
+            "day_of_week": 1,
+            "sets": 3,
+            "reps": "8-10",
+            "rest_seconds": 150,
+            "recommended_weight_kg": 57.5,
+            "order_index": 0
+          }
+        ]
+      },
+      "changes": [
+        {
+          "change_type": "adjust_exercise_target",
+          "stable_display_key": "day-1-order-0",
+          "before": {
+            "sets": 4,
+            "rest_seconds": 120,
+            "recommended_weight_kg": 60.0
+          },
+          "after": {
+            "sets": 3,
+            "rest_seconds": 150,
+            "recommended_weight_kg": 57.5
+          },
+          "reason": "近期完成率偏低，候选计划保守降低单次训练量。",
+          "safety_priority": false
+        }
+      ],
+      "evidence": [
+        {
+          "tool_id": "plan.get_active",
+          "result_fingerprint": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "observed_at": "2026-08-25T00:00:00Z"
+        },
+        {
+          "tool_id": "workout.get_progress",
+          "result_fingerprint": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          "observed_at": "2026-08-25T00:00:01Z"
+        }
+      ],
+      "rationale": [
+        "先降低训练量以提高连续完成概率。"
+      ],
+      "safety_notes": []
+    },
+    "health": {
+      "schema_version": "1.0.0",
+      "proposal_type": "plan_adjustment_v1",
+      "target": {
+        "resource_type": "workout_plan",
+        "base_plan_id": "plan-base-health",
+        "base_plan_fingerprint": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "before": {
+        "name": "居家下肢计划",
+        "goal": "general_fitness",
+        "duration_weeks": 4,
+        "days_per_week": 1,
+        "exercises": [
+          {
+            "slot_key": "day-2-order-0",
+            "exercise_id": "exercise-lunge",
+            "exercise_name": "弓步蹲",
+            "day_of_week": 2,
+            "sets": 3,
+            "reps": "10",
+            "rest_seconds": 90,
+            "recommended_weight_kg": null,
+            "order_index": 0
+          }
+        ]
+      },
+      "after": {
+        "name": "居家下肢计划（安全调整版）",
+        "goal": "general_fitness",
+        "duration_weeks": 4,
+        "days_per_week": 1,
+        "exercises": [
+          {
+            "slot_key": "day-2-order-0",
+            "exercise_id": "exercise-glute-bridge",
+            "exercise_name": "臀桥",
+            "day_of_week": 2,
+            "sets": 2,
+            "reps": "10",
+            "rest_seconds": 120,
+            "recommended_weight_kg": null,
+            "order_index": 0
+          }
+        ]
+      },
+      "changes": [
+        {
+          "change_type": "replace_exercise",
+          "stable_display_key": "day-2-order-0",
+          "before": {
+            "exercise_id": "exercise-lunge",
+            "exercise_name": "弓步蹲"
+          },
+          "after": {
+            "exercise_id": "exercise-glute-bridge",
+            "exercise_name": "臀桥"
+          },
+          "reason": "根据已保存的训练安全信息生成候选替代，确认时仍需重新校验。",
+          "safety_priority": true
+        }
+      ],
+      "evidence": [
+        {
+          "tool_id": "plan.get_active",
+          "result_fingerprint": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+          "observed_at": "2026-08-25T00:01:00Z"
+        },
+        {
+          "tool_id": "health.get_screening_summary",
+          "result_fingerprint": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+          "observed_at": "2026-08-25T00:01:01Z"
+        }
+      ],
+      "rationale": [
+        "候选计划优先采用服务端重新验证的安全动作。"
+      ],
+      "safety_notes": [
+        "该建议不构成医疗诊断；如训练中出现明显疼痛应停止并寻求专业帮助。"
+      ]
+    }
+  },
+  "payload_cases": [
+    {
+      "case_id": "valid.adherence_adjustment",
+      "base_payload": "adherence",
+      "mutations": [],
+      "expected_error_codes": []
+    },
+    {
+      "case_id": "valid.health_adjustment",
+      "base_payload": "health",
+      "mutations": [],
+      "expected_error_codes": []
+    },
+    {
+      "case_id": "invalid.free_text_payload",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "replace_root",
+          "path": "",
+          "value": "把训练计划调轻松一点"
+        }
+      ],
+      "expected_error_codes": [
+        "payload_not_object"
+      ]
+    },
+    {
+      "case_id": "invalid.forbidden_user_id",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "set",
+          "path": "user_id",
+          "value": "user-other"
+        }
+      ],
+      "expected_error_codes": [
+        "forbidden_field"
+      ]
+    },
+    {
+      "case_id": "invalid.arbitrary_patch",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "set",
+          "path": "patch",
+          "value": [
+            {
+              "op": "replace",
+              "path": "/is_active",
+              "value": true
+            }
+          ]
+        }
+      ],
+      "expected_error_codes": [
+        "forbidden_field"
+      ]
+    },
+    {
+      "case_id": "invalid.missing_base_fingerprint",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "delete",
+          "path": "target.base_plan_fingerprint",
+          "value": null
+        }
+      ],
+      "expected_error_codes": [
+        "missing_base_fingerprint"
+      ]
+    },
+    {
+      "case_id": "invalid.incomplete_candidate_plan",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "delete",
+          "path": "after.exercises",
+          "value": null
+        }
+      ],
+      "expected_error_codes": [
+        "incomplete_candidate_plan"
+      ]
+    },
+    {
+      "case_id": "invalid.unsupported_change_type",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "set",
+          "path": "changes.0.change_type",
+          "value": "sql_patch"
+        }
+      ],
+      "expected_error_codes": [
+        "unsupported_change_type"
+      ]
+    },
+    {
+      "case_id": "invalid.no_effect_change",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "set",
+          "path": "changes.0.after",
+          "value": {
+            "sets": 4,
+            "rest_seconds": 120,
+            "recommended_weight_kg": 60.0
+          }
+        }
+      ],
+      "expected_error_codes": [
+        "no_effect_change"
+      ]
+    },
+    {
+      "case_id": "invalid.raw_observation_leak",
+      "base_payload": "health",
+      "mutations": [
+        {
+          "op": "set",
+          "path": "evidence.1.raw_result",
+          "value": {
+            "injuries": [
+              "sensitive-value"
+            ]
+          }
+        }
+      ],
+      "expected_error_codes": [
+        "forbidden_field"
+      ]
+    },
+    {
+      "case_id": "invalid.exercise_bounds",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "set",
+          "path": "after.exercises.0.sets",
+          "value": 0
+        }
+      ],
+      "expected_error_codes": [
+        "invalid_plan_bounds"
+      ]
+    },
+    {
+      "case_id": "invalid.target_resource",
+      "base_payload": "adherence",
+      "mutations": [
+        {
+          "op": "set",
+          "path": "target.resource_type",
+          "value": "user_profile"
+        }
+      ],
+      "expected_error_codes": [
+        "invalid_target"
+      ]
+    }
+  ],
+  "creation_gate_cases": [
+    {
+      "case_id": "eligible.default_ttl",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": true,
+        "reason_code": null,
+        "initial_status": "pending_confirmation",
+        "ttl_hours": 24
+      }
+    },
+    {
+      "case_id": "eligible.custom_ttl_at_limit",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": 72,
+      "expected": {
+        "eligible": true,
+        "reason_code": null,
+        "initial_status": "pending_confirmation",
+        "ttl_hours": 72
+      }
+    },
+    {
+      "case_id": "disabled.preserves_text_proposal_only",
+      "feature_enabled": false,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "feature_disabled",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "ownership_lost.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": false,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "run_ownership_lost",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "health_red_flag.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "high",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "health_red_flag",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "clarification.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": true,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "clarification_required",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "informational_outcome.skips_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "informational_answer",
+      "terminal_action": "answer",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "outcome_not_adjustment_proposal",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "terminal_action_mismatch.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "answer",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "terminal_action_not_proposal",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "intent_does_not_allow_adjustment.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": false,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "intent_not_adjustment",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "plan_evidence_missing.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "plan_missing",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "plan_evidence_missing",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "supporting_evidence_missing.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "supporting_missing",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "supporting_evidence_missing",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "deadline_evidence_insufficient.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "deadline_insufficient",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "deadline_evidence_insufficient",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "invalid_draft.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "invalid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "proposal_draft_invalid",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "ambiguous_target.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "ambiguous_target",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "proposal_target_ambiguous",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "proposal_type_outside_cohort.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "workout_delete_v1",
+      "requested_ttl_hours": null,
+      "expected": {
+        "eligible": false,
+        "reason_code": "proposal_type_not_allowed",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    },
+    {
+      "case_id": "ttl_over_limit.rejects_creation",
+      "feature_enabled": true,
+      "run_owned": true,
+      "selected_outcome": "adjustment_proposal",
+      "terminal_action": "proposal",
+      "intent_allows_adjustment": true,
+      "risk_level": "low",
+      "clarification_required": false,
+      "evidence_state": "complete",
+      "draft_state": "valid",
+      "proposal_type": "plan_adjustment_v1",
+      "requested_ttl_hours": 73,
+      "expected": {
+        "eligible": false,
+        "reason_code": "proposal_ttl_out_of_range",
+        "initial_status": null,
+        "ttl_hours": null
+      }
+    }
+  ],
+  "transition_cases": [
+    {
+      "case_id": "confirm.valid_applies_once",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "applied",
+        "next_status": "applied",
+        "error_code": null,
+        "business_write_count": 1
+      }
+    },
+    {
+      "case_id": "reject.pending_never_writes",
+      "current_status": "pending_confirmation",
+      "action": "reject",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "rejected",
+        "next_status": "rejected",
+        "error_code": null,
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.at_expiry_marks_expired",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "at_or_after_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "expired",
+        "next_status": "expired",
+        "error_code": "proposal_expired",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.foreign_owner_is_not_found",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": false,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "not_found",
+        "next_status": null,
+        "error_code": "proposal_not_found",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.version_conflict",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 2,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "conflict",
+        "next_status": "pending_confirmation",
+        "error_code": "proposal_version_conflict",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.base_fingerprint_changed",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "fingerprint_changed",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "stale",
+        "next_status": "stale",
+        "error_code": "proposal_base_plan_changed",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.base_plan_no_longer_active",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "not_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "stale",
+        "next_status": "stale",
+        "error_code": "proposal_base_plan_changed",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.health_context_changed",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "changed_incompatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "stale",
+        "next_status": "stale",
+        "error_code": "proposal_health_context_changed",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.candidate_unavailable",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "unavailable",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "stale",
+        "next_status": "stale",
+        "error_code": "proposal_candidate_unavailable",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.candidate_invalid",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "invalid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "stale",
+        "next_status": "stale",
+        "error_code": "proposal_payload_invalid",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.transaction_failure_rolls_back",
+      "current_status": "pending_confirmation",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 1,
+      "actual_version": 1,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "failure",
+      "expected": {
+        "result": "failed",
+        "next_status": "failed",
+        "error_code": "proposal_execution_failed",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.same_request_replay_is_idempotent",
+      "current_status": "applied",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 2,
+      "actual_version": 2,
+      "idempotency_replay": true,
+      "time_state": "before_expiry",
+      "base_plan_state": "not_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "idempotent",
+        "next_status": "applied",
+        "error_code": null,
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.different_request_after_applied_returns_result",
+      "current_status": "applied",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 2,
+      "actual_version": 2,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "not_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "idempotent",
+        "next_status": "applied",
+        "error_code": null,
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "reject.same_request_replay_is_idempotent",
+      "current_status": "rejected",
+      "action": "reject",
+      "owner_matches": true,
+      "expected_version": 2,
+      "actual_version": 2,
+      "idempotency_replay": true,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "idempotent",
+        "next_status": "rejected",
+        "error_code": null,
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "reject.after_applied_conflicts",
+      "current_status": "applied",
+      "action": "reject",
+      "owner_matches": true,
+      "expected_version": 2,
+      "actual_version": 2,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "not_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "conflict",
+        "next_status": "applied",
+        "error_code": "proposal_not_pending",
+        "business_write_count": 0
+      }
+    },
+    {
+      "case_id": "confirm.after_rejected_conflicts",
+      "current_status": "rejected",
+      "action": "confirm",
+      "owner_matches": true,
+      "expected_version": 2,
+      "actual_version": 2,
+      "idempotency_replay": false,
+      "time_state": "before_expiry",
+      "base_plan_state": "match_active",
+      "health_state": "compatible",
+      "candidate_state": "valid",
+      "transaction_outcome": "success",
+      "expected": {
+        "result": "conflict",
+        "next_status": "rejected",
+        "error_code": "proposal_not_pending",
+        "business_write_count": 0
+      }
+    }
+  ]
+}

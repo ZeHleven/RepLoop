@@ -1,0 +1,106 @@
+{
+  "schema_version": "1.0",
+  "authorship": "Implementation agent; frozen before candidate live outputs. Additional wording checks, not blind or independent validation.",
+  "fixture": {
+    "profile": {
+      "age": 30,
+      "height_cm": 170,
+      "weight_kg": 65,
+      "goal": "保持体重",
+      "training_days_per_week": 3
+    },
+    "plan": {
+      "name": "体验指标合成计划",
+      "monday": [
+        {
+          "exercise": "卧推",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 20
+        },
+        {
+          "exercise": "深蹲",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 30
+        }
+      ]
+    },
+    "workouts": [
+      {
+        "day_offset": -2,
+        "status": "completed",
+        "duration_min": 30
+      },
+      {
+        "day_offset": -1,
+        "status": "completed",
+        "duration_min": 12
+      },
+      {
+        "day_offset": 0,
+        "status": "in_progress",
+        "duration_min": null
+      }
+    ],
+    "dinners": [
+      {
+        "day_offset": -1,
+        "rice_g": 150,
+        "chicken_g": 100,
+        "calories": 360,
+        "protein_g": 35.5,
+        "carbs_g": 42,
+        "fat_g": 5.1
+      },
+      {
+        "day_offset": -2,
+        "rice_g": 100,
+        "chicken_g": 200,
+        "calories": 460,
+        "protein_g": 65,
+        "carbs_g": 28,
+        "fat_g": 8.2
+      }
+    ]
+  },
+  "cohorts": [
+    {
+      "id": "serial",
+      "client_concurrency": 1
+    },
+    {
+      "id": "concurrent_2",
+      "client_concurrency": 2
+    }
+  ],
+  "cases": [
+    {
+      "id": "X01",
+      "category": "history_relative_range",
+      "turns": [
+        "请列过去一周完成过的训练，每场日期和用了多少分钟。",
+        "范围收窄到最近两天，仍只要已完成的日期和用时。"
+      ],
+      "acceptance": "第一轮前天30分钟和昨天12分钟；第二轮仅昨天12分钟，不再包含前天或今天进行中场次。保持只读，无业务写入。"
+    },
+    {
+      "id": "X02",
+      "category": "history_relative_day",
+      "turns": [
+        "列出最近7天的已完成训练：日期、每场时长。",
+        "查询区间更正为昨天，继续只显示已完成场次的日期及每场用时。"
+      ],
+      "acceptance": "第一轮前天30分钟和昨天12分钟；第二轮仅昨天12分钟，范围确实为昨天。保持只读，无业务写入。"
+    },
+    {
+      "id": "X03",
+      "category": "history_relative_day",
+      "turns": [
+        "请查最近7天已经完成的训练，按日期列每次用时。",
+        "时间范围改成前天，只要已完成的日期与每次耗时。"
+      ],
+      "acceptance": "第一轮前天30分钟和昨天12分钟；第二轮仅前天30分钟，范围确实为前天。保持只读，无业务写入。"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+// The native Button keeps its layout and hit target. Only its label scales.
+.micro-button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: inherit;
+  line-height: inherit;
+  pointer-events: none;
+}
+
+.micro-button-pressed { opacity: 0.86; }
+.micro-motion-enabled .micro-button { transition: opacity 100ms ease-out; }
+.micro-motion-enabled .micro-button-content { transition: transform 100ms ease-out; }
+.micro-motion-enabled .micro-button-pressed .micro-button-content { transform: scale(0.97); }
+.micro-motion-static .micro-button-content { transform: none; transition: none; }
+.micro-motion-static .micro-button { transition: none; }
+
+// Automatic CSS accessibility protection where the host supports this media
+// feature; no in-app setting and no reading of legacy local preferences.
+@media (prefers-reduced-motion: reduce) {
+  .micro-motion-enabled .micro-button,
+  .micro-motion-enabled .micro-button-content { transition: none; }
+  .micro-motion-enabled .micro-button-pressed .micro-button-content { transform: none; }
+}

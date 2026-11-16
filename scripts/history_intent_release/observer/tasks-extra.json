@@ -1,0 +1,153 @@
+{
+  "schema_version": "1.0",
+  "authorship": "Same implementer authored and reviews; not blind. Three previous X tasks are development regressions; R01 is seeded old-failure recovery; N01-N03 are new wording frozen before any new model output.",
+  "fixture": {
+    "profile": {
+      "age": 30,
+      "height_cm": 170,
+      "weight_kg": 65,
+      "goal": "保持体重",
+      "training_days_per_week": 3
+    },
+    "plan": {
+      "name": "体验指标合成计划",
+      "monday": [
+        {
+          "exercise": "卧推",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 20
+        },
+        {
+          "exercise": "深蹲",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 30
+        }
+      ]
+    },
+    "workouts": [
+      {
+        "day_offset": -2,
+        "status": "completed",
+        "duration_min": 30
+      },
+      {
+        "day_offset": -1,
+        "status": "completed",
+        "duration_min": 12
+      },
+      {
+        "day_offset": 0,
+        "status": "in_progress",
+        "duration_min": null
+      }
+    ],
+    "dinners": [
+      {
+        "day_offset": -1,
+        "rice_g": 150,
+        "chicken_g": 100,
+        "calories": 360,
+        "protein_g": 35.5,
+        "carbs_g": 42,
+        "fat_g": 5.1
+      },
+      {
+        "day_offset": -2,
+        "rice_g": 100,
+        "chicken_g": 200,
+        "calories": 460,
+        "protein_g": 65,
+        "carbs_g": 28,
+        "fat_g": 8.2
+      }
+    ]
+  },
+  "cohorts": [
+    {
+      "id": "serial",
+      "client_concurrency": 1
+    }
+  ],
+  "cases": [
+    {
+      "id": "X01",
+      "category": "history_relative_range",
+      "turns": [
+        "请列过去一周完成过的训练，每场日期和用了多少分钟。",
+        "范围收窄到最近两天，仍只要已完成的日期和用时。"
+      ],
+      "acceptance": "第一轮前天30分钟和昨天12分钟；第二轮仅昨天12分钟，不再包含前天或今天进行中场次。保持只读，无业务写入。",
+      "sample_role": "known_regression"
+    },
+    {
+      "id": "X02",
+      "category": "history_relative_day",
+      "turns": [
+        "列出最近7天的已完成训练：日期、每场时长。",
+        "查询区间更正为昨天，继续只显示已完成场次的日期及每场用时。"
+      ],
+      "acceptance": "第一轮前天30分钟和昨天12分钟；第二轮仅昨天12分钟，范围确实为昨天。保持只读，无业务写入。",
+      "sample_role": "known_regression"
+    },
+    {
+      "id": "X03",
+      "category": "history_relative_day",
+      "turns": [
+        "请查最近7天已经完成的训练，按日期列每次用时。",
+        "时间范围改成前天，只要已完成的日期与每次耗时。"
+      ],
+      "acceptance": "第一轮前天30分钟和昨天12分钟；第二轮仅前天30分钟，范围确实为前天。保持只读，无业务写入。",
+      "sample_role": "known_regression"
+    },
+    {
+      "id": "R01",
+      "category": "empty_task_recovery",
+      "sample_role": "seeded_recovery",
+      "seed_history": [
+        {
+          "role": "user",
+          "content": "请列过去一周完成过的训练，每场日期和用了多少分钟。"
+        },
+        {
+          "role": "assistant",
+          "content": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。"
+        }
+      ],
+      "turns": [
+        "范围收窄到最近两天，仍只要已完成的日期和用时。"
+      ],
+      "acceptance": "合成导入上轮失败原文，服务端无任务ID；首个意图尝试采用new且无空ID错误，仅查询昨天和今天的已完成训练，交付昨天12分钟；无业务写入。历史失败不计本轮模型调用或通过任务。"
+    },
+    {
+      "id": "N01",
+      "category": "new_completion_wording",
+      "sample_role": "new_wording",
+      "turns": [
+        "请把最近7天里已经完成过的训练按天列出来，附上各次用时。",
+        "查询范围改为最近两天，只显示已完成的日期和每次时长。"
+      ],
+      "acceptance": "首轮前天30分钟和昨天12分钟；次轮范围缩为昨天至今天，仅昨天12分钟，排除进行中场次；无业务写入。"
+    },
+    {
+      "id": "N02",
+      "category": "new_completion_wording",
+      "sample_role": "new_wording",
+      "turns": [
+        "我想看看近三天做过并已完成的训练，各场是哪天、用了多久？"
+      ],
+      "acceptance": "近三天范围，前天30分钟和昨天12分钟，不包括今天进行中场次，无业务写入。"
+    },
+    {
+      "id": "N03",
+      "category": "new_completion_wording",
+      "sample_role": "new_wording",
+      "turns": [
+        "请展示昨天完成过的训练：训练日期、每场耗时。",
+        "日期改为前天，只显示已完成场次的日期与耗时。"
+      ],
+      "acceptance": "首轮仅昨天12分钟；次轮仅前天30分钟；日期范围与已完成状态正确，无业务写入。"
+    }
+  ]
+}

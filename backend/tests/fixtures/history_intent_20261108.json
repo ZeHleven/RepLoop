@@ -1,0 +1,164 @@
+{
+  "source": "artifacts/agent-dev-notes/query-history-fix-20261108/live-c2-extra/result.json",
+  "source_sha256": "96b1a9e101ab707cc9a75f973b549800221c17933c0afe8809fa563f5c36e25e",
+  "first_message": "请列过去一周完成过的训练，每场日期和用了多少分钟。",
+  "first_routes": [
+    {
+      "intent_domain": "workout_history",
+      "request_kind": "query",
+      "requested_effect": "read",
+      "requested_output": "answer",
+      "read_targets": [
+        "workout_history"
+      ],
+      "decision_action": "none",
+      "artifact_action": "none",
+      "normalized_request": "列出 2026-11-02 至 2026-11-09 期间已完成的训练场次，并给出每场训练的日期和训练时长（分钟）。",
+      "risk_level": "low",
+      "confidence": 0.95,
+      "task_update": {
+        "action": "new",
+        "task_id": "",
+        "trigger": "请列过去一周完成过的训练，每场日期和用了多少分钟。",
+        "requirements": [
+          {
+            "key": "date_scope",
+            "quote": "过去一周",
+            "remove": false
+          },
+          {
+            "key": "session_status",
+            "quote": "完成过的训练",
+            "remove": false
+          },
+          {
+            "key": "fields",
+            "quote": "每场日期和用了多少分钟",
+            "remove": false
+          }
+        ]
+      }
+    },
+    {
+      "intent_domain": "workout_history",
+      "request_kind": "query",
+      "requested_effect": "read",
+      "requested_output": "answer",
+      "read_targets": [
+        "workout_history"
+      ],
+      "decision_action": "none",
+      "artifact_action": "none",
+      "normalized_request": "列出过去一周（2026-11-03 至 2026-11-09）已完成的训练场次，并给出每场的日期和训练时长（分钟）。",
+      "risk_level": "low",
+      "confidence": 0.95,
+      "task_update": {
+        "action": "new",
+        "task_id": "",
+        "trigger": "请列过去一周完成过的训练，每场日期和用了多少分钟。",
+        "requirements": [
+          {
+            "key": "date_scope",
+            "quote": "过去一周",
+            "remove": false
+          },
+          {
+            "key": "session_status",
+            "quote": "完成过的训练",
+            "remove": false
+          },
+          {
+            "key": "output_fields",
+            "quote": "每场日期和用了多少分钟",
+            "remove": false
+          }
+        ]
+      }
+    }
+  ],
+  "follow_message": "范围收窄到最近两天，仍只要已完成的日期和用时。",
+  "follow_routes": [
+    {
+      "intent_domain": "workout_history",
+      "request_kind": "query",
+      "requested_effect": "read",
+      "requested_output": "answer",
+      "read_targets": [
+        "workout_history"
+      ],
+      "decision_action": "none",
+      "artifact_action": "none",
+      "normalized_request": "列出最近两天（2026-11-08 至 2026-11-09）已完成的训练场次，仅给出每场日期和用时（分钟）。",
+      "risk_level": "low",
+      "confidence": 0.93,
+      "task_update": {
+        "action": "continue",
+        "task_id": "",
+        "trigger": "范围收窄到最近两天，仍只要已完成的日期和用时。",
+        "requirements": [
+          {
+            "key": "date_scope",
+            "quote": "范围收窄到最近两天",
+            "remove": false
+          },
+          {
+            "key": "status_filter",
+            "quote": "仍只要已完成的日期和用时",
+            "remove": false
+          },
+          {
+            "key": "output_fields",
+            "quote": "仍只要已完成的日期和用时",
+            "remove": false
+          }
+        ]
+      }
+    },
+    {
+      "intent_domain": "workout_history",
+      "request_kind": "query",
+      "requested_effect": "read",
+      "requested_output": "answer",
+      "read_targets": [
+        "workout_history"
+      ],
+      "decision_action": "none",
+      "artifact_action": "none",
+      "normalized_request": "查询最近两天（2026-11-08 至 2026-11-09）已完成的训练场次，列出每场日期和训练用时（分钟）。",
+      "risk_level": "low",
+      "confidence": 0.9,
+      "task_update": {
+        "action": "new",
+        "task_id": "",
+        "trigger": "范围收窄到最近两天，仍只要已完成的日期和用时。",
+        "requirements": [
+          {
+            "key": "date_scope",
+            "quote": "范围收窄到最近两天",
+            "remove": false
+          },
+          {
+            "key": "status_filter",
+            "quote": "仍只要已完成的日期和用时",
+            "remove": false
+          },
+          {
+            "key": "output_fields",
+            "quote": "仍只要已完成的日期和用时",
+            "remove": false
+          }
+        ]
+      }
+    }
+  ],
+  "failed_context": [
+    {
+      "role": "user",
+      "content": "请列过去一周完成过的训练，每场日期和用了多少分钟。"
+    },
+    {
+      "role": "assistant",
+      "content": "这次暂时没能处理好你的请求，请稍后重试。本次没有读取或修改你的业务数据。"
+    }
+  ]
+}

@@ -1,0 +1,361 @@
+@use '../../styles/capsule-layout' as capsule;
+.workouts-scroll { @include capsule.scroll-viewport; }
+.page.workouts-page {
+  min-height: 100%;
+  padding-bottom: 28px;
+}
+
+.page-heading,
+.section-row,
+.plan-heading,
+.training-day,
+.active-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.agent-entry {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  border-color: #d5e5d7;
+  background: linear-gradient(135deg, #ffffff 0%, #eef7e9 100%);
+}
+
+.agent-entry-mark {
+  display: flex;
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  background: #163d2b;
+  color: #d5f06e;
+  font-size: 38px;
+  font-weight: 900;
+}
+
+.agent-entry-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.agent-entry-title,
+.agent-entry-subtitle {
+  display: block;
+}
+
+.agent-entry-title {
+  font-size: 29px;
+  font-weight: 800;
+}
+
+.agent-entry-subtitle {
+  margin-top: 5px;
+  color: #718178;
+  font-size: 22px;
+}
+
+.agent-entry-action {
+  color: #1d6b49;
+  font-size: 24px;
+  font-weight: 750;
+}
+
+.page-heading {
+  padding: 18px 4px 30px;
+}
+
+.eyebrow {
+  display: block;
+  color: #718178;
+  font-size: 24px;
+}
+
+.page-title {
+  display: block;
+  margin-top: 4px;
+  font-size: 48px;
+  font-weight: 850;
+}
+
+.logout,
+.history-link {
+  color: #1d6b49;
+  font-size: 26px;
+  font-weight: 650;
+}
+
+.active-card {
+  border: none;
+  background: #163d2b;
+  color: #ffffff;
+}
+
+.active-tag,
+.ai-tag,
+.archived-tag {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #d5f06e;
+  color: #163d2b;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.archived-tag {
+  background: #edf0ed;
+  color: #718178;
+}
+
+.active-title,
+.plan-name {
+  display: block;
+  margin-top: 14px;
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.active-meta,
+.plan-meta {
+  display: block;
+  margin-top: 8px;
+  color: #c3d4c9;
+  font-size: 24px;
+}
+
+.active-action {
+  font-size: 28px;
+  font-weight: 750;
+}
+
+.section-title,
+.section-heading {
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.section-heading {
+  display: block;
+  margin: 38px 4px 20px;
+}
+
+.metric-grid {
+  display: grid;
+  margin-top: 28px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.metric {
+  text-align: center;
+}
+
+.metric-value,
+.metric-label {
+  display: block;
+}
+
+.metric-value {
+  font-size: 36px;
+  font-weight: 850;
+}
+
+.metric-label {
+  margin-top: 6px;
+  color: #718178;
+  font-size: 22px;
+}
+
+.plan-heading {
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.plan-heading-copy {
+  min-width: 0;
+  flex: 1 1 280px;
+}
+
+.plan-name {
+  margin-top: 0;
+  overflow-wrap: anywhere;
+}
+
+.archive-header-actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 10px;
+  margin-left: auto;
+}
+
+// The visible chip hugs the text; the transparent button keeps an 88rpx target
+// after conversion, without inheriting the large secondary-button box.
+.delete-archive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 88px;
+  min-height: 88px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #9d382b;
+  font-size: 22px;
+  line-height: 1.4;
+}
+
+// Both visible frames use exactly the same box and typography. Do not inherit
+// the button's native line height/font, which differs from a standalone Text.
+.archive-status-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  margin: 0;
+  padding: 6px 14px;
+  border: 0;
+  border-radius: 999px;
+  background: #edf0ed;
+  color: #718178;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.archive-delete-hover .archive-delete-label { background: #fce0da; }
+.delete-archive[disabled] .archive-delete-label { opacity: 0.5; }
+
+.plan-meta {
+  color: #718178;
+}
+
+.training-day {
+  gap: 18px;
+  padding: 22px 0;
+  border-top: 1px solid #edf1ed;
+}
+
+.day-summary {
+  min-width: 0;
+  flex: 1;
+}
+
+.day-title,
+.day-exercises {
+  display: block;
+}
+
+.day-title {
+  font-size: 27px;
+  font-weight: 750;
+}
+
+.day-exercises {
+  overflow: hidden;
+  margin-top: 7px;
+  color: #718178;
+  font-size: 23px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.start-button {
+  margin: 0;
+  padding: 0 24px;
+  border-radius: 18px;
+  background: #e6f1e9;
+  color: #1d6b49;
+  font-size: 25px;
+  font-weight: 750;
+}
+
+.plan-empty text {
+  display: block;
+}
+
+.generate-button {
+  margin-top: 26px;
+}
+
+.plan-safety-warning {
+  margin: 18px 0;
+  padding: 18px 20px;
+  border-radius: 18px;
+  background: #fff6df;
+  color: #765b12;
+}
+
+.plan-safety-title,
+.plan-safety-reason {
+  display: block;
+}
+
+.plan-safety-title {
+  margin-bottom: 8px;
+  font-size: 25px;
+  font-weight: 800;
+}
+
+.plan-safety-reason {
+  font-size: 22px;
+  line-height: 1.55;
+}
+
+.repair-plan-button {
+  min-height: 70px;
+  margin: 18px 0 0;
+  border-radius: 17px;
+  background: #1d6b49;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.plan-safety-disabled {
+  display: block;
+  margin-top: 14px;
+  color: #876817;
+  font-size: 20px;
+  line-height: 1.5;
+}
+
+.plan-actions {
+  display: flex;
+  margin: 10px 0 18px;
+  gap: 12px;
+}
+
+.plan-actions button {
+  min-width: 0;
+  margin: 0;
+  flex: 1;
+  border-radius: 16px;
+  font-size: 22px;
+  font-weight: 750;
+}
+
+.edit-plan-button {
+  background: #e6f1e9;
+  color: #1d6b49;
+}
+
+.delete-plan-button,
+.archive-delete-label {
+  background: #fff0ed;
+  color: #9d382b;
+}
+.archive-confirm { padding: 22px; font-size: 26px; line-height: 1.7; }
+.archive-actions { margin-top: 16px; }
+.archive-confirm button { margin-top: 12px; }
+.ai-tag { white-space: normal; text-align: right; }

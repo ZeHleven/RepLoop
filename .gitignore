@@ -1,14 +1,43 @@
+# Local and production configuration. Only sanitized examples are publishable.
 .env
+.env.*
+!.env.example
+!.env.production.example
+miniapp/.env.production
+miniapp/project.config.json
+miniapp/project.private.config.json
+
 __pycache__/
 *.pyc
 *.pyo
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
 dist/
 build/
 *.egg-info/
 venv/
 .venv/
+.pnpm-store/
+node_modules/
 *.db
 *.sqlite3
+*.log
+
+# Runtime data and release artifacts are rebuilt from source.
+deploy/**/*.zip
+miniapp/deploy_versions/
+backend/app/build_metadata.json
+
+# Local clones, backups and raw validation evidence are not source workspaces.
+/.tmp/
+/.backups/
+/artifacts/
+
+# Local project records retained outside the public portfolio snapshot.
+frontend/
+docs/superpowers/
+docs/e2e-acceptance.md
+docs/experience-release.md
+docs/miniapp-roadmap.md
