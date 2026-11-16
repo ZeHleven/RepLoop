@@ -434,6 +434,52 @@ async def build_session_detail(
     return result
 
 
+async def get_workout_range_summary(
+    db: AsyncSession, *, user_id: str, start: date, end: date,
+    statuses: tuple[str, ...],
+) -> dict:
+    """All recorded sessions in a closed calendar range; no display pagination."""
+    from collections import Counter
+    from app.services.workout_reporting import report_today
+    from app.services.history_status_scope import effective_history_statuses
+    today = report_today()
+    if not 0 <= (end - start).days < 366 or end > today:
+        raise ValueError('summary range must be a closed past interval of at most 366 days')
+    statuses = effective_history_statuses(statuses)
+    sessions = list((await db.scalars(select(WorkoutSession).where(
+        WorkoutSession.user_id == user_id, WorkoutSession.trained_at >= start,
+        WorkoutSession.trained_at <= end, WorkoutSession.status.in_(statuses),
+    ))).all())
+    ids = [session.id for session in sessions]
+    exercises = list((await db.scalars(select(SessionExercise).where(
+        SessionExercise.session_id.in_(ids),
+    ))).all()) if ids else []
+    grouped = {}
+    for exercise in exercises:
+        key = (exercise.exercise_id, exercise.exercise_name or '未命名动作')
+        item = grouped.setdefault(key, {'exercise_id': key[0], 'exercise_name': key[1],
+                                      'sets': 0, 'reps': 0, 'volume_kg': 0.0})
+        sets, reps, volume = sets_metrics(exercise.sets_data)
+        item['sets'] += sets
+        item['reps'] += reps
+        item['volume_kg'] = round(item['volume_kg'] + volume, 1)
+    duration = [s.duration_min for s in sessions if type(s.duration_min) is int and s.duration_min >= 0]
+    target_sets = [e.target_sets for e in exercises if type(e.target_sets) is int and e.target_sets >= 0]
+    counts = Counter(s.status for s in sessions)
+    return {
+        'scope_kind': 'calendar_range', 'range_start': start.isoformat(), 'range_end': end.isoformat(),
+        'as_of': today.isoformat(), 'timezone': 'Asia/Shanghai', 'scope_complete': True,
+        'status_filter': list(statuses), 'truncated': False, 'total_sessions': len(sessions),
+        'total_sets': sum(v['sets'] for v in grouped.values()),
+        'total_reps': sum(v['reps'] for v in grouped.values()),
+        'total_volume_kg': round(sum(v['volume_kg'] for v in grouped.values()), 1),
+        'recorded_duration_min': sum(duration), 'duration_missing_sessions': len(sessions) - len(duration),
+        'status_counts': {status: counts[status] for status in statuses},
+        'recorded_target_sets': sum(target_sets), 'target_sets_missing_exercises': len(exercises) - len(target_sets),
+        'exercises': [grouped[key] for key in sorted(grouped)],
+    }
+
+
 async def get_workout_progress_summary(
     db: AsyncSession,
     *,

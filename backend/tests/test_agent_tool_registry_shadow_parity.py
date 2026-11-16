@@ -778,7 +778,8 @@ async def test_tool_error_fallback_behavior_is_unchanged_by_shadow():
         args_schema=WorkoutProgressArguments,
         description="读取训练进度",
     )
-    async def progress(weeks: int = 8):
+    async def progress(weeks: int = 8, **calendar):
+        assert not any(calendar.values()), "This fixture exercises the unchanged weekly mode"
         calls.append("workout.get_progress")
         raise TimeoutError(f"fixture timeout after {weeks} weeks")
 

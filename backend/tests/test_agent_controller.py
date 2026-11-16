@@ -394,7 +394,8 @@ async def test_shadow_session_does_not_change_planned_controller_behavior():
         args_schema=WorkoutProgressArguments,
         description="读取训练进度",
     )
-    async def progress(weeks: int = 8):
+    async def progress(weeks: int = 8, **calendar):
+        assert not any(calendar.values()), "This fixture exercises the unchanged weekly mode"
         return {"weeks": weeks, "total_sessions": 3}
 
     plan = MicroPlan(
@@ -1647,7 +1648,8 @@ async def test_planner_deadline_finalizer_failure_uses_safe_reply(monkeypatch):
         args_schema=WorkoutProgressArguments,
         description="读取训练进度",
     )
-    async def progress(weeks: int = 8):
+    async def progress(weeks: int = 8, **calendar):
+        assert not any(calendar.values()), "This fixture exercises the unchanged weekly mode"
         return {"weeks": weeks, "total_sessions": 2}
 
     allowlist = ["workout.get_progress"]
@@ -1858,7 +1860,8 @@ async def test_low_adherence_narrows_runtime_finalizer_to_proposal():
         args_schema=WorkoutProgressArguments,
         description="读取训练进度",
     )
-    async def progress(weeks: int = 8):
+    async def progress(weeks: int = 8, **calendar):
+        assert not any(calendar.values()), "This fixture exercises the unchanged weekly mode"
         return {"weeks": weeks, "total_sessions": 1}
 
     allowlist = ["plan.get_active", "workout.get_progress"]
@@ -1963,7 +1966,8 @@ async def test_high_adherence_narrows_runtime_finalizer_to_no_change():
         args_schema=WorkoutProgressArguments,
         description="读取训练进度",
     )
-    async def progress(weeks: int = 8):
+    async def progress(weeks: int = 8, **calendar):
+        assert not any(calendar.values()), "This fixture exercises the unchanged weekly mode"
         return {"weeks": weeks, "total_sessions": 15}
 
     allowlist = [
@@ -2056,7 +2060,8 @@ async def test_plan_fit_fast_path_restores_omitted_evidence_before_execution():
         args_schema=WorkoutProgressArguments,
         description="读取训练进度",
     )
-    async def progress(weeks: int = 8):
+    async def progress(weeks: int = 8, **calendar):
+        assert not any(calendar.values()), "This fixture exercises the unchanged weekly mode"
         return {"weeks": weeks, "total_sessions": 15}
 
     @tool(
@@ -2152,7 +2157,8 @@ async def test_plan_progress_fast_path_avoids_executor_before_primary_reads():
         args_schema=WorkoutProgressArguments,
         description="读取训练进度",
     )
-    async def progress(weeks: int = 8):
+    async def progress(weeks: int = 8, **calendar):
+        assert not any(calendar.values()), "This fixture exercises the unchanged weekly mode"
         return {"weeks": weeks, "total_sessions": 8}
 
     @tool(

@@ -275,7 +275,7 @@ TOOL_REGISTRY_V2 = ToolRegistryV2(
         ),
         ToolRegistryEntry(
             tool_id="workout.get_progress",
-            contract_version="1.0.0",
+            contract_version="1.1.0",
             langchain_name="workout_get_progress",
             title="训练进度聚合",
             mode="read",
@@ -284,13 +284,13 @@ TOOL_REGISTRY_V2 = ToolRegistryV2(
             risk_level="low",
             data_sensitivity="personal",
             supported_intents=("workout_progress_query",),
-            use_cases=("读取指定周数的训练次数、组次、次数和容量趋势",),
+            use_cases=("读取指定自然周数或精确日期区间的全量训练统计与动作汇总",),
             exclusions=("具体单次训练详情",),
             data_sources=("workout_sessions", "session_exercises"),
             parallel_safe=True,
             arguments=ToolArgumentContract(
                 schema_ref="WorkoutProgressArguments",
-                default_arguments={"weeks": 8},
+                default_arguments={"weeks": 8, "start_date": "", "end_date": "", "completed_only": False, "statuses": []},
                 fields=(ToolArgumentFieldContract(
                     name="weeks",
                     json_type="integer",
@@ -298,7 +298,10 @@ TOOL_REGISTRY_V2 = ToolRegistryV2(
                     default=8,
                     minimum=1,
                     maximum=52,
-                ),),
+                ), ToolArgumentFieldContract(name="start_date", json_type="string", has_default=True, default=""),
+                   ToolArgumentFieldContract(name="end_date", json_type="string", has_default=True, default=""),
+                   ToolArgumentFieldContract(name="completed_only", json_type="boolean", has_default=True, default=False),
+                   ToolArgumentFieldContract(name="statuses", json_type="array", has_default=True, default=[])),
             ),
             observation=ToolObservationContract(
                 current_shape="legacy_mapping",

@@ -112,7 +112,9 @@ async def test_verified_report_makes_one_actual_tool_call_and_auditable_messages
                 user_message=case.message, tool_allowlist=['workout.get_progress'],
                 resolution=IntentResolution(primary_intent='workout_progress_query', intent_domain='workout_progress',
                     evidence_requirements=['workout_progress'], resolved_query=case.message, confidence=.95))
-        assert [call['arguments'] for call in trace] == [{'weeks': 2}]
+        assert [call['arguments'] for call in trace] == [{
+            'weeks': 2, 'start_date': '', 'end_date': '', 'completed_only': False, 'statuses': [],
+        }]
         answer, cards = _extract_agent_output(result)
         assert '2次训练、12组' in answer and '4,200kg' in answer
         assert cards[0]['type'] == 'workout.get_progress'

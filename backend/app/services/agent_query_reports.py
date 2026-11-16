@@ -11,6 +11,7 @@ from langchain_core.messages import AIMessage, ToolMessage
 from app.services.workout_history_reporting import history_limit, render_history, render_calendar_history
 from app.services.workout_reporting import number, progress_request, render_progress, report_today, scope_progress
 from app.services.history_status_scope import parse_history_status_scope
+from app.services.workout_range_reporting import calendar_summary, render_calendar_summary, verify_range_result
 
 
 _CALENDAR_DATE = re.compile(r'\d{4}-\d{2}-\d{2}|(?:\d{4}年)?\d{1,2}月\d{1,2}日')
@@ -138,6 +139,9 @@ def report_for_resolution(resolution, allowlist, *, allow_redundant=False):
             or resolution.requested_effect != 'read' or resolution.change_requests
             or resolution.intent_domain not in {'workout_progress', 'workout_history'}):
         return None
+    calendar = calendar_summary(resolution.resolved_query, allowlist, report_today())
+    if calendar is not None:
+        return QueryReport('calendar_summary', 'workout.get_progress', {}, resolution.resolved_query, calendar)
     report = select_query_report(resolution.resolved_query, allowlist)
     if report and report.kind == 'progress' and not allow_redundant and allowlist != ['workout.get_progress']:
         return None
@@ -174,7 +178,9 @@ def narrow_report_evidence(resolution, message: str):
     report = report_for_resolution(resolution, route_tools(resolution), allow_redundant=True)
     if report is None:
         return resolution
-    if report.kind == 'nutrition_history':
+    if report.kind in {'nutrition_history', 'calendar_summary'}:
+        # Calendar summaries execute every required read for every range.
+        # Keep both history and progress obligations rather than dropping one.
         return resolution
     # The user's original text can include a second goal omitted by the model.
     if any(word in current_query_goal(message) for word in ('明细', '每次', '每天', '今日', '计划', '资料', '目标', '饮食', '建议', '动作', '深蹲', '卧推', '硬拉')) and report.kind == 'progress':
@@ -186,6 +192,8 @@ def narrow_report_evidence(resolution, message: str):
 async def execute_query_report(report: QueryReport, tools: list) -> dict:
     # Tool construction enforces the same per-request allowlist and argument
     # schema as the normal agent loop. No unregistered direct DB calls here.
+    if report.kind == 'calendar_summary':
+        return await execute_calendar_summary(report, tools)
     name = report.tool_id.replace('.', '_')
     tool = next(item for item in tools if item.name == name)
     data = await tool.ainvoke(report.arguments)
@@ -211,6 +219,38 @@ async def execute_query_report(report: QueryReport, tools: list) -> dict:
         ToolMessage(content=json.dumps(data, ensure_ascii=False, default=str), name=name, tool_call_id=call_id),
         AIMessage(content=answer),
     ]}
+
+
+async def execute_calendar_summary(report: QueryReport, tools: list) -> dict:
+    from app.config import settings
+    reads = report.scope.reads()
+    tool_map = {tool.name: tool for tool in tools}
+    # Reject the whole request before any read if authority or budget is absent.
+    if len(reads) > settings.AGENT_MAX_TOOL_CALLS:
+        raise ValueError('calendar_summary_tool_budget_exceeded')
+    if any(tool_id.replace('.', '_') not in tool_map for tool_id, _ in reads):
+        raise ValueError('calendar_summary_authority_missing')
+    messages, rows, counts = [], [], {}
+    for tool_id, arguments in reads:
+        name = tool_id.replace('.', '_')
+        data = await tool_map[name].ainvoke(arguments)
+        verify_range_result(tool_id, arguments, data)
+        key = (arguments['start_date'], arguments['end_date'])
+        count = data['total_sessions'] if tool_id == 'workout.get_progress' else data['total_count']
+        if key in counts and counts[key] != count:
+            raise ValueError('calendar_summary_evidence_changed')
+        counts[key] = count
+        call_id = 'report-' + uuid4().hex
+        messages.extend([
+            AIMessage(content='', tool_calls=[{'name': name, 'args': arguments, 'id': call_id}]),
+            ToolMessage(content=json.dumps(data, ensure_ascii=False, default=str), name=name, tool_call_id=call_id),
+        ])
+        if tool_id == 'workout.get_progress':
+            rows.append(data)
+    messages.append(AIMessage(content=render_calendar_summary(rows)))
+    return {'response_mode': 'verified_calendar_summary_report',
+            'report_cards': [{'type': 'workout.get_progress', 'data': row} for row in rows],
+            'messages': messages}
 
 
 def render_nutrition_history(data: dict) -> str:

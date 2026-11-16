@@ -49,6 +49,27 @@ def source_fingerprints():
     return {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest() for name in names if name}
 
 
+def trial_allowance(before, previous, commit, max_requests):
+    """A corrected candidate reuses the durable ledger, never a fresh allowance."""
+    if previous is None:
+        if before['agent_runs'] or before['model_charges'] or before['demo_visits']:
+            raise ValueError('The first trial requires its prepared fresh database')
+        return 0, 0
+    if previous['commit'] == commit or previous['fatal'] or previous['reserved_nano']:
+        raise ValueError('Continuation requires a new candidate and fully settled prior trial')
+    spent = previous.get('aggregate_spent_nano', previous['spent_nano'])
+    count = previous.get('aggregate_provider_calls', previous['provider_calls'])
+    if (any(row['status'] != 'settled' for row in before['model_charges'])
+            or any(row['status'] not in {'completed', 'failed'} for row in before['agent_runs'])
+            or any(row['reserved_nano'] for row in before['model_budgets'])
+            or len(before['model_charges']) != count
+            or sum(row['actual_nano'] for row in before['model_charges']) != spent
+            or sum(row['spent_nano'] for row in before['model_budgets']) != spent
+            or not 0 <= spent < 5_000_000_000 or not 0 <= count < max_requests):
+        raise ValueError('Prior receipt does not match the retained durable ledger or remaining cap')
+    return spent, count
+
+
 def configure(live):
     from dotenv import dotenv_values
     model = dotenv_values(ROOT / '.env')
@@ -118,8 +139,8 @@ async def serve(args):
     write(ROOT / 'backend/app/build_metadata.json', identity)
     contract = json.loads(CASES.read_text(encoding='utf-8'))
     before = await snapshot()
-    if before['agent_runs'] or before['model_charges'] or before['demo_visits']:
-        raise SystemExit('This one-shot trial requires its previously prepared fresh database')
+    previous = json.loads(args.previous_receipt.read_text(encoding='utf-8')) if args.previous_receipt else None
+    prior_spent, prior_calls = trial_allowance(before, previous, args.commit, contract['max_provider_requests'])
     freeze = source_fingerprints()
     with (args.out / 'serve-once.json').open('x', encoding='utf-8') as handle:
         json.dump({'commit': args.commit, 'started_at': datetime.now(timezone.utc).isoformat()}, handle)
@@ -128,10 +149,12 @@ async def serve(args):
         'model_config': {key: getattr(settings, key) for key in MODEL_KEYS if key != 'DEEPSEEK_API_KEY'},
         'agent_settings': {k: v for k, v in settings.model_dump().items() if k.startswith('AGENT_')},
         'pricing_version': PRICING_VERSION, 'rates_nano_per_token': RATES,
+        'previous_receipt': str(args.previous_receipt) if args.previous_receipt else None,
+        'prior_spent_nano': prior_spent, 'prior_provider_calls': prior_calls,
         'scope': 'Real browser on localhost, real API/worker/model, synthetic demo data; no public deployment or physical phone performance claim.'})
     write(args.out / 'before.json', before)
-    observer = ProviderCapture(args.out, mode='live', max_cny=5,
-        max_requests=contract['max_provider_requests'], max_seconds=1200)
+    observer = ProviderCapture(args.out, mode='live', max_cny=(5_000_000_000 - prior_spent) / 1e9,
+        max_requests=contract['max_provider_requests'] - prior_calls, max_seconds=1200)
     observer.install()
     original_process = agent_jobs.process_agent_run
     registered = {}
@@ -220,6 +243,8 @@ async def serve(args):
         write(args.out / 'provider-calls.json', observer.calls)
         write(args.out / 'result.json', {'commit': args.commit, 'registered': registered,
             'provider_calls': len(observer.calls), 'spent_nano': observer.spent_nano,
+            'prior_spent_nano': prior_spent, 'aggregate_spent_nano': prior_spent + observer.spent_nano,
+            'prior_provider_calls': prior_calls, 'aggregate_provider_calls': prior_calls + len(observer.calls),
             'reserved_nano': observer.reserved_nano, 'fatal': observer.fatal,
             'source_unchanged': source_fingerprints() == freeze})
         await engine.dispose()
@@ -232,10 +257,16 @@ def main():
     parser.add_argument('--commit', default='')
     parser.add_argument('--port', type=int, default=8019)
     parser.add_argument('--label', default='manual')
+    parser.add_argument('--previous-receipt', type=Path,
+        help='Prior settled result.json in artifacts; reuses the same DB and aggregate five-yuan allowance')
     args = parser.parse_args()
     args.out = args.out.resolve()
     if not args.out.is_relative_to(ROOT / 'artifacts') or not args.out.is_dir():
         parser.error('Use an existing evidence directory under root/artifacts')
+    if args.previous_receipt:
+        args.previous_receipt = args.previous_receipt.resolve()
+        if args.stage != 'serve' or not args.previous_receipt.is_relative_to(ROOT / 'artifacts') or not args.previous_receipt.is_file():
+            parser.error('Use a retained result.json under artifacts with serve only')
     configure(args.stage == 'serve')
     if args.stage == 'prepare':
         for command in ([sys.executable, '-m', 'alembic', 'upgrade', 'head'],

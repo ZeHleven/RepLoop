@@ -68,6 +68,7 @@ from app.services.agent_intent import (
     parse_explicit_plan_adjustment_command,
     parse_explicit_proposal_decision,
     pending_clarification_to_resolution,
+    required_read_tools,
     route_tools,
 )
 from app.services.agent_plan_adjustment_proposal_decisions import (
@@ -694,9 +695,11 @@ def _audit_result_summary(tool_id: str, content: Any) -> dict[str, Any]:
             ),
         }
     if tool_id == "workout.list_history":
-        return {"count": result.get("count", 0)}
+        return {"count": result.get("count", 0), **{
+            key: result[key] for key in ('range_start', 'range_end', 'as_of', 'timezone',
+                                         'status_filter', 'total_count', 'truncated') if key in result}}
     if tool_id == "workout.get_progress":
-        return {
+        summary = {
             key: result.get(key)
             for key in (
                 "weeks",
@@ -706,6 +709,11 @@ def _audit_result_summary(tool_id: str, content: Any) -> dict[str, Any]:
                 "total_volume_kg",
             )
         }
+        summary.update({key: result[key] for key in (
+            'scope_kind', 'range_start', 'range_end', 'as_of', 'timezone', 'status_filter',
+            'scope_complete', 'truncated', 'recorded_duration_min', 'duration_missing_sessions',
+        ) if key in result})
+        return summary
     if tool_id == "weight.list_history":
         return {"count": result.get("count", 0)}
     if tool_id in {"nutrition.get_today", "nutrition.list_history"}:
@@ -1550,6 +1558,10 @@ async def invoke_langchain_agent(
         system_prompt=SYSTEM_PROMPT + (
             f"\n本次请求业务日期：{business_today().isoformat()}，时区 Asia/Shanghai。"
             "今天及相对日期均以此为准；记录日期范围以工具返回的 scope 为准。"
+            + ("\n本轮回答前必须完成的查询：" + '、'.join(required_read_tools(resolution))
+               + "。这些是必需证据，不只是可选工具。参数必须对应本次问题的日期与筛选范围；"
+                 "缺少明确参数时说明缺口，不用工具默认范围替代。"
+               if resolution and required_read_tools(resolution) else '')
         ),
         name="fitness_agent_v1",
     )

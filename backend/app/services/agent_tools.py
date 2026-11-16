@@ -72,6 +72,16 @@ class WorkoutProgressArguments(BaseModel):
     )
 
     weeks: int = Field(default=8, ge=1, le=52)
+    start_date: str = Field(default='', description='精确统计区间开始日期YYYY-MM-DD，须与end_date成对提供；提供时按该区间统计，不使用weeks。')
+    end_date: str = Field(default='', description='精确统计区间结束日期YYYY-MM-DD，包含该日；最多366天，不能晚于今天。')
+    completed_only: bool = Field(default=False, description='仅用于精确日期区间；仅统计completed状态。')
+    statuses: list[HistoryStatus] = Field(default=[], description='仅用于精确日期区间；明确的场次状态集合，规则与历史查询一致。')
+
+    @model_validator(mode='after')
+    def validate_range(self):
+        WorkoutHistoryArguments(start_date=self.start_date, end_date=self.end_date,
+                                completed_only=self.completed_only, statuses=self.statuses)
+        return self
 
 
 class WeightHistoryArguments(BaseModel):
@@ -371,11 +381,21 @@ def build_read_tools(
         args_schema=WorkoutProgressArguments,
         description=(
             "汇总当前登录用户最近若干周的训练次数、组数、次数和负重容量，weeks 为 1 到 52。"
+            "weeks按自然周统计；最近14天或两个具体区间的对比须分别传start_date/end_date，"
+            "此时忽略weeks，对全范围汇总时长、组次、容量与各动作，不受历史列表20条上限影响。"
             "仅用于进度或趋势；具体某次训练应使用 workout_list_history。"
             "示例：‘总结我最近 8 周的训练进度。’"
         ),
     )
-    async def workout_get_progress(weeks: int = 8) -> dict[str, Any]:
+    async def workout_get_progress(weeks: int = 8, start_date: str = '', end_date: str = '',
+                                   completed_only: bool = False, statuses: list[HistoryStatus] | None = None) -> dict[str, Any]:
+        bounds = WorkoutProgressArguments(weeks=weeks, start_date=start_date, end_date=end_date,
+                                          completed_only=completed_only, statuses=statuses or [])
+        if bounds.start_date:
+            from app.services.workout_queries import get_workout_range_summary
+            return await get_workout_range_summary(db, user_id=user_id,
+                start=date.fromisoformat(start_date), end=date.fromisoformat(end_date),
+                statuses=effective_history_statuses(bounds.statuses, completed_only=completed_only))
         progress = await get_workout_progress_summary(
             db,
             user_id=user_id,
