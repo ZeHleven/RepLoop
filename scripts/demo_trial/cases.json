@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "scope": "Three consecutive questions through the real demo H5, API, worker and model; synthetic data only.",
+  "max_cost_nano": 5000000000,
+  "max_provider_requests": 60,
+  "cases": [
+    {
+      "id": "D01",
+      "message": "总结我最近两周的训练情况。",
+      "acceptance": ["明确所用时间范围", "次数、时长和训练量与该范围内 SQL 记录一致", "不把缺少记录扩展为从未训练", "不修改业务数据"]
+    },
+    {
+      "id": "D02",
+      "message": "和再之前的两周相比呢？",
+      "acceptance": ["承接第一轮比较对象", "比较连续且不重叠的两个两周范围", "数值及增减方向与 SQL 一致", "不修改业务数据"]
+    },
+    {
+      "id": "D03",
+      "message": "今天只有 20 分钟，结合我的计划给点建议。",
+      "acceptance": ["读取并准确引用现有计划", "建议实际回应 20 分钟限制", "区分原计划值与建议值", "不保证个人恢复或训练效果", "不修改业务数据或创建待确认提案"]
+    }
+  ],
+  "free_checks": ["重置后旧凭证失效", "重置保留原到期时间和费用", "新访客无法读取其他访客记录", "费用账本与逐 HTTP 调用一一核对", "未结算预留及待处理任务为零"],
+  "repeat_policy": "Run the three registered questions once in order. Retain failures; do not replay to select a better answer. A code correction requires a new candidate and keeps all spending within the same 5-yuan allowance."
+}
