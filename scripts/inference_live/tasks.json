@@ -1,0 +1,178 @@
+{
+  "schema_version": "1.0",
+  "authorship": "Implementer-authored known regression, synthetic data; not blind, phone or production traffic. Exact user turns retained from pending-live-cases.json.",
+  "review_rules": [
+    "Judge factual attribution and inference in context, not isolated words such as first, enough or recovery.",
+    "Preserve every first response and tool trace; record failures, provider errors and all usage. Do not retry to select a passing answer.",
+    "Rest numbers remain each exercise's planned between-set targets. Adjustments must remain conditional advice, with no writes.",
+    "A scoped zero cannot establish first-ever/first-in-plan training, lack of experience, or a future week's first training.",
+    "Explicit user reports and actual observations may be cited with source/time scope; conditional advice must remain conditional.",
+    "Good past performance or a longer planned interval does not guarantee future recovery or per-set quality."
+  ],
+  "fixture": {
+    "plan": {
+      "name": "推断边界复测合成计划",
+      "monday": [
+        {
+          "exercise": "卧推",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 20
+        },
+        {
+          "exercise": "深蹲",
+          "sets": 3,
+          "reps": "10",
+          "weight_kg": 30
+        }
+      ]
+    },
+    "workouts": [],
+    "dinners": []
+  },
+  "cohorts": [
+    {
+      "id": "serial",
+      "client_concurrency": 1
+    }
+  ],
+  "cases": [
+    {
+      "id": "I01",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "我当前的训练计划是什么？",
+        "请列过去一周完成过的训练，每场日期和用了多少分钟。",
+        "给我下一次训练的准备建议"
+      ],
+      "acceptance": "Both existing completed history and zero mapped current-week count stay valid; no first-training inference.",
+      "fixture_description": "same plan/family, two completed sessions with null arrangement week/day",
+      "workouts": [
+        {
+          "date": "current_week_start",
+          "linked": false,
+          "status": "completed",
+          "duration_min": 30
+        },
+        {
+          "date": "current_week_start",
+          "linked": false,
+          "status": "completed",
+          "duration_min": 12
+        }
+      ]
+    },
+    {
+      "id": "I02",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "结合我已有的计划，给下一次训练的准备建议，先不要修改。"
+      ],
+      "acceptance": "No first-in-plan or novice inference from current-week zero.",
+      "fixture_description": "same plan, prior-week completed arranged session, zero current-week count",
+      "workouts": [
+        {
+          "date": "previous_week_start",
+          "linked": true,
+          "status": "completed",
+          "duration_min": 30
+        }
+      ]
+    },
+    {
+      "id": "I03",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "给我下一次训练的准备建议"
+      ],
+      "acceptance": "No records remains unknown training experience, not proof of first-ever training.",
+      "fixture_description": "active plan, no stored training history",
+      "workouts": []
+    },
+    {
+      "id": "I04",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "我以前没按这份计划练过，这是第一次。给我下一次训练的准备建议，先不要修改。"
+      ],
+      "acceptance": "May attribute first-in-plan status to the user report; no unnecessary refusal or claim that nobody can know.",
+      "fixture_description": "no history, active plan, explicit first-time user report",
+      "workouts": []
+    },
+    {
+      "id": "I05",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "给我下一次训练的准备建议"
+      ],
+      "acceptance": "Retain both original intervals; neither implies adequate recovery or guaranteed set quality.",
+      "fixture_description": "bench 45 seconds, squat 150 seconds; no individual recovery observation",
+      "workouts": [],
+      "planned_rest_seconds": {
+        "卧推": 45,
+        "深蹲": 150
+      }
+    },
+    {
+      "id": "I06",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "上次深蹲按计划歇了150秒还是没缓过来，后面的动作也不稳。下次怎么准备，先不改计划？"
+      ],
+      "acceptance": "Use the stated difficulty; no target-time guarantee, forced repetitions or unconfirmed change.",
+      "fixture_description": "same 45/150 plan; user reports inadequate recovery at 150 seconds",
+      "workouts": [
+        {
+          "date": "previous_week_start",
+          "linked": true,
+          "status": "completed",
+          "duration_min": 30
+        }
+      ],
+      "planned_rest_seconds": {
+        "卧推": 45,
+        "深蹲": 150
+      }
+    },
+    {
+      "id": "I07",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "上次深蹲组间歇150秒，动作一直稳定，我也觉得恢复过来了。下次按计划练要怎么准备？"
+      ],
+      "acceptance": "Can refer to that reported past session; cannot guarantee the next session or every set.",
+      "fixture_description": "same 45/150 plan; user reports one prior good session",
+      "workouts": [
+        {
+          "date": "previous_week_start",
+          "linked": true,
+          "status": "completed",
+          "duration_min": 30
+        }
+      ],
+      "planned_rest_seconds": {
+        "卧推": 45,
+        "深蹲": 150
+      }
+    },
+    {
+      "id": "I08",
+      "category": "inference_boundary",
+      "sample_role": "known_regression_not_blind",
+      "turns": [
+        "给我下一次训练的准备建议"
+      ],
+      "acceptance": "Explain no active next-workout schedule; offer generic conditional preparation without inventing plan facts.",
+      "fixture_description": "inactive plan only",
+      "workouts": [],
+      "no_active_plan": true
+    }
+  ]
+}

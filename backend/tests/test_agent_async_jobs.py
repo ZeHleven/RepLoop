@@ -245,7 +245,8 @@ async def test_stale_running_agent_job_is_reclaimed(client, db_session):
     run = await db_session.get(AgentRun, run_id)
     assert run is not None
     assert run.attempt_count == 1
-    run.lease_expires_at = datetime.now(timezone.utc) - timedelta(seconds=1)
+    # Leases use the database clock; Windows and a Docker VM can have clock skew.
+    run.lease_expires_at = await db_session.scalar(select(func.clock_timestamp())) - timedelta(seconds=1)
     await db_session.commit()
 
     second_claim = await claim_next_agent_run(db_session)
@@ -253,7 +254,7 @@ async def test_stale_running_agent_job_is_reclaimed(client, db_session):
     await db_session.refresh(run)
     assert run.status == "running"
     assert run.attempt_count == 2
-    assert run.lease_expires_at > datetime.now(timezone.utc)
+    assert run.lease_expires_at > await db_session.scalar(select(func.clock_timestamp()))
 
 
 @pytest.mark.asyncio
@@ -403,7 +404,7 @@ async def test_worker_renews_lease_while_agent_execution_is_running(
             await asyncio.sleep(1.1)
             await db_session.refresh(run)
             assert run.lease_expires_at > first_expiry
-            assert run.lease_expires_at > datetime.now(timezone.utc)
+            assert run.lease_expires_at > await db_session.scalar(select(func.clock_timestamp()))
             assert await claim_next_agent_run(db_session) is None
         finally:
             release.set()
@@ -434,7 +435,7 @@ async def test_stale_attempt_cannot_write_duplicate_messages_or_tool_audits(
     run = await db_session.get(AgentRun, run_id)
     assert run is not None
     stale_attempt_count = run.attempt_count
-    run.lease_expires_at = datetime.now(timezone.utc) - timedelta(seconds=1)
+    run.lease_expires_at = await db_session.scalar(select(func.clock_timestamp())) - timedelta(seconds=1)
     await db_session.commit()
     assert await claim_next_agent_run(db_session) == run_id
     await db_session.refresh(run)
