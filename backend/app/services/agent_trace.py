@@ -244,7 +244,7 @@ def complete_execution_trace(
     action_by_call_id: dict[str, dict[str, Any]] = {}
     observations: list[AgentObservationTrace] = []
     sequence = 0
-    model_calls = result.get("required_read_answer_failed_calls", 0)
+    model_calls = result.get("required_read_answer_failed_calls", 0) + result.get('required_read_argument_calls', 0)
     deterministic = result.get("response_mode", "").startswith("verified_")
 
     for message in messages:
@@ -327,6 +327,8 @@ def complete_execution_trace(
         "plan": trace.plan.model_copy(update={"steps": completed_steps}),
         "actions": [AgentActionTrace.model_validate(item) for item in actions],
         "observations": observations,
+        'stage_timings': [*trace.stage_timings, *[
+            AgentStageTimingTrace.model_validate(t) for t in result.get('required_read_stage_timings', [])]],
         "terminal_action": terminal_action,
         "termination_reason": ("required_read_answer_unavailable"
                                if result.get("required_read_answer_error")

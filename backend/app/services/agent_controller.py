@@ -33,7 +33,10 @@ from app.services.agent_planner import (
     build_tool_catalog,
 )
 from app.services.agent_intent import parse_explicit_plan_adjustment_command
-from app.services.agent_evidence_contract import completable_required_reads
+from app.services.agent_evidence_contract import check_evidence, completable_required_reads, missing_evidence_reply
+from app.services.agent_required_read_arguments import (
+    ARGUMENT_COMPLETION_TOOL_IDS, bind_read_arguments, can_bind_history_arguments,
+)
 from app.services.agent_structured_errors import safe_error_category
 from app.services.agent_tool_registry_shadow_trace import (
     ToolRegistryShadowSession,
@@ -972,29 +975,58 @@ async def complete_required_reads(
     tools_by_id: dict[str, BaseTool], summarize_observation: ObservationSummarizer,
     event_sink: TraceEventSink | None = None,
     tool_invoker: ParallelToolInvoker | None = None,
+    argument_resolver: Callable[[str, BaseTool, list[dict[str, Any]]], Awaitable[dict[str, Any]]] | None = None,
 ) -> _RecordedToolBatch:
     """One bounded completion pass, using the same tools, trace and audit as a plan."""
     pending = completable_required_reads(
         trace, allowlist=tool_allowlist, tools=tools_by_id,
         tool_budget=settings.AGENT_MAX_TOOL_CALLS,
         model_budget=settings.AGENT_MAX_MODEL_CALLS,
+        argument_binding_tools=ARGUMENT_COMPLETION_TOOL_IDS if argument_resolver is not None else frozenset(),
     )
     sink = event_sink or _noop_event_sink
     collected = _RecordedToolBatch(trace, [], [], [])
     for tool_id in pending:
+        arguments = {}
+        tool = tools_by_id[tool_id]
+        if tool.get_input_schema().model_json_schema().get('properties'):
+            # Leave one model turn for the final answer. Every binding attempt,
+            # including invalid output and transport failure, consumes a turn.
+            if trace.budget_usage.model_calls >= settings.AGENT_MAX_MODEL_CALLS - 1:
+                break
+            started = time.perf_counter()
+            trace = trace.model_copy(update={'budget_usage':trace.budget_usage.model_copy(
+                update={'model_calls':trace.budget_usage.model_calls + 1})})
+            await sink(trace, None)
+            try:
+                arguments = await _await_policy_stage(argument_resolver(tool_id, tool, collected.raw_observations),
+                    stage='required_read_arguments', timeout_seconds=settings.AGENT_EXECUTOR_TIMEOUT_SECONDS)
+                if (not isinstance(arguments, dict) or not arguments
+                        or set(arguments) - tool.get_input_schema().model_json_schema()['properties'].keys()):
+                    raise ValueError('required_read_arguments_missing_or_unknown')
+                arguments = tool.get_input_schema().model_validate(arguments, strict=True).model_dump(mode='json')
+            except Exception as exc:
+                trace = add_stage_timing(trace, stage='executor', source='model', status='error',
+                    latency_ms=round((time.perf_counter()-started)*1000), error_category=_planning_error_category(exc))
+                await sink(trace, None)
+                break  # no model retry after binding/API failure
+            trace = add_stage_timing(trace, stage='executor', source='model', status='success',
+                latency_ms=round((time.perf_counter()-started)*1000))
         action = AgentActionTrace(
             sequence=_next_sequence(trace), call_id=f"required-{uuid.uuid4()}",
-            plan_version=trace.plan.version, tool_id=tool_id, arguments={},
+            plan_version=trace.plan.version, tool_id=tool_id, arguments=arguments,
         )
         trace = trace.model_copy(update={"actions": [*trace.actions, action]})
         await sink(trace, None)
         result = await _invoke_tool(
-            tool_id=tool_id, arguments={}, tool_map=tools_by_id,
+            tool_id=tool_id, arguments=arguments, tool_map=tools_by_id,
             summarize_observation=summarize_observation,
             parallel_tool_invoker=tool_invoker,
         )
         recorded = _record_tool_batch(trace, actions=[action], results=[result])
         trace = recorded.trace
+        for observation in recorded.raw_observations:
+            observation['arguments'] = arguments
         collected.raw_observations.extend(recorded.raw_observations)
         collected.cards.extend(recorded.cards)
         collected.audits.extend(recorded.audits)
@@ -1953,10 +1985,19 @@ async def execute_planned_agent(
         step_index += 1
 
     if not executor_deadline_hit and not replanner_deadline_hit:
+        async def resolve_required_arguments(tool_id, tool, completed_observations):
+            from langchain_core.messages import HumanMessage
+            return await bind_read_arguments(model, tool_id=tool_id, tool=tool,
+                queries=[goal], context=[HumanMessage(content=json.dumps(
+                    {'goal':goal,'subtasks':subtasks,'observations':[*raw_observations, *completed_observations]},
+                    ensure_ascii=False, default=str))])
+
         completed_reads = await complete_required_reads(
             trace, tool_allowlist=tool_allowlist, tools_by_id=tools_by_id,
             summarize_observation=summarize_observation, event_sink=sink,
             tool_invoker=parallel_tool_invoker,
+            argument_resolver=(resolve_required_arguments
+                               if model is not None and can_bind_history_arguments([goal]) else None),
         )
         trace = completed_reads.trace
         raw_observations.extend(completed_reads.raw_observations)
@@ -1990,6 +2031,10 @@ async def execute_planned_agent(
             and active_plan.get("found") is True
             else ["insufficient_evidence"]
         )
+    trace = check_evidence(trace)
+    incomplete_reads = trace.evidence_contract and trace.evidence_contract.status == 'partial'
+    if incomplete_reads:
+        allowed_outcomes = ['insufficient_evidence']
     trace = trace.model_copy(update={
         "finalization_contract": AgentFinalizationContractTrace(
             allowed_outcomes=allowed_outcomes,
@@ -1998,7 +2043,12 @@ async def execute_planned_agent(
     await sink(trace, None)
 
     deadline_finalizer_fallback = False
-    if force_adjustment_proposal and allowed_outcomes == ["adjustment_proposal"]:
+    if incomplete_reads:
+        response = FinalResponse(
+            terminal_action='answer', outcome='insufficient_evidence',
+            reply=missing_evidence_reply(trace.evidence_contract.missing_tools),
+        )
+    elif force_adjustment_proposal and allowed_outcomes == ["adjustment_proposal"]:
         response = FinalResponse(
             terminal_action="proposal",
             reply="已读取当前训练计划，正在生成待确认的调整提案。",

@@ -1462,6 +1462,7 @@ async def _load_history(
 async def _complete_direct_required_reads(
     result: dict[str, Any], *, db: AsyncSession, model: Any,
     tools: list[Any], resolution: IntentResolution | None, tool_allowlist: list[str],
+    user_message: str | None = None,
 ) -> dict[str, Any]:
     if resolution is None:
         return result
@@ -1482,10 +1483,32 @@ async def _complete_direct_required_reads(
                 return await tools_by_id[tool_id].ainvoke(arguments)
         return await tools_by_id[tool_id].ainvoke(arguments)
 
+    from app.services.agent_required_read_arguments import bind_read_arguments, can_bind_history_arguments
+    binding_queries = [q for q in (user_message, resolution.resolved_query) if q]
+
+    async def resolve_arguments(tool_id, tool, completed_observations):
+        context = list(result['messages'])
+        for observation in completed_observations:
+            name = tools_by_id[observation['tool_id']].name
+            context.extend([
+                AIMessage(content='', tool_calls=[{'name':name, 'args':observation['arguments'],
+                                                  'id':observation['call_id']}]),
+                ToolMessage(name=name, tool_call_id=observation['call_id'],
+                    content=json.dumps(observation['result'], ensure_ascii=False, default=str)),
+            ])
+        return await bind_read_arguments(model, tool_id=tool_id, tool=tool,
+            queries=binding_queries,
+            context=context)
+
     completed = await complete_required_reads(
         trace, tool_allowlist=tool_allowlist, tools_by_id=tools_by_id,
         summarize_observation=_audit_result_summary, tool_invoker=invoke_read,
+        argument_resolver=resolve_arguments if can_bind_history_arguments(binding_queries) else None,
     )
+    argument_calls = completed.trace.budget_usage.model_calls - trace.budget_usage.model_calls
+    result = {**result, 'required_read_argument_calls':argument_calls,
+              'required_read_stage_timings':[t.model_dump(mode='json') for t in
+                  completed.trace.stage_timings[len(trace.stage_timings):]]} if argument_calls else result
     if not completed.raw_observations:
         return result
     messages = list(result["messages"])
@@ -1493,7 +1516,7 @@ async def _complete_direct_required_reads(
         tool_name = tools_by_id[observation["tool_id"]].name
         messages.extend([
             AIMessage(content="", additional_kwargs={"controller_required_read": True},
-                tool_calls=[{"name":tool_name,"args":{},"id":observation["call_id"]}]),
+                tool_calls=[{"name":tool_name,"args":observation['arguments'],"id":observation["call_id"]}]),
             ToolMessage(name=tool_name, tool_call_id=observation["call_id"],
                 status="error" if observation["status"] == "error" else "success",
                 content=json.dumps(observation["result"], ensure_ascii=False, default=str)),
@@ -1588,6 +1611,7 @@ async def invoke_langchain_agent(
     return await _complete_direct_required_reads(
         result, db=db, model=model, tools=tools,
         resolution=resolution, tool_allowlist=tool_allowlist,
+        user_message=user_message,
     )
 
 

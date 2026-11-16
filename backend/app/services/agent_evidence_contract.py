@@ -51,6 +51,7 @@ def check_evidence(trace: AgentExecutionTrace) -> AgentExecutionTrace:
 def completable_required_reads(
     trace: AgentExecutionTrace, *, allowlist: list[str],
     tools: dict[str, BaseTool], tool_budget: int, model_budget: int,
+    argument_binding_tools: frozenset[str] = frozenset(),
 ) -> list[str]:
     """Recover omissions only: never guess parameters, retry failures or widen authority."""
     contract = check_evidence(trace).evidence_contract
@@ -60,18 +61,23 @@ def completable_required_reads(
         return []
     missing = contract.missing_tools
     attempted = {action.tool_id for action in trace.actions}
-    if (max(len(trace.actions), trace.budget_usage.tool_calls) + len(missing) > tool_budget
-            or len(contract.required_tools) > min(MAX_ROUTED_TOOLS, tool_budget)
+    remaining = tool_budget - max(len(trace.actions), trace.budget_usage.tool_calls)
+    if (remaining <= 0 or len(contract.required_tools) > min(MAX_ROUTED_TOOLS, tool_budget)
             or any(tool_id not in allowlist for tool_id in contract.required_tools)):
         return []
+    ready, parameterized = [], []
     for tool_id in missing:
         tool = tools.get(tool_id)
-        # Even optional parameters can change the date/scope. Only a schema
-        # with no input properties proves that {} is the user's intended read.
-        if (tool_id in attempted or tool is None
-                or tool.get_input_schema().model_json_schema().get("properties")):
-            return []
-    return missing
+        if tool_id in attempted or tool is None:
+            continue
+        if tool.get_input_schema().model_json_schema().get("properties"):
+            if tool_id in argument_binding_tools:
+                parameterized.append(tool_id)
+        else:
+            ready.append(tool_id)
+    # A scoped/failed/unavailable read must not suppress independent safe reads.
+    # Parameterized tools still require explicit validated arguments, never {}.
+    return (ready + parameterized)[:remaining]
 
 
 def guard_read_completion(reply: str, trace: AgentExecutionTrace):

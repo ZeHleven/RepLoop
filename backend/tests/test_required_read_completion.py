@@ -156,7 +156,7 @@ def partial_result(*, plan_status=None):
 
 @pytest.mark.asyncio
 @pytest.mark.parametrize('case', ['complete','failed','model-budget','tool-budget',
-    'authority','missing-tool','clarification','high-risk','mutation','parameterized'])
+    'authority','missing-tool','clarification','high-risk','mutation'])
 async def test_direct_completion_does_not_expand_scope_or_retry(monkeypatch,case):
     calls=[]; tools=read_tools(calls); model=CapturingModel(responses=[AIMessage(content='不应调用')])
     intent=resolution(MESSAGES[0]); allowlist=list(ALLOWLIST)
@@ -168,10 +168,6 @@ async def test_direct_completion_does_not_expand_scope_or_retry(monkeypatch,case
     if case=='clarification': intent=intent.model_copy(update={'clarification_required':True})
     if case=='high-risk': intent=intent.model_copy(update={'risk_level':'high'})
     if case=='mutation': intent=intent.model_copy(update={'request_kind':'mutation'})
-    if case=='parameterized':
-        intent=intent.model_copy(update={'evidence_requirements':['active_plan','workout_history']})
-        allowlist=['plan.get_active','workout.list_history']
-        tools=runtime.build_read_tools(None,user_id='synthetic',allowlist=allowlist)
     actual=await runtime._complete_direct_required_reads(result,db=None,model=model,tools=tools,
         resolution=intent,tool_allowlist=allowlist)
     assert actual is result
