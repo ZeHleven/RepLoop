@@ -16,13 +16,13 @@ from sqlalchemy import select
 
 from app.models.exercise import Exercise
 from app.models.user import User
-from app.models.workout import PlannedExercise, WorkoutPlan
+from app.models.workout import PlannedExercise, WorkoutPlan, WorkoutSession
 from app.schemas.agent_planning import FinalizationDecision
 from app.services import agent_runtime as runtime
 from app.services.agent_intent import IntentResolution
 from app.services.agent_planner import ModelPlanningPolicy
 from app.services.agent_tools import build_read_tools
-from app.services import business_clock
+from app.services import business_clock, training_lifecycle
 
 
 @pytest.fixture(autouse=True)
@@ -30,6 +30,7 @@ def fixed_business_date(monkeypatch):
     # Async fixture teardown runs in another context in pytest-asyncio 0.24.
     monkeypatch.setattr(business_clock, 'BUSINESS_DATE',
                         ContextVar('rest_scope_business_date', default=date(2026, 11, 11)))
+    monkeypatch.setattr(training_lifecycle, 'training_today', lambda: date(2026, 11, 11))
 
 
 def save_evidence(name, value):
@@ -53,9 +54,14 @@ async def rest_plan(db_session):
     await db_session.flush()
     for i, seconds in enumerate([45, 150]):
         db_session.add(PlannedExercise(plan_id=plan.id, exercise_id=exercises[i].id,
-            day_of_week=3, order_index=i, sets=3, reps='10', rest_seconds=seconds))
+            day_of_week=1, order_index=i, sets=3, reps='10', rest_seconds=seconds))
     db_session.add(PlannedExercise(plan_id=foreign.id, exercise_id=exercises[0].id,
         day_of_week=3, rest_seconds=777))
+    # Valid legacy history: matching plan/family, but no arranged week/day.
+    for trained_at, minutes in [(date(2026, 11, 9), 30), (date(2026, 11, 10), 12)]:
+        db_session.add(WorkoutSession(user_id=owner.id, plan_id=plan.id,
+            plan_family_id=plan.family_id, trained_at=trained_at,
+            status='completed', duration_min=minutes))
     await db_session.commit()
     return owner.id, plan.id
 
@@ -67,6 +73,9 @@ def assert_rest_observation(result):
     assert semantics['unit'] == 'seconds'
     assert semantics['scope'] == 'between_sets_of_same_exercise'
     assert semantics['applies_to'] == 'each_planned_exercise'
+    assert semantics['evidence_kind'] == 'planned_target'
+    assert semantics['individual_recovery_assessed'] is False
+    assert semantics['set_quality_guaranteed'] is False
     assert 'other-user-secret' not in json.dumps(result)
 
 
@@ -116,7 +125,7 @@ class CapturingModel(FakeMessagesListChatModel):
 async def test_rest_facts_reach_actual_answer_input(db_session, rest_plan, monkeypatch, path):
     owner_id, _ = rest_plan
     request = '给我下一次训练的准备建议'
-    allowlist = ['plan.get_active', 'workout.get_next']
+    allowlist = ['plan.get_active', 'workout.get_next', 'workout.list_history']
     tools = build_read_tools(db_session, user_id=owner_id, allowlist=allowlist)
     if path == 'planned-finalizer':
         class StructuredModel:
@@ -150,7 +159,11 @@ async def test_rest_facts_reach_actual_answer_input(db_session, rest_plan, monke
             await runtime.invoke_langchain_agent(db_session, user_id=owner_id, history=[],
                 user_message=request, tool_allowlist=allowlist, resolution=None)
         else:
-            prior = {'messages': [HumanMessage(content=request),
+            prior = {'messages': [
+                HumanMessage(content='请列出最近完成的训练'),
+                AIMessage(content='', tool_calls=[{'name': tools[2].name, 'args': {}, 'id': 'history'}]),
+                ToolMessage(name=tools[2].name, tool_call_id='history', content=json.dumps(await tools[2].ainvoke({}))),
+                HumanMessage(content=request),
                 AIMessage(content='', tool_calls=[{'name': tools[1].name, 'args': {}, 'id': 'next'}]),
                 ToolMessage(name=tools[1].name, tool_call_id='next', content=json.dumps(await tools[1].ainvoke({}))),
                 AIMessage(content='尚未取得全部资料的旧答复')]}
@@ -162,8 +175,21 @@ async def test_rest_facts_reach_actual_answer_input(db_session, rest_plan, monke
         save_evidence('input-' + path, [message.model_dump() for message in messages])
         prompt = messages[0].content
         results = [json.loads(message.content) for message in messages if isinstance(message, ToolMessage)]
-    assert len(results) == 2
-    for result in results:
+    assert len(results) == 3
+    for result in [item for item in results if 'rest_seconds_semantics' in item]:
         assert_rest_observation(result)
+    plan = next(item for item in results if 'plan' in item)
+    history = next(item for item in results if 'sessions' in item)
+    next_workout = next(item for item in results if 'days_until' in item)
+    assert plan['plan']['weekly_completed_days'] == 0
+    assert plan['weekly_completion_scope']['establishes_first_training'] is False
+    assert history['count'] == 2
+    assert [item['duration_min'] for item in history['sessions']] == [12, 30]
+    assert next_workout['day_of_week'] == 1 and next_workout['days_until'] == 5
     assert 'rest_seconds' in prompt and '同一动作相邻组之间' in prompt and '组间休息' in prompt
     assert '建议调整' in prompt and '计划原值' in prompt
+    # Verify both constraints and their exceptions reach each actual answer path.
+    # The scripted final reply above is deliberately NOT scored for quality.
+    assert '首次训练' in prompt and '独立依据' in prompt
+    assert '计划目标' in prompt and '恢复充分' in prompt and '保证' in prompt
+    assert '条件式建议' in prompt and '用户自述' in prompt
