@@ -9,8 +9,8 @@ from evals.judge_eval import EvalCase, fixture_tools
 from app.services.agent_intent import IntentResolution
 from app.services.agent_runtime import invoke_langchain_agent
 
-ROOT = Path(__file__).resolve().parents[3]
-SNAPSHOT = json.loads((ROOT / 'artifacts/agent-evals/task-benchmark-20260922/source-snapshot.json').read_text(encoding='utf-8'))
+SNAPSHOT_PATH = Path(__file__).parent / 'fixtures' / 'workout_reporting_snapshot.json'
+SNAPSHOT = json.loads(SNAPSHOT_PATH.read_text(encoding='utf-8'))
 
 
 def test_history_limits_are_bounded_and_open_questions_defer():
