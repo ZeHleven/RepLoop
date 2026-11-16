@@ -36,7 +36,7 @@ export default function DemoGuide ({ busy, onPrompt }: { busy: boolean; onPrompt
         <Button onClick={() => Taro.navigateTo({ url: '/pages/history/index' })}>训练历史</Button>
         <Button disabled={busy || resetting || !session?.resets_remaining} onClick={reset}>{resetting ? '正在重置…' : '重新体验'}</Button>
       </View>
-      <View className='demo-prompts'>{session?.quick_prompts.map((prompt, index) => <Button disabled={busy || resetting || !session.model_available} key={prompt} onClick={() => onPrompt(prompt)}><Text>{index + 1}</Text>{prompt}</Button>)}</View>
+      <View className='demo-prompts'>{session?.quick_prompts.map((prompt, index) => <Button disabled={busy || resetting || !session.model_available} key={prompt} onClick={() => onPrompt(prompt)}><Text className='demo-prompt-number'>{index + 1}</Text>{prompt}</Button>)}</View>
       {error && <View className='demo-offline' role='alert'>{error}</View>}
     </View>
   )

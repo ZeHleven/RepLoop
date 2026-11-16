@@ -5,12 +5,15 @@ import { validateMiniappBuildMetadata } from './miniapp-build-metadata.mjs'
 const require = createRequire(import.meta.url)
 const webpackRequire = createRequire(require.resolve('webpack/package.json'))
 const { parse } = webpackRequire('acorn')
+const postcss = require('postcss')
+const selectorParser = require('postcss-selector-parser')
 const WEAPP_ECMA_VERSION = 2019
 const RUNTIME_ENVIRONMENT_PATTERN = /\bprocess\s*(?:\.\s*env|\[\s*['"]env['"]\s*\])/u
 const REQUIRED_PAGES = ['pages/proposal-detail/index']
 
 export function validateWeappArtifact ({
   javascriptFiles,
+  stylesheetFiles = [],
   appConfig,
   projectConfig = null,
   buildManifest
@@ -35,6 +38,35 @@ export function validateWeappArtifact ({
         message: `${file.path} contains a runtime process.env reference`
       })
     }
+  }
+
+  for (const file of stylesheetFiles) {
+    let stylesheet
+    try {
+      stylesheet = postcss.parse(file.content, { from: file.path })
+    } catch (error) {
+      if (error.name !== 'CssSyntaxError') throw error
+      errors.push({ code: 'invalid_stylesheet_syntax', message: error.message })
+      continue
+    }
+    stylesheet.walkRules(rule => {
+      if (rule.parent.type === 'atrule' && /(?:^|-)keyframes$/u.test(rule.parent.name)) return
+      try {
+        selectorParser(selectors => {
+          selectors.walkUniversals(() => {
+            errors.push({
+              code: 'unsupported_wxss_selector',
+              message: `${file.path}:${rule.source.start.line}:${rule.source.start.column} contains a universal selector unsupported by the WeChat compiler: ${rule.selector}`
+            })
+          })
+        }).processSync(rule.selector)
+      } catch (error) {
+        errors.push({
+          code: 'invalid_stylesheet_selector',
+          message: `${file.path}:${rule.source.start.line}:${rule.source.start.column}: ${error.message}`
+        })
+      }
+    })
   }
 
   const pages = Array.isArray(appConfig?.pages) ? appConfig.pages : []

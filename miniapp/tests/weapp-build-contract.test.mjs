@@ -169,6 +169,40 @@ test('clean WeChat artifact satisfies the build contract', () => {
   assert.deepEqual(validateWeappArtifact(artifact()), [])
 })
 
+test('WXSS gate rejects universal selectors in shared and page stylesheets', () => {
+  const errors = validateWeappArtifact(artifact({ stylesheetFiles: [
+    { path: 'common.wxss', content: '.demo-facts > *{display:flex}.demo-steps > *{gap:16rpx}' },
+    { path: 'pages/agent/index.wxss', content: '@media (min-width:600px){.demo-prompts button > *{color:green}}' }
+  ] }))
+  assert.deepEqual(errors.map(error => error.code), Array(3).fill('unsupported_wxss_selector'))
+  assert.match(errors[0].message, /common\.wxss:1:1/u)
+  assert.match(errors[2].message, /pages\/agent\/index\.wxss/u)
+})
+
+test('WXSS gate distinguishes universal selectors from attributes, escapes and declarations', () => {
+  assert.deepEqual(validateWeappArtifact(artifact({ stylesheetFiles: [{ path: 'common.wxss', content: `
+    /* universal * in a comment */
+    .demo-facts > .demo-fact { width: calc(100% * 0.5) }
+    [data-label*="*"]::after { content: "*" }
+    .escaped\\*name { color: green }
+    @keyframes pulse { 0% { opacity: 0 } 100% { opacity: 1 } }
+  ` }] })), [])
+})
+
+test('WXSS gate catches universal selectors inside functional selectors', () => {
+  const errors = validateWeappArtifact(artifact({ stylesheetFiles: [
+    { path: 'common.wxss', content: '.card:not(*){color:green}' }
+  ] }))
+  assert.deepEqual(errors.map(error => error.code), ['unsupported_wxss_selector'])
+})
+
+test('WXSS gate reports malformed stylesheet syntax instead of passing it', () => {
+  const errors = validateWeappArtifact(artifact({ stylesheetFiles: [
+    { path: 'common.wxss', content: '.card { color: green;' }
+  ] }))
+  assert.deepEqual(errors.map(error => error.code), ['invalid_stylesheet_syntax'])
+})
+
 test('runtime process environment references fail the build contract', () => {
   const errors = validateWeappArtifact(artifact({
     javascriptFiles: [{

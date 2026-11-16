@@ -29,13 +29,13 @@ export default function DemoWelcome () {
       </View>
       <View className='demo-persona'>
         <View className='demo-persona-heading'><Text className='demo-avatar'>林</Text><View><Text className='demo-persona-name'>从小林的训练开始</Text><Text className='demo-small'>虚构人物 · 独立体验空间</Text></View></View>
-        <View className='demo-facts'><Text>28 岁</Text><Text>每周 3 练</Text><Text>4 周记录</Text></View>
+        <View className='demo-facts'><Text className='demo-fact'>28 岁</Text><Text className='demo-fact'>每周 3 练</Text><Text className='demo-fact'>4 周记录</Text></View>
         <Text className='demo-small'>已备好全身力量计划、训练组次和体重变化。进入后可以直接提问，也可以查看这些记录。</Text>
       </View>
       <View className='demo-steps'>
-        <View><Text className='demo-step-number'>01</Text><Text>问问最近练得怎么样</Text></View>
-        <View><Text className='demo-step-number'>02</Text><Text>接着追问，比较前后变化</Text></View>
-        <View><Text className='demo-step-number'>03</Text><Text>加入新条件，获得训练建议</Text></View>
+        <View className='demo-step'><Text className='demo-step-number'>01</Text><Text>问问最近练得怎么样</Text></View>
+        <View className='demo-step'><Text className='demo-step-number'>02</Text><Text>接着追问，比较前后变化</Text></View>
+        <View className='demo-step'><Text className='demo-step-number'>03</Text><Text>加入新条件，获得训练建议</Text></View>
       </View>
       {error && <View className='error-banner' role='alert'>{error}</View>}
       <Button className='primary-button demo-start' disabled={busy} onClick={start}>{busy ? '正在准备你的体验…' : '立即体验'}</Button>

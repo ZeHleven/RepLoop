@@ -8,13 +8,13 @@ import { validateNativeTabbar } from './native-tabbar-contract.mjs'
 const miniappRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const distRoot = path.join(miniappRoot, 'dist')
 
-async function collectJavaScriptFiles (directory) {
+async function collectFiles (directory, extension) {
   const files = []
   for (const entry of await readdir(directory, { withFileTypes: true })) {
     const absolutePath = path.join(directory, entry.name)
     if (entry.isDirectory()) {
-      files.push(...await collectJavaScriptFiles(absolutePath))
-    } else if (entry.isFile() && entry.name.endsWith('.js')) {
+      files.push(...await collectFiles(absolutePath, extension))
+    } else if (entry.isFile() && entry.name.endsWith(extension)) {
       files.push({
         path: path.relative(distRoot, absolutePath).replaceAll('\\', '/'),
         content: await readFile(absolutePath, 'utf8')
@@ -33,13 +33,15 @@ async function readJson (filePath, required) {
   }
 }
 
-const javascriptFiles = await collectJavaScriptFiles(distRoot)
+const javascriptFiles = await collectFiles(distRoot, '.js')
+const stylesheetFiles = await collectFiles(distRoot, '.wxss')
 if (javascriptFiles.length === 0) {
   throw new Error('WeChat build contains no JavaScript files')
 }
 
 const errors = validateWeappArtifact({
   javascriptFiles,
+  stylesheetFiles,
   appConfig: await readJson(path.join(distRoot, 'app.json'), true),
   projectConfig: await readJson(path.join(distRoot, 'project.config.json'), false),
   buildManifest: await readJson(path.join(distRoot, 'build-info.json'), true)
@@ -51,5 +53,5 @@ if (errors.length > 0) {
   for (const error of errors) console.error(`[${error.code}] ${error.message}`)
   process.exitCode = 1
 } else {
-  console.log(`WeChat build contract passed (${javascriptFiles.length} JavaScript files checked).`)
+  console.log(`WeChat build contract passed (${javascriptFiles.length} JavaScript and ${stylesheetFiles.length} WXSS files checked).`)
 }
