@@ -81,6 +81,8 @@ with zipfile.ZipFile(package) as archive:
 
 pr = read(OUT / 'github-pr-final.json')
 assert pr['headRefOid'] == head and pr['isDraft'] and pr['state'] == 'OPEN'
+assert pr['body'].replace('\r\n', '\n').strip() == (OUT / 'pr-body.txt').read_text(
+    encoding='utf-8').replace('\r\n', '\n').strip()
 ci_checks = pr['statusCheckRollup']
 assert ci_checks and all(item['conclusion'] == 'SUCCESS' for item in ci_checks)
 assert {item['name'] for item in ci_checks} >= {

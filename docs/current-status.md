@@ -9,7 +9,7 @@
 | 主工作区 | 项目根目录，分支 `codex/workspace-unification-20261115`；已整合 `ccf4d3e` 的应用源码和依赖清理，并保留公共评测脚本、文档清理及 Flutter 改动。当前版本由 `backend/VERSION` 定义，完整 SHA 通过检查命令获取 | [版本检查](../scripts/check_workspace.py)、[版本源](../backend/VERSION) |
 | 最近一次后端部署核验 | `071 / 7d2315c`，当时启动 SHA 与健康检查已核验 | [11 月 8 日发布过程及后续回执](agent/reviews/2026-11-08-history-intent-release.md) |
 | 小程序 | `0.5.47 / 7d2315c` 开发版上传及预览成功，用户确认手机显示该 SHA；固定体验版是否选中仍待确认 | [11 月 9 日构建核验](miniapp-sync-071-20261109.md) |
-| 待验收候选 | `0.5.47 / 3916629`；离线回归通过，真实模型答复待复测，未合并、未部署 | [草稿 PR #48](https://github.com/ZeHleven/RepLoop/pull/48)、[本地完整检查](../artifacts/agent-inference-boundaries-20261115/ci/checks.json) |
+| 待验收候选 | `0.5.47 / 3916629`；离线回归与远端 CI 通过，真实模型答复待复测，未合并、未部署 | [草稿 PR #48](https://github.com/ZeHleven/RepLoop/pull/48)、[验收与源码核验](../artifacts/agent-inference-boundaries-20261115/verification.json) |
 
 日常开发、启动、测试和打包统一使用项目根目录 `C:\Users\12521\Documents\ChatGPT\FitnessAgent`。运行 `python scripts/check_workspace.py`（本机也可使用 `.\.venv\Scripts\python.exe`）获取当前版本、分支、完整 SHA 和 dirty 状态。API 与后端打包读取 `backend/VERSION`，小程序声明由 `--sync-version` 同步；构建、发布预检及 CI 拒绝不一致版本。
 
@@ -44,15 +44,15 @@
 
 离线回归覆盖同计划未关联安排日期的既有训练、以前周记录、正确关联的本周记录、空历史，以及 45／150 秒不同组间休息。直接回答、必需读取补全、计划执行最终回答三条路径的实际模型输入均含完整边界。周完成数 SQL、历史记录、原计划值和只读行为保持原结果。
 
-- 相关回归 **64 项通过**；完整后端 **2128 项通过**，迁移往返与四组离线 Agent 门禁均通过。远端 Project CI 正在运行。
+- 相关回归 **64 项通过**；完整后端 **2128 项通过**，迁移往返与四组离线 Agent 门禁均通过。远端 Project CI 的后端/容器构建及小程序检查在 PR、push 两次运行中均成功：[PR 运行](https://github.com/ZeHleven/RepLoop/actions/runs/43790992799)、[push 运行](https://github.com/ZeHleven/RepLoop/actions/runs/43790986237)。
 - 旧应用在日期夹具修正后的新增边界检查中为 **9 失败、1 通过**。首轮另有 4 个日期夹具失败：只固定了 Agent 日期，未固定训练周日历；已仅在测试中修正，首轮日志仍保留。
 - 本次真实模型调用 **0 次**、新增模型费用 **¥0**。离线检查证明契约和传递正确，不能替代真实生成答复验收；旧提交的路由和饮食成绩不迁移到新提交。
 - [8 个待实测场景](../artifacts/agent-inference-boundaries-20261115/pending-live-cases.json)涵盖两项反例、跨周与空历史、明确首次训练自述、恢复不足/恢复良好自述和无活动计划；尚未执行。
-- 原始答复、工具观察、修改前源码和所有离线日志保存在 [本次证据目录](../artifacts/agent-inference-boundaries-20261115/)。本次测试容器已停止，测试数据保留。
+- 原始答复、工具观察、修改前源码、所有离线日志及候选包保存在 [本次证据目录](../artifacts/agent-inference-boundaries-20261115/)。[完整性核验](../artifacts/agent-inference-boundaries-20261115/verification.json)确认 368 份测试源码指纹与候选一致，包内源码逐字节匹配、构建 SHA 正确且源码干净。本次测试容器已停止，测试数据保留。
 
 ## 后续工作
 
-- 核验新候选远端 CI；在获得新增模型调用预算后，对 `3916629` 进行上述场景的真实答复复测，再决定发布。
+- 在获得新增模型调用预算后，对 `3916629` 进行上述 8 个场景的真实答复复测；通过后再决定合入主工作区和部署。
 - 确认固定体验版是否指向已核验客户端；按实际手机操作补充业务正确性和等待时间证据。
 - [症状评测规范 v1.2](agent/15-symptom-scope-eval-spec.md)保留其独立门槛；设计草案、历史测试通过或另一个提交的成绩不代替对应版本验收。
 
